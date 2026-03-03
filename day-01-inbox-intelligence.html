@@ -106,6 +106,10 @@
   .instructions-hint { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:10px; }
   .reply-btn-needed { font-size:11px; padding:5px 12px; }
   .reply-btn-skip { font-size:11px; padding:5px 12px; opacity:0.45; }
+  .digest-card { background:linear-gradient(135deg,rgba(8,145,178,0.12),rgba(34,211,238,0.06)); border:1px solid rgba(8,145,178,0.35); border-radius:10px; padding:16px 20px; margin-bottom:18px; display:flex; gap:14px; align-items:flex-start; }
+  .digest-icon { font-size:22px; line-height:1; flex-shrink:0; margin-top:1px; }
+  .digest-label { font-size:10px; font-weight:800; letter-spacing:2px; color:var(--teal); text-transform:uppercase; margin-bottom:5px; }
+  .digest-text { font-size:14px; color:var(--white); line-height:1.65; }
   .modal-context { background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; line-height:1.5; }
   .modal-context strong { color:var(--white); }
   .modal-textarea { width:100%; min-height:220px; background:var(--navy); border:1px solid var(--border); color:var(--white); padding:14px; border-radius:8px; font-family:inherit; font-size:13px; line-height:1.7; resize:vertical; outline:none; }
@@ -446,14 +450,15 @@ async function fetchOutlookEmails(count) {
   if (!token) return [];
   try {
     const resp = await fetch(
-      `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=${Math.min(count,50)}&$select=id,subject,from,replyTo,receivedDateTime,bodyPreview&$orderby=receivedDateTime desc`,
+      `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=${Math.min(count,50)}&$select=id,subject,from,replyTo,receivedDateTime,bodyPreview,webLink&$orderby=receivedDateTime desc`,
       { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json());
     return (resp.value || []).map(msg => ({
       source: 'Outlook', id: msg.id,
       from: msg.from?.emailAddress?.address || '',
       replyTo: (msg.replyTo?.[0]?.emailAddress?.address) || msg.from?.emailAddress?.address || '',
       subject: msg.subject || '(no subject)',
-      date: msg.receivedDateTime || '', snippet: msg.bodyPreview || ''
+      date: msg.receivedDateTime || '', snippet: msg.bodyPreview || '',
+      webLink: msg.webLink || ''
     }));
   } catch (e) { console.error('Outlook fetch error:', e); return []; }
 }
@@ -511,6 +516,7 @@ ${emailList}
 
 Return a JSON object with this exact structure:
 {
+  "digest": "2-3 sentence narrative overview of the inbox. Mention the most important things needing attention by name, note any patterns (e.g. several scheduling requests, a few follow-ups), and give the user a clear sense of what today's inbox actually demands. Be specific and human — not generic.",
   "summary": { "total": number, "action_required": number, "can_wait": number, "low_priority": number },
   "emails": [
     { "index": number (1-based), "priority": 1|2|3, "subject": "...", "from": "...", "summary": "one sentence", "action": "specific next step", "source": "Gmail|Outlook", "needs_reply": true|false }
@@ -541,7 +547,21 @@ Sort by priority (1s first). Include top 25 most important. Return ONLY valid JS
 
 function renderTriage(data) {
   const s = data.summary || {}, items = data.emails || [];
-  let html = `
+  let html = '';
+
+  // AI Digest card
+  if (data.digest) {
+    html += `
+    <div class="digest-card">
+      <div class="digest-icon">🧠</div>
+      <div>
+        <div class="digest-label">AI Inbox Digest</div>
+        <div class="digest-text">${data.digest}</div>
+      </div>
+    </div>`;
+  }
+
+  html += `
     <div class="summary-bar">
       <div class="summary-stat"><div class="summary-num" style="color:var(--white)">${s.total||items.length}</div><div class="summary-lbl">Total Scanned</div></div>
       <div class="summary-stat"><div class="summary-num" style="color:#FCA5A5">${s.action_required||0}</div><div class="summary-lbl">Action Required</div></div>
@@ -553,6 +573,17 @@ function renderTriage(data) {
   for (const e of items) {
     const pc = e.priority===1?'p1':e.priority===2?'p2':'p3';
     const pl = e.priority===1?'Urgent':e.priority===2?'Review':'FYI';
+    // Build open-in-client link from original email data
+    const raw = currentEmails[e.index - 1];
+    let openUrl = '';
+    if (raw) {
+      if (raw.source === 'Gmail' && raw.id) openUrl = `https://mail.google.com/mail/u/0/#all/${raw.id}`;
+      else if (raw.source === 'Outlook' && raw.webLink) openUrl = raw.webLink;
+      else if (raw.source === 'Outlook') openUrl = 'https://outlook.office.com/mail/inbox';
+    }
+    const openLink = openUrl
+      ? `<a href="${openUrl}" target="_blank" rel="noopener" style="font-size:11px;color:var(--muted);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:6px;white-space:nowrap;transition:color 0.2s" onmouseover="this.style.color='var(--teal-light)'" onmouseout="this.style.color='var(--muted)'">📧 Open</a>`
+      : '';
     html += `
       <div class="email-item priority-${e.priority}">
         <div class="email-meta">
@@ -563,10 +594,13 @@ function renderTriage(data) {
         <div class="email-summary">${e.summary||''}</div>
         <div class="email-footer">
           <div class="email-action">→ ${e.action||''}</div>
-          ${e.needs_reply
-            ? `<button class="btn btn-ghost reply-btn-needed" onclick="openDraftModal(${e.index-1})" title="AI thinks this email needs a reply">✍️ Draft Reply</button>`
-            : `<button class="btn btn-ghost reply-btn-skip" onclick="openDraftModal(${e.index-1})" title="No reply likely needed — draft anyway?">✍️ Draft anyway</button>`
-          }
+          <div style="display:flex;gap:6px;align-items:center">
+            ${openLink}
+            ${e.needs_reply
+              ? `<button class="btn btn-ghost reply-btn-needed" onclick="openDraftModal(${e.index-1})" title="AI thinks this email needs a reply">✍️ Draft Reply</button>`
+              : `<button class="btn btn-ghost reply-btn-skip" onclick="openDraftModal(${e.index-1})" title="No reply likely needed — draft anyway?">✍️ Draft anyway</button>`
+            }
+          </div>
         </div>
       </div>`;
   }
