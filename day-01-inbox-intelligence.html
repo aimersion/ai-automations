@@ -101,6 +101,11 @@
   .modal-title { font-size:11px; font-weight:700; letter-spacing:2px; color:var(--teal); text-transform:uppercase; }
   .modal-close { background:none; border:none; color:var(--muted); cursor:pointer; font-size:22px; line-height:1; padding:0 4px; }
   .modal-close:hover { color:var(--white); }
+  .instructions-textarea { width:100%; min-height:120px; background:var(--navy); border:1px solid var(--border); color:var(--white); padding:12px 14px; border-radius:8px; font-family:inherit; font-size:13px; line-height:1.65; resize:vertical; outline:none; margin-bottom:10px; }
+  .instructions-textarea:focus { border-color:var(--teal); }
+  .instructions-hint { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:10px; }
+  .reply-btn-needed { font-size:11px; padding:5px 12px; }
+  .reply-btn-skip { font-size:11px; padding:5px 12px; opacity:0.45; }
   .modal-context { background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; line-height:1.5; }
   .modal-context strong { color:var(--white); }
   .modal-textarea { width:100%; min-height:220px; background:var(--navy); border:1px solid var(--border); color:var(--white); padding:14px; border-radius:8px; font-family:inherit; font-size:13px; line-height:1.7; resize:vertical; outline:none; }
@@ -199,6 +204,23 @@
     </div>
   </div>
 
+  <!-- My Reply Style -->
+  <div class="card">
+    <div class="card-title">👤 My Reply Style <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— injected into every AI draft</span></div>
+    <p class="instructions-hint">Add your name, role, company, preferred tone, sign-off, and any standing instructions. The AI will use this context every time it drafts a reply for you.</p>
+    <textarea class="instructions-textarea" id="replyInstructions" placeholder="Example:
+My name is Jim Lynch. I'm founder of Aimersion (aimersion.ai), an AI automation company in Argyle, TX.
+
+Tone: Warm and direct. Casual with people I know, professional with new contacts.
+Sign-off: Best, Jim
+Keep replies concise — 3-5 sentences unless detail is genuinely needed.
+Never use corporate jargon or filler phrases like 'Hope this finds you well.'"></textarea>
+    <div class="row">
+      <button class="btn btn-teal" onclick="saveReplyInstructions()" style="font-size:12px;padding:7px 16px">💾 Save My Style</button>
+      <span id="styleStatus" style="font-size:12px;color:var(--green);"></span>
+    </div>
+  </div>
+
   <!-- Run Controls -->
   <div class="card">
     <div class="card-title">⚙️ Settings</div>
@@ -283,8 +305,18 @@ window.addEventListener('load', () => {
   selectModel(localStorage.getItem('gemini_model') || 'gemini-3-flash-preview');
   const gk = localStorage.getItem('gemini_key');
   if (gk) document.getElementById('geminiKey').value = gk;
+  const ri = localStorage.getItem('reply_instructions');
+  if (ri) document.getElementById('replyInstructions').value = ri;
   initMsal();
 });
+
+function saveReplyInstructions() {
+  const val = document.getElementById('replyInstructions').value.trim();
+  localStorage.setItem('reply_instructions', val);
+  const status = document.getElementById('styleStatus');
+  status.textContent = val ? '✓ Saved' : '✓ Cleared';
+  setTimeout(() => { status.textContent = ''; }, 2500);
+}
 
 function toggleKey(id) { const el=document.getElementById(id); el.type=el.type==='password'?'text':'password'; }
 function saveKey(type) {
@@ -481,9 +513,18 @@ Return a JSON object with this exact structure:
 {
   "summary": { "total": number, "action_required": number, "can_wait": number, "low_priority": number },
   "emails": [
-    { "index": number (1-based), "priority": 1|2|3, "subject": "...", "from": "...", "summary": "one sentence", "action": "specific next step", "source": "Gmail|Outlook" }
+    { "index": number (1-based), "priority": 1|2|3, "subject": "...", "from": "...", "summary": "one sentence", "action": "specific next step", "source": "Gmail|Outlook", "needs_reply": true|false }
   ]
 }
+
+needs_reply rules — set TRUE only when the email:
+- Asks a direct question requiring a personal answer
+- Requests a decision, approval, or sign-off
+- Is a meeting/calendar invitation needing an RSVP
+- Is a follow-up from a real person waiting for a response
+- Contains a request, task delegation, or asks for information
+
+Set needs_reply FALSE for: newsletters, marketing, automated notifications, order confirmations, shipping updates, social media alerts, system emails, CC-only emails where no response is expected, or anything from a no-reply address.
 
 Sort by priority (1s first). Include top 25 most important. Return ONLY valid JSON.`;
 
@@ -522,7 +563,10 @@ function renderTriage(data) {
         <div class="email-summary">${e.summary||''}</div>
         <div class="email-footer">
           <div class="email-action">→ ${e.action||''}</div>
-          <button class="btn btn-ghost" style="font-size:11px;padding:5px 12px" onclick="openDraftModal(${e.index-1})">✍️ Draft Reply</button>
+          ${e.needs_reply
+            ? `<button class="btn btn-ghost reply-btn-needed" onclick="openDraftModal(${e.index-1})" title="AI thinks this email needs a reply">✍️ Draft Reply</button>`
+            : `<button class="btn btn-ghost reply-btn-skip" onclick="openDraftModal(${e.index-1})" title="No reply likely needed — draft anyway?">✍️ Draft anyway</button>`
+          }
         </div>
       </div>`;
   }
@@ -553,13 +597,17 @@ function openDraftModal(emailIdx) {
 
 async function generateDraftReply(email) {
   try {
-    const prompt = `You are a professional email assistant. Write a concise, helpful reply to this email.
-
+    const userStyle = localStorage.getItem('reply_instructions') || '';
+    const styleBlock = userStyle
+      ? `\n\nPERSONAL REPLY STYLE — follow these instructions exactly:\n${userStyle}\n`
+      : '';
+    const prompt = `You are a professional email assistant. Write a reply to this email.${styleBlock}
+EMAIL TO REPLY TO:
 From: ${email.from}
 Subject: ${email.subject}
 Preview: ${email.snippet}
 
-Write a professional reply. Be warm but concise. Do not include a subject line — just the body text starting with a greeting. End with an appropriate sign-off.`;
+Write a reply that follows the personal style instructions above (if provided). Do not include a subject line — just the body text starting with a greeting. End with an appropriate sign-off.`;
 
     const reply = await callGemini(prompt);
     document.getElementById('modalText').value = reply;
