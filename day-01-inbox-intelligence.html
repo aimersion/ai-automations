@@ -72,6 +72,7 @@
   .email-from { font-size: 12px; color: var(--muted); }
   .email-subject { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
   .email-summary { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+  .email-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
   .email-action { font-size: 12px; font-weight: 700; color: var(--teal-light); }
   .summary-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
   .summary-stat { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
@@ -81,16 +82,10 @@
   .info-msg { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); color: var(--teal-light); padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
   .key-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
   .key-hint a { color: var(--teal-light); }
-  @media (max-width: 600px) { .oauth-grid { grid-template-columns: 1fr; } .summary-bar { grid-template-columns: 1fr 1fr; } }
-
-  /* ── Model Selector ─────────────────────────────────── */
+  /* Model Selector */
   .effort-label { font-size:.75rem; color:#64748b; margin-bottom:8px; }
   .model-selector { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:8px; }
-  .model-btn {
-    border:2px solid #e2e8f0; border-radius:12px; padding:12px 8px;
-    cursor:pointer; background:#fff; display:flex; flex-direction:column;
-    align-items:center; gap:2px; transition:all .18s; text-align:center;
-  }
+  .model-btn { border:2px solid #e2e8f0; border-radius:12px; padding:12px 8px; cursor:pointer; background:#fff; display:flex; flex-direction:column; align-items:center; gap:2px; transition:all .18s; text-align:center; }
   .model-btn:hover { border-color:#0d9488; background:#f8fffe; }
   .model-btn.active { border-color:#0d9488; background:#f0fdfa; box-shadow:0 0 0 3px rgba(13,148,136,.12); }
   .model-emoji { font-size:1.5rem; line-height:1; }
@@ -99,8 +94,24 @@
   .model-badge { font-size:.62rem; color:#94a3b8; font-family:monospace; }
   .model-cost { font-size:.78rem; color:#0d9488; font-weight:700; letter-spacing:.05em; }
   .model-hint { font-size:.72rem; color:#94a3b8; }
-  @media(max-width:600px){ .model-selector{grid-template-columns:repeat(2,1fr);} }
-
+  /* Draft Modal */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:1000; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal-box { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; max-width:640px; width:100%; max-height:85vh; overflow-y:auto; }
+  .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+  .modal-title { font-size:11px; font-weight:700; letter-spacing:2px; color:var(--teal); text-transform:uppercase; }
+  .modal-close { background:none; border:none; color:var(--muted); cursor:pointer; font-size:22px; line-height:1; padding:0 4px; }
+  .modal-close:hover { color:var(--white); }
+  .modal-context { background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; line-height:1.5; }
+  .modal-context strong { color:var(--white); }
+  .modal-textarea { width:100%; min-height:220px; background:var(--navy); border:1px solid var(--border); color:var(--white); padding:14px; border-radius:8px; font-family:inherit; font-size:13px; line-height:1.7; resize:vertical; outline:none; }
+  .modal-textarea:focus { border-color:var(--teal); }
+  .modal-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+  .modal-divider { height:1px; background:var(--border); margin:14px 0; }
+  .send-fields { display:grid; gap:8px; margin-bottom:12px; }
+  .send-fields input { background:var(--navy); border:1px solid var(--border); color:var(--white); padding:9px 14px; border-radius:8px; font-size:13px; font-family:inherit; outline:none; width:100%; }
+  .send-fields input:focus { border-color:var(--teal); }
+  .send-label { font-size:11px; color:var(--muted); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
+  @media (max-width: 600px) { .oauth-grid { grid-template-columns: 1fr; } .summary-bar { grid-template-columns: 1fr 1fr; } .model-selector{grid-template-columns:repeat(2,1fr);} }
 </style>
 </head>
 <body>
@@ -116,7 +127,7 @@
 <div class="hero">
   <div class="day-label">Automation #1 of 20</div>
   <h1>📬 Inbox <span>Intelligence</span></h1>
-  <p class="tagline">Connect your real Gmail or Outlook. AI reads your emails and tells you exactly what needs your attention — ranked by priority.</p>
+  <p class="tagline">Connect Gmail or Outlook. AI triages your emails by priority — then draft and send replies without leaving the page.</p>
 </div>
 
 <div class="main">
@@ -129,50 +140,32 @@
       <button class="btn btn-ghost" onclick="toggleKey('geminiKey')">Show</button>
       <button class="btn btn-teal" onclick="saveKey('gemini')">Save</button>
     </div>
-    <div class="row" style="margin-bottom:6px">
-      <input type="password" id="aimersionKey" placeholder="Aimersion AI key (optional — use all models with one key)" />
-      <button class="btn btn-ghost" onclick="toggleKey('aimersionKey')">Show</button>
-      <button class="btn btn-teal" onclick="saveKey('aimersion')">Save</button>
-    </div>
+    <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></div>
+  </div>
 
-  <!-- Intelligence Level / Model Selector -->
-  <div class="card" style="margin-top:16px">
+  <!-- Intelligence Level -->
+  <div class="card">
     <div class="card-title">⚡ Intelligence Level <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— effort = price</span></div>
-    <div class="effort-label">Higher effort = smarter output = more API cost. Pick based on your task.</div>
+    <div class="effort-label">Higher effort = smarter output = more API cost.</div>
     <div class="model-selector">
       <button class="model-btn" onclick="selectModel('gemini-2.5-flash')" id="mbtn-quick">
-        <span class="model-emoji">⚡</span>
-        <span class="model-name">Quick</span>
-        <span class="model-desc">Fast &amp; affordable</span>
-        <span class="model-badge">2.5 Flash</span>
-        <span class="model-cost">$</span>
+        <span class="model-emoji">⚡</span><span class="model-name">Quick</span>
+        <span class="model-desc">Fast &amp; affordable</span><span class="model-badge">2.5 Flash</span><span class="model-cost">$</span>
       </button>
       <button class="model-btn active" onclick="selectModel('gemini-3-flash-preview')" id="mbtn-smart">
-        <span class="model-emoji">🔥</span>
-        <span class="model-name">Smart</span>
-        <span class="model-desc">3× smarter, same speed</span>
-        <span class="model-badge">3 Flash</span>
-        <span class="model-cost">$$</span>
+        <span class="model-emoji">🔥</span><span class="model-name">Smart</span>
+        <span class="model-desc">3× smarter, same speed</span><span class="model-badge">3 Flash</span><span class="model-cost">$$</span>
       </button>
       <button class="model-btn" onclick="selectModel('gemini-2.5-pro')" id="mbtn-deep">
-        <span class="model-emoji">🧠</span>
-        <span class="model-name">Deep</span>
-        <span class="model-desc">Advanced reasoning</span>
-        <span class="model-badge">2.5 Pro</span>
-        <span class="model-cost">$$$</span>
+        <span class="model-emoji">🧠</span><span class="model-name">Deep</span>
+        <span class="model-desc">Advanced reasoning</span><span class="model-badge">2.5 Pro</span><span class="model-cost">$$$</span>
       </button>
       <button class="model-btn" onclick="selectModel('gemini-3.1-pro-preview')" id="mbtn-max">
-        <span class="model-emoji">🚀</span>
-        <span class="model-name">Max</span>
-        <span class="model-desc">Best available · most thorough</span>
-        <span class="model-badge">3.1 Pro</span>
-        <span class="model-cost">$$$$</span>
+        <span class="model-emoji">🚀</span><span class="model-name">Max</span>
+        <span class="model-desc">Best available</span><span class="model-badge">3.1 Pro</span><span class="model-cost">$$$$</span>
       </button>
     </div>
     <div class="model-hint">Prices vary by model. <a href="https://ai.google.dev/pricing" target="_blank" style="color:#0d9488">See Gemini pricing →</a></div>
-  </div>
-
-    <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> · Or use your <a href="https://aimersion.ai" target="_blank">Aimersion AI</a> key to access all models.</div>
   </div>
 
   <!-- OAuth Connect -->
@@ -221,9 +214,7 @@
         <option value="google">Gmail only</option>
         <option value="microsoft">Outlook only</option>
       </select>
-      <button class="btn btn-amber" id="runBtn" onclick="runTriage()">
-        🧠 Analyze Inbox
-      </button>
+      <button class="btn btn-amber" id="runBtn" onclick="runTriage()">🧠 Analyze Inbox</button>
     </div>
   </div>
 
@@ -235,74 +226,92 @@
 
 </div>
 
+<!-- Draft Reply Modal -->
+<div id="draftModal" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title">✍️ AI Draft Reply</div>
+      <button class="modal-close" onclick="closeDraftModal()">×</button>
+    </div>
+    <div id="modalContext" class="modal-context"></div>
+    <div id="modalLoading" class="loading" style="padding:20px">
+      <div class="spinner"></div><br>AI is writing your reply...
+    </div>
+    <div id="modalBody" style="display:none">
+      <div class="send-fields">
+        <div>
+          <div class="send-label">To</div>
+          <input type="text" id="modalTo" placeholder="recipient@example.com" />
+        </div>
+        <div>
+          <div class="send-label">Subject</div>
+          <input type="text" id="modalSubject" placeholder="Re: ..." />
+        </div>
+      </div>
+      <div class="send-label" style="margin-bottom:6px">Reply</div>
+      <textarea class="modal-textarea" id="modalText" placeholder="Your reply..."></textarea>
+      <div class="modal-actions" id="modalActions"></div>
+    </div>
+  </div>
+</div>
+
 <script>
-
-  // ── Model selector ──────────────────────────────────
-  const MODEL_MAP = {
-    'gemini-2.5-flash':      { id: 'mbtn-quick', label: 'Quick' },
-    'gemini-3-flash-preview':{ id: 'mbtn-smart', label: 'Smart' },
-    'gemini-2.5-pro':        { id: 'mbtn-deep',  label: 'Deep'  },
-    'gemini-3.1-pro-preview':{ id: 'mbtn-max',   label: 'Max'   }
-  };
-  let _selectedModel = localStorage.getItem('gemini_model') || 'gemini-3-flash-preview';
-
-  function selectModel(model) {
-    _selectedModel = model;
-    localStorage.setItem('gemini_model', model);
-    document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
-    const btn = document.getElementById(MODEL_MAP[model]?.id);
-    if (btn) btn.classList.add('active');
-  }
-  function getSelectedModel() { return _selectedModel; }
-
 const GOOGLE_CLIENT_ID = '613753349118-g5t6tli0ghlt3ca8h3ijdjp9jnks5dee.apps.googleusercontent.com';
-const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+const AZURE_CLIENT_ID  = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
 
-let googleToken = null;
-let msalInstance = null;
-let msAccount = null;
+// Model selector
+const MODEL_MAP = {
+  'gemini-2.5-flash':      'mbtn-quick',
+  'gemini-3-flash-preview':'mbtn-smart',
+  'gemini-2.5-pro':        'mbtn-deep',
+  'gemini-3.1-pro-preview':'mbtn-max'
+};
+let _model = localStorage.getItem('gemini_model') || 'gemini-3-flash-preview';
+function selectModel(m) {
+  _model = m; localStorage.setItem('gemini_model', m);
+  document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById(MODEL_MAP[m]); if (btn) btn.classList.add('active');
+}
+function getSelectedModel() { return _model; }
 
-// Restore saved keys
+let googleToken = null, googleTokenClient;
+let msalInstance = null, msAccount = null;
+let currentEmails = [];   // full email objects for draft reference
+let draftEmail = null;    // current email being drafted
+
 window.addEventListener('load', () => {
   selectModel(localStorage.getItem('gemini_model') || 'gemini-3-flash-preview');
-
   const gk = localStorage.getItem('gemini_key');
-  const ak = localStorage.getItem('aimersion_key');
   if (gk) document.getElementById('geminiKey').value = gk;
-  if (ak) document.getElementById('aimersionKey').value = ak;
   initMsal();
 });
 
-function toggleKey(id) {
-  const el = document.getElementById(id);
-  el.type = el.type === 'password' ? 'text' : 'password';
-}
+function toggleKey(id) { const el=document.getElementById(id); el.type=el.type==='password'?'text':'password'; }
 function saveKey(type) {
-  if (type === 'gemini') localStorage.setItem('gemini_key', document.getElementById('geminiKey').value.trim());
-  if (type === 'aimersion') localStorage.setItem('aimersion_key', document.getElementById('aimersionKey').value.trim());
+  if (type==='gemini') localStorage.setItem('gemini_key', document.getElementById('geminiKey').value.trim());
   showToast('Key saved!');
 }
-function showToast(msg) {
+function showToast(msg, color) {
   const t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#0891B2;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;';
-  t.textContent = msg;
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2500);
+  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${color||'#0891B2'};color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;`;
+  t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000);
 }
 
-// ─── Google Auth ───────────────────────────────────────
-let googleTokenClient;
+// ─── Google Auth (gmail.readonly + gmail.compose) ──────
 function connectGoogle() {
-  if (!window.google) { alert('Google Sign-In library not loaded yet. Please wait a moment and try again.'); return; }
+  if (!window.google) { alert('Google library not loaded yet. Please wait a moment.'); return; }
   if (!googleTokenClient) {
     googleTokenClient = google.accounts.oauth2.initTokenClient({
       client_id: GOOGLE_CLIENT_ID,
-      scope: 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/userinfo.email',
+      scope: [
+        'https://www.googleapis.com/auth/gmail.readonly',
+        'https://www.googleapis.com/auth/gmail.compose',
+        'https://www.googleapis.com/auth/userinfo.email'
+      ].join(' '),
       callback: async (resp) => {
         if (resp.error) { alert('Google auth error: ' + resp.error); return; }
         googleToken = resp.access_token;
         sessionStorage.setItem('google_token', googleToken);
-        // Get email
         try {
           const info = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
             headers: { Authorization: 'Bearer ' + googleToken }
@@ -319,27 +328,22 @@ function connectGoogle() {
 }
 function disconnectGoogle() {
   if (googleToken) google.accounts.oauth2.revoke(googleToken);
-  googleToken = null;
-  sessionStorage.removeItem('google_token');
+  googleToken = null; sessionStorage.removeItem('google_token');
   document.getElementById('googleStatus').textContent = 'Not connected';
   document.getElementById('googleDot').className = 'status-dot dot-off';
   document.getElementById('googleBtn').style.display = '';
   document.getElementById('googleDisBtn').style.display = 'none';
 }
 
-// ─── Microsoft Auth ────────────────────────────────────
+// ─── Microsoft Auth (Mail.Read + Mail.ReadWrite + Mail.Send) ──
 async function initMsal() {
   try {
     msalInstance = new msal.PublicClientApplication({
-      auth: {
-        clientId: AZURE_CLIENT_ID,
-        authority: 'https://login.microsoftonline.com/common',
-        redirectUri: window.location.href.split('?')[0].split('#')[0]
-      },
+      auth: { clientId: AZURE_CLIENT_ID, authority: 'https://login.microsoftonline.com/common',
+              redirectUri: window.location.href.split('?')[0].split('#')[0] },
       cache: { cacheLocation: 'sessionStorage' }
     });
     await msalInstance.initialize();
-    // Check for existing account
     const accounts = msalInstance.getAllAccounts();
     if (accounts.length > 0) {
       msAccount = accounts[0];
@@ -351,10 +355,11 @@ async function initMsal() {
   } catch (e) { console.warn('MSAL init:', e); }
 }
 async function connectMicrosoft() {
-  if (!msalInstance) { await initMsal(); }
+  if (!msalInstance) await initMsal();
   try {
     const resp = await msalInstance.loginPopup({
-      scopes: ['https://graph.microsoft.com/Mail.Read', 'https://graph.microsoft.com/User.Read'],
+      scopes: ['https://graph.microsoft.com/Mail.Read','https://graph.microsoft.com/Mail.ReadWrite',
+               'https://graph.microsoft.com/Mail.Send','https://graph.microsoft.com/User.Read'],
       prompt: 'select_account'
     });
     msAccount = resp.account;
@@ -364,20 +369,15 @@ async function connectMicrosoft() {
     document.getElementById('msDisBtn').style.display = '';
   } catch (e) { alert('Microsoft login error: ' + (e.message || e)); }
 }
-async function getMsToken() {
+async function getMsToken(scopes) {
   if (!msalInstance || !msAccount) return null;
+  const s = scopes || ['https://graph.microsoft.com/Mail.Read'];
   try {
-    const resp = await msalInstance.acquireTokenSilent({
-      scopes: ['https://graph.microsoft.com/Mail.Read'],
-      account: msAccount
-    });
-    return resp.accessToken;
+    const r = await msalInstance.acquireTokenSilent({ scopes: s, account: msAccount });
+    return r.accessToken;
   } catch {
-    const resp = await msalInstance.acquireTokenPopup({
-      scopes: ['https://graph.microsoft.com/Mail.Read'],
-      account: msAccount
-    });
-    return resp.accessToken;
+    const r = await msalInstance.acquireTokenPopup({ scopes: s, account: msAccount });
+    return r.accessToken;
   }
 }
 function disconnectMicrosoft() {
@@ -395,110 +395,81 @@ async function fetchGmailEmails(count) {
   try {
     const listResp = await fetch(
       `https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=${count}&labelIds=INBOX`,
-      { headers: { Authorization: 'Bearer ' + googleToken } }
-    ).then(r => r.json());
+      { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json());
     if (!listResp.messages) return [];
-    // Fetch details for first 30 (to avoid rate limits)
     const ids = listResp.messages.slice(0, Math.min(count, 30));
     const details = await Promise.all(ids.map(m =>
-      fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`,
-        { headers: { Authorization: 'Bearer ' + googleToken } }
-      ).then(r => r.json())
+      fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date&metadataHeaders=Reply-To`,
+        { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json())
     ));
     return details.map(msg => {
       const headers = msg.payload?.headers || [];
-      const get = (name) => headers.find(h => h.name === name)?.value || '';
-      return {
-        source: 'Gmail',
-        from: get('From'),
-        subject: get('Subject'),
-        date: get('Date'),
-        snippet: msg.snippet || ''
-      };
+      const get = n => headers.find(h => h.name === n)?.value || '';
+      return { source: 'Gmail', id: msg.id, from: get('From'), replyTo: get('Reply-To') || get('From'), subject: get('Subject'), date: get('Date'), snippet: msg.snippet || '' };
     });
   } catch (e) { console.error('Gmail fetch error:', e); return []; }
 }
-
 async function fetchOutlookEmails(count) {
   const token = await getMsToken();
   if (!token) return [];
   try {
     const resp = await fetch(
-      `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=${Math.min(count, 50)}&$select=subject,from,receivedDateTime,bodyPreview&$orderby=receivedDateTime desc`,
-      { headers: { Authorization: 'Bearer ' + token } }
-    ).then(r => r.json());
+      `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=${Math.min(count,50)}&$select=id,subject,from,replyTo,receivedDateTime,bodyPreview&$orderby=receivedDateTime desc`,
+      { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json());
     return (resp.value || []).map(msg => ({
-      source: 'Outlook',
-      from: msg.from?.emailAddress?.address || msg.from?.emailAddress?.name || '',
+      source: 'Outlook', id: msg.id,
+      from: msg.from?.emailAddress?.address || '',
+      replyTo: (msg.replyTo?.[0]?.emailAddress?.address) || msg.from?.emailAddress?.address || '',
       subject: msg.subject || '(no subject)',
-      date: msg.receivedDateTime || '',
-      snippet: msg.bodyPreview || ''
+      date: msg.receivedDateTime || '', snippet: msg.bodyPreview || ''
     }));
   } catch (e) { console.error('Outlook fetch error:', e); return []; }
 }
 
-// ─── AI Triage ─────────────────────────────────────────
+// ─── Gemini ────────────────────────────────────────────
 async function callGemini(prompt) {
   const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
-  if (!key) throw new Error('No Gemini API key saved. Please enter and save your key above.');
+  if (!key) throw new Error('No Gemini API key. Please enter and save your key above.');
   const resp = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${getSelectedModel()}:generateContent?key=${key}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 8192 }
-      })
-    }
-  ).then(r => r.json());
+    { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.3, maxOutputTokens: 8192 } })
+    }).then(r => r.json());
   if (resp.error) throw new Error(resp.error.message);
   return resp.candidates?.[0]?.content?.parts?.[0]?.text || '';
 }
 
-// ─── Main Run ──────────────────────────────────────────
+// ─── Main Triage Run ───────────────────────────────────
 async function runTriage() {
   const source = document.getElementById('emailSource').value;
-  const count = parseInt(document.getElementById('emailCount').value);
+  const count  = parseInt(document.getElementById('emailCount').value);
   const output = document.getElementById('output');
+  const key    = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
 
-  if (source !== 'microsoft' && !googleToken) {
-    if (source === 'google') { output.innerHTML = '<div class="error-msg">Please connect Gmail first.</div>'; return; }
-  }
-  if (source !== 'google' && !msAccount) {
-    if (source === 'microsoft') { output.innerHTML = '<div class="error-msg">Please connect Outlook first.</div>'; return; }
-  }
-
-  const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
+  if (source !== 'microsoft' && !googleToken && source === 'google') { output.innerHTML = '<div class="error-msg">Please connect Gmail first.</div>'; return; }
+  if (source !== 'google' && !msAccount && source === 'microsoft')   { output.innerHTML = '<div class="error-msg">Please connect Outlook first.</div>'; return; }
   if (!key) { output.innerHTML = '<div class="error-msg">Please enter and save your Gemini API key above.</div>'; return; }
 
   const btn = document.getElementById('runBtn');
   btn.disabled = true; btn.textContent = '⏳ Fetching emails...';
-
   output.innerHTML = '<div class="loading"><div class="spinner"></div><br>Fetching your emails...</div>';
 
   try {
     let emails = [];
-
-    if (source === 'both' || source === 'google') {
-      const gmails = await fetchGmailEmails(count);
-      emails = emails.concat(gmails);
-    }
-    if (source === 'both' || source === 'microsoft') {
-      const outlooks = await fetchOutlookEmails(count);
-      emails = emails.concat(outlooks);
-    }
+    if (source === 'both' || source === 'google')    emails = emails.concat(await fetchGmailEmails(count));
+    if (source === 'both' || source === 'microsoft') emails = emails.concat(await fetchOutlookEmails(count));
 
     if (emails.length === 0) {
       output.innerHTML = '<div class="error-msg">No emails found. Make sure you\'re connected and have emails in your inbox.</div>';
       btn.disabled = false; btn.textContent = '🧠 Analyze Inbox'; return;
     }
 
-    btn.textContent = `⏳ Analyzing ${emails.length} emails with Gemini...`;
-    output.innerHTML = `<div class="loading"><div class="spinner"></div><br>Analyzing ${emails.length} emails with Gemini 2.5 Flash...</div>`;
+    currentEmails = emails;  // save for draft modal
+    btn.textContent = `⏳ Analyzing ${emails.length} emails...`;
+    output.innerHTML = `<div class="loading"><div class="spinner"></div><br>Analyzing ${emails.length} emails with ${getSelectedModel()}...</div>`;
 
     const emailList = emails.map((e, i) =>
-      `${i+1}. [${e.source}] FROM: ${e.from} | SUBJECT: ${e.subject} | PREVIEW: ${e.snippet.slice(0, 200)}`
+      `${i+1}. [${e.source}] FROM: ${e.from} | SUBJECT: ${e.subject} | PREVIEW: ${e.snippet.slice(0,200)}`
     ).join('\n');
 
     const prompt = `You are an expert executive assistant. Analyze these ${emails.length} emails and provide a smart inbox triage.
@@ -508,77 +479,220 @@ ${emailList}
 
 Return a JSON object with this exact structure:
 {
-  "summary": {
-    "total": number,
-    "action_required": number,
-    "can_wait": number,
-    "low_priority": number
-  },
+  "summary": { "total": number, "action_required": number, "can_wait": number, "low_priority": number },
   "emails": [
-    {
-      "index": number (1-based from original list),
-      "priority": 1|2|3 (1=urgent action, 2=review soon, 3=low/FYI),
-      "subject": "email subject",
-      "from": "sender name/email",
-      "summary": "one sentence of what this email is about",
-      "action": "specific action to take or why it's low priority",
-      "source": "Gmail|Outlook"
-    }
+    { "index": number (1-based), "priority": 1|2|3, "subject": "...", "from": "...", "summary": "one sentence", "action": "specific next step", "source": "Gmail|Outlook" }
   ]
 }
 
-Sort by priority (1s first). Only include top 25 most important. Return ONLY valid JSON, no markdown.`;
+Sort by priority (1s first). Include top 25 most important. Return ONLY valid JSON.`;
 
     const raw = await callGemini(prompt);
-
-    // Parse JSON
     let data;
-    try {
-      const jsonMatch = raw.match(/\{[\s\S]*\}/);
-      data = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
-    } catch (e) {
-      output.innerHTML = '<div class="error-msg">Could not parse AI response. Try again.</div><pre style="color:var(--muted);font-size:11px;margin-top:8px;white-space:pre-wrap">' + raw.slice(0, 500) + '</pre>';
-      btn.disabled = false; btn.textContent = '🧠 Analyze Inbox'; return;
-    }
+    try { const m = raw.match(/\{[\s\S]*\}/); data = JSON.parse(m ? m[0] : raw); }
+    catch { output.innerHTML = '<div class="error-msg">Could not parse AI response. Try again.</div>'; btn.disabled=false; btn.textContent='🧠 Analyze Inbox'; return; }
 
-    renderTriage(data, emails);
-  } catch (e) {
-    output.innerHTML = `<div class="error-msg">${e.message}</div>`;
-  }
+    renderTriage(data);
+  } catch (e) { output.innerHTML = `<div class="error-msg">${e.message}</div>`; }
 
   btn.disabled = false; btn.textContent = '🧠 Analyze Inbox';
 }
 
-function renderTriage(data, emails) {
-  const s = data.summary || {};
-  const items = data.emails || [];
-
+function renderTriage(data) {
+  const s = data.summary || {}, items = data.emails || [];
   let html = `
     <div class="summary-bar">
-      <div class="summary-stat"><div class="summary-num" style="color:var(--white)">${s.total || items.length}</div><div class="summary-lbl">Total Scanned</div></div>
-      <div class="summary-stat"><div class="summary-num" style="color:#FCA5A5">${s.action_required || 0}</div><div class="summary-lbl">Action Required</div></div>
-      <div class="summary-stat"><div class="summary-num" style="color:#FCD34D">${s.can_wait || 0}</div><div class="summary-lbl">Review Soon</div></div>
-      <div class="summary-stat"><div class="summary-num" style="color:#6EE7B7">${s.low_priority || 0}</div><div class="summary-lbl">Low Priority</div></div>
+      <div class="summary-stat"><div class="summary-num" style="color:var(--white)">${s.total||items.length}</div><div class="summary-lbl">Total Scanned</div></div>
+      <div class="summary-stat"><div class="summary-num" style="color:#FCA5A5">${s.action_required||0}</div><div class="summary-lbl">Action Required</div></div>
+      <div class="summary-stat"><div class="summary-num" style="color:#FCD34D">${s.can_wait||0}</div><div class="summary-lbl">Review Soon</div></div>
+      <div class="summary-stat"><div class="summary-num" style="color:#6EE7B7">${s.low_priority||0}</div><div class="summary-lbl">Low Priority</div></div>
     </div>
     <div class="triage-grid">`;
 
   for (const e of items) {
-    const pc = e.priority === 1 ? 'p1' : e.priority === 2 ? 'p2' : 'p3';
-    const pl = e.priority === 1 ? 'Urgent' : e.priority === 2 ? 'Review' : 'FYI';
+    const pc = e.priority===1?'p1':e.priority===2?'p2':'p3';
+    const pl = e.priority===1?'Urgent':e.priority===2?'Review':'FYI';
     html += `
       <div class="email-item priority-${e.priority}">
         <div class="email-meta">
           <span class="priority-badge ${pc}">${pl}</span>
-          <span class="email-from">${e.from || ''} · ${e.source || ''}</span>
+          <span class="email-from">${e.from||''} · ${e.source||''}</span>
         </div>
-        <div class="email-subject">${e.subject || ''}</div>
-        <div class="email-summary">${e.summary || ''}</div>
-        <div class="email-action">→ ${e.action || ''}</div>
+        <div class="email-subject">${e.subject||''}</div>
+        <div class="email-summary">${e.summary||''}</div>
+        <div class="email-footer">
+          <div class="email-action">→ ${e.action||''}</div>
+          <button class="btn btn-ghost" style="font-size:11px;padding:5px 12px" onclick="openDraftModal(${e.index-1})">✍️ Draft Reply</button>
+        </div>
       </div>`;
   }
-
   html += '</div>';
   document.getElementById('output').innerHTML = html;
+}
+
+// ─── Draft Reply Modal ─────────────────────────────────
+function openDraftModal(emailIdx) {
+  const email = currentEmails[emailIdx];
+  if (!email) return;
+  draftEmail = email;
+
+  // Pre-fill context
+  const fromEmail = extractEmail(email.replyTo || email.from);
+  document.getElementById('modalTo').value = fromEmail;
+  document.getElementById('modalSubject').value = email.subject.startsWith('Re:') ? email.subject : 'Re: ' + email.subject;
+  document.getElementById('modalContext').innerHTML =
+    `<strong>From:</strong> ${email.from}<br><strong>Subject:</strong> ${email.subject}<br><strong>Preview:</strong> ${email.snippet.slice(0,200)}`;
+  document.getElementById('modalLoading').style.display = 'block';
+  document.getElementById('modalBody').style.display = 'none';
+  document.getElementById('draftModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  // Generate reply with Gemini
+  generateDraftReply(email);
+}
+
+async function generateDraftReply(email) {
+  try {
+    const prompt = `You are a professional email assistant. Write a concise, helpful reply to this email.
+
+From: ${email.from}
+Subject: ${email.subject}
+Preview: ${email.snippet}
+
+Write a professional reply. Be warm but concise. Do not include a subject line — just the body text starting with a greeting. End with an appropriate sign-off.`;
+
+    const reply = await callGemini(prompt);
+    document.getElementById('modalText').value = reply;
+    document.getElementById('modalLoading').style.display = 'none';
+    document.getElementById('modalBody').style.display = 'block';
+
+    // Build action buttons based on which accounts are connected
+    const actions = document.getElementById('modalActions');
+    actions.innerHTML = '';
+
+    if (email.source === 'Gmail' && googleToken) {
+      actions.innerHTML += `<button class="btn btn-green" onclick="saveDraftGmail()">💌 Save Gmail Draft</button>
+        <button class="btn btn-teal" onclick="sendGmail()">🚀 Send via Gmail</button>`;
+    } else if (email.source === 'Outlook' && msAccount) {
+      actions.innerHTML += `<button class="btn btn-green" onclick="saveDraftOutlook()">💌 Save Outlook Draft</button>
+        <button class="btn btn-teal" onclick="sendOutlook()">🚀 Send via Outlook</button>`;
+    } else {
+      // Cross-account: offer both if connected
+      if (googleToken) actions.innerHTML += `<button class="btn btn-green" onclick="saveDraftGmail()">💌 Gmail Draft</button><button class="btn btn-teal" onclick="sendGmail()">🚀 Send Gmail</button>`;
+      if (msAccount)   actions.innerHTML += `<button class="btn btn-green" onclick="saveDraftOutlook()">💌 Outlook Draft</button><button class="btn btn-teal" onclick="sendOutlook()">🚀 Send Outlook</button>`;
+    }
+    actions.innerHTML += `<button class="btn btn-ghost" onclick="regenerateDraft()">↻ Regenerate</button>
+      <button class="btn btn-ghost" onclick="closeDraftModal()">Cancel</button>`;
+  } catch (e) {
+    document.getElementById('modalLoading').style.display = 'none';
+    document.getElementById('modalBody').style.display = 'block';
+    document.getElementById('modalText').value = 'Error generating reply: ' + e.message;
+    document.getElementById('modalActions').innerHTML =
+      `<button class="btn btn-ghost" onclick="regenerateDraft()">↻ Try Again</button>
+       <button class="btn btn-ghost" onclick="closeDraftModal()">Cancel</button>`;
+  }
+}
+
+async function regenerateDraft() {
+  document.getElementById('modalLoading').style.display = 'block';
+  document.getElementById('modalBody').style.display = 'none';
+  await generateDraftReply(draftEmail);
+}
+
+function closeDraftModal() {
+  document.getElementById('draftModal').style.display = 'none';
+  document.body.style.overflow = '';
+  draftEmail = null;
+}
+
+function extractEmail(str) {
+  const match = str.match(/<([^>]+)>/);
+  return match ? match[1] : str.trim();
+}
+
+function encodeRFC2822(to, subject, body) {
+  const msg = `To: ${to}\r\nSubject: ${subject}\r\nContent-Type: text/plain; charset=utf-8\r\nMIME-Version: 1.0\r\n\r\n${body}`;
+  return btoa(unescape(encodeURIComponent(msg))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+
+// ─── Gmail Draft & Send ────────────────────────────────
+async function saveDraftGmail() {
+  if (!googleToken) { alert('Please connect Gmail first.'); return; }
+  const to = document.getElementById('modalTo').value.trim();
+  const subject = document.getElementById('modalSubject').value.trim();
+  const body = document.getElementById('modalText').value.trim();
+  if (!to) { alert('Please enter a recipient email address.'); return; }
+  try {
+    const resp = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/drafts', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + googleToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: { raw: encodeRFC2822(to, subject, body) } })
+    }).then(r => r.json());
+    if (resp.error) throw new Error(resp.error.message);
+    showToast('✓ Draft saved to Gmail!', '#059669');
+    closeDraftModal();
+  } catch (e) { alert('Error saving Gmail draft: ' + e.message); }
+}
+
+async function sendGmail() {
+  if (!googleToken) { alert('Please connect Gmail first.'); return; }
+  const to = document.getElementById('modalTo').value.trim();
+  const subject = document.getElementById('modalSubject').value.trim();
+  const body = document.getElementById('modalText').value.trim();
+  if (!to) { alert('Please enter a recipient email address.'); return; }
+  if (!confirm(`Send this email to ${to}?`)) return;
+  try {
+    const resp = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + googleToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ raw: encodeRFC2822(to, subject, body) })
+    }).then(r => r.json());
+    if (resp.error) throw new Error(resp.error.message);
+    showToast('✓ Email sent via Gmail!', '#059669');
+    closeDraftModal();
+  } catch (e) { alert('Error sending Gmail: ' + e.message); }
+}
+
+// ─── Outlook Draft & Send ──────────────────────────────
+async function saveDraftOutlook() {
+  const to = document.getElementById('modalTo').value.trim();
+  const subject = document.getElementById('modalSubject').value.trim();
+  const body = document.getElementById('modalText').value.trim();
+  if (!to) { alert('Please enter a recipient email address.'); return; }
+  const token = await getMsToken(['https://graph.microsoft.com/Mail.ReadWrite']);
+  if (!token) { alert('Please connect Outlook first.'); return; }
+  try {
+    const resp = await fetch('https://graph.microsoft.com/v1.0/me/messages', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subject, body: { contentType: 'Text', content: body },
+        toRecipients: [{ emailAddress: { address: to } }] })
+    }).then(r => r.json());
+    if (resp.error) throw new Error(resp.error.message);
+    showToast('✓ Draft saved to Outlook!', '#059669');
+    closeDraftModal();
+  } catch (e) { alert('Error saving Outlook draft: ' + e.message); }
+}
+
+async function sendOutlook() {
+  const to = document.getElementById('modalTo').value.trim();
+  const subject = document.getElementById('modalSubject').value.trim();
+  const body = document.getElementById('modalText').value.trim();
+  if (!to) { alert('Please enter a recipient email address.'); return; }
+  if (!confirm(`Send this email to ${to}?`)) return;
+  const token = await getMsToken(['https://graph.microsoft.com/Mail.Send']);
+  if (!token) { alert('Please connect Outlook first.'); return; }
+  try {
+    const resp = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
+      method: 'POST',
+      headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: { subject, body: { contentType: 'Text', content: body },
+        toRecipients: [{ emailAddress: { address: to } }] }, saveToSentItems: true })
+    });
+    if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || 'Send failed'); }
+    showToast('✓ Email sent via Outlook!', '#059669');
+    closeDraftModal();
+  } catch (e) { alert('Error sending Outlook: ' + e.message); }
 }
 </script>
 </body>
