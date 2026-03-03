@@ -100,9 +100,51 @@
   .key-privacy { background:rgba(5,150,105,0.1); border:1px solid rgba(5,150,105,0.25); border-radius:8px; padding:9px 14px; font-size:12px; color:#6EE7B7; margin-top:12px; display:flex; align-items:center; gap:8px; }
   .need-key-btn { font-size:11px; color:var(--teal-light); background:none; border:1px solid var(--border); border-radius:6px; padding:3px 10px; cursor:pointer; font-family:inherit; white-space:nowrap; }
   .need-key-btn:hover { border-color:var(--teal); color:var(--teal-light); }
+
+  /* Coming Soon Overlay */
+  .cs-overlay { position:fixed; inset:0; background:var(--navy); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px; }
+  .cs-lock { font-size:56px; margin-bottom:20px; }
+  .cs-label { font-size:11px; color:var(--amber); letter-spacing:4px; text-transform:uppercase; font-weight:700; margin-bottom:12px; }
+  .cs-title { font-size:36px; font-weight:900; color:var(--white); margin-bottom:14px; line-height:1.1; }
+  .cs-subtitle { font-size:16px; color:var(--muted); max-width:500px; line-height:1.7; margin-bottom:32px; }
+  .cs-actions { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+  .cs-btn { padding:12px 28px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; text-decoration:none; border:none; transition:opacity 0.2s; display:inline-flex; align-items:center; gap:8px; }
+  .cs-btn-primary { background:var(--teal); color:#fff; }
+  .cs-btn-ghost { background:transparent; color:var(--teal-light); border:1px solid var(--border); }
+  .cs-btn:hover { opacity:0.85; }
+  .cs-progress { margin-top:48px; display:flex; gap:8px; align-items:center; }
+  .cs-dot { width:10px; height:10px; border-radius:50%; }
+  .cs-dot-live { background:var(--green); box-shadow:0 0 6px var(--green); }
+  .cs-dot-soon { background:var(--border); }
+  .cs-dot-current { background:var(--teal); box-shadow:0 0 6px var(--teal); }
+  .cs-progress-label { font-size:11px; color:var(--muted); margin-left:10px; }
+
 </style>
 </head>
 <body>
+
+<!-- ═══════════════════════════════════════════════════════
+     COMING SOON OVERLAY — Day 04: Social Content Creator
+     To UNLOCK this day: delete everything between these
+     two comment markers (including the markers themselves)
+═══════════════════════════════════════════════════════ -->
+<div class="cs-overlay">
+  <div class="cs-lock">📣</div>
+  <div class="cs-label">Coming Soon</div>
+  <div class="cs-title">Day 04: Social Content Creator</div>
+  <div class="cs-subtitle">This tool is being polished and will drop soon. Follow <a href="https://aimersion.ai" target="_blank" style="color:var(--teal-light);font-weight:700">Aimersion</a> to be the first to know when it goes live.</div>
+  <div class="cs-actions">
+    <a href="day-01-inbox-intelligence.html" class="cs-btn cs-btn-primary">⚡ Try Day 01 — Live Now</a>
+    <a href="index.html" class="cs-btn cs-btn-ghost">← All Tools</a>
+  </div>
+  <div class="cs-progress">
+    <div class="cs-dot cs-dot-live" title="Day 01 — Live"></div><div class="cs-dot cs-dot-soon" title="Day 02"></div><div class="cs-dot cs-dot-soon" title="Day 03"></div><div class="cs-dot cs-dot-current" title="Day 04 — Coming Soon"></div><div class="cs-dot cs-dot-soon" title="Day 05"></div>
+    <span class="cs-progress-label">Day 01 live · Day 04 up next</span>
+  </div>
+</div>
+<!-- ═══════════════════════════════════════════════════════
+     END COMING SOON OVERLAY
+═══════════════════════════════════════════════════════ -->
 
 <header>
   <div class="logo">⚡ Aimersion · Day 04</div>

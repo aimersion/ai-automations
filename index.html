@@ -37,6 +37,10 @@
 
   .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; text-decoration: none; color: inherit; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; display: block; }
   .tool-card:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 8px 32px rgba(8,145,178,0.15); }
+  .tool-card-live { border-color: rgba(5,150,105,0.4); box-shadow: 0 0 0 1px rgba(5,150,105,0.15); }
+  .tool-card-live::before { content: '● LIVE'; font-size: 10px; font-weight: 800; letter-spacing: 2px; color: var(--green); display: block; margin-bottom: 8px; }
+  .tool-card-locked { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; color: inherit; display: block; opacity: 0.55; position: relative; overflow: hidden; cursor: default; }
+  .tool-card-locked::after { content: 'COMING SOON'; position: absolute; top: 14px; right: -26px; background: var(--amber); color: #000; font-size: 9px; font-weight: 800; letter-spacing: 1px; padding: 4px 32px; transform: rotate(35deg); }
 
   .tool-day { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-bottom: 10px; }
   .tool-icon { font-size: 32px; margin-bottom: 12px; }
@@ -80,7 +84,7 @@
 <div class="hero">
   <div class="hero-label">Free AI Tools for Business</div>
   <h1>Real AI.<br><em>Real Email Access.</em><br>Zero Backend.</h1>
-  <p class="hero-sub">5 free tools live now — 15 more dropping daily. Connect directly to your Gmail, Outlook, and Calendar. No servers. No data storage. Runs entirely in your browser.</p>
+  <p class="hero-sub">Day 01 is live now — 19 more dropping one by one. Connect directly to your Gmail, Outlook, and Calendar. No servers. No data storage. Runs entirely in your browser.</p>
   <div class="tech-badges">
     <span class="tech">Gemini 3 Flash</span>
     <span class="tech">Gemini 3.1 Pro</span>
@@ -92,23 +96,12 @@
 </div>
 
 <div class="tools-grid">
-  <a href="day-01-inbox-intelligence.html" class="tool-card">
+  <!-- LIVE — Day 01 -->
+  <a href="day-01-inbox-intelligence.html" class="tool-card tool-card-live">
     <div class="tool-day">Day 01</div>
     <div class="tool-icon">📬</div>
     <div class="tool-name">Inbox Intelligence</div>
-    <div class="tool-desc">Connect your real Gmail or Outlook. AI reads your emails and gives you a priority triage — what needs action, what's noise, what to reply to first.</div>
-    <div class="tool-tags">
-      <span class="tag">Gmail OAuth</span>
-      <span class="tag">Outlook OAuth</span>
-      <span class="tag">Gemini 2.5 Flash</span>
-    </div>
-  </a>
-
-  <a href="day-02-proposal-generator.html" class="tool-card">
-    <div class="tool-day">Day 02</div>
-    <div class="tool-icon">📄</div>
-    <div class="tool-name">Proposal Generator</div>
-    <div class="tool-desc">Pull email threads from your inbox, add context, and get a polished proposal draft in seconds. Exports ready-to-send text.</div>
+    <div class="tool-desc">Connect your real Gmail or Outlook. AI triages your emails by priority, writes smart replies, and drafts them for you — without leaving the page.</div>
     <div class="tool-tags">
       <span class="tag">Gmail OAuth</span>
       <span class="tag">Outlook OAuth</span>
@@ -116,40 +109,55 @@
     </div>
   </a>
 
-  <a href="day-03-competitor-intel.html" class="tool-card">
+  <!-- LOCKED — remove class "tool-card-locked" and change to <a href="day-02-proposal-generator.html" class="tool-card"> to unlock -->
+  <div class="tool-card-locked">
+    <div class="tool-day">Day 02</div>
+    <div class="tool-icon">📄</div>
+    <div class="tool-name">Proposal Generator</div>
+    <div class="tool-desc">Pull email threads from your inbox, add context, and get a polished proposal draft in seconds. Exports ready-to-send.</div>
+    <div class="tool-tags">
+      <span class="tag">Gmail OAuth</span>
+      <span class="tag">Outlook OAuth</span>
+      <span class="tag">Gemini AI</span>
+    </div>
+  </div>
+
+  <!-- LOCKED — remove class "tool-card-locked" and change to <a href="day-03-competitor-intel.html" class="tool-card"> to unlock -->
+  <div class="tool-card-locked">
     <div class="tool-day">Day 03</div>
     <div class="tool-icon">🔍</div>
     <div class="tool-name">Competitor Intel</div>
-    <div class="tool-desc">Enter any company. Gemini 2.5 Flash with live web search builds a full competitive analysis — strengths, weaknesses, recent moves, battlecard.</div>
+    <div class="tool-desc">Enter any company. AI searches the live web and builds a full competitive analysis — strengths, weaknesses, recent moves, battlecard.</div>
     <div class="tool-tags">
-      <span class="tag">Gemini Search Grounding</span>
-      <span class="tag">Live Web Data</span>
+      <span class="tag">Live Web Search</span>
+      <span class="tag">Gemini AI</span>
     </div>
-  </a>
+  </div>
 
-  <a href="day-04-social-creator.html" class="tool-card">
+  <!-- LOCKED — remove class "tool-card-locked" and change to <a href="day-04-social-creator.html" class="tool-card"> to unlock -->
+  <div class="tool-card-locked">
     <div class="tool-day">Day 04</div>
     <div class="tool-icon">📣</div>
     <div class="tool-name">Social Content Creator</div>
-    <div class="tool-desc">Turn any topic or URL into a week of social content. Grok researches what's trending on X, then generates threads, LinkedIn posts, and hooks.</div>
+    <div class="tool-desc">Turn any topic or URL into a week of social content. Grok researches trending topics on X, Gemini writes the posts.</div>
     <div class="tool-tags">
       <span class="tag">xAI Grok</span>
-      <span class="tag">X Threads</span>
-      <span class="tag">LinkedIn Posts</span>
+      <span class="tag">Gemini AI</span>
     </div>
-  </a>
+  </div>
 
-  <a href="day-05-meeting-prep.html" class="tool-card">
+  <!-- LOCKED — remove class "tool-card-locked" and change to <a href="day-05-meeting-prep.html" class="tool-card"> to unlock -->
+  <div class="tool-card-locked">
     <div class="tool-day">Day 05</div>
     <div class="tool-icon">📅</div>
     <div class="tool-name">Meeting Prep Assistant</div>
-    <div class="tool-desc">Connect your Google or Microsoft Calendar. AI researches every attendee and company, then gives you a prep brief before each meeting.</div>
+    <div class="tool-desc">Connect your Google or Microsoft Calendar. AI researches every attendee and company, then gives you a full prep brief.</div>
     <div class="tool-tags">
       <span class="tag">Google Calendar</span>
       <span class="tag">Microsoft Calendar</span>
-      <span class="tag">Gemini 2.5 Flash</span>
+      <span class="tag">Gemini AI</span>
     </div>
-  </a>
+  </div>
 </div>
 
 <div class="coming-section">
