@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposal Generator — Day 2 of 20</title>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+<style>
+  :root {
+    --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
+    --amber: #F59E0B; --green: #059669; --red: #DC2626; --white: #F0F7FF;
+    --muted: #8AAFD0; --card: #162840; --border: #2A4A70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 16px; }
+  .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: var(--teal-light); }
+  .hero { text-align: center; padding: 40px 32px 28px; }
+  .day-label { font-size: 11px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+  h1 { font-size: 38px; font-weight: 900; margin-bottom: 10px; }
+  h1 span { color: var(--teal); }
+  .tagline { font-size: 15px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+  .main { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .card-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  input[type="text"], textarea, select {
+    background: var(--navy); border: 1px solid var(--border); color: var(--white);
+    padding: 10px 14px; border-radius: 8px; font-size: 13px; font-family: inherit;
+    outline: none; transition: border 0.2s; width: 100%;
+  }
+  input[type="password"] {
+    background: var(--navy); border: 1px solid var(--border); color: var(--white);
+    padding: 9px 14px; border-radius: 8px; font-size: 13px; font-family: inherit;
+    outline: none; transition: border 0.2s; flex: 1; min-width: 200px;
+  }
+  input:focus, textarea:focus { border-color: var(--teal); }
+  textarea { resize: vertical; min-height: 100px; }
+  label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+  .field { margin-bottom: 14px; }
+  .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-teal { background: var(--teal); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
+  .btn-amber { background: var(--amber); color: #000; font-size: 15px; padding: 12px 32px; }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .oauth-mini { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 14px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .dot-off { background: var(--border); }
+  .dot-on { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .oauth-label { font-size: 13px; font-weight: 600; flex: 1; }
+  .email-list { max-height: 240px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; }
+  .email-row { padding: 10px 14px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; display: flex; align-items: flex-start; gap: 10px; }
+  .email-row:last-child { border-bottom: none; }
+  .email-row:hover { background: var(--navy2); }
+  .email-row.selected { background: rgba(8,145,178,0.1); border-left: 3px solid var(--teal); }
+  .email-check { flex-shrink: 0; margin-top: 2px; }
+  .email-info { flex: 1; min-width: 0; }
+  .email-subj { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .email-from-sm { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .loading { text-align: center; padding: 40px; color: var(--muted); }
+  .spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .proposal-output { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 24px; white-space: pre-wrap; font-size: 14px; line-height: 1.8; color: var(--white); max-height: 600px; overflow-y: auto; }
+  .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; }
+  .key-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .key-hint a { color: var(--teal-light); }
+  @media (max-width: 680px) { .two-col { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚡ Aimersion · Day 02</div>
+  <div class="nav-links">
+    <a href="day-01-inbox-intelligence.html">← Day 01</a>
+    <a href="index.html">All Tools</a>
+    <a href="day-03-competitor-intel.html">Day 03 →</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="day-label">Automation #2 of 20</div>
+  <h1>📄 Proposal <span>Generator</span></h1>
+  <p class="tagline">Pull real email threads from Gmail or Outlook, add your context, and get a polished proposal draft in seconds.</p>
+</div>
+
+<div class="main">
+
+  <!-- API Keys -->
+  <div class="card">
+    <div class="card-title">🔑 API Keys</div>
+    <div class="row" style="margin-bottom:10px">
+      <input type="password" id="geminiKey" placeholder="Gemini API key — aistudio.google.com" />
+      <button class="btn btn-ghost" onclick="toggleKey('geminiKey')">Show</button>
+      <button class="btn btn-teal" onclick="saveKey('gemini')">Save</button>
+    </div>
+    <div class="key-hint">Gemini key required. Get free at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></div>
+  </div>
+
+  <div class="two-col">
+    <!-- Left: Email Source -->
+    <div>
+      <div class="card">
+        <div class="card-title">📧 Email Context (Optional)</div>
+        <div class="oauth-mini">
+          <span class="status-dot dot-off" id="googleDot"></span>
+          <span class="oauth-label">Gmail</span>
+          <button class="btn btn-teal" id="googleBtn" onclick="connectGoogle()" style="font-size:12px;padding:6px 14px">Connect</button>
+          <button class="btn btn-ghost" id="googleDisBtn" onclick="disconnectGoogle()" style="display:none;font-size:12px;padding:6px 14px">Disconnect</button>
+        </div>
+        <div class="oauth-mini">
+          <span class="status-dot dot-off" id="msDot"></span>
+          <span class="oauth-label">Outlook</span>
+          <button class="btn btn-teal" id="msBtn" onclick="connectMicrosoft()" style="font-size:12px;padding:6px 14px">Connect</button>
+          <button class="btn btn-ghost" id="msDisBtn" onclick="disconnectMicrosoft()" style="display:none;font-size:12px;padding:6px 14px">Disconnect</button>
+        </div>
+        <div class="row" style="margin-bottom:10px">
+          <button class="btn btn-ghost" onclick="loadEmails()" style="flex:1">Load Recent Emails</button>
+        </div>
+        <div id="emailList"><div style="color:var(--muted);font-size:13px">Connect an email account to load threads for context.</div></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:8px">Select up to 3 emails to include as context.</div>
+      </div>
+    </div>
+
+    <!-- Right: Proposal Details -->
+    <div>
+      <div class="card">
+        <div class="card-title">✏️ Proposal Details</div>
+        <div class="field">
+          <label>Client / Company Name</label>
+          <input type="text" id="clientName" placeholder="e.g. Acme Corp" />
+        </div>
+        <div class="field">
+          <label>Your Company / Name</label>
+          <input type="text" id="yourName" placeholder="e.g. Aimersion AI" />
+        </div>
+        <div class="field">
+          <label>Project / Service</label>
+          <input type="text" id="projectType" placeholder="e.g. Website redesign, AI automation consulting" />
+        </div>
+        <div class="field">
+          <label>Key Points to Include</label>
+          <textarea id="keyPoints" placeholder="Timeline, budget range, specific outcomes, your unique value proposition..." style="min-height:80px"></textarea>
+        </div>
+        <div class="field">
+          <label>Tone</label>
+          <select id="tone">
+            <option value="professional">Professional & Formal</option>
+            <option value="friendly" selected>Friendly & Approachable</option>
+            <option value="bold">Bold & Confident</option>
+            <option value="concise">Short & Direct</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Proposal Length</label>
+          <select id="length">
+            <option value="brief">Brief (1-2 pages)</option>
+            <option value="standard" selected>Standard (3-4 pages)</option>
+            <option value="detailed">Detailed (5+ pages)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generate -->
+  <div style="text-align:center;margin-bottom:24px">
+    <button class="btn btn-amber" id="genBtn" onclick="generateProposal()">
+      ✍️ Generate Proposal
+    </button>
+  </div>
+
+  <!-- Output -->
+  <div class="card" id="outputCard" style="display:none">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+      <div class="card-title" style="margin-bottom:0">📋 Generated Proposal</div>
+      <div class="row">
+        <button class="btn btn-ghost" onclick="copyProposal()">📋 Copy</button>
+        <button class="btn btn-ghost" onclick="downloadProposal()">💾 Download</button>
+        <button class="btn btn-teal" onclick="generateProposal()">↻ Regenerate</button>
+      </div>
+    </div>
+    <div id="proposalOutput" class="proposal-output"></div>
+  </div>
+
+</div>
+
+<script>
+const GOOGLE_CLIENT_ID = '613753349118-g5t6tli0ghlt3ca8h3ijdjp9jnks5dee.apps.googleusercontent.com';
+const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+
+let googleToken = null;
+let msalInstance = null;
+let msAccount = null;
+let selectedEmails = [];
+let loadedEmails = [];
+
+window.addEventListener('load', () => {
+  const gk = localStorage.getItem('gemini_key');
+  if (gk) document.getElementById('geminiKey').value = gk;
+  initMsal();
+});
+
+function toggleKey(id) { const el = document.getElementById(id); el.type = el.type === 'password' ? 'text' : 'password'; }
+function saveKey(type) {
+  if (type === 'gemini') localStorage.setItem('gemini_key', document.getElementById('geminiKey').value.trim());
+  showToast('Key saved!');
+}
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#0891B2;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;';
+  t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500);
+}
+
+let googleTokenClient;
+function connectGoogle() {
+  if (!window.google) { alert('Google library not loaded yet, please wait a moment.'); return; }
+  if (!googleTokenClient) {
+    googleTokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: GOOGLE_CLIENT_ID,
+      scope: 'https://www.googleapis.com/auth/gmail.readonly',
+      callback: async (resp) => {
+        if (resp.error) return;
+        googleToken = resp.access_token;
+        document.getElementById('googleDot').className = 'status-dot dot-on';
+        document.getElementById('googleBtn').style.display = 'none';
+        document.getElementById('googleDisBtn').style.display = '';
+      }
+    });
+  }
+  googleTokenClient.requestAccessToken({ prompt: '' });
+}
+function disconnectGoogle() {
+  if (googleToken) google.accounts.oauth2.revoke(googleToken);
+  googleToken = null;
+  document.getElementById('googleDot').className = 'status-dot dot-off';
+  document.getElementById('googleBtn').style.display = '';
+  document.getElementById('googleDisBtn').style.display = 'none';
+}
+
+async function initMsal() {
+  try {
+    msalInstance = new msal.PublicClientApplication({
+      auth: { clientId: AZURE_CLIENT_ID, authority: 'https://login.microsoftonline.com/common', redirectUri: window.location.href.split('?')[0].split('#')[0] },
+      cache: { cacheLocation: 'sessionStorage' }
+    });
+    await msalInstance.initialize();
+    const accounts = msalInstance.getAllAccounts();
+    if (accounts.length > 0) {
+      msAccount = accounts[0];
+      document.getElementById('msDot').className = 'status-dot dot-on';
+      document.getElementById('msBtn').style.display = 'none';
+      document.getElementById('msDisBtn').style.display = '';
+    }
+  } catch (e) { console.warn('MSAL init:', e); }
+}
+async function connectMicrosoft() {
+  if (!msalInstance) await initMsal();
+  try {
+    const resp = await msalInstance.loginPopup({ scopes: ['https://graph.microsoft.com/Mail.Read'], prompt: 'select_account' });
+    msAccount = resp.account;
+    document.getElementById('msDot').className = 'status-dot dot-on';
+    document.getElementById('msBtn').style.display = 'none';
+    document.getElementById('msDisBtn').style.display = '';
+  } catch (e) { alert('Login error: ' + (e.message || e)); }
+}
+async function getMsToken() {
+  if (!msalInstance || !msAccount) return null;
+  try {
+    const r = await msalInstance.acquireTokenSilent({ scopes: ['https://graph.microsoft.com/Mail.Read'], account: msAccount });
+    return r.accessToken;
+  } catch {
+    const r = await msalInstance.acquireTokenPopup({ scopes: ['https://graph.microsoft.com/Mail.Read'], account: msAccount });
+    return r.accessToken;
+  }
+}
+function disconnectMicrosoft() {
+  msAccount = null;
+  document.getElementById('msDot').className = 'status-dot dot-off';
+  document.getElementById('msBtn').style.display = '';
+  document.getElementById('msDisBtn').style.display = 'none';
+}
+
+async function loadEmails() {
+  const listEl = document.getElementById('emailList');
+  listEl.innerHTML = '<div class="loading"><div class="spinner"></div><br>Loading emails...</div>';
+  loadedEmails = [];
+
+  if (googleToken) {
+    try {
+      const list = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=20&labelIds=INBOX', { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json());
+      if (list.messages) {
+        const details = await Promise.all(list.messages.slice(0,15).map(m =>
+          fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject`, { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json())
+        ));
+        details.forEach(msg => {
+          const h = msg.payload?.headers || [];
+          loadedEmails.push({ source: 'Gmail', from: h.find(x=>x.name==='From')?.value||'', subject: h.find(x=>x.name==='Subject')?.value||'(no subject)', snippet: msg.snippet||'' });
+        });
+      }
+    } catch (e) { console.error(e); }
+  }
+
+  const msToken = await getMsToken();
+  if (msToken) {
+    try {
+      const resp = await fetch('https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=15&$select=subject,from,bodyPreview&$orderby=receivedDateTime desc', { headers: { Authorization: 'Bearer ' + msToken } }).then(r => r.json());
+      (resp.value||[]).forEach(msg => {
+        loadedEmails.push({ source: 'Outlook', from: msg.from?.emailAddress?.address||'', subject: msg.subject||'(no subject)', snippet: msg.bodyPreview||'' });
+      });
+    } catch (e) { console.error(e); }
+  }
+
+  if (loadedEmails.length === 0) {
+    listEl.innerHTML = '<div style="color:var(--muted);font-size:13px">No emails found. Connect an account first.</div>'; return;
+  }
+
+  renderEmailList();
+}
+
+function renderEmailList() {
+  const listEl = document.getElementById('emailList');
+  let html = '<div class="email-list">';
+  loadedEmails.forEach((e, i) => {
+    const sel = selectedEmails.includes(i);
+    html += `<div class="email-row ${sel ? 'selected' : ''}" onclick="toggleEmail(${i})">
+      <input type="checkbox" class="email-check" ${sel ? 'checked' : ''} onchange="toggleEmail(${i})" onclick="event.stopPropagation()">
+      <div class="email-info">
+        <div class="email-subj">${e.subject}</div>
+        <div class="email-from-sm">${e.source} · ${e.from.slice(0,40)}</div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  listEl.innerHTML = html;
+}
+
+function toggleEmail(i) {
+  const idx = selectedEmails.indexOf(i);
+  if (idx >= 0) selectedEmails.splice(idx, 1);
+  else if (selectedEmails.length < 3) selectedEmails.push(i);
+  renderEmailList();
+}
+
+async function generateProposal() {
+  const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
+  if (!key) { alert('Please enter and save your Gemini API key first.'); return; }
+
+  const client = document.getElementById('clientName').value.trim();
+  const you = document.getElementById('yourName').value.trim();
+  const project = document.getElementById('projectType').value.trim();
+  const keyPts = document.getElementById('keyPoints').value.trim();
+  const tone = document.getElementById('tone').value;
+  const length = document.getElementById('length').value;
+
+  if (!client && !project) { alert('Please fill in at least the Client Name or Project Type.'); return; }
+
+  const btn = document.getElementById('genBtn');
+  btn.disabled = true; btn.textContent = '⏳ Generating...';
+
+  let emailContext = '';
+  if (selectedEmails.length > 0) {
+    emailContext = '\n\nRELEVANT EMAIL THREADS:\n';
+    selectedEmails.forEach(i => {
+      const e = loadedEmails[i];
+      emailContext += `- From: ${e.from}\n  Subject: ${e.subject}\n  Preview: ${e.snippet}\n\n`;
+    });
+  }
+
+  const toneMap = { professional: 'formal and professional', friendly: 'warm and approachable', bold: 'bold and confident', concise: 'concise and direct' };
+  const lengthMap = { brief: '1-2 pages, 400-600 words', standard: '3-4 pages, 800-1200 words', detailed: '5+ pages, 1500+ words' };
+
+  const prompt = `Write a ${toneMap[tone]} business proposal.
+
+CLIENT: ${client || 'the client'}
+YOUR COMPANY/NAME: ${you || 'our company'}
+PROJECT/SERVICE: ${project || 'the proposed project'}
+KEY POINTS: ${keyPts || 'standard professional services'}
+LENGTH: ${lengthMap[length]}
+${emailContext}
+
+Include: executive summary, understanding of the problem/need, proposed solution, deliverables, timeline, investment/pricing section (use placeholder ranges if unknown), why us section, and a clear call to action.
+
+Format with clear headers (##) and bullet points where appropriate. Write it ready to send — professional, persuasive, and specific.`;
+
+  try {
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.7, maxOutputTokens: 4096 }
+        })
+      }
+    ).then(r => r.json());
+
+    if (resp.error) throw new Error(resp.error.message);
+    const text = resp.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+    document.getElementById('proposalOutput').textContent = text;
+    document.getElementById('outputCard').style.display = '';
+    document.getElementById('outputCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (e) {
+    document.getElementById('proposalOutput').textContent = 'Error: ' + e.message;
+    document.getElementById('outputCard').style.display = '';
+  }
+
+  btn.disabled = false; btn.textContent = '✍️ Generate Proposal';
+}
+
+function copyProposal() {
+  const text = document.getElementById('proposalOutput').textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!'));
+}
+function downloadProposal() {
+  const text = document.getElementById('proposalOutput').textContent;
+  const client = document.getElementById('clientName').value.trim() || 'client';
+  const blob = new Blob([text], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `proposal-${client.replace(/\s+/g,'-').toLowerCase()}.txt`;
+  a.click();
+}
+</script>
+</body>
+</html>

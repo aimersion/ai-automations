@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inbox Intelligence — Day 1 of 20</title>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+<style>
+  :root {
+    --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
+    --amber: #F59E0B; --green: #059669; --red: #DC2626; --white: #F0F7FF;
+    --muted: #8AAFD0; --card: #162840; --border: #2A4A70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 16px; }
+  .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: var(--teal-light); }
+  .hero { text-align: center; padding: 40px 32px 32px; }
+  .day-label { font-size: 11px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+  h1 { font-size: 38px; font-weight: 900; margin-bottom: 10px; }
+  h1 span { color: var(--teal); }
+  .tagline { font-size: 15px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+  .main { max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .card-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  input[type="password"], input[type="text"] {
+    background: var(--navy); border: 1px solid var(--border); color: var(--white);
+    padding: 9px 14px; border-radius: 8px; font-size: 13px; font-family: inherit;
+    outline: none; transition: border 0.2s; flex: 1; min-width: 200px;
+  }
+  input:focus { border-color: var(--teal); }
+  .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-teal { background: var(--teal); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-amber { background: var(--amber); color: #000; }
+  .btn-red { background: var(--red); color: #fff; }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .oauth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .oauth-box { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .oauth-provider { font-size: 13px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .oauth-status { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .dot-off { background: var(--border); }
+  .dot-on { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+  select {
+    background: var(--navy); border: 1px solid var(--border); color: var(--white);
+    padding: 9px 14px; border-radius: 8px; font-size: 13px; outline: none; cursor: pointer;
+  }
+  #runBtn { padding: 12px 32px; font-size: 15px; }
+  .output-area { min-height: 120px; }
+  .loading { text-align: center; padding: 40px; color: var(--muted); }
+  .spinner { display: inline-block; width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .triage-grid { display: grid; gap: 12px; }
+  .email-item { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .email-item.priority-1 { border-left: 3px solid var(--red); }
+  .email-item.priority-2 { border-left: 3px solid var(--amber); }
+  .email-item.priority-3 { border-left: 3px solid var(--green); }
+  .email-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+  .priority-badge { font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; }
+  .p1 { background: rgba(220,38,38,0.2); color: #FCA5A5; }
+  .p2 { background: rgba(245,158,11,0.2); color: #FCD34D; }
+  .p3 { background: rgba(5,150,105,0.2); color: #6EE7B7; }
+  .email-from { font-size: 12px; color: var(--muted); }
+  .email-subject { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .email-summary { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+  .email-action { font-size: 12px; font-weight: 700; color: var(--teal-light); }
+  .summary-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .summary-stat { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-num { font-size: 28px; font-weight: 800; }
+  .summary-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; }
+  .info-msg { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); color: var(--teal-light); padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
+  .key-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .key-hint a { color: var(--teal-light); }
+  @media (max-width: 600px) { .oauth-grid { grid-template-columns: 1fr; } .summary-bar { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚡ Aimersion · Day 01</div>
+  <div class="nav-links">
+    <a href="index.html">← All Tools</a>
+    <a href="day-02-proposal-generator.html">Day 02 →</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="day-label">Automation #1 of 20</div>
+  <h1>📬 Inbox <span>Intelligence</span></h1>
+  <p class="tagline">Connect your real Gmail or Outlook. AI reads your emails and tells you exactly what needs your attention — ranked by priority.</p>
+</div>
+
+<div class="main">
+
+  <!-- API Keys -->
+  <div class="card">
+    <div class="card-title">🔑 API Keys</div>
+    <div class="row" style="margin-bottom:10px">
+      <input type="password" id="geminiKey" placeholder="Gemini API key (required) — aistudio.google.com" />
+      <button class="btn btn-ghost" onclick="toggleKey('geminiKey')">Show</button>
+      <button class="btn btn-teal" onclick="saveKey('gemini')">Save</button>
+    </div>
+    <div class="row" style="margin-bottom:6px">
+      <input type="password" id="aimersionKey" placeholder="Aimersion AI key (optional — use all models with one key)" />
+      <button class="btn btn-ghost" onclick="toggleKey('aimersionKey')">Show</button>
+      <button class="btn btn-teal" onclick="saveKey('aimersion')">Save</button>
+    </div>
+    <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> · Or use your <a href="https://aimersion.ai" target="_blank">Aimersion AI</a> key to access all models.</div>
+  </div>
+
+  <!-- OAuth Connect -->
+  <div class="card">
+    <div class="card-title">🔐 Connect Your Email</div>
+    <div class="oauth-grid">
+      <div class="oauth-box">
+        <div class="oauth-provider">
+          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.97l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+          Gmail
+          <span class="status-dot dot-off" id="googleDot"></span>
+        </div>
+        <div class="oauth-status" id="googleStatus">Not connected</div>
+        <div class="row">
+          <button class="btn btn-teal" id="googleBtn" onclick="connectGoogle()">Connect Gmail</button>
+          <button class="btn btn-ghost" id="googleDisBtn" onclick="disconnectGoogle()" style="display:none">Disconnect</button>
+        </div>
+      </div>
+      <div class="oauth-box">
+        <div class="oauth-provider">
+          <svg width="18" height="18" viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
+          Outlook
+          <span class="status-dot dot-off" id="msDot"></span>
+        </div>
+        <div class="oauth-status" id="msStatus">Not connected</div>
+        <div class="row">
+          <button class="btn btn-teal" id="msBtn" onclick="connectMicrosoft()">Connect Outlook</button>
+          <button class="btn btn-ghost" id="msDisBtn" onclick="disconnectMicrosoft()" style="display:none">Disconnect</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Run Controls -->
+  <div class="card">
+    <div class="card-title">⚙️ Settings</div>
+    <div class="controls">
+      <select id="emailCount">
+        <option value="20">Last 20 emails</option>
+        <option value="40" selected>Last 40 emails</option>
+        <option value="60">Last 60 emails</option>
+        <option value="100">Last 100 emails</option>
+      </select>
+      <select id="emailSource">
+        <option value="both">Gmail + Outlook</option>
+        <option value="google">Gmail only</option>
+        <option value="microsoft">Outlook only</option>
+      </select>
+      <button class="btn btn-amber" id="runBtn" onclick="runTriage()">
+        🧠 Analyze Inbox
+      </button>
+    </div>
+  </div>
+
+  <!-- Output -->
+  <div class="card output-area" id="outputCard">
+    <div class="card-title">📊 Triage Results</div>
+    <div id="output" style="color:var(--muted);font-size:14px">Connect an email account and click "Analyze Inbox" to get started.</div>
+  </div>
+
+</div>
+
+<script>
+const GOOGLE_CLIENT_ID = '613753349118-g5t6tli0ghlt3ca8h3ijdjp9jnks5dee.apps.googleusercontent.com';
+const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+
+let googleToken = null;
+let msalInstance = null;
+let msAccount = null;
+
+// Restore saved keys
+window.addEventListener('load', () => {
+  const gk = localStorage.getItem('gemini_key');
+  const ak = localStorage.getItem('aimersion_key');
+  if (gk) document.getElementById('geminiKey').value = gk;
+  if (ak) document.getElementById('aimersionKey').value = ak;
+  initMsal();
+});
+
+function toggleKey(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+function saveKey(type) {
+  if (type === 'gemini') localStorage.setItem('gemini_key', document.getElementById('geminiKey').value.trim());
+  if (type === 'aimersion') localStorage.setItem('aimersion_key', document.getElementById('aimersionKey').value.trim());
+  showToast('Key saved!');
+}
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#0891B2;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2500);
+}
+
+// ─── Google Auth ───────────────────────────────────────
+let googleTokenClient;
+function connectGoogle() {
+  if (!window.google) { alert('Google Sign-In library not loaded yet. Please wait a moment and try again.'); return; }
+  if (!googleTokenClient) {
+    googleTokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: GOOGLE_CLIENT_ID,
+      scope: 'https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/userinfo.email',
+      callback: async (resp) => {
+        if (resp.error) { alert('Google auth error: ' + resp.error); return; }
+        googleToken = resp.access_token;
+        sessionStorage.setItem('google_token', googleToken);
+        // Get email
+        try {
+          const info = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
+            headers: { Authorization: 'Bearer ' + googleToken }
+          }).then(r => r.json());
+          document.getElementById('googleStatus').textContent = '✓ ' + (info.email || 'Connected');
+        } catch { document.getElementById('googleStatus').textContent = '✓ Connected'; }
+        document.getElementById('googleDot').className = 'status-dot dot-on';
+        document.getElementById('googleBtn').style.display = 'none';
+        document.getElementById('googleDisBtn').style.display = '';
+      }
+    });
+  }
+  googleTokenClient.requestAccessToken({ prompt: '' });
+}
+function disconnectGoogle() {
+  if (googleToken) google.accounts.oauth2.revoke(googleToken);
+  googleToken = null;
+  sessionStorage.removeItem('google_token');
+  document.getElementById('googleStatus').textContent = 'Not connected';
+  document.getElementById('googleDot').className = 'status-dot dot-off';
+  document.getElementById('googleBtn').style.display = '';
+  document.getElementById('googleDisBtn').style.display = 'none';
+}
+
+// ─── Microsoft Auth ────────────────────────────────────
+async function initMsal() {
+  try {
+    msalInstance = new msal.PublicClientApplication({
+      auth: {
+        clientId: AZURE_CLIENT_ID,
+        authority: 'https://login.microsoftonline.com/common',
+        redirectUri: window.location.href.split('?')[0].split('#')[0]
+      },
+      cache: { cacheLocation: 'sessionStorage' }
+    });
+    await msalInstance.initialize();
+    // Check for existing account
+    const accounts = msalInstance.getAllAccounts();
+    if (accounts.length > 0) {
+      msAccount = accounts[0];
+      document.getElementById('msStatus').textContent = '✓ ' + msAccount.username;
+      document.getElementById('msDot').className = 'status-dot dot-on';
+      document.getElementById('msBtn').style.display = 'none';
+      document.getElementById('msDisBtn').style.display = '';
+    }
+  } catch (e) { console.warn('MSAL init:', e); }
+}
+async function connectMicrosoft() {
+  if (!msalInstance) { await initMsal(); }
+  try {
+    const resp = await msalInstance.loginPopup({
+      scopes: ['https://graph.microsoft.com/Mail.Read', 'https://graph.microsoft.com/User.Read'],
+      prompt: 'select_account'
+    });
+    msAccount = resp.account;
+    document.getElementById('msStatus').textContent = '✓ ' + msAccount.username;
+    document.getElementById('msDot').className = 'status-dot dot-on';
+    document.getElementById('msBtn').style.display = 'none';
+    document.getElementById('msDisBtn').style.display = '';
+  } catch (e) { alert('Microsoft login error: ' + (e.message || e)); }
+}
+async function getMsToken() {
+  if (!msalInstance || !msAccount) return null;
+  try {
+    const resp = await msalInstance.acquireTokenSilent({
+      scopes: ['https://graph.microsoft.com/Mail.Read'],
+      account: msAccount
+    });
+    return resp.accessToken;
+  } catch {
+    const resp = await msalInstance.acquireTokenPopup({
+      scopes: ['https://graph.microsoft.com/Mail.Read'],
+      account: msAccount
+    });
+    return resp.accessToken;
+  }
+}
+function disconnectMicrosoft() {
+  if (msalInstance && msAccount) msalInstance.logout({ account: msAccount });
+  msAccount = null;
+  document.getElementById('msStatus').textContent = 'Not connected';
+  document.getElementById('msDot').className = 'status-dot dot-off';
+  document.getElementById('msBtn').style.display = '';
+  document.getElementById('msDisBtn').style.display = 'none';
+}
+
+// ─── Fetch Emails ──────────────────────────────────────
+async function fetchGmailEmails(count) {
+  if (!googleToken) return [];
+  try {
+    const listResp = await fetch(
+      `https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=${count}&labelIds=INBOX`,
+      { headers: { Authorization: 'Bearer ' + googleToken } }
+    ).then(r => r.json());
+    if (!listResp.messages) return [];
+    // Fetch details for first 30 (to avoid rate limits)
+    const ids = listResp.messages.slice(0, Math.min(count, 30));
+    const details = await Promise.all(ids.map(m =>
+      fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date`,
+        { headers: { Authorization: 'Bearer ' + googleToken } }
+      ).then(r => r.json())
+    ));
+    return details.map(msg => {
+      const headers = msg.payload?.headers || [];
+      const get = (name) => headers.find(h => h.name === name)?.value || '';
+      return {
+        source: 'Gmail',
+        from: get('From'),
+        subject: get('Subject'),
+        date: get('Date'),
+        snippet: msg.snippet || ''
+      };
+    });
+  } catch (e) { console.error('Gmail fetch error:', e); return []; }
+}
+
+async function fetchOutlookEmails(count) {
+  const token = await getMsToken();
+  if (!token) return [];
+  try {
+    const resp = await fetch(
+      `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=${Math.min(count, 50)}&$select=subject,from,receivedDateTime,bodyPreview&$orderby=receivedDateTime desc`,
+      { headers: { Authorization: 'Bearer ' + token } }
+    ).then(r => r.json());
+    return (resp.value || []).map(msg => ({
+      source: 'Outlook',
+      from: msg.from?.emailAddress?.address || msg.from?.emailAddress?.name || '',
+      subject: msg.subject || '(no subject)',
+      date: msg.receivedDateTime || '',
+      snippet: msg.bodyPreview || ''
+    }));
+  } catch (e) { console.error('Outlook fetch error:', e); return []; }
+}
+
+// ─── AI Triage ─────────────────────────────────────────
+async function callGemini(prompt) {
+  const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
+  if (!key) throw new Error('No Gemini API key saved. Please enter and save your key above.');
+  const resp = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.3, maxOutputTokens: 8192 }
+      })
+    }
+  ).then(r => r.json());
+  if (resp.error) throw new Error(resp.error.message);
+  return resp.candidates?.[0]?.content?.parts?.[0]?.text || '';
+}
+
+// ─── Main Run ──────────────────────────────────────────
+async function runTriage() {
+  const source = document.getElementById('emailSource').value;
+  const count = parseInt(document.getElementById('emailCount').value);
+  const output = document.getElementById('output');
+
+  if (source !== 'microsoft' && !googleToken) {
+    if (source === 'google') { output.innerHTML = '<div class="error-msg">Please connect Gmail first.</div>'; return; }
+  }
+  if (source !== 'google' && !msAccount) {
+    if (source === 'microsoft') { output.innerHTML = '<div class="error-msg">Please connect Outlook first.</div>'; return; }
+  }
+
+  const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
+  if (!key) { output.innerHTML = '<div class="error-msg">Please enter and save your Gemini API key above.</div>'; return; }
+
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true; btn.textContent = '⏳ Fetching emails...';
+
+  output.innerHTML = '<div class="loading"><div class="spinner"></div><br>Fetching your emails...</div>';
+
+  try {
+    let emails = [];
+
+    if (source === 'both' || source === 'google') {
+      const gmails = await fetchGmailEmails(count);
+      emails = emails.concat(gmails);
+    }
+    if (source === 'both' || source === 'microsoft') {
+      const outlooks = await fetchOutlookEmails(count);
+      emails = emails.concat(outlooks);
+    }
+
+    if (emails.length === 0) {
+      output.innerHTML = '<div class="error-msg">No emails found. Make sure you\'re connected and have emails in your inbox.</div>';
+      btn.disabled = false; btn.textContent = '🧠 Analyze Inbox'; return;
+    }
+
+    btn.textContent = `⏳ Analyzing ${emails.length} emails with Gemini...`;
+    output.innerHTML = `<div class="loading"><div class="spinner"></div><br>Analyzing ${emails.length} emails with Gemini 2.5 Flash...</div>`;
+
+    const emailList = emails.map((e, i) =>
+      `${i+1}. [${e.source}] FROM: ${e.from} | SUBJECT: ${e.subject} | PREVIEW: ${e.snippet.slice(0, 200)}`
+    ).join('\n');
+
+    const prompt = `You are an expert executive assistant. Analyze these ${emails.length} emails and provide a smart inbox triage.
+
+EMAILS:
+${emailList}
+
+Return a JSON object with this exact structure:
+{
+  "summary": {
+    "total": number,
+    "action_required": number,
+    "can_wait": number,
+    "low_priority": number
+  },
+  "emails": [
+    {
+      "index": number (1-based from original list),
+      "priority": 1|2|3 (1=urgent action, 2=review soon, 3=low/FYI),
+      "subject": "email subject",
+      "from": "sender name/email",
+      "summary": "one sentence of what this email is about",
+      "action": "specific action to take or why it's low priority",
+      "source": "Gmail|Outlook"
+    }
+  ]
+}
+
+Sort by priority (1s first). Only include top 25 most important. Return ONLY valid JSON, no markdown.`;
+
+    const raw = await callGemini(prompt);
+
+    // Parse JSON
+    let data;
+    try {
+      const jsonMatch = raw.match(/\{[\s\S]*\}/);
+      data = JSON.parse(jsonMatch ? jsonMatch[0] : raw);
+    } catch (e) {
+      output.innerHTML = '<div class="error-msg">Could not parse AI response. Try again.</div><pre style="color:var(--muted);font-size:11px;margin-top:8px;white-space:pre-wrap">' + raw.slice(0, 500) + '</pre>';
+      btn.disabled = false; btn.textContent = '🧠 Analyze Inbox'; return;
+    }
+
+    renderTriage(data, emails);
+  } catch (e) {
+    output.innerHTML = `<div class="error-msg">${e.message}</div>`;
+  }
+
+  btn.disabled = false; btn.textContent = '🧠 Analyze Inbox';
+}
+
+function renderTriage(data, emails) {
+  const s = data.summary || {};
+  const items = data.emails || [];
+
+  let html = `
+    <div class="summary-bar">
+      <div class="summary-stat"><div class="summary-num" style="color:var(--white)">${s.total || items.length}</div><div class="summary-lbl">Total Scanned</div></div>
+      <div class="summary-stat"><div class="summary-num" style="color:#FCA5A5">${s.action_required || 0}</div><div class="summary-lbl">Action Required</div></div>
+      <div class="summary-stat"><div class="summary-num" style="color:#FCD34D">${s.can_wait || 0}</div><div class="summary-lbl">Review Soon</div></div>
+      <div class="summary-stat"><div class="summary-num" style="color:#6EE7B7">${s.low_priority || 0}</div><div class="summary-lbl">Low Priority</div></div>
+    </div>
+    <div class="triage-grid">`;
+
+  for (const e of items) {
+    const pc = e.priority === 1 ? 'p1' : e.priority === 2 ? 'p2' : 'p3';
+    const pl = e.priority === 1 ? 'Urgent' : e.priority === 2 ? 'Review' : 'FYI';
+    html += `
+      <div class="email-item priority-${e.priority}">
+        <div class="email-meta">
+          <span class="priority-badge ${pc}">${pl}</span>
+          <span class="email-from">${e.from || ''} · ${e.source || ''}</span>
+        </div>
+        <div class="email-subject">${e.subject || ''}</div>
+        <div class="email-summary">${e.summary || ''}</div>
+        <div class="email-action">→ ${e.action || ''}</div>
+      </div>`;
+  }
+
+  html += '</div>';
+  document.getElementById('output').innerHTML = html;
+}
+</script>
+</body>
+</html>

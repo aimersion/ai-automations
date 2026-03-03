@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Competitor Intel — Day 3 of 20</title>
+<style>
+  :root {
+    --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
+    --amber: #F59E0B; --green: #059669; --red: #DC2626; --white: #F0F7FF;
+    --muted: #8AAFD0; --card: #162840; --border: #2A4A70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 16px; }
+  .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: var(--teal-light); }
+  .hero { text-align: center; padding: 40px 32px 28px; }
+  .day-label { font-size: 11px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+  h1 { font-size: 38px; font-weight: 900; margin-bottom: 10px; }
+  h1 span { color: var(--teal); }
+  .tagline { font-size: 15px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+  .main { max-width: 960px; margin: 0 auto; padding: 0 24px 80px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .card-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  input[type="text"], input[type="password"], select {
+    background: var(--navy); border: 1px solid var(--border); color: var(--white);
+    padding: 10px 14px; border-radius: 8px; font-size: 14px; font-family: inherit;
+    outline: none; transition: border 0.2s;
+  }
+  input:focus { border-color: var(--teal); }
+  .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-teal { background: var(--teal); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
+  .btn-amber { background: var(--amber); color: #000; font-size: 15px; padding: 12px 36px; }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .search-row { display: flex; gap: 12px; align-items: center; margin-bottom: 8px; }
+  .search-row input { flex: 1; font-size: 16px; padding: 12px 18px; }
+  .key-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .key-hint a { color: var(--teal-light); }
+  .loading { text-align: center; padding: 60px; color: var(--muted); }
+  .spinner { display: inline-block; width: 28px; height: 28px; border: 3px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 16px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .intel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .intel-card { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 18px; }
+  .intel-card h3 { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .intel-card .body { font-size: 13px; color: var(--muted); line-height: 1.7; white-space: pre-wrap; }
+  .intel-card ul { margin-left: 16px; }
+  .intel-card li { margin-bottom: 6px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .intel-full { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+  .intel-full h3 { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; color: var(--teal); }
+  .battlecard { background: var(--navy2); border: 1px solid var(--amber); border-radius: 12px; padding: 20px; }
+  .battlecard h3 { color: var(--amber); }
+  .battlecard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+  .bc-col { }
+  .bc-col h4 { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .bc-win { color: var(--green); }
+  .bc-lose { color: var(--red); }
+  .bc-col ul { margin-left: 16px; }
+  .bc-col li { font-size: 13px; color: var(--muted); margin-bottom: 5px; line-height: 1.5; }
+  .sources-bar { background: rgba(8,145,178,0.08); border: 1px solid rgba(8,145,178,0.2); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .sources-bar a { color: var(--teal-light); text-decoration: none; }
+  .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; }
+  @media (max-width: 640px) { .intel-grid { grid-template-columns: 1fr; } .battlecard-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚡ Aimersion · Day 03</div>
+  <div class="nav-links">
+    <a href="day-02-proposal-generator.html">← Day 02</a>
+    <a href="index.html">All Tools</a>
+    <a href="day-04-social-creator.html">Day 04 →</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="day-label">Automation #3 of 20</div>
+  <h1>🔍 Competitor <span>Intel</span></h1>
+  <p class="tagline">Enter any company name. Gemini 2.5 Flash searches the live web and builds a full competitive analysis + battlecard in 30 seconds.</p>
+</div>
+
+<div class="main">
+
+  <!-- API Key -->
+  <div class="card">
+    <div class="card-title">🔑 Gemini API Key</div>
+    <div class="row">
+      <input type="password" id="geminiKey" placeholder="Gemini API key — aistudio.google.com" style="flex:1;min-width:200px" />
+      <button class="btn btn-ghost" onclick="toggleKey()">Show</button>
+      <button class="btn btn-teal" onclick="saveKey()">Save</button>
+    </div>
+    <div class="key-hint">Required. Get free at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> · Gemini 2.5 Flash with Google Search Grounding gives you live web data.</div>
+  </div>
+
+  <!-- Search -->
+  <div class="card">
+    <div class="card-title">🎯 Target Company</div>
+    <div class="search-row">
+      <input type="text" id="companyName" placeholder="Enter competitor name (e.g. Salesforce, HubSpot, Monday.com)" onkeydown="if(event.key==='Enter') runIntel()" />
+      <select id="intelDepth">
+        <option value="standard" selected>Standard Analysis</option>
+        <option value="deep">Deep Dive</option>
+        <option value="battlecard">Battlecard Only</option>
+      </select>
+    </div>
+    <div class="row" style="margin-bottom:8px">
+      <input type="text" id="yourCompany" placeholder="Your company (optional — for competitive positioning)" style="flex:1" />
+    </div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="btn btn-amber" id="runBtn" onclick="runIntel()">🔍 Analyze Competitor</button>
+    </div>
+  </div>
+
+  <!-- Output -->
+  <div id="output"></div>
+
+</div>
+
+<script>
+window.addEventListener('load', () => {
+  const gk = localStorage.getItem('gemini_key');
+  if (gk) document.getElementById('geminiKey').value = gk;
+});
+
+function toggleKey() { const el = document.getElementById('geminiKey'); el.type = el.type === 'password' ? 'text' : 'password'; }
+function saveKey() {
+  localStorage.setItem('gemini_key', document.getElementById('geminiKey').value.trim());
+  showToast('Key saved!');
+}
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#0891B2;color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;';
+  t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2500);
+}
+
+async function runIntel() {
+  const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
+  if (!key) { alert('Please enter and save your Gemini API key.'); return; }
+
+  const company = document.getElementById('companyName').value.trim();
+  if (!company) { alert('Please enter a company name.'); return; }
+
+  const yourCompany = document.getElementById('yourCompany').value.trim();
+  const depth = document.getElementById('intelDepth').value;
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true; btn.textContent = '⏳ Researching...';
+
+  document.getElementById('output').innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div><br>
+      Searching the web for intel on <strong>${company}</strong>...<br>
+      <span style="font-size:12px;margin-top:8px;display:block">Gemini 2.5 Flash is searching live web sources</span>
+    </div>`;
+
+  const vsYou = yourCompany ? `\nMy company for competitive positioning: ${yourCompany}` : '';
+
+  const prompt = depth === 'battlecard'
+    ? `Research "${company}" as a competitor to ${yourCompany || 'my company'} and build a comprehensive sales battlecard.
+
+Return a JSON object:
+{
+  "company": "name",
+  "tagline": "their tagline/value prop",
+  "overview": "2-3 sentence summary",
+  "pricing": "pricing model info",
+  "target_market": "who they sell to",
+  "key_features": ["feature1", "feature2", ...],
+  "win_reasons": ["reason we beat them 1", "reason 2", "reason 3", "reason 4"],
+  "lose_reasons": ["reason they beat us 1", "reason 2", "reason 3"],
+  "objection_handles": [{"objection": "...", "response": "..."}, ...],
+  "recent_news": ["news item 1", "news item 2"],
+  "sources": ["url1", "url2"]
+}
+Return ONLY valid JSON.`
+    : `Research "${company}" comprehensively using live web data.${vsYou}
+
+Return a JSON object:
+{
+  "company": "name",
+  "website": "url",
+  "overview": "3-4 sentence company overview",
+  "founded": "year",
+  "size": "employee count/range",
+  "funding": "funding info",
+  "target_market": "who they serve",
+  "core_products": ["product1", "product2"],
+  "pricing_model": "pricing description",
+  "key_strengths": ["strength 1", "strength 2", "strength 3", "strength 4", "strength 5"],
+  "weaknesses": ["weakness 1", "weakness 2", "weakness 3", "weakness 4"],
+  "recent_news": ["news item 1 (date)", "news item 2 (date)", "news item 3 (date)"],
+  "tech_stack": ["tech1", "tech2", "tech3"],
+  "customers_logos": ["known customer 1", "known customer 2", "known customer 3"],
+  "win_reasons": ["reason to beat them 1", "reason 2", "reason 3", "reason 4"],
+  "lose_reasons": ["risk 1", "risk 2", "risk 3"],
+  "talking_points": ["differentiation point 1", "point 2", "point 3"],
+  "sources": ["url1", "url2", "url3"]
+}
+Return ONLY valid JSON, no markdown.`;
+
+  try {
+    const resp = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          tools: [{ google_search: {} }],
+          generationConfig: { temperature: 0.2, maxOutputTokens: 8192 }
+        })
+      }
+    ).then(r => r.json());
+
+    if (resp.error) throw new Error(resp.error.message);
+
+    const rawText = resp.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const groundingMeta = resp.candidates?.[0]?.groundingMetadata;
+
+    let data;
+    try {
+      const match = rawText.match(/\{[\s\S]*\}/);
+      data = JSON.parse(match ? match[0] : rawText);
+    } catch {
+      // Fallback: show raw
+      document.getElementById('output').innerHTML = `<div class="card"><div class="card-title">Research Results</div><pre style="color:var(--muted);font-size:13px;white-space:pre-wrap;line-height:1.6">${rawText}</pre></div>`;
+      btn.disabled = false; btn.textContent = '🔍 Analyze Competitor'; return;
+    }
+
+    renderIntel(data, groundingMeta, depth);
+  } catch (e) {
+    document.getElementById('output').innerHTML = `<div class="error-msg">${e.message}</div>`;
+  }
+
+  btn.disabled = false; btn.textContent = '🔍 Analyze Competitor';
+}
+
+function li(arr) {
+  if (!arr || !arr.length) return '<li style="color:var(--muted)">No data</li>';
+  return arr.map(x => `<li>${x}</li>`).join('');
+}
+
+function renderIntel(d, meta, depth) {
+  const sources = d.sources || [];
+  let sourcesHtml = '';
+  if (sources.length) {
+    sourcesHtml = `<div class="sources-bar">🔗 Sources: ${sources.map(s => `<a href="${s}" target="_blank" rel="noopener">${s.replace('https://','').split('/')[0]}</a>`).join(' · ')}</div>`;
+  }
+
+  let html = sourcesHtml;
+
+  if (depth === 'battlecard') {
+    html += `
+      <div class="battlecard card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="card-title" style="margin-bottom:4px;color:var(--amber)">⚔️ Battlecard: ${d.company||''}</div>
+            <div style="font-size:13px;color:var(--muted)">${d.tagline||''}</div>
+          </div>
+          <button class="btn btn-ghost" onclick="copyResults()">📋 Copy</button>
+        </div>
+        <div style="font-size:14px;line-height:1.7;margin-bottom:16px;color:var(--white)">${d.overview||''}</div>
+        <div class="battlecard-grid">
+          <div class="bc-col">
+            <h4 class="bc-win">✅ When We Win</h4>
+            <ul>${li(d.win_reasons)}</ul>
+          </div>
+          <div class="bc-col">
+            <h4 class="bc-lose">⚠️ Watch Out For</h4>
+            <ul>${li(d.lose_reasons)}</ul>
+          </div>
+        </div>
+        ${d.objection_handles?.length ? `
+        <div style="margin-top:16px">
+          <h4 style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:10px">💬 Objection Handlers</h4>
+          ${d.objection_handles.map(o => `<div style="background:var(--navy);border-radius:8px;padding:10px 14px;margin-bottom:8px"><div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:4px">"${o.objection}"</div><div style="font-size:13px;color:var(--muted);line-height:1.5">${o.response}</div></div>`).join('')}
+        </div>` : ''}
+        ${d.pricing ? `<div style="margin-top:14px;font-size:13px;color:var(--muted)"><strong style="color:var(--white)">Pricing:</strong> ${d.pricing}</div>` : ''}
+      </div>`;
+  } else {
+    html += `
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="card-title" style="margin-bottom:4px">🏢 ${d.company||''}</div>
+            <div style="font-size:12px;color:var(--muted)">${[d.founded ? 'Founded '+d.founded : '', d.size, d.funding].filter(Boolean).join(' · ')}</div>
+          </div>
+          <button class="btn btn-ghost" onclick="copyResults()">📋 Copy</button>
+        </div>
+        <div style="font-size:14px;line-height:1.7;color:var(--white);margin-bottom:16px">${d.overview||''}</div>
+        <div class="intel-grid">
+          <div class="intel-card">
+            <h3 style="color:var(--green)">💪 Strengths</h3>
+            <ul>${li(d.key_strengths)}</ul>
+          </div>
+          <div class="intel-card">
+            <h3 style="color:var(--red)">⚠️ Weaknesses</h3>
+            <ul>${li(d.weaknesses)}</ul>
+          </div>
+          <div class="intel-card">
+            <h3 style="color:var(--amber)">✅ How to Beat Them</h3>
+            <ul>${li(d.win_reasons)}</ul>
+          </div>
+          <div class="intel-card">
+            <h3 style="color:var(--muted)">🎯 Risk Factors</h3>
+            <ul>${li(d.lose_reasons)}</ul>
+          </div>
+        </div>
+        <div class="intel-grid">
+          <div class="intel-card">
+            <h3 style="color:var(--teal)">📰 Recent News</h3>
+            <ul>${li(d.recent_news)}</ul>
+          </div>
+          <div class="intel-card">
+            <h3 style="color:var(--teal)">💬 Talking Points</h3>
+            <ul>${li(d.talking_points)}</ul>
+          </div>
+        </div>
+        ${d.customers_logos?.length ? `<div class="intel-card" style="margin-bottom:0"><h3 style="color:var(--teal)">🏆 Known Customers</h3><div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px">${d.customers_logos.map(c=>`<span style="background:rgba(8,145,178,0.1);border:1px solid rgba(8,145,178,0.2);padding:4px 12px;border-radius:20px;font-size:12px;color:var(--teal-light)">${c}</span>`).join('')}</div></div>` : ''}
+      </div>`;
+  }
+
+  document.getElementById('output').innerHTML = html;
+  window._intelData = d;
+}
+
+function copyResults() {
+  const d = window._intelData;
+  if (!d) return;
+  const text = JSON.stringify(d, null, 2);
+  navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>20 Automations in 20 Days — Aimersion AI</title>
+<style>
+  :root {
+    --navy: #0F1F3D;
+    --navy2: #1A2F52;
+    --teal: #0891B2;
+    --teal-light: #22D3EE;
+    --amber: #F59E0B;
+    --green: #059669;
+    --white: #F0F7FF;
+    --muted: #8AAFD0;
+    --card: #162840;
+    --border: #2A4A70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+
+  header { border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 13px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; }
+  .badge { background: var(--amber); color: #000; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; }
+
+  .hero { text-align: center; padding: 72px 32px 56px; max-width: 760px; margin: 0 auto; }
+  .hero-label { font-size: 12px; color: var(--teal); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; }
+  h1 { font-size: 52px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+  h1 em { color: var(--teal); font-style: normal; }
+  .hero-sub { font-size: 18px; color: var(--muted); line-height: 1.7; margin-bottom: 40px; }
+
+  .tech-badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 56px; }
+  .tech { background: var(--card); border: 1px solid var(--border); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--teal-light); letter-spacing: 1px; }
+
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto 80px; padding: 0 32px; }
+
+  .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; text-decoration: none; color: inherit; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; display: block; }
+  .tool-card:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 8px 32px rgba(8,145,178,0.15); }
+
+  .tool-day { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-bottom: 10px; }
+  .tool-icon { font-size: 32px; margin-bottom: 12px; }
+  .tool-name { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+  .tool-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .tool-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { background: rgba(8,145,178,0.12); border: 1px solid rgba(8,145,178,0.25); color: var(--teal-light); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 12px; }
+
+  .cta-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 80px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none; border: none; transition: opacity 0.2s; }
+  .btn-primary { background: var(--teal); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
+  .btn:hover { opacity: 0.85; }
+
+  .setup-banner { background: var(--card); border: 1px solid var(--border); border-radius: 12px; max-width: 760px; margin: 0 auto 60px; padding: 28px 32px; }
+  .setup-banner h3 { color: var(--amber); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .setup-banner p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .setup-banner a { color: var(--teal-light); }
+
+  footer { border-top: 1px solid var(--border); padding: 24px 40px; text-align: center; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">⚡ Aimersion AI</div>
+  <div class="badge">20 AUTOMATIONS · 20 DAYS</div>
+</header>
+
+<div class="hero">
+  <div class="hero-label">Free AI Tools for Business</div>
+  <h1>Real AI.<br><em>Real Email Access.</em><br>Zero Backend.</h1>
+  <p class="hero-sub">5 production-ready tools that connect directly to your Gmail and Outlook — no servers, no data storage, runs entirely in your browser.</p>
+  <div class="tech-badges">
+    <span class="tech">Gemini 2.5 Flash</span>
+    <span class="tech">Google OAuth</span>
+    <span class="tech">Microsoft OAuth</span>
+    <span class="tech">xAI Grok</span>
+    <span class="tech">Claude Haiku</span>
+    <span class="tech">GitHub Pages</span>
+  </div>
+</div>
+
+<div class="tools-grid">
+  <a href="day-01-inbox-intelligence.html" class="tool-card">
+    <div class="tool-day">Day 01</div>
+    <div class="tool-icon">📬</div>
+    <div class="tool-name">Inbox Intelligence</div>
+    <div class="tool-desc">Connect your real Gmail or Outlook. AI reads your emails and gives you a priority triage — what needs action, what's noise, what to reply to first.</div>
+    <div class="tool-tags">
+      <span class="tag">Gmail OAuth</span>
+      <span class="tag">Outlook OAuth</span>
+      <span class="tag">Gemini 2.5 Flash</span>
+    </div>
+  </a>
+
+  <a href="day-02-proposal-generator.html" class="tool-card">
+    <div class="tool-day">Day 02</div>
+    <div class="tool-icon">📄</div>
+    <div class="tool-name">Proposal Generator</div>
+    <div class="tool-desc">Pull email threads from your inbox, add context, and get a polished proposal draft in seconds. Exports ready-to-send text.</div>
+    <div class="tool-tags">
+      <span class="tag">Gmail OAuth</span>
+      <span class="tag">Outlook OAuth</span>
+      <span class="tag">Claude Haiku</span>
+    </div>
+  </a>
+
+  <a href="day-03-competitor-intel.html" class="tool-card">
+    <div class="tool-day">Day 03</div>
+    <div class="tool-icon">🔍</div>
+    <div class="tool-name">Competitor Intel</div>
+    <div class="tool-desc">Enter any company. Gemini 2.5 Flash with live web search builds a full competitive analysis — strengths, weaknesses, recent moves, battlecard.</div>
+    <div class="tool-tags">
+      <span class="tag">Gemini Search Grounding</span>
+      <span class="tag">Live Web Data</span>
+    </div>
+  </a>
+
+  <a href="day-04-social-creator.html" class="tool-card">
+    <div class="tool-day">Day 04</div>
+    <div class="tool-icon">📣</div>
+    <div class="tool-name">Social Content Creator</div>
+    <div class="tool-desc">Turn any topic or URL into a week of social content. Grok researches what's trending on X, then generates threads, LinkedIn posts, and hooks.</div>
+    <div class="tool-tags">
+      <span class="tag">xAI Grok</span>
+      <span class="tag">X Threads</span>
+      <span class="tag">LinkedIn Posts</span>
+    </div>
+  </a>
+
+  <a href="day-05-meeting-prep.html" class="tool-card">
+    <div class="tool-day">Day 05</div>
+    <div class="tool-icon">📅</div>
+    <div class="tool-name">Meeting Prep Assistant</div>
+    <div class="tool-desc">Connect your Google or Microsoft Calendar. AI researches every attendee and company, then gives you a prep brief before each meeting.</div>
+    <div class="tool-tags">
+      <span class="tag">Google Calendar</span>
+      <span class="tag">Microsoft Calendar</span>
+      <span class="tag">Gemini 2.5 Flash</span>
+    </div>
+  </a>
+</div>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 32px">
+  <div class="setup-banner">
+    <h3>⚡ How It Works</h3>
+    <p>Each tool runs 100% in your browser. Your emails and calendar data <strong>never touch our servers</strong>. You connect your accounts via secure OAuth — the same login flow used by apps like Zapier. You'll need free API keys from <a href="https://aistudio.google.com" target="_blank">Google AI Studio</a> (Gemini) and optionally <a href="https://console.x.ai" target="_blank">xAI</a> (Grok) or <a href="https://console.anthropic.com" target="_blank">Anthropic</a> (Claude). Or use an <a href="https://aimersion.ai" target="_blank">Aimersion AI</a> key to access all models with one key.</p>
+  </div>
+</div>
+
+<footer>
+  Built by <a href="https://aimersion.ai" style="color:var(--teal-light)">Aimersion AI</a> · 20 Automations in 20 Days · All tools free &amp; open source
+</footer>
+
+</body>
+</html>
