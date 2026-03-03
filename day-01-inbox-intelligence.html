@@ -82,6 +82,25 @@
   .key-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
   .key-hint a { color: var(--teal-light); }
   @media (max-width: 600px) { .oauth-grid { grid-template-columns: 1fr; } .summary-bar { grid-template-columns: 1fr 1fr; } }
+
+  /* ── Model Selector ─────────────────────────────────── */
+  .effort-label { font-size:.75rem; color:#64748b; margin-bottom:8px; }
+  .model-selector { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:8px; }
+  .model-btn {
+    border:2px solid #e2e8f0; border-radius:12px; padding:12px 8px;
+    cursor:pointer; background:#fff; display:flex; flex-direction:column;
+    align-items:center; gap:2px; transition:all .18s; text-align:center;
+  }
+  .model-btn:hover { border-color:#0d9488; background:#f8fffe; }
+  .model-btn.active { border-color:#0d9488; background:#f0fdfa; box-shadow:0 0 0 3px rgba(13,148,136,.12); }
+  .model-emoji { font-size:1.5rem; line-height:1; }
+  .model-name { font-weight:700; font-size:.85rem; color:#1e293b; margin-top:2px; }
+  .model-desc { font-size:.68rem; color:#64748b; line-height:1.3; }
+  .model-badge { font-size:.62rem; color:#94a3b8; font-family:monospace; }
+  .model-cost { font-size:.78rem; color:#0d9488; font-weight:700; letter-spacing:.05em; }
+  .model-hint { font-size:.72rem; color:#94a3b8; }
+  @media(max-width:600px){ .model-selector{grid-template-columns:repeat(2,1fr);} }
+
 </style>
 </head>
 <body>
@@ -115,6 +134,44 @@
       <button class="btn btn-ghost" onclick="toggleKey('aimersionKey')">Show</button>
       <button class="btn btn-teal" onclick="saveKey('aimersion')">Save</button>
     </div>
+
+  <!-- Intelligence Level / Model Selector -->
+  <div class="card" style="margin-top:16px">
+    <div class="card-title">⚡ Intelligence Level <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— effort = price</span></div>
+    <div class="effort-label">Higher effort = smarter output = more API cost. Pick based on your task.</div>
+    <div class="model-selector">
+      <button class="model-btn" onclick="selectModel('gemini-2.5-flash')" id="mbtn-quick">
+        <span class="model-emoji">⚡</span>
+        <span class="model-name">Quick</span>
+        <span class="model-desc">Fast &amp; affordable</span>
+        <span class="model-badge">2.5 Flash</span>
+        <span class="model-cost">$</span>
+      </button>
+      <button class="model-btn active" onclick="selectModel('gemini-3-flash-preview')" id="mbtn-smart">
+        <span class="model-emoji">🔥</span>
+        <span class="model-name">Smart</span>
+        <span class="model-desc">3× smarter, same speed</span>
+        <span class="model-badge">3 Flash</span>
+        <span class="model-cost">$$</span>
+      </button>
+      <button class="model-btn" onclick="selectModel('gemini-2.5-pro')" id="mbtn-deep">
+        <span class="model-emoji">🧠</span>
+        <span class="model-name">Deep</span>
+        <span class="model-desc">Advanced reasoning</span>
+        <span class="model-badge">2.5 Pro</span>
+        <span class="model-cost">$$$</span>
+      </button>
+      <button class="model-btn" onclick="selectModel('gemini-3.1-pro-preview')" id="mbtn-max">
+        <span class="model-emoji">🚀</span>
+        <span class="model-name">Max</span>
+        <span class="model-desc">Best available · most thorough</span>
+        <span class="model-badge">3.1 Pro</span>
+        <span class="model-cost">$$$$</span>
+      </button>
+    </div>
+    <div class="model-hint">Prices vary by model. <a href="https://ai.google.dev/pricing" target="_blank" style="color:#0d9488">See Gemini pricing →</a></div>
+  </div>
+
     <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a> · Or use your <a href="https://aimersion.ai" target="_blank">Aimersion AI</a> key to access all models.</div>
   </div>
 
@@ -179,6 +236,25 @@
 </div>
 
 <script>
+
+  // ── Model selector ──────────────────────────────────
+  const MODEL_MAP = {
+    'gemini-2.5-flash':      { id: 'mbtn-quick', label: 'Quick' },
+    'gemini-3-flash-preview':{ id: 'mbtn-smart', label: 'Smart' },
+    'gemini-2.5-pro':        { id: 'mbtn-deep',  label: 'Deep'  },
+    'gemini-3.1-pro-preview':{ id: 'mbtn-max',   label: 'Max'   }
+  };
+  let _selectedModel = localStorage.getItem('gemini_model') || 'gemini-3-flash-preview';
+
+  function selectModel(model) {
+    _selectedModel = model;
+    localStorage.setItem('gemini_model', model);
+    document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById(MODEL_MAP[model]?.id);
+    if (btn) btn.classList.add('active');
+  }
+  function getSelectedModel() { return _selectedModel; }
+
 const GOOGLE_CLIENT_ID = '613753349118-g5t6tli0ghlt3ca8h3ijdjp9jnks5dee.apps.googleusercontent.com';
 const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
 
@@ -188,6 +264,8 @@ let msAccount = null;
 
 // Restore saved keys
 window.addEventListener('load', () => {
+  selectModel(localStorage.getItem('gemini_model') || 'gemini-3-flash-preview');
+
   const gk = localStorage.getItem('gemini_key');
   const ak = localStorage.getItem('aimersion_key');
   if (gk) document.getElementById('geminiKey').value = gk;
@@ -364,7 +442,7 @@ async function callGemini(prompt) {
   const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
   if (!key) throw new Error('No Gemini API key saved. Please enter and save your key above.');
   const resp = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${key}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${getSelectedModel()}:generateContent?key=${key}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
