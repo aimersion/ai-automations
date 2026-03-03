@@ -55,6 +55,17 @@
   .setup-banner h3 { color: var(--amber); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
   .setup-banner p { color: var(--muted); font-size: 14px; line-height: 1.7; }
   .setup-banner a { color: var(--teal-light); }
+  .coming-section { max-width: 1100px; margin: 0 auto 60px; padding: 0 32px; }
+  .coming-header { text-align: center; margin-bottom: 28px; }
+  .coming-label { font-size: 11px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+  .coming-title { font-size: 26px; font-weight: 800; color: var(--white); }
+  .coming-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+  .coming-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; opacity: 0.6; position: relative; overflow: hidden; }
+  .coming-card::after { content: 'COMING SOON'; position: absolute; top: 10px; right: -22px; background: var(--amber); color: #000; font-size: 9px; font-weight: 800; letter-spacing: 1px; padding: 3px 28px; transform: rotate(35deg); }
+  .coming-day { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 6px; }
+  .coming-icon { font-size: 22px; margin-bottom: 8px; }
+  .coming-name { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .coming-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
   footer { border-top: 1px solid var(--border); padding: 24px 40px; text-align: center; font-size: 13px; color: var(--muted); }
 </style>
@@ -69,14 +80,14 @@
 <div class="hero">
   <div class="hero-label">Free AI Tools for Business</div>
   <h1>Real AI.<br><em>Real Email Access.</em><br>Zero Backend.</h1>
-  <p class="hero-sub">5 production-ready tools that connect directly to your Gmail and Outlook — no servers, no data storage, runs entirely in your browser.</p>
+  <p class="hero-sub">5 free tools live now — 15 more dropping daily. Connect directly to your Gmail, Outlook, and Calendar. No servers. No data storage. Runs entirely in your browser.</p>
   <div class="tech-badges">
-    <span class="tech">Gemini 2.5 Flash</span>
+    <span class="tech">Gemini 3 Flash</span>
+    <span class="tech">Gemini 3.1 Pro</span>
     <span class="tech">Google OAuth</span>
     <span class="tech">Microsoft OAuth</span>
     <span class="tech">xAI Grok</span>
-    <span class="tech">Claude Haiku</span>
-    <span class="tech">GitHub Pages</span>
+    <span class="tech">100% Browser</span>
   </div>
 </div>
 
@@ -101,7 +112,7 @@
     <div class="tool-tags">
       <span class="tag">Gmail OAuth</span>
       <span class="tag">Outlook OAuth</span>
-      <span class="tag">Claude Haiku</span>
+      <span class="tag">Gemini AI</span>
     </div>
   </a>
 
@@ -139,6 +150,30 @@
       <span class="tag">Gemini 2.5 Flash</span>
     </div>
   </a>
+</div>
+
+<div class="coming-section">
+  <div class="coming-header">
+    <div class="coming-label">Dropping Daily</div>
+    <div class="coming-title">Days 6–20 Coming Soon</div>
+  </div>
+  <div class="coming-grid">
+    <div class="coming-card"><div class="coming-day">Day 06</div><div class="coming-icon">📊</div><div class="coming-name">Lead Scorer</div><div class="coming-desc">Paste a contact list. AI scores and ranks every lead by fit and intent.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 07</div><div class="coming-icon">✍️</div><div class="coming-name">Cold Email Writer</div><div class="coming-desc">Research a prospect and generate a personalized cold outreach sequence.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 08</div><div class="coming-icon">📞</div><div class="coming-name">Call Summarizer</div><div class="coming-desc">Paste a transcript. Get a summary, action items, and follow-up draft.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 09</div><div class="coming-icon">🗂️</div><div class="coming-name">Contract Reviewer</div><div class="coming-desc">Upload a contract. AI flags risks, missing clauses, and key terms.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 10</div><div class="coming-icon">📰</div><div class="coming-name">Industry Briefing</div><div class="coming-desc">Pick your industry. Get a daily AI-written briefing of what matters today.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 11</div><div class="coming-icon">🎯</div><div class="coming-name">Job Description Builder</div><div class="coming-desc">Describe the role. Get a complete JD with requirements and culture fit.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 12</div><div class="coming-icon">💬</div><div class="coming-name">Slack Digest</div><div class="coming-desc">Connect Slack. AI surfaces what you missed and what needs a reply.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 13</div><div class="coming-icon">🧾</div><div class="coming-name">Invoice Generator</div><div class="coming-desc">Describe the work. Get a formatted invoice ready to send in seconds.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 14</div><div class="coming-icon">🔗</div><div class="coming-name">LinkedIn Optimizer</div><div class="coming-desc">Paste your profile. AI rewrites it to attract your ideal clients.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 15</div><div class="coming-icon">📈</div><div class="coming-name">Pipeline Analyzer</div><div class="coming-desc">Paste your CRM data. AI finds the deals most likely to close this month.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 16</div><div class="coming-icon">🤝</div><div class="coming-name">Partnership Finder</div><div class="coming-desc">Describe your business. AI identifies and profiles ideal partner companies.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 17</div><div class="coming-icon">📋</div><div class="coming-name">SOP Generator</div><div class="coming-desc">Describe a process. Get a formatted, step-by-step SOP your team can use.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 18</div><div class="coming-icon">🌐</div><div class="coming-name">Website Auditor</div><div class="coming-desc">Enter any URL. Get a full copy, UX, and SEO audit with specific fixes.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 19</div><div class="coming-icon">💡</div><div class="coming-name">Idea Validator</div><div class="coming-desc">Describe a business idea. AI stress-tests it with market data and risks.</div></div>
+    <div class="coming-card"><div class="coming-day">Day 20</div><div class="coming-icon">🚀</div><div class="coming-name">GTM Planner</div><div class="coming-desc">Describe your product. Get a full go-to-market strategy in one click.</div></div>
+  </div>
 </div>
 
 <div style="max-width:1100px;margin:0 auto;padding:0 32px">
