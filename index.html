@@ -301,16 +301,28 @@
 
   /* ── Responsive ── */
   @media (max-width: 700px) {
-    header { padding: 12px 16px; }
-    .hero { padding: 56px 16px 36px; }
-    h1 { font-size: clamp(28px, 8vw, 52px); }
-    .featured-section, .next-up-section { padding: 0 16px 40px; }
-    .featured-card { grid-template-columns: 1fr; }
-    .featured-left { padding: 24px 20px; border-right: none; border-bottom: 1px solid var(--border); }
-    .featured-right { padding: 20px; }
-    .featured-title { font-size: 22px; }
-    .next-up-card { flex-direction: column; align-items: flex-start; }
-    footer { padding: 20px 16px; justify-content: center; text-align: center; }
+    header { padding: 11px 16px; }
+    .logo { font-size: 12px; }
+    .share-btn { padding: 7px 12px; font-size: 12px; }
+    .hero { padding: 48px 16px 28px; }
+    h1 { font-size: clamp(30px, 9vw, 52px); letter-spacing: -1px; }
+    .hero-sub { font-size: 15px; margin-bottom: 28px; }
+    .progress-wrap { margin-bottom: 28px; padding: 14px 16px; }
+    .featured-section, .next-up-section, .how-section { padding: 0 14px 36px; }
+    .featured-card { grid-template-columns: 1fr; border-radius: 16px; }
+    .featured-left { padding: 24px 20px 20px; border-right: none; border-bottom: 1px solid var(--border); }
+    .featured-right { padding: 18px 20px 22px; }
+    .featured-title { font-size: 24px; }
+    .featured-desc { font-size: 14px; margin-bottom: 20px; }
+    .featured-cta { width: 100%; justify-content: center; font-size: 16px; padding: 15px 24px; border-radius: 12px; }
+    .next-up-card { flex-direction: column; align-items: flex-start; gap: 16px; padding: 22px 20px; }
+    .next-up-title { font-size: 19px; }
+    .follow-buttons { width: 100%; }
+    .follow-btn { flex: 1; justify-content: center; padding: 11px 14px; font-size: 14px; }
+    .how-section h2 { font-size: 20px; }
+    .how-section p { font-size: 14px; }
+    footer { padding: 20px 16px; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+    .footer-share { justify-content: center; flex-wrap: wrap; }
   }
 </style>
 </head>
