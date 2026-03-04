@@ -522,23 +522,36 @@ const LOADER_FRAMES = [
   { emoji: '📝', msg: 'Translating corporate speak into plain English...' },
   { emoji: '🚀', msg: 'Almost there — patience is a virtue...' },
 ];
+const DRAFT_LOADER_FRAMES = [
+  { emoji: '✍️', msg: 'Channeling your inner wordsmith...' },
+  { emoji: '🤔', msg: 'Reading between the lines...' },
+  { emoji: '💡', msg: 'Finding just the right words...' },
+  { emoji: '🎯', msg: 'Nailing the tone...' },
+  { emoji: '🪄', msg: 'Making it sound like you wrote it...' },
+  { emoji: "📝", msg: "Drafting something you'd actually send..." },
+  { emoji: '🧠', msg: 'Thinking through what they really need...' },
+  { emoji: '✨', msg: 'Polishing every sentence...' },
+];
+
 let _loaderInterval = null;
-function startFunLoader(containerId, subMsg) {
+function startFunLoader(containerId, subMsg, frames) {
   const el = document.getElementById(containerId);
   if (!el) return;
-  let i = 0;
-  const frame = LOADER_FRAMES[Math.floor(Math.random() * LOADER_FRAMES.length)];
+  stopFunLoader();
+  const pool = frames || LOADER_FRAMES;
+  let i = Math.floor(Math.random() * pool.length);
+  const frame = pool[i];
   el.innerHTML = `<div class="fun-loader">
     <div class="loader-emoji" id="loaderEmoji">${frame.emoji}</div>
     <div class="loader-msg" id="loaderMsg">${frame.msg}</div>
     <div class="loader-sub">${subMsg || ''}</div>
   </div>`;
   _loaderInterval = setInterval(() => {
-    i = (i + 1) % LOADER_FRAMES.length;
+    i = (i + 1) % pool.length;
     const emojiEl = document.getElementById('loaderEmoji');
     const msgEl = document.getElementById('loaderMsg');
-    if (emojiEl) emojiEl.textContent = LOADER_FRAMES[i].emoji;
-    if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = LOADER_FRAMES[i].msg; msgEl.style.opacity = 1; }, 200); }
+    if (emojiEl) emojiEl.textContent = pool[i].emoji;
+    if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = pool[i].msg; msgEl.style.opacity = 1; }, 200); }
   }, 2200);
 }
 function stopFunLoader() {
@@ -1038,6 +1051,7 @@ function openDraftModal(emailIdx) {
   document.getElementById('modalBody').style.display = 'none';
   document.getElementById('draftModal').style.display = 'flex';
   document.body.style.overflow = 'hidden';
+  startFunLoader('modalLoaderContainer', 'Writing your reply...', DRAFT_LOADER_FRAMES);
 
   // Generate reply with Gemini
   generateDraftReply(email);
@@ -1059,6 +1073,7 @@ Write a reply that follows the personal style instructions above (if provided). 
 
     const reply = await callGemini(prompt);
     document.getElementById('modalText').value = reply;
+    stopFunLoader();
     document.getElementById('modalLoading').style.display = 'none';
     document.getElementById('modalBody').style.display = 'block';
 
@@ -1080,6 +1095,7 @@ Write a reply that follows the personal style instructions above (if provided). 
     actions.innerHTML += `<button class="btn btn-ghost" onclick="regenerateDraft()">↻ Regenerate</button>
       <button class="btn btn-ghost" onclick="closeDraftModal()">Cancel</button>`;
   } catch (e) {
+    stopFunLoader();
     document.getElementById('modalLoading').style.display = 'none';
     document.getElementById('modalBody').style.display = 'block';
     document.getElementById('modalText').value = 'Error generating reply: ' + e.message;
@@ -1092,6 +1108,7 @@ Write a reply that follows the personal style instructions above (if provided). 
 async function regenerateDraft() {
   document.getElementById('modalLoading').style.display = 'block';
   document.getElementById('modalBody').style.display = 'none';
+  startFunLoader('modalLoaderContainer', 'Trying a different angle...', DRAFT_LOADER_FRAMES);
   await generateDraftReply(draftEmail);
 }
 
