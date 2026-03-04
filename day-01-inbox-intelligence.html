@@ -84,7 +84,7 @@
   .key-hint a { color: var(--teal-light); }
   /* Model Selector */
   .effort-label { font-size:.75rem; color:#64748b; margin-bottom:8px; }
-  .model-selector { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:8px; }
+  .model-selector { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:8px; }
   .model-btn { border:2px solid #e2e8f0; border-radius:12px; padding:12px 8px; cursor:pointer; background:#fff; display:flex; flex-direction:column; align-items:center; gap:2px; transition:all .18s; text-align:center; }
   .model-btn:hover { border-color:#0d9488; background:#f8fffe; }
   .model-btn.active { border-color:#0d9488; background:#f0fdfa; box-shadow:0 0 0 3px rgba(13,148,136,.12); }
@@ -120,7 +120,7 @@
   .send-fields input { background:var(--navy); border:1px solid var(--border); color:var(--white); padding:9px 14px; border-radius:8px; font-size:13px; font-family:inherit; outline:none; width:100%; }
   .send-fields input:focus { border-color:var(--teal); }
   .send-label { font-size:11px; color:var(--muted); font-weight:700; letter-spacing:1px; text-transform:uppercase; margin-bottom:4px; }
-  @media (max-width: 600px) { .oauth-grid { grid-template-columns: 1fr; } .summary-bar { grid-template-columns: 1fr 1fr; } .model-selector{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width: 600px) { .oauth-grid { grid-template-columns: 1fr; } .summary-bar { grid-template-columns: 1fr 1fr; } .model-selector { grid-template-columns: repeat(3,1fr); } }
 
   /* ── Key Onboarding Modal ─────────────────────────── */
   .onboard-steps { display:grid; gap:10px; margin:14px 0; }
@@ -191,27 +191,22 @@
 
   <!-- Intelligence Level -->
   <div class="card">
-    <div class="card-title">⚡ Intelligence Level <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— effort = price</span></div>
-    <div class="effort-label">Higher effort = smarter output = more API cost.</div>
+    <div class="card-title">🤖 AI Model <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— all free to start, Pro uses more credits</span></div>
     <div class="model-selector">
-      <button class="model-btn" onclick="selectModel('gemini-2.5-flash')" id="mbtn-quick">
-        <span class="model-emoji">⚡</span><span class="model-name">Quick</span>
-        <span class="model-desc">Fast &amp; affordable</span><span class="model-badge">2.5 Flash</span><span class="model-cost">$</span>
+      <button class="model-btn" onclick="selectModel('gemini-3.1-flash-lite-preview')" id="mbtn-quick">
+        <span class="model-emoji">⚡</span><span class="model-name">Lite</span>
+        <span class="model-desc">Fastest &amp; cheapest</span><span class="model-badge">3.1 Flash Lite</span>
       </button>
       <button class="model-btn active" onclick="selectModel('gemini-3-flash-preview')" id="mbtn-smart">
         <span class="model-emoji">🔥</span><span class="model-name">Smart</span>
-        <span class="model-desc">3× smarter, same speed</span><span class="model-badge">3 Flash</span><span class="model-cost">$$</span>
+        <span class="model-desc">Recommended · free tier</span><span class="model-badge">3 Flash ✓</span>
       </button>
-      <button class="model-btn" onclick="selectModel('gemini-2.5-pro')" id="mbtn-deep">
-        <span class="model-emoji">🧠</span><span class="model-name">Deep</span>
-        <span class="model-desc">Advanced reasoning</span><span class="model-badge">2.5 Pro</span><span class="model-cost">$$$</span>
-      </button>
-      <button class="model-btn" onclick="selectModel('gemini-3.1-pro-preview')" id="mbtn-max">
-        <span class="model-emoji">🚀</span><span class="model-name">Max</span>
-        <span class="model-desc">Best available</span><span class="model-badge">3.1 Pro</span><span class="model-cost">$$$$</span>
+      <button class="model-btn" onclick="selectModel('gemini-3.1-pro-preview')" id="mbtn-pro">
+        <span class="model-emoji">🧠</span><span class="model-name">Pro</span>
+        <span class="model-desc">Most powerful</span><span class="model-badge">3.1 Pro</span>
       </button>
     </div>
-    <div class="model-hint">Prices vary by model. <a href="https://ai.google.dev/pricing" target="_blank" style="color:#0d9488">See Gemini pricing →</a></div>
+    <div class="model-hint">Flash models stay in Google's free tier for most usage. <a href="https://ai.google.dev/pricing" target="_blank" style="color:#0d9488">See pricing →</a></div>
   </div>
 
   <!-- OAuth Connect -->
@@ -339,10 +334,9 @@ const AZURE_CLIENT_ID  = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
 
 // Model selector
 const MODEL_MAP = {
-  'gemini-2.5-flash':      'mbtn-quick',
-  'gemini-3-flash-preview':'mbtn-smart',
-  'gemini-2.5-pro':        'mbtn-deep',
-  'gemini-3.1-pro-preview':'mbtn-max'
+  'gemini-3.1-flash-lite-preview': 'mbtn-quick',
+  'gemini-3-flash-preview':        'mbtn-smart',
+  'gemini-3.1-pro-preview':        'mbtn-pro'
 };
 let _model = localStorage.getItem('gemini_model') || 'gemini-3-flash-preview';
 function selectModel(m) {
