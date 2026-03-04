@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inbox Intelligence — Day 1 of 20</title>
 <script src="https://accounts.google.com/gsi/client" async></script>
-<script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';document.head.appendChild(s);})()"></script>
 <style>
   :root {
     --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
@@ -421,8 +421,15 @@ function disconnectGoogle() {
 
 // ─── Microsoft Auth (Mail.Read + Mail.ReadWrite + Mail.Send) ──
 async function initMsal() {
+  // Wait up to 5s for MSAL to load (handles slow CDN)
   if (typeof msal === 'undefined') {
-    throw new Error('Microsoft Auth library failed to load. Please refresh the page and try again.');
+    await new Promise((resolve, reject) => {
+      let waited = 0;
+      const check = setInterval(() => {
+        if (typeof msal !== 'undefined') { clearInterval(check); resolve(); }
+        else if ((waited += 250) >= 5000) { clearInterval(check); reject(new Error('Microsoft Auth library failed to load. Please check your internet connection and refresh the page.')); }
+      }, 250);
+    });
   }
   msalInstance = new msal.PublicClientApplication({
     auth: { clientId: AZURE_CLIENT_ID, authority: 'https://login.microsoftonline.com/common',
