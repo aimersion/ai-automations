@@ -23,10 +23,21 @@
   .day-label { font-size: 11px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
   h1 { font-size: 38px; font-weight: 900; margin-bottom: 10px; }
   h1 span { color: var(--teal); }
-  .tagline { font-size: 15px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+  .tagline { font-size: 16px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.6; }
   .main { max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
   .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
-  .card-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  .card-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  /* Collapsible cards */
+  .card.collapsible { padding-bottom: 20px; }
+  .card-header { display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none; margin-bottom: 14px; }
+  .card-header .card-title { margin-bottom: 0; }
+  .card-toggle { background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; padding:0; line-height:1; transition:transform 0.22s, color 0.15s; flex-shrink:0; }
+  .card-header:hover .card-toggle { color:var(--teal-light); }
+  .card.collapsed .card-toggle { transform: rotate(-90deg); }
+  .card.collapsed .card-body { display: none; }
+  .card.collapsed { padding-bottom: 20px; }
+  .card-status { font-size:12px; color:var(--green); font-weight:600; opacity:0; transition:opacity 0.2s; margin-left:10px; white-space:nowrap; }
+  .card.collapsed .card-status { opacity:1; }
   .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   input[type="password"], input[type="text"] {
     background: var(--navy); border: 1px solid var(--border); color: var(--white);
@@ -45,7 +56,7 @@
   .oauth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .oauth-box { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
   .oauth-provider { font-size: 13px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
-  .oauth-status { font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
+  .oauth-status { font-size: 13px; color: var(--muted); margin-bottom: 12px; line-height: 1.5; }
   .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
   .dot-off { background: var(--border); }
   .dot-on { background: var(--green); box-shadow: 0 0 6px var(--green); }
@@ -69,18 +80,18 @@
   .p1 { background: rgba(220,38,38,0.2); color: #FCA5A5; }
   .p2 { background: rgba(245,158,11,0.2); color: #FCD34D; }
   .p3 { background: rgba(5,150,105,0.2); color: #6EE7B7; }
-  .email-from { font-size: 12px; color: var(--muted); }
-  .email-subject { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-  .email-summary { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+  .email-from { font-size: 13px; color: var(--muted); }
+  .email-subject { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .email-summary { font-size: 14px; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
   .email-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-  .email-action { font-size: 12px; font-weight: 700; color: var(--teal-light); }
+  .email-action { font-size: 13px; font-weight: 700; color: var(--teal-light); }
   .summary-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
   .summary-stat { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
   .summary-num { font-size: 28px; font-weight: 800; }
-  .summary-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+  .summary-lbl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
   .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; }
   .info-msg { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); color: var(--teal-light); padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
-  .key-hint { font-size: 11px; color: var(--muted); margin-top: 6px; }
+  .key-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
   .key-hint a { color: var(--teal-light); }
   /* Model Selector — dark-themed to match app */
   .effort-label { font-size:.75rem; color:var(--muted); margin-bottom:8px; }
@@ -90,16 +101,16 @@
   .model-btn.active { border-color:var(--teal); background:rgba(8,145,178,0.15); box-shadow:0 0 0 3px rgba(8,145,178,.15); }
   .model-emoji { font-size:1.5rem; line-height:1; }
   .model-name { font-weight:700; font-size:.85rem; color:var(--white); margin-top:2px; }
-  .model-desc { font-size:.68rem; color:var(--muted); line-height:1.3; }
-  .model-badge { font-size:.62rem; color:var(--muted); font-family:monospace; }
+  .model-desc { font-size:.78rem; color:var(--muted); line-height:1.3; }
+  .model-badge { font-size:.70rem; color:var(--muted); font-family:monospace; }
   .model-cost { font-size:.78rem; color:var(--teal-light); font-weight:700; letter-spacing:.05em; }
-  .model-hint { font-size:.72rem; color:var(--muted); }
+  .model-hint { font-size:.80rem; color:var(--muted); }
   /* Steps grid */
   .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
   .step-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; }
   .step-num-circle { width:26px; height:26px; border-radius:50%; color:#fff; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
-  .step-title { font-size:12px; font-weight:700; margin-bottom:3px; color:var(--white); }
-  .step-desc { font-size:11px; color:var(--muted); line-height:1.5; }
+  .step-title { font-size:14px; font-weight:700; margin-bottom:3px; color:var(--white); }
+  .step-desc { font-size:13px; color:var(--muted); line-height:1.5; }
   /* Draft Modal */
   .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:1000; display:flex; align-items:center; justify-content:center; padding:20px; }
   .modal-box { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; max-width:640px; width:100%; max-height:85vh; overflow-y:auto; }
@@ -109,13 +120,13 @@
   .modal-close:hover { color:var(--white); }
   .instructions-textarea { width:100%; min-height:120px; background:var(--navy); border:1px solid var(--border); color:var(--white); padding:12px 14px; border-radius:8px; font-family:inherit; font-size:13px; line-height:1.65; resize:vertical; outline:none; margin-bottom:10px; }
   .instructions-textarea:focus { border-color:var(--teal); }
-  .instructions-hint { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:10px; }
+  .instructions-hint { font-size:14px; color:var(--muted); line-height:1.5; margin-bottom:10px; }
   .reply-btn-needed { font-size:11px; padding:5px 12px; }
   .reply-btn-skip { font-size:11px; padding:5px 12px; opacity:0.45; }
   .digest-card { background:linear-gradient(135deg,rgba(8,145,178,0.12),rgba(34,211,238,0.06)); border:1px solid rgba(8,145,178,0.35); border-radius:10px; padding:16px 20px; margin-bottom:18px; display:flex; gap:14px; align-items:flex-start; }
   .digest-icon { font-size:22px; line-height:1; flex-shrink:0; margin-top:1px; }
   .digest-label { font-size:10px; font-weight:800; letter-spacing:2px; color:var(--teal); text-transform:uppercase; margin-bottom:5px; }
-  .digest-text { font-size:14px; color:var(--white); line-height:1.65; }
+  .digest-text { font-size:15px; color:var(--white); line-height:1.65; }
   .modal-context { background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; line-height:1.5; }
   .modal-context strong { color:var(--white); }
   .modal-textarea { width:100%; min-height:220px; background:var(--navy); border:1px solid var(--border); color:var(--white); padding:14px; border-radius:8px; font-family:inherit; font-size:13px; line-height:1.7; resize:vertical; outline:none; }
@@ -136,7 +147,7 @@
     .tagline { font-size: 13px; }
     .main { padding: 0 12px 96px; } /* extra bottom for sticky CTA */
     .card { padding: 14px 14px; margin-bottom: 14px; }
-    .card-title { font-size: 10px; margin-bottom: 10px; }
+    .card-title { font-size: 11px; margin-bottom: 10px; }
 
     /* Steps: collapse to a clean vertical list inside one card */
     .steps-grid { grid-template-columns: 1fr; gap: 0; margin-bottom: 16px;
@@ -271,72 +282,95 @@
   </div>
 
   <!-- API Keys -->
-  <div class="card">
-    <div class="card-title">🔑 API Keys <span style="font-weight:400;color:#6EE7B7;font-size:.78rem">— free, no credit card</span></div>
-    <div class="row" style="margin-bottom:10px">
-      <input type="password" id="geminiKey" placeholder="Gemini API key (required) — aistudio.google.com" />
-      <button class="btn btn-ghost" onclick="toggleKey('geminiKey')">Show</button>
-      <button class="btn btn-teal" onclick="saveKey('gemini')">Save</button>
+  <div class="card collapsible" id="card-keys">
+    <div class="card-header" onclick="toggleCard('card-keys')">
+      <div class="card-title">🔑 API Keys <span style="font-weight:400;color:#6EE7B7;font-size:.78rem">— free, no credit card</span></div>
+      <span class="card-status" id="card-keys-status"></span>
+      <button class="card-toggle" aria-label="Toggle">▾</button>
     </div>
-    <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> — <button onclick="showKeyModal()" style="background:none;border:none;color:var(--teal-light);font-size:11px;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline;">Step-by-step help →</button></div>
+    <div class="card-body">
+      <div class="row" style="margin-bottom:10px">
+        <input type="password" id="geminiKey" placeholder="Gemini API key (required) — aistudio.google.com" />
+        <button class="btn btn-ghost" onclick="toggleKey('geminiKey')">Show</button>
+        <button class="btn btn-teal" onclick="saveKey('gemini')">Save</button>
+      </div>
+      <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> — <button onclick="showKeyModal()" style="background:none;border:none;color:var(--teal-light);font-size:11px;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline;">Step-by-step help →</button></div>
+    </div>
   </div>
 
   <!-- Intelligence Level -->
-  <div class="card">
-    <div class="card-title">🤖 AI Model <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— all free to start, Pro uses more credits</span></div>
-    <div class="model-selector">
-      <button class="model-btn" onclick="selectModel('gemini-3.1-flash-lite-preview')" id="mbtn-quick">
-        <span class="model-emoji">⚡</span><span class="model-name">Lite</span>
-        <span class="model-desc">Fastest &amp; cheapest</span><span class="model-badge">3.1 Flash Lite</span>
-      </button>
-      <button class="model-btn active" onclick="selectModel('gemini-3-flash-preview')" id="mbtn-smart">
-        <span class="model-emoji">🔥</span><span class="model-name">Smart</span>
-        <span class="model-desc">Recommended · free tier</span><span class="model-badge">3 Flash ✓</span>
-      </button>
-      <button class="model-btn" onclick="selectModel('gemini-3.1-pro-preview')" id="mbtn-pro">
-        <span class="model-emoji">🧠</span><span class="model-name">Pro</span>
-        <span class="model-desc">Most powerful</span><span class="model-badge">3.1 Pro</span>
-      </button>
+  <div class="card collapsible" id="card-model">
+    <div class="card-header" onclick="toggleCard('card-model')">
+      <div class="card-title">🤖 AI Model <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— all free to start, Pro uses more credits</span></div>
+      <span class="card-status" id="card-model-status"></span>
+      <button class="card-toggle" aria-label="Toggle">▾</button>
     </div>
-    <div class="model-hint">Flash models stay in Google's free tier for most usage. <a href="https://ai.google.dev/pricing" target="_blank" style="color:var(--teal-light)">See pricing →</a></div>
+    <div class="card-body">
+      <div class="model-selector">
+        <button class="model-btn" onclick="selectModel('gemini-3.1-flash-lite-preview')" id="mbtn-quick">
+          <span class="model-emoji">⚡</span><span class="model-name">Lite</span>
+          <span class="model-desc">Fastest &amp; cheapest</span><span class="model-badge">3.1 Flash Lite</span>
+        </button>
+        <button class="model-btn active" onclick="selectModel('gemini-3-flash-preview')" id="mbtn-smart">
+          <span class="model-emoji">🔥</span><span class="model-name">Smart</span>
+          <span class="model-desc">Recommended · free tier</span><span class="model-badge">3 Flash ✓</span>
+        </button>
+        <button class="model-btn" onclick="selectModel('gemini-3.1-pro-preview')" id="mbtn-pro">
+          <span class="model-emoji">🧠</span><span class="model-name">Pro</span>
+          <span class="model-desc">Most powerful</span><span class="model-badge">3.1 Pro</span>
+        </button>
+      </div>
+      <div class="model-hint">Flash models stay in Google's free tier for most usage. <a href="https://ai.google.dev/pricing" target="_blank" style="color:var(--teal-light)">See pricing →</a></div>
+    </div>
   </div>
 
   <!-- OAuth Connect -->
-  <div class="card">
-    <div class="card-title">🔐 Connect Your Email</div>
-    <div class="oauth-grid">
-      <div class="oauth-box">
-        <div class="oauth-provider">
-          <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.97l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-          Gmail
-          <span class="status-dot dot-off" id="googleDot"></span>
+  <div class="card collapsible" id="card-connect">
+    <div class="card-header" onclick="toggleCard('card-connect')">
+      <div class="card-title">🔐 Connect Your Email</div>
+      <span class="card-status" id="card-connect-status"></span>
+      <button class="card-toggle" aria-label="Toggle">▾</button>
+    </div>
+    <div class="card-body">
+      <div class="oauth-grid">
+        <div class="oauth-box">
+          <div class="oauth-provider">
+            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.97l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+            Gmail
+            <span class="status-dot dot-off" id="googleDot"></span>
+          </div>
+          <div class="oauth-status" id="googleStatus">Not connected</div>
+          <div class="row">
+            <button class="btn btn-teal" id="googleBtn" onclick="connectGoogle()">Connect Gmail</button>
+            <button class="btn btn-ghost" id="googleDisBtn" onclick="disconnectGoogle()" style="display:none">Disconnect</button>
+          </div>
         </div>
-        <div class="oauth-status" id="googleStatus">Not connected</div>
-        <div class="row">
-          <button class="btn btn-teal" id="googleBtn" onclick="connectGoogle()">Connect Gmail</button>
-          <button class="btn btn-ghost" id="googleDisBtn" onclick="disconnectGoogle()" style="display:none">Disconnect</button>
-        </div>
-      </div>
-      <div class="oauth-box">
-        <div class="oauth-provider">
-          <svg width="18" height="18" viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
-          Outlook
-          <span class="status-dot dot-off" id="msDot"></span>
-        </div>
-        <div class="oauth-status" id="msStatus">Not connected</div>
-        <div class="row">
-          <button class="btn btn-teal" id="msBtn" onclick="connectMicrosoft()">Connect Outlook</button>
-          <button class="btn btn-ghost" id="msDisBtn" onclick="disconnectMicrosoft()" style="display:none">Disconnect</button>
+        <div class="oauth-box">
+          <div class="oauth-provider">
+            <svg width="18" height="18" viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
+            Outlook
+            <span class="status-dot dot-off" id="msDot"></span>
+          </div>
+          <div class="oauth-status" id="msStatus">Not connected</div>
+          <div class="row">
+            <button class="btn btn-teal" id="msBtn" onclick="connectMicrosoft()">Connect Outlook</button>
+            <button class="btn btn-ghost" id="msDisBtn" onclick="disconnectMicrosoft()" style="display:none">Disconnect</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- My Reply Style -->
-  <div class="card">
-    <div class="card-title">👤 My Reply Style <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— injected into every AI draft</span></div>
-    <p class="instructions-hint">Add your name, role, company, preferred tone, sign-off, and any standing instructions. The AI will use this context every time it drafts a reply for you.</p>
-    <textarea class="instructions-textarea" id="replyInstructions" placeholder="Example:
+  <div class="card collapsible" id="card-style">
+    <div class="card-header" onclick="toggleCard('card-style')">
+      <div class="card-title">👤 My Reply Style <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— injected into every AI draft</span></div>
+      <span class="card-status" id="card-style-status"></span>
+      <button class="card-toggle" aria-label="Toggle">▾</button>
+    </div>
+    <div class="card-body">
+      <p class="instructions-hint">Add your name, role, company, preferred tone, sign-off, and any standing instructions. The AI will use this context every time it drafts a reply for you.</p>
+      <textarea class="instructions-textarea" id="replyInstructions" placeholder="Example:
 My name is Alex. I'm a sales manager at Acme Corp.
 
 Tone: Warm and direct. Casual with colleagues, professional with new contacts.
@@ -344,9 +378,10 @@ Sign-off: Thanks, Alex
 Keep replies concise — 3-5 sentences unless detail is genuinely needed.
 Never use filler phrases like 'Hope this finds you well' or 'Per my last email.'
 Always acknowledge the person's ask before responding."></textarea>
-    <div class="row">
-      <button class="btn btn-teal" onclick="saveReplyInstructions()" style="font-size:12px;padding:7px 16px">💾 Save My Style</button>
-      <span id="styleStatus" style="font-size:12px;color:var(--green);"></span>
+      <div class="row">
+        <button class="btn btn-teal" onclick="saveReplyInstructions()" style="font-size:12px;padding:7px 16px">💾 Save My Style</button>
+        <span id="styleStatus" style="font-size:12px;color:var(--green);"></span>
+      </div>
     </div>
   </div>
 
@@ -443,6 +478,51 @@ let msalInstance = null, msAccount = null;
 let currentEmails = [];   // full email objects for draft reference
 let draftEmail = null;    // current email being drafted
 
+// ─── Collapsible Cards ────────────────────────────────
+function toggleCard(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  card.classList.toggle('collapsed');
+  updateCardStatuses();
+}
+
+function updateCardStatuses() {
+  // API Keys status
+  const keyStatus = document.getElementById('card-keys-status');
+  if (keyStatus) keyStatus.textContent = localStorage.getItem('gemini_key') ? '✓ Saved' : '';
+  // Model status
+  const modelStatus = document.getElementById('card-model-status');
+  if (modelStatus) {
+    const m = localStorage.getItem('gemini_model') || 'gemini-3-flash-preview';
+    const names = { 'gemini-3.1-flash-lite-preview':'Lite', 'gemini-3-flash-preview':'Smart', 'gemini-3.1-pro-preview':'Pro' };
+    modelStatus.textContent = '✓ ' + (names[m] || 'Smart');
+  }
+  // Connect status
+  const connectStatus = document.getElementById('card-connect-status');
+  if (connectStatus) {
+    const gOn = document.getElementById('googleDot')?.classList.contains('dot-on');
+    const mOn = document.getElementById('msDot')?.classList.contains('dot-on');
+    if (gOn && mOn) connectStatus.textContent = 'Gmail + Outlook ✓';
+    else if (gOn) connectStatus.textContent = 'Gmail ✓';
+    else if (mOn) connectStatus.textContent = 'Outlook ✓';
+    else connectStatus.textContent = '';
+  }
+  // Reply style status
+  const styleStatusCard = document.getElementById('card-style-status');
+  if (styleStatusCard) styleStatusCard.textContent = localStorage.getItem('reply_instructions') ? '✓ Saved' : '';
+}
+
+function initCollapsedState() {
+  updateCardStatuses();
+  // Auto-collapse setup cards for returning users (they have a saved key)
+  if (localStorage.getItem('gemini_key')) {
+    ['card-keys', 'card-model', 'card-connect', 'card-style'].forEach(id => {
+      const card = document.getElementById(id);
+      if (card) card.classList.add('collapsed');
+    });
+  }
+}
+
 window.addEventListener('load', () => {
   checkApiKey();
   selectModel(localStorage.getItem('gemini_model') || 'gemini-3-flash-preview');
@@ -452,6 +532,7 @@ window.addEventListener('load', () => {
   if (ri) document.getElementById('replyInstructions').value = ri;
   initMsal().catch(e => console.warn('MSAL auto-init skipped:', e.message));
   updateLastCheckOption();
+  initCollapsedState();
 });
 
 function saveReplyInstructions() {
@@ -460,12 +541,14 @@ function saveReplyInstructions() {
   const status = document.getElementById('styleStatus');
   status.textContent = val ? '✓ Saved' : '✓ Cleared';
   setTimeout(() => { status.textContent = ''; }, 2500);
+  updateCardStatuses();
 }
 
 function toggleKey(id) { const el=document.getElementById(id); el.type=el.type==='password'?'text':'password'; }
 function saveKey(type) {
   if (type==='gemini') localStorage.setItem('gemini_key', document.getElementById('geminiKey').value.trim());
   showToast('Key saved!');
+  updateCardStatuses();
 }
 function showToast(msg, color) {
   const t = document.createElement('div');
@@ -497,6 +580,7 @@ function connectGoogle() {
         document.getElementById('googleDot').className = 'status-dot dot-on';
         document.getElementById('googleBtn').style.display = 'none';
         document.getElementById('googleDisBtn').style.display = '';
+        updateCardStatuses();
       }
     });
   }
@@ -509,6 +593,7 @@ function disconnectGoogle() {
   document.getElementById('googleDot').className = 'status-dot dot-off';
   document.getElementById('googleBtn').style.display = '';
   document.getElementById('googleDisBtn').style.display = 'none';
+  updateCardStatuses();
 }
 
 // ─── Microsoft Auth (Mail.Read + Mail.ReadWrite + Mail.Send) ──
@@ -552,6 +637,7 @@ async function connectMicrosoft() {
     document.getElementById('msDot').className = 'status-dot dot-on';
     document.getElementById('msBtn').style.display = 'none';
     document.getElementById('msDisBtn').style.display = '';
+    updateCardStatuses();
   } catch (e) {
     if (e.errorCode === 'user_cancelled') return; // user closed popup — no alert needed
     console.error('Microsoft login error:', e);
@@ -576,6 +662,7 @@ function disconnectMicrosoft() {
   document.getElementById('msDot').className = 'status-dot dot-off';
   document.getElementById('msBtn').style.display = '';
   document.getElementById('msDisBtn').style.display = 'none';
+  updateCardStatuses();
 }
 
 // ─── Email Body Helpers ────────────────────────────────
