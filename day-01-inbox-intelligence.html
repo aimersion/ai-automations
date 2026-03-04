@@ -514,7 +514,7 @@ function extractGmailBody(payload) {
   }
   return '';
 }
-const BODY_CAP = 2000; // chars per email — enough for triage, keeps prompt lean
+const BODY_CAP = 10000; // chars per email — full body for quality triage
 
 // ─── Fetch Emails ──────────────────────────────────────
 async function fetchGmailEmails(since) {
