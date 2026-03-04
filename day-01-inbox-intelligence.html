@@ -265,11 +265,14 @@ Always acknowledge the person's ask before responding."></textarea>
   <div class="card">
     <div class="card-title">⚙️ Settings</div>
     <div class="controls">
-      <select id="emailCount">
-        <option value="20" selected>Last 20 emails</option>
-        <option value="40">Last 40 emails</option>
-        <option value="60">Last 60 emails</option>
-        <option value="100">Last 100 emails</option>
+      <select id="timeWindow">
+        <option value="last_check" disabled>Since last check (not run yet)</option>
+        <option value="1h">Last 1 hour</option>
+        <option value="4h">Last 4 hours</option>
+        <option value="today" selected>Today</option>
+        <option value="24h">Last 24 hours</option>
+        <option value="3d">Last 3 days</option>
+        <option value="7d">Last week</option>
       </select>
       <select id="emailSource">
         <option value="both">Gmail + Outlook</option>
@@ -360,6 +363,7 @@ window.addEventListener('load', () => {
   const ri = localStorage.getItem('reply_instructions');
   if (ri) document.getElementById('replyInstructions').value = ri;
   initMsal().catch(e => console.warn('MSAL auto-init skipped:', e.message));
+  updateLastCheckOption();
 });
 
 function saveReplyInstructions() {
@@ -487,14 +491,15 @@ function disconnectMicrosoft() {
 }
 
 // ─── Fetch Emails ──────────────────────────────────────
-async function fetchGmailEmails(count) {
+async function fetchGmailEmails(since) {
   if (!googleToken) return [];
   try {
+    const afterTs = Math.floor(since.getTime() / 1000);
     const listResp = await fetch(
-      `https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=${count}&labelIds=INBOX`,
+      `https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=50&labelIds=INBOX&q=after:${afterTs}`,
       { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json());
     if (!listResp.messages) return [];
-    const ids = listResp.messages.slice(0, Math.min(count, 30));
+    const ids = listResp.messages.slice(0, 30);
     const details = await Promise.all(ids.map(m =>
       fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=metadata&metadataHeaders=From&metadataHeaders=Subject&metadataHeaders=Date&metadataHeaders=Reply-To`,
         { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json())
@@ -506,12 +511,13 @@ async function fetchGmailEmails(count) {
     });
   } catch (e) { console.error('Gmail fetch error:', e); return []; }
 }
-async function fetchOutlookEmails(count) {
+async function fetchOutlookEmails(since) {
   const token = await getMsToken();
   if (!token) return [];
   try {
+    const isoStr = since.toISOString();
     const resp = await fetch(
-      `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=${Math.min(count,50)}&$select=id,subject,from,replyTo,receivedDateTime,bodyPreview,webLink&$orderby=receivedDateTime desc`,
+      `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=50&$select=id,subject,from,replyTo,receivedDateTime,bodyPreview,webLink&$orderby=receivedDateTime desc&$filter=receivedDateTime ge ${isoStr}`,
       { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json());
     return (resp.value || []).map(msg => ({
       source: 'Outlook', id: msg.id,
@@ -540,7 +546,7 @@ async function callGemini(prompt) {
 // ─── Main Triage Run ───────────────────────────────────
 async function runTriage() {
   const source = document.getElementById('emailSource').value;
-  const count  = parseInt(document.getElementById('emailCount').value);
+  const since  = getWindowStart();
   const output = document.getElementById('output');
   const key    = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
 
@@ -554,8 +560,8 @@ async function runTriage() {
 
   try {
     let emails = [];
-    if (source === 'both' || source === 'google')    emails = emails.concat(await fetchGmailEmails(count));
-    if (source === 'both' || source === 'microsoft') emails = emails.concat(await fetchOutlookEmails(count));
+    if (source === 'both' || source === 'google')    emails = emails.concat(await fetchGmailEmails(since));
+    if (source === 'both' || source === 'microsoft') emails = emails.concat(await fetchOutlookEmails(since));
 
     if (emails.length === 0) {
       output.innerHTML = '<div class="error-msg">No emails found. Make sure you\'re connected and have emails in your inbox.</div>';
@@ -601,6 +607,9 @@ Sort by priority (1s first). Include top 25 most important. Return ONLY valid JS
     catch { output.innerHTML = '<div class="error-msg">Could not parse AI response. Try again.</div>'; btn.disabled=false; btn.textContent='🧠 Analyze Inbox'; return; }
 
     renderTriage(data);
+    // Save timestamp so "Since last check" works next time
+    localStorage.setItem('last_triage', Date.now());
+    updateLastCheckOption();
   } catch (e) { output.innerHTML = `<div class="error-msg">${e.message}</div>`; }
 
   btn.disabled = false; btn.textContent = '🧠 Analyze Inbox';
@@ -890,6 +899,45 @@ function showSampleOutput() {
   }
   html += '</div>';
   output.innerHTML = html;
+}
+
+// ─── Time Window Helpers ───────────────────────────────
+function getWindowStart() {
+  const val = document.getElementById('timeWindow').value;
+  const now = new Date();
+  if (val === 'last_check') {
+    const last = localStorage.getItem('last_triage');
+    return last ? new Date(parseInt(last)) : new Date(now - 24*60*60*1000);
+  }
+  if (val === '1h')   return new Date(now - 1*60*60*1000);
+  if (val === '4h')   return new Date(now - 4*60*60*1000);
+  if (val === 'today') { const d = new Date(now); d.setHours(0,0,0,0); return d; }
+  if (val === '24h')  return new Date(now - 24*60*60*1000);
+  if (val === '3d')   return new Date(now - 3*24*60*60*1000);
+  if (val === '7d')   return new Date(now - 7*24*60*60*1000);
+  return new Date(now - 24*60*60*1000);
+}
+function timeAgo(ts) {
+  const diff = Date.now() - ts;
+  const mins = Math.floor(diff / 60000);
+  if (mins < 2)  return 'just now';
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24)  return `${hrs}h ago`;
+  return `${Math.floor(hrs/24)}d ago`;
+}
+function updateLastCheckOption() {
+  const last = localStorage.getItem('last_triage');
+  const sel  = document.getElementById('timeWindow');
+  const opt  = sel.querySelector('option[value="last_check"]');
+  if (last) {
+    opt.textContent = `Since last check (${timeAgo(parseInt(last))})`;
+    opt.disabled = false;
+    sel.value = 'last_check';   // auto-select it after first run
+  } else {
+    opt.textContent = 'Since last check (not run yet)';
+    opt.disabled = true;
+  }
 }
 
 // ─── API Key Onboarding Modal ──────────────────────────
