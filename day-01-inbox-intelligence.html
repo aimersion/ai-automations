@@ -140,7 +140,6 @@
   <div class="logo">⚡ Aimersion · Day 01</div>
   <div class="nav-links">
     <a href="index.html">← All Tools</a>
-    <a href="day-02-proposal-generator.html">Day 02 →</a>
   </div>
 </header>
 
@@ -152,6 +151,31 @@
 
 <div class="main">
 
+  <!-- Quick Start Guide -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px">
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
+      <div style="width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">Get a free API key</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">Paste your Gemini key below. Free at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--teal-light)">AI Studio</a> — no credit card.</div>
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
+      <div style="width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">Connect your email</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">Gmail or Outlook — one click via secure OAuth. We never see your password.</div>
+      </div>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;gap:12px;align-items:flex-start">
+      <div style="width:24px;height:24px;border-radius:50%;background:var(--amber);color:#000;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+      <div>
+        <div style="font-size:12px;font-weight:700;margin-bottom:3px">Click Analyze Inbox</div>
+        <div style="font-size:11px;color:var(--muted);line-height:1.5">AI triages your emails, shows what needs your attention, and drafts replies.</div>
+      </div>
+    </div>
+  </div>
+
   <!-- API Keys -->
   <div class="card">
     <div class="card-title">🔑 API Keys <span style="font-weight:400;color:#6EE7B7;font-size:.78rem">— free, no credit card</span></div>
@@ -160,7 +184,7 @@
       <button class="btn btn-ghost" onclick="toggleKey('geminiKey')">Show</button>
       <button class="btn btn-teal" onclick="saveKey('gemini')">Save</button>
     </div>
-    <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com" target="_blank">aistudio.google.com</a></div>
+    <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> — <button onclick="showKeyModal()" style="background:none;border:none;color:var(--teal-light);font-size:11px;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline;">Step-by-step help →</button></div>
   </div>
 
   <!-- Intelligence Level -->
@@ -241,8 +265,8 @@ Never use corporate jargon or filler phrases like 'Hope this finds you well.'"><
     <div class="card-title">⚙️ Settings</div>
     <div class="controls">
       <select id="emailCount">
-        <option value="20">Last 20 emails</option>
-        <option value="40" selected>Last 40 emails</option>
+        <option value="20" selected>Last 20 emails</option>
+        <option value="40">Last 40 emails</option>
         <option value="60">Last 60 emails</option>
         <option value="100">Last 100 emails</option>
       </select>
@@ -258,7 +282,17 @@ Never use corporate jargon or filler phrases like 'Hope this finds you well.'"><
   <!-- Output -->
   <div class="card output-area" id="outputCard">
     <div class="card-title">📊 Triage Results</div>
-    <div id="output" style="color:var(--muted);font-size:14px">Connect an email account and click "Analyze Inbox" to get started.</div>
+    <div id="output" style="color:var(--muted);font-size:14px">
+      <div style="text-align:center;padding:32px 20px">
+        <div style="font-size:36px;margin-bottom:12px">📬</div>
+        <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:8px">Your triage results will appear here</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7;max-width:400px;margin:0 auto">
+          You'll get an <strong style="color:var(--teal-light)">AI Digest</strong> of your inbox, each email ranked
+          <span style="color:#FCA5A5">🔴 Urgent</span> / <span style="color:#FCD34D">🟡 Review</span> / <span style="color:#6EE7B7">🟢 FYI</span>,
+          with a one-click <strong style="color:var(--teal-light)">Draft Reply</strong> for anything that needs a response.
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -793,6 +827,28 @@ async function sendOutlook() {
     showToast('✓ Email sent via Outlook!', '#059669');
     closeDraftModal();
   } catch (e) { alert('Error sending Outlook: ' + e.message); }
+}
+
+// ─── API Key Onboarding Modal ──────────────────────────
+function checkApiKey() {
+  if (!localStorage.getItem('gemini_key')) {
+    document.getElementById('keyOnboardModal').style.display = 'flex';
+  }
+}
+function showKeyModal() {
+  document.getElementById('keyModalInput').value = '';
+  document.getElementById('keyOnboardModal').style.display = 'flex';
+}
+function closeKeyModal() {
+  document.getElementById('keyOnboardModal').style.display = 'none';
+}
+function saveKeyFromModal() {
+  const val = document.getElementById('keyModalInput').value.trim();
+  if (!val) { alert('Please paste your Gemini API key first.'); return; }
+  localStorage.setItem('gemini_key', val);
+  document.getElementById('geminiKey').value = val;
+  closeKeyModal();
+  showToast('✓ API key saved — you\'re ready to go!', '#059669');
 }
 </script>
 
