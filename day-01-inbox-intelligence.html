@@ -248,12 +248,13 @@
     <div class="card-title">👤 My Reply Style <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— injected into every AI draft</span></div>
     <p class="instructions-hint">Add your name, role, company, preferred tone, sign-off, and any standing instructions. The AI will use this context every time it drafts a reply for you.</p>
     <textarea class="instructions-textarea" id="replyInstructions" placeholder="Example:
-My name is Jim Lynch. I'm founder of Aimersion (aimersion.ai), an AI automation company in Argyle, TX.
+My name is Alex. I'm a sales manager at Acme Corp.
 
-Tone: Warm and direct. Casual with people I know, professional with new contacts.
-Sign-off: Best, Jim
+Tone: Warm and direct. Casual with colleagues, professional with new contacts.
+Sign-off: Thanks, Alex
 Keep replies concise — 3-5 sentences unless detail is genuinely needed.
-Never use corporate jargon or filler phrases like 'Hope this finds you well.'"></textarea>
+Never use filler phrases like 'Hope this finds you well' or 'Per my last email.'
+Always acknowledge the person's ask before responding."></textarea>
     <div class="row">
       <button class="btn btn-teal" onclick="saveReplyInstructions()" style="font-size:12px;padding:7px 16px">💾 Save My Style</button>
       <span id="styleStatus" style="font-size:12px;color:var(--green);"></span>
@@ -283,14 +284,15 @@ Never use corporate jargon or filler phrases like 'Hope this finds you well.'"><
   <div class="card output-area" id="outputCard">
     <div class="card-title">📊 Triage Results</div>
     <div id="output" style="color:var(--muted);font-size:14px">
-      <div style="text-align:center;padding:32px 20px">
-        <div style="font-size:36px;margin-bottom:12px">📬</div>
-        <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:8px">Your triage results will appear here</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.7;max-width:400px;margin:0 auto">
-          You'll get an <strong style="color:var(--teal-light)">AI Digest</strong> of your inbox, each email ranked
-          <span style="color:#FCA5A5">🔴 Urgent</span> / <span style="color:#FCD34D">🟡 Review</span> / <span style="color:#6EE7B7">🟢 FYI</span>,
-          with a one-click <strong style="color:var(--teal-light)">Draft Reply</strong> for anything that needs a response.
+      <div style="text-align:center;padding:28px 20px 20px">
+        <div style="font-size:32px;margin-bottom:10px">📬</div>
+        <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px">Connect your email above and click Analyze Inbox</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.6;max-width:380px;margin:0 auto 18px">
+          AI ranks every email <span style="color:#FCA5A5">Urgent</span> / <span style="color:#FCD34D">Review</span> / <span style="color:#6EE7B7">FYI</span>, gives you a digest of your day, and drafts replies in your voice.
         </div>
+        <button onclick="showSampleOutput()" style="background:var(--navy2);border:1px solid var(--border-bright,#2A4A70);color:var(--teal-light);font-size:13px;font-weight:600;padding:9px 22px;border-radius:8px;cursor:pointer;font-family:inherit;transition:border-color 0.2s" onmouseover="this.style.borderColor='var(--teal)'" onmouseout="this.style.borderColor='var(--border-bright,#2A4A70)'">
+          👀 Preview sample output
+        </button>
       </div>
     </div>
   </div>
@@ -827,6 +829,60 @@ async function sendOutlook() {
     showToast('✓ Email sent via Outlook!', '#059669');
     closeDraftModal();
   } catch (e) { alert('Error sending Outlook: ' + e.message); }
+}
+
+// ─── Sample Output Demo ────────────────────────────────
+function showSampleOutput() {
+  const sampleData = {
+    digest: "Your morning looks busy — Marcus Webb at Venture Bridge is waiting on the signed term sheet (flagged urgent), and the Meridian contract needs your review before Thursday's call. Three teammates have follow-up questions on the Q3 roadmap that need quick answers. The rest is newsletters and automated alerts you can safely ignore for now.",
+    summary: { total: 20, action_required: 4, can_wait: 5, low_priority: 11 },
+    emails: [
+      { index:1, priority:1, subject:"Re: Term Sheet — please sign by EOD", from:"Marcus Webb <m.webb@venturebridge.io>", summary:"Investor is waiting on your signed term sheet before end of day to close the round.", action:"Sign and return the term sheet document today.", source:"Gmail", needs_reply:true },
+      { index:2, priority:1, subject:"Meridian contract — final review needed", from:"Priya Nair <pnair@meridiangroup.com>", summary:"Legal has finished edits; they need your sign-off before the Thursday call at 2pm.", action:"Review redlines in Google Drive and reply with approval or comments.", source:"Gmail", needs_reply:true },
+      { index:3, priority:1, subject:"Quick question on Q3 product roadmap", from:"Jordan Lee <j.lee@yourcompany.com>", summary:"Engineering lead needs clarity on which features are in scope for Q3 before sprint planning tomorrow.", action:"Reply with Q3 scope decision — yes/no on the API integration feature.", source:"Outlook", needs_reply:true },
+      { index:4, priority:2, subject:"Follow up: partnership call last week", from:"Dana Torres <dana@blueridgepartners.com>", summary:"Partnership contact following up on the intro call — interested in a pilot program proposal.", action:"Reply with interest level and proposed next step or pilot scope.", source:"Gmail", needs_reply:true },
+      { index:5, priority:2, subject:"Team offsite — dates poll", from:"Riley Kim <r.kim@yourcompany.com>", summary:"HR is collecting availability for the Q4 offsite — poll closes Friday.", action:"Fill out the Doodle poll linked in the email.", source:"Outlook", needs_reply:false },
+      { index:6, priority:2, subject:"Invoice #2047 — due in 5 days", from:"billing@cloudserviceco.com", summary:"Monthly cloud infrastructure invoice for $1,240 is due in 5 days.", action:"Approve payment or forward to accounting.", source:"Gmail", needs_reply:false },
+      { index:7, priority:3, subject:"Your weekly GitHub activity summary", from:"noreply@github.com", summary:"Automated weekly digest of commits, PRs, and issues across your repos.", action:"No action needed — review if interested.", source:"Gmail", needs_reply:false },
+      { index:8, priority:3, subject:"SaaStr Annual 2025 — early bird ends soon", from:"events@saastr.com", summary:"Marketing email promoting early bird tickets for the SaaStr conference.", action:"No action needed.", source:"Gmail", needs_reply:false }
+    ]
+  };
+  // Inject as if it's real — with sample banner
+  const output = document.getElementById('output');
+  let html = `<div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.35);border-radius:8px;padding:10px 16px;font-size:12px;color:#FCD34D;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+    ✨ <strong>Sample output</strong> — connect your email above and click Analyze Inbox to see your real results
+  </div>`;
+  html += `<div class="digest-card">
+    <div class="digest-icon">🧠</div>
+    <div><div class="digest-label">AI Inbox Digest</div><div class="digest-text">${sampleData.digest}</div></div>
+  </div>`;
+  const s = sampleData.summary;
+  html += `<div class="summary-bar">
+    <div class="summary-stat"><div class="summary-num" style="color:var(--white)">${s.total}</div><div class="summary-lbl">Total Scanned</div></div>
+    <div class="summary-stat"><div class="summary-num" style="color:#FCA5A5">${s.action_required}</div><div class="summary-lbl">Action Required</div></div>
+    <div class="summary-stat"><div class="summary-num" style="color:#FCD34D">${s.can_wait}</div><div class="summary-lbl">Review Soon</div></div>
+    <div class="summary-stat"><div class="summary-num" style="color:#6EE7B7">${s.low_priority}</div><div class="summary-lbl">Low Priority</div></div>
+  </div><div class="triage-grid">`;
+  for (const e of sampleData.emails) {
+    const pc = e.priority===1?'p1':e.priority===2?'p2':'p3';
+    const pl = e.priority===1?'Urgent':e.priority===2?'Review':'FYI';
+    html += `<div class="email-item priority-${e.priority}">
+      <div class="email-meta"><span class="priority-badge ${pc}">${pl}</span><span class="email-from">${e.from} · ${e.source}</span></div>
+      <div class="email-subject">${e.subject}</div>
+      <div class="email-summary">${e.summary}</div>
+      <div class="email-footer">
+        <div class="email-action">→ ${e.action}</div>
+        <div style="display:flex;gap:6px;align-items:center">
+          ${e.needs_reply
+            ? `<button class="btn btn-ghost reply-btn-needed" onclick="alert('Connect your email to draft real replies!')" title="AI thinks this needs a reply">✍️ Draft Reply</button>`
+            : `<button class="btn btn-ghost reply-btn-skip" style="opacity:0.4" title="No reply likely needed">✍️ Draft anyway</button>`
+          }
+        </div>
+      </div>
+    </div>`;
+  }
+  html += '</div>';
+  output.innerHTML = html;
 }
 
 // ─── API Key Onboarding Modal ──────────────────────────
