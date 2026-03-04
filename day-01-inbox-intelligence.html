@@ -520,21 +520,54 @@ const BODY_CAP = 10000; // chars per email — full body for quality triage
 async function fetchGmailEmails(since) {
   if (!googleToken) return [];
   try {
+    // Get user's own email address for reply detection
+    const profileResp = await fetch(
+      'https://gmail.googleapis.com/gmail/v1/users/me/profile',
+      { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json());
+    const myEmail = (profileResp.emailAddress || '').toLowerCase();
+
+    // Use threads API so we get full conversation context
     const afterTs = Math.floor(since.getTime() / 1000);
     const listResp = await fetch(
-      `https://gmail.googleapis.com/gmail/v1/users/me/messages?maxResults=50&labelIds=INBOX&q=after:${afterTs}`,
+      `https://gmail.googleapis.com/gmail/v1/users/me/threads?maxResults=50&labelIds=INBOX&q=after:${afterTs}`,
       { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json());
-    if (!listResp.messages) return [];
-    const ids = listResp.messages.slice(0, 30);
-    const details = await Promise.all(ids.map(m =>
-      fetch(`https://gmail.googleapis.com/gmail/v1/users/me/messages/${m.id}?format=full`,
+    if (!listResp.threads) return [];
+
+    const threadIds = listResp.threads.slice(0, 30);
+    const threads = await Promise.all(threadIds.map(t =>
+      fetch(`https://gmail.googleapis.com/gmail/v1/users/me/threads/${t.id}?format=full`,
         { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json())
     ));
-    return details.map(msg => {
-      const headers = msg.payload?.headers || [];
+
+    return threads.map(thread => {
+      const messages = thread.messages || [];
+      const firstMsg = messages[0] || {};
+      const lastMsg  = messages[messages.length - 1] || firstMsg;
+
+      const headers = firstMsg.payload?.headers || [];
       const get = n => headers.find(h => h.name === n)?.value || '';
-      const body = extractGmailBody(msg.payload).slice(0, BODY_CAP) || msg.snippet || '';
-      return { source: 'Gmail', id: msg.id, from: get('From'), replyTo: get('Reply-To') || get('From'), subject: get('Subject'), date: get('Date'), snippet: body };
+
+      // Full body from latest message (most recent reply in thread)
+      const body = extractGmailBody(lastMsg.payload).slice(0, BODY_CAP)
+                   || lastMsg.snippet || firstMsg.snippet || '';
+
+      // Reply detection: did the last message come from us?
+      const lastHeaders = lastMsg.payload?.headers || [];
+      const lastFrom = (lastHeaders.find(h => h.name === 'From')?.value || '').toLowerCase();
+      const alreadyReplied = myEmail.length > 0 && lastFrom.includes(myEmail);
+
+      return {
+        source: 'Gmail',
+        id: firstMsg.id,
+        threadId: thread.id,
+        messageCount: messages.length,
+        from: get('From'),
+        replyTo: get('Reply-To') || get('From'),
+        subject: get('Subject'),
+        date: get('Date'),
+        snippet: body,
+        alreadyReplied
+      };
     });
   } catch (e) { console.error('Gmail fetch error:', e); return []; }
 }
@@ -543,19 +576,32 @@ async function fetchOutlookEmails(since) {
   if (!token) return [];
   try {
     const isoStr = since.toISOString();
-    const resp = await fetch(
-      `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=50&$select=id,subject,from,replyTo,receivedDateTime,body,webLink&$orderby=receivedDateTime desc&$filter=receivedDateTime ge ${isoStr}`,
-      { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json());
-    return (resp.value || []).map(msg => {
+
+    // Fetch inbox + sent items in parallel for reply detection
+    const [inboxResp, sentResp] = await Promise.all([
+      fetch(
+        `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=50&$select=id,subject,from,replyTo,receivedDateTime,body,webLink,conversationId&$orderby=receivedDateTime desc&$filter=receivedDateTime ge ${isoStr}`,
+        { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json()),
+      fetch(
+        `https://graph.microsoft.com/v1.0/me/mailFolders/sentitems/messages?$top=100&$select=conversationId,sentDateTime&$filter=sentDateTime ge ${isoStr}`,
+        { headers: { Authorization: 'Bearer ' + token } }).then(r => r.json())
+    ]);
+
+    // Build a Set of conversation IDs where we sent a reply
+    const repliedConvos = new Set((sentResp.value || []).map(m => m.conversationId));
+
+    return (inboxResp.value || []).map(msg => {
       const raw = msg.body?.content || '';
       const body = (msg.body?.contentType === 'html' ? stripHtml(raw) : raw).slice(0, BODY_CAP);
       return {
         source: 'Outlook', id: msg.id,
+        conversationId: msg.conversationId || '',
         from: msg.from?.emailAddress?.address || '',
         replyTo: (msg.replyTo?.[0]?.emailAddress?.address) || msg.from?.emailAddress?.address || '',
         subject: msg.subject || '(no subject)',
         date: msg.receivedDateTime || '', snippet: body,
-        webLink: msg.webLink || ''
+        webLink: msg.webLink || '',
+        alreadyReplied: repliedConvos.has(msg.conversationId)
       };
     });
   } catch (e) { console.error('Outlook fetch error:', e); return []; }
@@ -603,9 +649,11 @@ async function runTriage() {
     btn.textContent = `⏳ Analyzing ${emails.length} emails...`;
     output.innerHTML = `<div class="loading"><div class="spinner"></div><br>Analyzing ${emails.length} emails with ${getSelectedModel()}...</div>`;
 
-    const emailList = emails.map((e, i) =>
-      `${i+1}. [${e.source}] FROM: ${e.from} | SUBJECT: ${e.subject} | PREVIEW: ${e.snippet.slice(0,200)}`
-    ).join('\n');
+    const emailList = emails.map((e, i) => {
+      const threadNote = e.messageCount > 1 ? ` [THREAD: ${e.messageCount} messages]` : '';
+      const repliedNote = e.alreadyReplied ? ' [YOU ALREADY REPLIED]' : '';
+      return `${i+1}. [${e.source}]${threadNote}${repliedNote} FROM: ${e.from} | SUBJECT: ${e.subject} | BODY: ${e.snippet}`;
+    }).join('\n\n');
 
     const prompt = `You are an expert executive assistant. Analyze these ${emails.length} emails and provide a smart inbox triage.
 
@@ -617,7 +665,7 @@ Return a JSON object with this exact structure:
   "digest": "2-3 sentence narrative overview of the inbox. Mention the most important things needing attention by name, note any patterns (e.g. several scheduling requests, a few follow-ups), and give the user a clear sense of what today's inbox actually demands. Be specific and human — not generic.",
   "summary": { "total": number, "action_required": number, "can_wait": number, "low_priority": number },
   "emails": [
-    { "index": number (1-based), "priority": 1|2|3, "subject": "...", "from": "...", "summary": "one sentence", "action": "specific next step", "source": "Gmail|Outlook", "needs_reply": true|false }
+    { "index": number (1-based), "priority": 1|2|3, "subject": "...", "from": "...", "summary": "one sentence", "action": "specific next step", "source": "Gmail|Outlook", "needs_reply": true|false, "already_replied": true|false }
   ]
 }
 
@@ -627,10 +675,15 @@ needs_reply rules — set TRUE only when the email:
 - Is a meeting/calendar invitation needing an RSVP
 - Is a follow-up from a real person waiting for a response
 - Contains a request, task delegation, or asks for information
+- IMPORTANT: If the email is marked [YOU ALREADY REPLIED], set needs_reply to FALSE
 
-Set needs_reply FALSE for: newsletters, marketing, automated notifications, order confirmations, shipping updates, social media alerts, system emails, CC-only emails where no response is expected, or anything from a no-reply address.
+Set needs_reply FALSE for: newsletters, marketing, automated notifications, order confirmations, shipping updates, social media alerts, system emails, CC-only emails where no response is expected, anything from a no-reply address, or any email where [YOU ALREADY REPLIED] is noted.
 
-Sort by priority (1s first). Include top 25 most important. Return ONLY valid JSON.`;
+already_replied rules:
+- Set TRUE if the email is marked [YOU ALREADY REPLIED] in the data above
+- Set FALSE otherwise
+
+Sort by priority (1s first), with already-replied emails ranked lower. Include top 25 most important. Return ONLY valid JSON.`;
 
     const raw = await callGemini(prompt);
     let data;
@@ -697,9 +750,11 @@ function renderTriage(data) {
           <div class="email-action">→ ${e.action||''}</div>
           <div style="display:flex;gap:6px;align-items:center">
             ${openLink}
-            ${e.needs_reply
-              ? `<button class="btn btn-ghost reply-btn-needed" onclick="openDraftModal(${e.index-1})" title="AI thinks this email needs a reply">✍️ Draft Reply</button>`
-              : `<button class="btn btn-ghost reply-btn-skip" onclick="openDraftModal(${e.index-1})" title="No reply likely needed — draft anyway?">✍️ Draft anyway</button>`
+            ${e.already_replied
+              ? `<span style="font-size:11px;color:#6EE7B7;padding:5px 10px;border:1px solid #6EE7B7;border-radius:6px;white-space:nowrap;opacity:0.85">✅ Already Replied</span>`
+              : e.needs_reply
+                ? `<button class="btn btn-ghost reply-btn-needed" onclick="openDraftModal(${e.index-1})" title="AI thinks this email needs a reply">✍️ Draft Reply</button>`
+                : `<button class="btn btn-ghost reply-btn-skip" onclick="openDraftModal(${e.index-1})" title="No reply likely needed — draft anyway?">✍️ Draft anyway</button>`
             }
           </div>
         </div>
