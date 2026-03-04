@@ -3,197 +3,692 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>20 Automations in 20 Days — Aimersion AI</title>
+<title>20 AI Tools in 20 Days — Free, No Login, Runs in Your Browser</title>
+<meta name="description" content="20 production-ready AI automation tools dropping one per day. Connect your real Gmail, Outlook, and Calendar. Zero backend. 100% free.">
+<meta property="og:title" content="20 AI Tools in 20 Days — All Free">
+<meta property="og:description" content="Real AI. Real email access. Zero backend. One new tool every day for 20 days.">
+<meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
-    --navy: #0F1F3D;
-    --navy2: #1A2F52;
-    --teal: #0891B2;
-    --teal-light: #22D3EE;
+    --bg: #080E1A;
+    --surface: #0F1829;
+    --surface2: #152035;
+    --border: #1E3050;
+    --border-bright: #2A4A70;
+    --teal: #06B6D4;
+    --teal-dim: rgba(6,182,212,0.15);
+    --teal-glow: rgba(6,182,212,0.3);
+    --green: #10B981;
+    --green-dim: rgba(16,185,129,0.15);
+    --green-glow: rgba(16,185,129,0.4);
     --amber: #F59E0B;
-    --green: #059669;
-    --white: #F0F7FF;
-    --muted: #8AAFD0;
-    --card: #162840;
-    --border: #2A4A70;
+    --amber-dim: rgba(245,158,11,0.15);
+    --white: #F1F5F9;
+    --muted: #64748B;
+    --muted2: #94A3B8;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
 
-  header { border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; }
-  .logo { font-size: 13px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; }
-  .badge { background: var(--amber); color: #000; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; }
+  /* ── Header ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(8,14,26,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { font-size: 14px; font-weight: 800; color: var(--teal); letter-spacing: 2px; text-transform: uppercase; text-decoration: none; }
+  .header-right { display: flex; align-items: center; gap: 16px; }
+  .share-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface2); border: 1px solid var(--border-bright);
+    color: var(--white); font-size: 13px; font-weight: 600;
+    padding: 8px 16px; border-radius: 8px; cursor: pointer;
+    text-decoration: none; transition: border-color 0.2s, background 0.2s;
+  }
+  .share-btn:hover { border-color: var(--teal); background: var(--teal-dim); }
 
-  .hero { text-align: center; padding: 72px 32px 56px; max-width: 760px; margin: 0 auto; }
-  .hero-label { font-size: 12px; color: var(--teal); letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; }
-  h1 { font-size: 52px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
-  h1 em { color: var(--teal); font-style: normal; }
-  .hero-sub { font-size: 18px; color: var(--muted); line-height: 1.7; margin-bottom: 40px; }
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 80px 24px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 400px;
+    background: radial-gradient(ellipse at center, rgba(6,182,212,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .live-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--green-dim); border: 1px solid rgba(16,185,129,0.35);
+    color: var(--green); font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    padding: 6px 16px; border-radius: 20px; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .live-dot {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--green-glow); }
+    50% { opacity: 0.8; box-shadow: 0 0 0 6px transparent; }
+  }
+  h1 {
+    font-size: clamp(38px, 6vw, 68px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+    max-width: 820px;
+    margin-left: auto; margin-right: auto;
+  }
+  h1 .accent { color: var(--teal); }
+  h1 .accent2 { color: var(--amber); }
+  .hero-sub {
+    font-size: 17px; color: var(--muted2); line-height: 1.7;
+    max-width: 560px; margin: 0 auto 40px;
+  }
 
-  .tech-badges { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 56px; }
-  .tech { background: var(--card); border: 1px solid var(--border); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; color: var(--teal-light); letter-spacing: 1px; }
+  /* ── Progress Bar ── */
+  .progress-wrap {
+    max-width: 560px; margin: 0 auto 40px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 20px;
+  }
+  .progress-label {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; font-weight: 700; margin-bottom: 10px;
+    color: var(--muted2); letter-spacing: 1px; text-transform: uppercase;
+  }
+  .progress-label span { color: var(--teal); }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .progress-fill {
+    height: 100%; border-radius: 4px;
+    background: linear-gradient(90deg, var(--teal), var(--green));
+    width: 5%; /* 1/20 */
+    box-shadow: 0 0 8px var(--teal-glow);
+  }
+  .progress-dots {
+    display: flex; gap: 5px; flex-wrap: wrap; margin-top: 12px;
+  }
+  .pdot {
+    width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0;
+  }
+  .pdot-live { background: var(--green); box-shadow: 0 0 6px var(--green-glow); }
+  .pdot-locked { background: var(--border); }
 
-  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; max-width: 1100px; margin: 0 auto 80px; padding: 0 32px; }
+  /* ── Notify strip ── */
+  .notify-strip {
+    max-width: 560px; margin: 0 auto 56px;
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 12px 16px; flex-wrap: wrap;
+    justify-content: center;
+  }
+  .notify-strip p { font-size: 13px; color: var(--muted2); }
+  .notify-strip a {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--teal); color: #000; font-size: 13px; font-weight: 700;
+    padding: 8px 16px; border-radius: 7px; text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .notify-strip a:hover { opacity: 0.85; }
 
-  .tool-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; text-decoration: none; color: inherit; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; display: block; }
-  .tool-card:hover { transform: translateY(-4px); border-color: var(--teal); box-shadow: 0 8px 32px rgba(8,145,178,0.15); }
-  .tool-card-live { border-color: rgba(5,150,105,0.4); box-shadow: 0 0 0 1px rgba(5,150,105,0.15); }
-  .tool-card-live::before { content: '● LIVE'; font-size: 10px; font-weight: 800; letter-spacing: 2px; color: var(--green); display: block; margin-bottom: 8px; }
-  .tool-card-locked { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px; color: inherit; display: block; opacity: 0.55; position: relative; overflow: hidden; cursor: default; }
-  .tool-card-locked::after { content: 'COMING SOON'; position: absolute; top: 14px; right: -26px; background: var(--amber); color: #000; font-size: 9px; font-weight: 800; letter-spacing: 1px; padding: 4px 32px; transform: rotate(35deg); }
+  /* ── Tool Grid ── */
+  .tools-section { max-width: 1160px; margin: 0 auto; padding: 0 24px 80px; }
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--muted);
+    text-transform: uppercase; margin-bottom: 20px; text-align: center;
+  }
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
 
-  .tool-day { font-size: 11px; font-weight: 700; letter-spacing: 3px; color: var(--amber); text-transform: uppercase; margin-bottom: 10px; }
-  .tool-icon { font-size: 32px; margin-bottom: 12px; }
-  .tool-name { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
-  .tool-desc { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
-  .tool-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .tag { background: rgba(8,145,178,0.12); border: 1px solid rgba(8,145,178,0.25); color: var(--teal-light); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 12px; }
+  /* ── Tool Cards ── */
+  .tool-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+    position: relative;
+  }
+  .tool-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--teal);
+    box-shadow: 0 8px 30px rgba(6,182,212,0.12);
+  }
+  .tool-card-live {
+    border-color: rgba(16,185,129,0.4);
+    background: linear-gradient(145deg, var(--surface) 0%, rgba(16,185,129,0.05) 100%);
+    box-shadow: 0 0 0 1px rgba(16,185,129,0.1), 0 4px 20px rgba(16,185,129,0.08);
+  }
+  .tool-card-live:hover {
+    border-color: var(--green);
+    box-shadow: 0 8px 30px rgba(16,185,129,0.18);
+  }
+  .tool-card-locked {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    opacity: 0.5;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
 
-  .cta-row { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 80px; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; text-decoration: none; border: none; transition: opacity 0.2s; }
-  .btn-primary { background: var(--teal); color: #fff; }
-  .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
-  .btn:hover { opacity: 0.85; }
+  /* card header row */
+  .card-top {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .card-day-tag {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .card-day-tag.live { color: var(--green); }
+  .card-day-tag.locked { color: var(--muted); }
+  .card-status-badge {
+    font-size: 10px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 6px;
+  }
+  .badge-live { background: var(--green-dim); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+  .badge-soon { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
 
-  .setup-banner { background: var(--card); border: 1px solid var(--border); border-radius: 12px; max-width: 760px; margin: 0 auto 60px; padding: 28px 32px; }
-  .setup-banner h3 { color: var(--amber); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
-  .setup-banner p { color: var(--muted); font-size: 14px; line-height: 1.7; }
-  .setup-banner a { color: var(--teal-light); }
-  .coming-section { max-width: 1100px; margin: 0 auto 60px; padding: 0 32px; }
-  .coming-header { text-align: center; margin-bottom: 28px; }
-  .coming-label { font-size: 11px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
-  .coming-title { font-size: 26px; font-weight: 800; color: var(--white); }
-  .coming-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
-  .coming-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; opacity: 0.6; position: relative; overflow: hidden; }
-  .coming-card::after { content: 'COMING SOON'; position: absolute; top: 10px; right: -22px; background: var(--amber); color: #000; font-size: 9px; font-weight: 800; letter-spacing: 1px; padding: 3px 28px; transform: rotate(35deg); }
-  .coming-day { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 6px; }
-  .coming-icon { font-size: 22px; margin-bottom: 8px; }
-  .coming-name { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
-  .coming-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .card-icon { font-size: 30px; margin-bottom: 10px; display: block; }
+  .card-name { font-size: 17px; font-weight: 800; margin-bottom: 8px; line-height: 1.2; }
+  .card-desc { font-size: 13px; color: var(--muted2); line-height: 1.6; margin-bottom: 14px; flex: 1; }
+  .card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; }
+  .tag {
+    background: rgba(6,182,212,0.08);
+    border: 1px solid rgba(6,182,212,0.2);
+    color: rgba(6,182,212,0.85);
+    font-size: 10px; font-weight: 600;
+    padding: 3px 9px; border-radius: 10px;
+    letter-spacing: 0.3px;
+  }
+  .tag-amber {
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.2);
+    color: rgba(245,158,11,0.85);
+  }
 
-  footer { border-top: 1px solid var(--border); padding: 24px 40px; text-align: center; font-size: 13px; color: var(--muted); }
+  /* ── How It Works ── */
+  .how-section {
+    max-width: 900px; margin: 0 auto 80px; padding: 0 24px;
+    text-align: center;
+  }
+  .how-section h2 { font-size: 24px; font-weight: 800; margin-bottom: 8px; }
+  .how-section p { font-size: 15px; color: var(--muted2); margin-bottom: 36px; line-height: 1.6; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 640px) { .steps { grid-template-columns: 1fr; } }
+  .step {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 24px 20px; text-align: left;
+  }
+  .step-num {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: var(--teal-dim); color: var(--teal);
+    font-size: 13px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+  }
+  .step h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .step p { font-size: 13px; color: var(--muted2); line-height: 1.6; }
+  .step a { color: var(--teal); text-decoration: none; }
+  .step a:hover { text-decoration: underline; }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border); padding: 28px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  footer p { font-size: 13px; color: var(--muted); }
+  footer a { color: var(--teal); text-decoration: none; }
+  .footer-share { display: flex; align-items: center; gap: 10px; }
+  .fsb {
+    display: inline-flex; align-items: center; gap: 6px;
+    border: 1px solid var(--border-bright); color: var(--muted2);
+    font-size: 12px; font-weight: 600; padding: 7px 14px; border-radius: 7px;
+    text-decoration: none; transition: border-color 0.2s, color 0.2s;
+  }
+  .fsb:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    header { padding: 12px 16px; }
+    .hero { padding: 56px 16px 36px; }
+    .tools-section { padding: 0 16px 60px; }
+    h1 { letter-spacing: -0.5px; }
+    footer { padding: 20px 16px; justify-content: center; text-align: center; }
+    .tools-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .tool-card, .tool-card-locked { padding: 14px; }
+    .card-icon { font-size: 22px; }
+    .card-name { font-size: 14px; }
+    .card-desc { display: none; }
+  }
 </style>
 </head>
 <body>
 
+<!-- ── Header ── -->
 <header>
-  <div class="logo">⚡ Aimersion AI</div>
-  <div class="badge">20 AUTOMATIONS · 20 DAYS</div>
+  <a href="/" class="logo">⚡ Aimersion AI</a>
+  <div class="header-right">
+    <a class="share-btn" href="https://twitter.com/intent/tweet?text=20%20free%20AI%20tools%20in%2020%20days%20%E2%80%94%20real%20email%20access%2C%20zero%20backend%2C%20runs%20in%20your%20browser.%20Day%201%20is%20live%20now%20%F0%9F%94%A5&url=https://aimersion.github.io/ai-automations/" target="_blank" rel="noopener">
+      𝕏 Share
+    </a>
+  </div>
 </header>
 
+<!-- ── Hero ── -->
 <div class="hero">
-  <div class="hero-label">Free AI Tools for Business</div>
-  <h1>Real AI.<br><em>Real Email Access.</em><br>Zero Backend.</h1>
-  <p class="hero-sub">Day 01 is live now — 19 more dropping one by one. Connect directly to your Gmail, Outlook, and Calendar. No servers. No data storage. Runs entirely in your browser.</p>
-  <div class="tech-badges">
-    <span class="tech">Gemini 3 Flash</span>
-    <span class="tech">Gemini 3.1 Pro</span>
-    <span class="tech">Google OAuth</span>
-    <span class="tech">Microsoft OAuth</span>
-    <span class="tech">xAI Grok</span>
-    <span class="tech">100% Browser</span>
+  <div class="live-badge">
+    <span class="live-dot"></span>
+    Day 01 Is Live Now
+  </div>
+  <h1>20 Free AI Tools.<br><span class="accent">One Every Day.</span><br><span class="accent2">No Login Required.</span></h1>
+  <p class="hero-sub">Real email access. Real calendar data. Zero backend. Your data never leaves your browser — connect your Gmail or Outlook via secure OAuth and let AI do the work.</p>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Progress: 1 of 20 tools live</span>
+      <span>5%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill"></div>
+    </div>
+    <div class="progress-dots" id="progressDots"></div>
+  </div>
+
+  <!-- Follow along -->
+  <div class="notify-strip">
+    <p>🔔 New tool every day for 20 days —</p>
+    <a href="https://aimersion.ai" target="_blank" rel="noopener">Follow along at Aimersion →</a>
   </div>
 </div>
 
-<div class="tools-grid">
-  <!-- LIVE — Day 01 -->
-  <a href="day-01-inbox-intelligence.html" class="tool-card tool-card-live">
-    <div class="tool-day">Day 01</div>
-    <div class="tool-icon">📬</div>
-    <div class="tool-name">Inbox Intelligence</div>
-    <div class="tool-desc">Connect your real Gmail or Outlook. AI triages your emails by priority, writes smart replies, and drafts them for you — without leaving the page.</div>
-    <div class="tool-tags">
-      <span class="tag">Gmail OAuth</span>
-      <span class="tag">Outlook OAuth</span>
-      <span class="tag">Gemini AI</span>
-    </div>
-  </a>
+<!-- ── All 20 Tools ── -->
+<div class="tools-section">
+  <div class="section-label">All 20 Tools — One Drops Every Day</div>
+  <div class="tools-grid">
 
-  <!-- LOCKED — remove class "tool-card-locked" and change to <a href="day-02-proposal-generator.html" class="tool-card"> to unlock -->
-  <div class="tool-card-locked">
-    <div class="tool-day">Day 02</div>
-    <div class="tool-icon">📄</div>
-    <div class="tool-name">Proposal Generator</div>
-    <div class="tool-desc">Pull email threads from your inbox, add context, and get a polished proposal draft in seconds. Exports ready-to-send.</div>
-    <div class="tool-tags">
-      <span class="tag">Gmail OAuth</span>
-      <span class="tag">Outlook OAuth</span>
-      <span class="tag">Gemini AI</span>
+    <!-- DAY 01 — LIVE -->
+    <a href="day-01-inbox-intelligence.html" class="tool-card tool-card-live">
+      <div class="card-top">
+        <span class="card-day-tag live">Day 01</span>
+        <span class="card-status-badge badge-live">● Live</span>
+      </div>
+      <span class="card-icon">📬</span>
+      <div class="card-name">Inbox Intelligence</div>
+      <div class="card-desc">Connect Gmail or Outlook. AI triages your inbox by priority, surfaces what needs a reply, and drafts responses in your voice.</div>
+      <div class="card-tags">
+        <span class="tag">Gmail OAuth</span>
+        <span class="tag">Outlook OAuth</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </a>
+
+    <!-- DAY 02 — LOCKED — change div to <a href="day-02-proposal-generator.html"> and class to "tool-card" to unlock -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 02</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">📄</span>
+      <div class="card-name">Proposal Generator</div>
+      <div class="card-desc">Pull real email threads from your inbox, add context, and get a polished proposal draft in 30 seconds.</div>
+      <div class="card-tags">
+        <span class="tag">Gmail OAuth</span>
+        <span class="tag">Gemini AI</span>
+      </div>
     </div>
+
+    <!-- DAY 03 — LOCKED — change div to <a href="day-03-competitor-intel.html"> and class to "tool-card" to unlock -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 03</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">🔍</span>
+      <div class="card-name">Competitor Intel</div>
+      <div class="card-desc">Enter any company. AI searches the live web and builds a full competitive analysis — strengths, weaknesses, recent moves, battlecard.</div>
+      <div class="card-tags">
+        <span class="tag">Live Web Search</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </div>
+
+    <!-- DAY 04 — LOCKED — change div to <a href="day-04-social-creator.html"> and class to "tool-card" to unlock -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 04</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">📣</span>
+      <div class="card-name">Social Content Creator</div>
+      <div class="card-desc">Turn any topic or URL into a week of platform-native social posts. Grok finds trends on X, Gemini writes the content.</div>
+      <div class="card-tags">
+        <span class="tag">xAI Grok</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </div>
+
+    <!-- DAY 05 — LOCKED — change div to <a href="day-05-meeting-prep.html"> and class to "tool-card" to unlock -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 05</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">📅</span>
+      <div class="card-name">Meeting Prep Assistant</div>
+      <div class="card-desc">Connect your Google or Microsoft Calendar. AI researches every attendee and company, then hands you a full prep brief.</div>
+      <div class="card-tags">
+        <span class="tag">Google Calendar</span>
+        <span class="tag">Microsoft Calendar</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </div>
+
+    <!-- DAY 06 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 06</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">📊</span>
+      <div class="card-name">Lead Scorer</div>
+      <div class="card-desc">Paste a contact list. AI scores every lead on fit, intent, and urgency — then ranks them and tells you who to call first.</div>
+      <div class="card-tags">
+        <span class="tag">Gemini AI</span>
+        <span class="tag">No API Needed</span>
+      </div>
+    </div>
+
+    <!-- DAY 07 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 07</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">✉️</span>
+      <div class="card-name">Cold Email Writer</div>
+      <div class="card-desc">Research a prospect and generate a hyper-personalized cold outreach email in 60 seconds. No templates. Real research.</div>
+      <div class="card-tags">
+        <span class="tag">Live Web Search</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </div>
+
+    <!-- DAY 08 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 08</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">📞</span>
+      <div class="card-name">Call Summarizer</div>
+      <div class="card-desc">Paste any call transcript. Get a clean summary, action items by owner, and a ready-to-send follow-up email in one click.</div>
+      <div class="card-tags">
+        <span class="tag">Gemini AI</span>
+        <span class="tag">No API Needed</span>
+      </div>
+    </div>
+
+    <!-- DAY 09 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 09</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">🗂️</span>
+      <div class="card-name">Contract Reviewer</div>
+      <div class="card-desc">Paste a contract. AI flags risks, missing clauses, unfavorable terms, and key dates — in plain English, not legalese.</div>
+      <div class="card-tags">
+        <span class="tag">Gemini AI</span>
+        <span class="tag">No API Needed</span>
+      </div>
+    </div>
+
+    <!-- DAY 10 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 10</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">📰</span>
+      <div class="card-name">Industry Briefing</div>
+      <div class="card-desc">Pick your industry and get an AI-written briefing of what's happening right now — trends, news, and moves that matter today.</div>
+      <div class="card-tags">
+        <span class="tag">Live Web Search</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </div>
+
+    <!-- DAY 11 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 11</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">🎤</span>
+      <div class="card-name">Bio & Pitch Generator</div>
+      <div class="card-desc">Paste your background. Get a polished LinkedIn bio, Twitter/X bio, and 30-second elevator pitch — all in your tone.</div>
+      <div class="card-tags">
+        <span class="tag">Gemini AI</span>
+        <span class="tag">No API Needed</span>
+      </div>
+    </div>
+
+    <!-- DAY 12 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 12</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">📝</span>
+      <div class="card-name">Meeting Notes → Action Items</div>
+      <div class="card-desc">Paste raw, messy meeting notes. Get a structured recap, decisions made, and action items by person — ready to share.</div>
+      <div class="card-tags">
+        <span class="tag">Gemini AI</span>
+        <span class="tag">No API Needed</span>
+      </div>
+    </div>
+
+    <!-- DAY 13 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 13</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">🔁</span>
+      <div class="card-name">Follow-up Sequence Builder</div>
+      <div class="card-desc">Describe a prospect and deal stage. Get a 5-touch follow-up email sequence ready to copy into any CRM or email tool.</div>
+      <div class="card-tags">
+        <span class="tag">Gemini AI</span>
+        <span class="tag">No API Needed</span>
+      </div>
+    </div>
+
+    <!-- DAY 14 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 14</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">💼</span>
+      <div class="card-name">LinkedIn Optimizer</div>
+      <div class="card-desc">Paste your LinkedIn profile. AI rewrites your headline, About section, and experience to attract your ideal clients or employers.</div>
+      <div class="card-tags">
+        <span class="tag">Gemini AI</span>
+        <span class="tag">No API Needed</span>
+      </div>
+    </div>
+
+    <!-- DAY 15 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 15</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">📈</span>
+      <div class="card-name">Pipeline Analyzer</div>
+      <div class="card-desc">Paste your CRM data or deal list. AI finds the deals most likely to close, spots risks, and tells you where to focus this week.</div>
+      <div class="card-tags">
+        <span class="tag">Gemini AI</span>
+        <span class="tag">No API Needed</span>
+      </div>
+    </div>
+
+    <!-- DAY 16 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 16</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">🎯</span>
+      <div class="card-name">Customer Persona Builder</div>
+      <div class="card-desc">Describe your product. Get 3 fully detailed ICP profiles — pain points, decision triggers, channels, and messaging that lands.</div>
+      <div class="card-tags">
+        <span class="tag">Live Web Search</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </div>
+
+    <!-- DAY 17 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 17</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">📋</span>
+      <div class="card-name">SOP Generator</div>
+      <div class="card-desc">Describe any process in plain language. Get a formatted, step-by-step SOP with roles and checklists your team can actually use.</div>
+      <div class="card-tags">
+        <span class="tag">Gemini AI</span>
+        <span class="tag">No API Needed</span>
+      </div>
+    </div>
+
+    <!-- DAY 18 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 18</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">🌐</span>
+      <div class="card-name">Website Auditor</div>
+      <div class="card-desc">Enter any URL. Get a full copy, UX, and conversion audit with specific, prioritized fixes — not generic advice.</div>
+      <div class="card-tags">
+        <span class="tag">Live Web Search</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </div>
+
+    <!-- DAY 19 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 19</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">💡</span>
+      <div class="card-name">Idea Validator</div>
+      <div class="card-desc">Describe a business idea. AI stress-tests it against real market data, competitors, and risks — then tells you if it's worth pursuing.</div>
+      <div class="card-tags">
+        <span class="tag">Live Web Search</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </div>
+
+    <!-- DAY 20 — LOCKED -->
+    <div class="tool-card-locked">
+      <div class="card-top">
+        <span class="card-day-tag locked">Day 20</span>
+        <span class="card-status-badge badge-soon">Coming Soon</span>
+      </div>
+      <span class="card-icon">🚀</span>
+      <div class="card-name">GTM Planner</div>
+      <div class="card-desc">Describe your product and target market. Get a complete go-to-market strategy — channels, messaging, timeline, and first 90-day actions.</div>
+      <div class="card-tags">
+        <span class="tag">Live Web Search</span>
+        <span class="tag">Gemini AI</span>
+      </div>
+    </div>
+
   </div>
+</div>
 
-  <!-- LOCKED — remove class "tool-card-locked" and change to <a href="day-03-competitor-intel.html" class="tool-card"> to unlock -->
-  <div class="tool-card-locked">
-    <div class="tool-day">Day 03</div>
-    <div class="tool-icon">🔍</div>
-    <div class="tool-name">Competitor Intel</div>
-    <div class="tool-desc">Enter any company. AI searches the live web and builds a full competitive analysis — strengths, weaknesses, recent moves, battlecard.</div>
-    <div class="tool-tags">
-      <span class="tag">Live Web Search</span>
-      <span class="tag">Gemini AI</span>
+<!-- ── How It Works ── -->
+<div class="how-section">
+  <h2>How it works</h2>
+  <p>Every tool runs 100% in your browser. Your emails and calendar data never touch our servers — or anyone else's.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Get a free API key</h3>
+      <p>Grab a free Gemini key from <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. No credit card. Takes 60 seconds. Paste it once — it saves in your browser.</p>
     </div>
-  </div>
-
-  <!-- LOCKED — remove class "tool-card-locked" and change to <a href="day-04-social-creator.html" class="tool-card"> to unlock -->
-  <div class="tool-card-locked">
-    <div class="tool-day">Day 04</div>
-    <div class="tool-icon">📣</div>
-    <div class="tool-name">Social Content Creator</div>
-    <div class="tool-desc">Turn any topic or URL into a week of social content. Grok researches trending topics on X, Gemini writes the posts.</div>
-    <div class="tool-tags">
-      <span class="tag">xAI Grok</span>
-      <span class="tag">Gemini AI</span>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Connect your accounts</h3>
+      <p>Use the same secure OAuth login flow as Zapier or HubSpot. We never see your credentials or store your data.</p>
     </div>
-  </div>
-
-  <!-- LOCKED — remove class "tool-card-locked" and change to <a href="day-05-meeting-prep.html" class="tool-card"> to unlock -->
-  <div class="tool-card-locked">
-    <div class="tool-day">Day 05</div>
-    <div class="tool-icon">📅</div>
-    <div class="tool-name">Meeting Prep Assistant</div>
-    <div class="tool-desc">Connect your Google or Microsoft Calendar. AI researches every attendee and company, then gives you a full prep brief.</div>
-    <div class="tool-tags">
-      <span class="tag">Google Calendar</span>
-      <span class="tag">Microsoft Calendar</span>
-      <span class="tag">Gemini AI</span>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Let AI do the work</h3>
+      <p>Everything runs locally in your tab. Close it and it's gone — nothing is persisted on any server. Open source on <a href="https://github.com/aimersion/ai-automations" target="_blank">GitHub</a>.</p>
     </div>
   </div>
 </div>
 
-<div class="coming-section">
-  <div class="coming-header">
-    <div class="coming-label">Dropping Daily</div>
-    <div class="coming-title">Days 6–20 Coming Soon</div>
-  </div>
-  <div class="coming-grid">
-    <div class="coming-card"><div class="coming-day">Day 06</div><div class="coming-icon">📊</div><div class="coming-name">Lead Scorer</div><div class="coming-desc">Paste a contact list. AI scores and ranks every lead by fit and intent.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 07</div><div class="coming-icon">✍️</div><div class="coming-name">Cold Email Writer</div><div class="coming-desc">Research a prospect and generate a personalized cold outreach sequence.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 08</div><div class="coming-icon">📞</div><div class="coming-name">Call Summarizer</div><div class="coming-desc">Paste a transcript. Get a summary, action items, and follow-up draft.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 09</div><div class="coming-icon">🗂️</div><div class="coming-name">Contract Reviewer</div><div class="coming-desc">Upload a contract. AI flags risks, missing clauses, and key terms.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 10</div><div class="coming-icon">📰</div><div class="coming-name">Industry Briefing</div><div class="coming-desc">Pick your industry. Get a daily AI-written briefing of what matters today.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 11</div><div class="coming-icon">🎯</div><div class="coming-name">Job Description Builder</div><div class="coming-desc">Describe the role. Get a complete JD with requirements and culture fit.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 12</div><div class="coming-icon">💬</div><div class="coming-name">Slack Digest</div><div class="coming-desc">Connect Slack. AI surfaces what you missed and what needs a reply.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 13</div><div class="coming-icon">🧾</div><div class="coming-name">Invoice Generator</div><div class="coming-desc">Describe the work. Get a formatted invoice ready to send in seconds.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 14</div><div class="coming-icon">🔗</div><div class="coming-name">LinkedIn Optimizer</div><div class="coming-desc">Paste your profile. AI rewrites it to attract your ideal clients.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 15</div><div class="coming-icon">📈</div><div class="coming-name">Pipeline Analyzer</div><div class="coming-desc">Paste your CRM data. AI finds the deals most likely to close this month.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 16</div><div class="coming-icon">🤝</div><div class="coming-name">Partnership Finder</div><div class="coming-desc">Describe your business. AI identifies and profiles ideal partner companies.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 17</div><div class="coming-icon">📋</div><div class="coming-name">SOP Generator</div><div class="coming-desc">Describe a process. Get a formatted, step-by-step SOP your team can use.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 18</div><div class="coming-icon">🌐</div><div class="coming-name">Website Auditor</div><div class="coming-desc">Enter any URL. Get a full copy, UX, and SEO audit with specific fixes.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 19</div><div class="coming-icon">💡</div><div class="coming-name">Idea Validator</div><div class="coming-desc">Describe a business idea. AI stress-tests it with market data and risks.</div></div>
-    <div class="coming-card"><div class="coming-day">Day 20</div><div class="coming-icon">🚀</div><div class="coming-name">GTM Planner</div><div class="coming-desc">Describe your product. Get a full go-to-market strategy in one click.</div></div>
-  </div>
-</div>
-
-<div style="max-width:1100px;margin:0 auto;padding:0 32px">
-  <div class="setup-banner">
-    <h3>⚡ How It Works</h3>
-    <p>Each tool runs 100% in your browser. Your emails and calendar data <strong>never touch our servers</strong>. You connect your accounts via secure OAuth — the same login flow used by apps like Zapier. You'll need free API keys from <a href="https://aistudio.google.com" target="_blank">Google AI Studio</a> (Gemini) and optionally <a href="https://console.x.ai" target="_blank">xAI</a> (Grok) or <a href="https://console.anthropic.com" target="_blank">Anthropic</a> (Claude). Or use an <a href="https://aimersion.ai" target="_blank">Aimersion AI</a> key to access all models with one key.</p>
-  </div>
-</div>
-
+<!-- ── Footer ── -->
 <footer>
-  Built by <a href="https://aimersion.ai" style="color:var(--teal-light)">Aimersion AI</a> · 20 Automations in 20 Days · All tools free &amp; open source
+  <p>Built by <a href="https://aimersion.ai">Aimersion AI</a> · Free &amp; open source · <a href="https://github.com/aimersion/ai-automations" target="_blank">View on GitHub</a></p>
+  <div class="footer-share">
+    <a class="fsb" href="https://twitter.com/intent/tweet?text=20%20free%20AI%20tools%20in%2020%20days%20%E2%80%94%20real%20email%20access%2C%20zero%20backend%2C%20runs%20in%20your%20browser.%20Day%201%20is%20live%20now%20%F0%9F%94%A5&url=https://aimersion.github.io/ai-automations/" target="_blank" rel="noopener">𝕏 Share on X</a>
+    <a class="fsb" href="https://www.linkedin.com/sharing/share-offsite/?url=https://aimersion.github.io/ai-automations/" target="_blank" rel="noopener">in Share</a>
+  </div>
 </footer>
+
+<script>
+  // Render progress dots
+  const dots = document.getElementById('progressDots');
+  for (let i = 1; i <= 20; i++) {
+    const d = document.createElement('div');
+    d.className = 'pdot ' + (i === 1 ? 'pdot-live' : 'pdot-locked');
+    d.title = 'Day ' + i;
+    dots.appendChild(d);
+  }
+</script>
 
 </body>
 </html>
