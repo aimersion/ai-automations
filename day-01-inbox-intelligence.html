@@ -323,7 +323,7 @@ window.addEventListener('load', () => {
   if (gk) document.getElementById('geminiKey').value = gk;
   const ri = localStorage.getItem('reply_instructions');
   if (ri) document.getElementById('replyInstructions').value = ri;
-  initMsal();
+  initMsal().catch(e => console.warn('MSAL auto-init skipped:', e.message));
 });
 
 function saveReplyInstructions() {
@@ -385,26 +385,28 @@ function disconnectGoogle() {
 
 // ─── Microsoft Auth (Mail.Read + Mail.ReadWrite + Mail.Send) ──
 async function initMsal() {
-  try {
-    msalInstance = new msal.PublicClientApplication({
-      auth: { clientId: AZURE_CLIENT_ID, authority: 'https://login.microsoftonline.com/common',
-              redirectUri: window.location.href.split('?')[0].split('#')[0] },
-      cache: { cacheLocation: 'sessionStorage' }
-    });
-    await msalInstance.initialize();
-    const accounts = msalInstance.getAllAccounts();
-    if (accounts.length > 0) {
-      msAccount = accounts[0];
-      document.getElementById('msStatus').textContent = '✓ ' + msAccount.username;
-      document.getElementById('msDot').className = 'status-dot dot-on';
-      document.getElementById('msBtn').style.display = 'none';
-      document.getElementById('msDisBtn').style.display = '';
-    }
-  } catch (e) { console.warn('MSAL init:', e); }
+  if (typeof msal === 'undefined') {
+    throw new Error('Microsoft Auth library failed to load. Please refresh the page and try again.');
+  }
+  msalInstance = new msal.PublicClientApplication({
+    auth: { clientId: AZURE_CLIENT_ID, authority: 'https://login.microsoftonline.com/common',
+            redirectUri: window.location.href.split('?')[0].split('#')[0] },
+    cache: { cacheLocation: 'sessionStorage' }
+  });
+  await msalInstance.initialize();
+  const accounts = msalInstance.getAllAccounts();
+  if (accounts.length > 0) {
+    msAccount = accounts[0];
+    document.getElementById('msStatus').textContent = '✓ ' + msAccount.username;
+    document.getElementById('msDot').className = 'status-dot dot-on';
+    document.getElementById('msBtn').style.display = 'none';
+    document.getElementById('msDisBtn').style.display = '';
+  }
 }
 async function connectMicrosoft() {
-  if (!msalInstance) await initMsal();
   try {
+    if (!msalInstance) await initMsal();
+    if (!msalInstance) throw new Error('Microsoft Auth library could not be initialized — please refresh the page and try again.');
     const resp = await msalInstance.loginPopup({
       scopes: ['https://graph.microsoft.com/Mail.Read','https://graph.microsoft.com/Mail.ReadWrite',
                'https://graph.microsoft.com/Mail.Send','https://graph.microsoft.com/User.Read'],
@@ -415,7 +417,11 @@ async function connectMicrosoft() {
     document.getElementById('msDot').className = 'status-dot dot-on';
     document.getElementById('msBtn').style.display = 'none';
     document.getElementById('msDisBtn').style.display = '';
-  } catch (e) { alert('Microsoft login error: ' + (e.message || e)); }
+  } catch (e) {
+    if (e.errorCode === 'user_cancelled') return; // user closed popup — no alert needed
+    console.error('Microsoft login error:', e);
+    alert('Microsoft login error: ' + (e.message || e));
+  }
 }
 async function getMsToken(scopes) {
   if (!msalInstance || !msAccount) return null;
