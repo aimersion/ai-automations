@@ -528,11 +528,11 @@ function startFunLoader(containerId, subMsg) {
   if (!el) return;
   let i = 0;
   const frame = LOADER_FRAMES[Math.floor(Math.random() * LOADER_FRAMES.length)];
-  el.innerHTML = \`<div class="fun-loader">
+  el.innerHTML = `<div class="fun-loader">
     <div class="loader-emoji" id="loaderEmoji">\${frame.emoji}</div>
     <div class="loader-msg" id="loaderMsg">\${frame.msg}</div>
     <div class="loader-sub">\${subMsg || ''}</div>
-  </div>\`;
+  </div>`;
   _loaderInterval = setInterval(() => {
     i = (i + 1) % LOADER_FRAMES.length;
     const emojiEl = document.getElementById('loaderEmoji');
