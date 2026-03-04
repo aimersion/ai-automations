@@ -611,9 +611,21 @@ function saveReplyInstructions() {
 
 function toggleKey(id) { const el=document.getElementById(id); el.type=el.type==='password'?'text':'password'; }
 function saveKey(type) {
-  if (type==='gemini') localStorage.setItem('gemini_key', document.getElementById('geminiKey').value.trim());
-  showToast('Key saved!');
-  updateCardStatuses();
+  if (type === 'gemini') {
+    const val = document.getElementById('geminiKey').value.trim();
+    if (!val) { showToast('⚠️ Please paste your Gemini API key first.', '#d97706'); return; }
+    if (!val.startsWith('AIza') || val.length < 30) {
+      showToast('⚠️ That doesn\'t look like a valid Gemini key — it should start with "AIza"', '#d97706');
+      document.getElementById('geminiKey').focus();
+      return;
+    }
+    localStorage.setItem('gemini_key', val);
+    // Visual confirmation on the Save button
+    const btn = document.querySelector('[onclick="saveKey(\'gemini\')"]');
+    if (btn) { btn.textContent = '✓ Saved!'; btn.style.background = '#059669'; setTimeout(() => { btn.textContent = 'Save'; btn.style.background = ''; }, 2500); }
+    showToast('✓ API key saved — you\'re ready to go!', '#059669');
+    updateCardStatuses();
+  }
 }
 function showToast(msg, color) {
   const t = document.createElement('div');
@@ -1287,11 +1299,46 @@ function closeKeyModal() {
 }
 function saveKeyFromModal() {
   const val = document.getElementById('keyModalInput').value.trim();
-  if (!val) { alert('Please paste your Gemini API key first.'); return; }
+  const input = document.getElementById('keyModalInput');
+  const btn = document.querySelector('#keyOnboardModal .btn-green');
+
+  if (!val) {
+    input.style.borderColor = '#ef4444';
+    input.placeholder = 'Paste your key here — starts with AIza...';
+    input.focus();
+    setTimeout(() => { input.style.borderColor = ''; }, 2000);
+    return;
+  }
+  if (!val.startsWith('AIza') || val.length < 30) {
+    input.style.borderColor = '#ef4444';
+    // Show inline error under the input
+    let errEl = document.getElementById('keyModalError');
+    if (!errEl) {
+      errEl = document.createElement('div');
+      errEl.id = 'keyModalError';
+      errEl.style.cssText = 'color:#ef4444;font-size:12px;margin-top:6px;';
+      input.parentNode.parentNode.insertBefore(errEl, input.parentNode.nextSibling);
+    }
+    errEl.textContent = '⚠️ That doesn\'t look right — Gemini keys start with "AIza" and are ~40 characters. Try copying it again.';
+    input.focus(); input.select();
+    return;
+  }
+
+  // Clear any previous error
+  const errEl = document.getElementById('keyModalError');
+  if (errEl) errEl.remove();
+
   localStorage.setItem('gemini_key', val);
   document.getElementById('geminiKey').value = val;
-  closeKeyModal();
-  showToast('✓ API key saved — you\'re ready to go!', '#059669');
+  updateCardStatuses();
+
+  // Show ✓ in button before closing
+  if (btn) { btn.textContent = '✓ Saved!'; btn.style.background = '#059669'; }
+  setTimeout(() => {
+    closeKeyModal();
+    showToast('✓ API key saved — you\'re ready to go!', '#059669');
+    if (btn) { btn.textContent = 'Go →'; btn.style.background = ''; }
+  }, 600);
 }
 </script>
 
