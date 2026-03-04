@@ -21,25 +21,27 @@ You need one free API key from [Google AI Studio](https://aistudio.google.com/ap
 | Day | Tool | What It Does | Status |
 |-----|------|-------------|--------|
 | 01 | 📬 **Inbox Intelligence** | Triages Gmail + Outlook by priority, drafts smart replies in your voice | ✅ **Live** |
-| 02 | 📄 Proposal Generator | Pulls real email threads, generates a polished proposal in 30 seconds | 🔒 Coming |
-| 03 | 🔍 Competitor Intel | Live web research → full competitive analysis + battlecard | 🔒 Coming |
-| 04 | 📣 Social Content Creator | Topic or URL → a week of platform-native LinkedIn + X posts | 🔒 Coming |
-| 05 | 📅 Meeting Prep Assistant | Reads your calendar, researches every attendee, gives you a prep brief | 🔒 Coming |
-| 06 | 📊 Lead Scorer | Paste a contact list → AI scores and ranks every lead | 🔒 Coming |
-| 07 | ✉️ Cold Email Writer | Research a prospect → personalized cold outreach email | 🔒 Coming |
-| 08 | 📞 Call Summarizer | Paste a transcript → summary, action items, follow-up draft | 🔒 Coming |
-| 09 | 🗂️ Contract Reviewer | Paste a contract → risk flags, missing clauses, key terms | 🔒 Coming |
-| 10 | 📰 Industry Briefing | Pick your industry → live AI briefing of what matters today | 🔒 Coming |
-| 11 | 🎤 Bio & Pitch Generator | Your background → LinkedIn bio, X bio, 30-sec elevator pitch | 🔒 Coming |
-| 12 | 📝 Meeting Notes → Action Items | Raw notes → structured recap, decisions, action items by person | 🔒 Coming |
-| 13 | 🔁 Follow-up Sequence Builder | Describe a prospect → 5-touch follow-up email sequence | 🔒 Coming |
-| 14 | 💼 LinkedIn Optimizer | Paste your profile → rewritten headline, About, and experience | 🔒 Coming |
-| 15 | 📈 Pipeline Analyzer | Paste your deal list → AI ranks deals and flags risks | 🔒 Coming |
-| 16 | 🎯 Customer Persona Builder | Describe your product → 3 full ICP profiles with messaging | 🔒 Coming |
-| 17 | 📋 SOP Generator | Describe a process → formatted SOP with roles and checklists | 🔒 Coming |
-| 18 | 🌐 Website Auditor | Enter any URL → copy, UX, and conversion audit with fixes | 🔒 Coming |
-| 19 | 💡 Idea Validator | Describe a business idea → AI stress-tests it with market data | 🔒 Coming |
-| 20 | 🚀 GTM Planner | Describe your product → full go-to-market strategy + 90-day plan | 🔒 Coming |
+| 02 | 🔒 | *Drops tomorrow* | 🔒 Coming |
+| 03 | 🔒 | *Unlocks Day 3* | 🔒 Coming |
+| 04 | 🔒 | *Unlocks Day 4* | 🔒 Coming |
+| 05 | 🔒 | *Unlocks Day 5* | 🔒 Coming |
+| 06 | 🔒 | *Unlocks Day 6* | 🔒 Coming |
+| 07 | 🔒 | *Unlocks Day 7* | 🔒 Coming |
+| 08 | 🔒 | *Unlocks Day 8* | 🔒 Coming |
+| 09 | 🔒 | *Unlocks Day 9* | 🔒 Coming |
+| 10 | 🔒 | *Unlocks Day 10* | 🔒 Coming |
+| 11 | 🔒 | *Unlocks Day 11* | 🔒 Coming |
+| 12 | 🔒 | *Unlocks Day 12* | 🔒 Coming |
+| 13 | 🔒 | *Unlocks Day 13* | 🔒 Coming |
+| 14 | 🔒 | *Unlocks Day 14* | 🔒 Coming |
+| 15 | 🔒 | *Unlocks Day 15* | 🔒 Coming |
+| 16 | 🔒 | *Unlocks Day 16* | 🔒 Coming |
+| 17 | 🔒 | *Unlocks Day 17* | 🔒 Coming |
+| 18 | 🔒 | *Unlocks Day 18* | 🔒 Coming |
+| 19 | 🔒 | *Unlocks Day 19* | 🔒 Coming |
+| 20 | 🔒 | *Unlocks Day 20* | 🔒 Coming |
+
+*Follow [on X](https://x.com/jimlynchAI) or [LinkedIn](https://linkedin.com/in/jimlynch) — a new tool drops every day.*
 
 ---
 
