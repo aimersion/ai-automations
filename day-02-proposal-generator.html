@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposal Generator — Free AI Sales Tool | Aimersion Day 2</title>
+<meta name="description" content="Turn a prospect's pain points into a polished, tailored sales proposal in 4 minutes. Free. No installs. Powered by Gemini AI.">
+
+<!-- Favicon set -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<meta name="theme-color" content="#0F1F3D">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aimersion.github.io/ai-automations/day-02-proposal-generator.html">
+<meta property="og:site_name" content="Aimersion">
+<meta property="og:title" content="Proposal Generator — Free AI Sales Tool (Day 2 of 20)">
+<meta property="og:description" content="Turn a prospect's pain points into a polished, tailored sales proposal in 4 minutes. Free — no installs, no account needed.">
+<meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Proposal Generator — AI sales tool by Aimersion">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aimersion">
+<meta name="twitter:title" content="Proposal Generator — Free AI Sales Tool (Day 2 of 20)">
+<meta name="twitter:description" content="Turn a prospect's pain points into a polished, tailored sales proposal in 4 minutes. Free — no installs, no account needed.">
+<meta name="twitter:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+<meta name="twitter:image:alt" content="Proposal Generator — AI sales tool by Aimersion">
+
+<!-- ═══ ANALYTICS & RETARGETING ═══ -->
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-69LQQBX0C1');
+</script>
+
+<!-- Meta Pixel (Aimersion) -->
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '876506382017154');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
+
+<!-- LinkedIn Insight Tag -->
+<script type="text/javascript">
+  _linkedin_partner_id = "514319631";
+  window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+  window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+</script>
+<script type="text/javascript">
+  (function(l) {
+    if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+    window.lintrk.q=[]}
+    var s = document.getElementsByTagName("script")[0];
+    var b = document.createElement("script");
+    b.type = "text/javascript";b.async = true;
+    b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+    s.parentNode.insertBefore(b, s);})(window.lintrk);
+</script>
+<noscript><img height="1" width="1" style="display:none;" alt=""
+  src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif" /></noscript>
+
+<!-- X (Twitter) Pixel -->
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+twq('config','tw-r848k-r848k');
+</script>
+<!-- ═══ END ANALYTICS ═══ -->
+
+<style>
+  :root {
+    --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
+    --amber: #F59E0B; --green: #059669; --red: #DC2626; --white: #F0F7FF;
+    --muted: #8AAFD0; --card: #162840; --border: #2A4A70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+
+  header { border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; text-decoration: none; }
+  .nav-links { display: flex; gap: 16px; align-items: center; }
+  .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--white); }
+  .badge { background: var(--teal); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 1px; }
+
+  .hero { text-align: center; padding: 48px 32px 32px; }
+  .day-label { font-size: 12px; color: var(--teal); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+  h1 { font-size: 36px; font-weight: 800; color: var(--white); line-height: 1.15; margin-bottom: 12px; }
+  h1 span { color: var(--amber); }
+  .tagline { font-size: 16px; color: var(--muted); max-width: 580px; margin: 0 auto 24px; line-height: 1.6; }
+  .stat-row { display: flex; justify-content: center; gap: 32px; margin-bottom: 40px; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-num { font-size: 28px; font-weight: 800; color: var(--amber); }
+  .stat-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  .main { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .api-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
+  .api-card h3 { font-size: 13px; color: var(--teal); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+  input[type="password"], input[type="text"], textarea, select {
+    background: var(--navy); border: 1px solid var(--border); color: var(--white);
+    padding: 10px 14px; border-radius: 8px; font-size: 14px; font-family: inherit; outline: none; transition: border 0.2s; width: 100%;
+  }
+  input[type="password"]:focus, input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--teal); }
+  .api-hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .api-hint a { color: var(--teal); text-decoration: none; }
+
+  .input-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 16px; }
+  .input-card h3 { font-size: 15px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .input-card p { font-size: 13px; color: var(--muted); margin-bottom: 16px; line-height: 1.5; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+  textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+  .btn { background: var(--amber); color: #000; border: none; padding: 14px 32px; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; width: 100%; margin-bottom: 8px; }
+  .btn:hover { background: #fbbf24; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-demo { background: transparent; border: 1px solid var(--border); color: var(--muted); font-weight: 500; }
+  .btn-demo:hover { border-color: var(--amber); color: var(--amber); background: transparent; }
+
+  /* ── Fun Loader ── */
+  .loading { display: none; padding: 40px 0; }
+  .loader-inner { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 32px 28px; text-align: left; }
+  .loader-title { font-size: 13px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+  .loader-steps { display: flex; flex-direction: column; gap: 12px; }
+  .loader-step { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--muted); transition: color 0.4s; }
+  .loader-step.active { color: var(--white); }
+  .loader-step.done { color: var(--green); }
+  .step-icon { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; transition: all 0.3s; }
+  .loader-step.active .step-icon { border-color: var(--amber); background: rgba(245,158,11,0.1); }
+  .loader-step.done .step-icon { border-color: var(--green); background: rgba(5,150,105,0.15); color: var(--green); }
+  .step-spinner { width: 10px; height: 10px; border: 2px solid var(--border); border-top-color: var(--amber); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loader-bar { margin-top: 24px; height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .loader-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--teal), var(--amber)); border-radius: 4px; transition: width 0.5s ease; }
+
+  .output { display: none; }
+  .output-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .output-header h2 { font-size: 18px; font-weight: 700; }
+  .btn-sm { background: var(--navy2); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.2s; width: auto; margin: 0; }
+  .btn-sm:hover { border-color: var(--amber); color: var(--amber); background: transparent; }
+  .proposal-output { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 28px; white-space: pre-wrap; font-size: 14px; line-height: 1.8; color: #B8D4F0; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+  .error-box { background: #2D0A0A; border: 1px solid var(--red); border-radius: 8px; padding: 16px; color: #FCA5A5; font-size: 14px; margin-top: 16px; display: none; }
+
+  footer { border-top: 1px solid var(--border); padding: 24px 32px; text-align: center; }
+  .footer-inner { font-size: 12px; color: var(--muted); }
+  .footer-inner a { color: var(--teal); text-decoration: none; }
+  .footer-series { font-size: 11px; color: var(--border); margin-top: 6px; }
+
+  @media (max-width: 640px) {
+    header { padding: 11px 16px; }
+    .hero { padding: 32px 16px 24px; }
+    h1 { font-size: 28px; }
+    .main { padding: 0 16px 60px; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    footer { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="logo">⚡ Aimersion AI</a>
+  <div class="nav-links">
+    <a href="index.html">← All Tools</a>
+    <div class="badge">DAY 2 OF 20</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="day-label">Automation #2 of 20 — Inspired by OpenAI's $200M Snowflake deal on AI for business</div>
+  <h1>Close Deals Faster.<br>Generate a <span>Full Proposal</span> in 4 Minutes.</h1>
+  <p class="tagline">Fill in what you know about the prospect. Get a polished, tailored proposal ready to send — not a template, a real document written for this specific deal.</p>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-num">4 min</div><div class="stat-lbl">vs. 4 hours manual</div></div>
+    <div class="stat"><div class="stat-num">~$0</div><div class="stat-lbl">cost with free Gemini key</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">tailored to prospect</div></div>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="api-card">
+    <h3>Your Gemini API Key</h3>
+    <input type="password" id="apiKey" placeholder="Paste your Gemini key here..." />
+    <div class="api-hint">Get yours free (no credit card) at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> · Key stays in your browser, never sent anywhere else. <strong style="color:var(--amber)">No key? Hit "Run Demo."</strong></div>
+  </div>
+
+  <div class="input-card">
+    <h3>About Your Business</h3>
+    <p>What you're selling and why you're the right choice.</p>
+    <div class="grid-2">
+      <div class="field"><label>Your Company Name</label><input type="text" id="yourCompany" placeholder="Aimersion" /></div>
+      <div class="field"><label>Your Name</label><input type="text" id="yourName" placeholder="Jim Lynch" /></div>
+    </div>
+    <div class="field" style="margin-bottom:14px"><label>What You Sell (1-2 sentences)</label><input type="text" id="yourProduct" placeholder="Compliance-first phone platform for service businesses. Built on Twilio + AI — no annual contracts." /></div>
+    <div class="field"><label>Your Key Differentiators</label><input type="text" id="differentiators" placeholder="No lock-in, 17% cheaper than competitors, built-in compliance logic, $0 implementation" /></div>
+  </div>
+
+  <div class="input-card">
+    <h3>About the Prospect</h3>
+    <p>The more you tell it, the more tailored the proposal.</p>
+    <div class="grid-2">
+      <div class="field"><label>Company Name</label><input type="text" id="prospectCompany" placeholder="Secure Collateral Management" /></div>
+      <div class="field"><label>Contact Name &amp; Title</label><input type="text" id="prospectContact" placeholder="Robert Whiteley, AVP Skip Ops" /></div>
+    </div>
+    <div class="field" style="margin-bottom:14px"><label>Their Industry / Business Type</label><input type="text" id="industry" placeholder="Debt collection / auto recovery — 100 agents, compliance-heavy operations" /></div>
+    <div class="field" style="margin-bottom:14px"><label>Their Pain Points (what problems are they trying to solve?)</label><textarea id="painPoints" placeholder="Currently on LiveVox at $0.035/min — overpaying. No API for CRM integration. Manual compliance tracking. Annual contract locks them in." style="min-height:80px"></textarea></div>
+    <div class="grid-3">
+      <div class="field"><label>Deal Size (est.)</label><input type="text" id="dealSize" placeholder="~$7,500/month" /></div>
+      <div class="field"><label>Decision Timeline</label><input type="text" id="timeline" placeholder="Within 2 weeks" /></div>
+      <div class="field"><label>Proposal Tone</label>
+        <select id="tone">
+          <option value="professional and confident">Professional &amp; Confident</option>
+          <option value="warm and consultative">Warm &amp; Consultative</option>
+          <option value="direct and ROI-focused">Direct &amp; ROI-Focused</option>
+          <option value="technical and detailed">Technical &amp; Detailed</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn" id="runBtn" onclick="runProposal()">⚡ Generate Proposal</button>
+  <button class="btn btn-demo" onclick="runDemo()">▶ Run Demo (no API key needed)</button>
+
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- Fun Loader -->
+  <div class="loading" id="loading">
+    <div class="loader-inner">
+      <div class="loader-title">Building your proposal...</div>
+      <div class="loader-steps" id="loaderSteps">
+        <div class="loader-step" id="step0">
+          <div class="step-icon">1</div>
+          <span>Analyzing prospect pain points &amp; context</span>
+        </div>
+        <div class="loader-step" id="step1">
+          <div class="step-icon">2</div>
+          <span>Matching your differentiators to their needs</span>
+        </div>
+        <div class="loader-step" id="step2">
+          <div class="step-icon">3</div>
+          <span>Drafting executive summary &amp; problem framing</span>
+        </div>
+        <div class="loader-step" id="step3">
+          <div class="step-icon">4</div>
+          <span>Calculating economics &amp; ROI story</span>
+        </div>
+        <div class="loader-step" id="step4">
+          <div class="step-icon">5</div>
+          <span>Writing terms &amp; next steps</span>
+        </div>
+      </div>
+      <div class="loader-bar"><div class="loader-bar-fill" id="loaderBar"></div></div>
+    </div>
+  </div>
+
+  <div class="output" id="output" style="margin-top:24px">
+    <div class="output-header">
+      <h2>📄 Your Proposal</h2>
+      <button class="btn-sm" onclick="copyOutput()">Copy Proposal</button>
+    </div>
+    <div id="outputContent"></div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    Built live as part of <strong>20 Automations in 20 Days</strong> by <a href="https://x.com/jimlynchAI" target="_blank">@jimlynchAI</a>
+    &nbsp;·&nbsp; <a href="index.html">View all tools</a>
+    &nbsp;·&nbsp; <a href="https://github.com/aimersion/ai-automations" target="_blank">Open source on GitHub</a>
+    &nbsp;·&nbsp; <a href="privacy.html">Privacy Policy</a>
+  </div>
+  <div class="footer-series">Enterprise automation for Main Street · Powered by Gemini AI</div>
+</footer>
+
+<script>
+const DEMO = `PROPOSAL: Aimersion for Secure Collateral Management
+Prepared by Jim Lynch · ${new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EXECUTIVE SUMMARY
+
+Robert — you're running 100 compliance-critical agents on a platform that's costing you more than it should and giving you less than you need. Aimersion fixes both problems, with no annual contract and no implementation fee.
+
+The bottom line: you switch from $0.035/min to $0.029/min, get a full API for your CRM integration, and have compliance logic built into the system — not bolted on after. We start month-to-month. If we don't earn your business, you walk.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+THE PROBLEM WE'RE SOLVING
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. You're paying a "LiveVox Tax" — bundled features you don't use, at a rate 17% above market
+2. Your CRM can't trigger calls directly — agents work around the system, not through it
+3. Compliance is manual — it relies on agent discipline, not system enforcement
+4. You're locked in annually — no performance accountability from your vendor
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+THE AIMERSION SOLUTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+VOICE & COMPLIANCE PLATFORM
+• $0.029/min outbound (vs. $0.035 today) — clean, usage-based, no bundles
+• 7-in-7 rule enforced at the system level — violations blocked before the call starts
+• Time-zone-aware dialing — 8am–9pm local enforcement, automatic
+• 100% call recording included, secure cloud storage, instant audit retrieval
+
+CRM INTEGRATION (Your Spec)
+• Open REST API — your CRM fires the trigger, Aimersion handles the rest
+• Click-to-Dial: one event in your system initiates the full call workflow
+• Disposition logging writes back to your CRM automatically
+• Real-time call data accessible via API — no CSV exports required
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+THE ECONOMICS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Platform License:     $65 / agent / month × 100 agents = $6,500/month
+Voice & Recording:    ~$0.029/min × ~51,700 min/month  = ~$1,499/month
+Implementation:       $0 (waived)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Estimated Total:      ~$7,999/month
+
+vs. current LiveVox:  ~$9,600/month (est.)
+Monthly Savings:      ~$1,600/month
+Annual Savings:       ~$19,200/year
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TERMS & NEXT STEPS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Contract:     Month-to-month — no annual lock-in
+Start:        Pilot with 10–20 agents, full rollout within 30 days
+Go-live:      2 weeks from signed agreement
+
+Next step: 30-minute call to confirm technical specs with Jeff and align on launch timeline.
+
+Jim Lynch | Aimersion
+jlynch@aimersion.ai`;
+
+// ── Loader animation ──
+let loaderInterval = null;
+
+function startLoader() {
+  const steps = ['step0','step1','step2','step3','step4'];
+  const bar = document.getElementById('loaderBar');
+  let current = 0;
+  const timings = [0, 900, 1900, 3000, 4200];
+
+  steps.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('active','done');
+    el.querySelector('.step-icon').innerHTML = el.querySelector('.step-icon').textContent.trim().charAt(0) || '';
+  });
+  bar.style.width = '0%';
+
+  function activateStep(i) {
+    if (i > 0) {
+      const prev = document.getElementById(steps[i-1]);
+      prev.classList.remove('active');
+      prev.classList.add('done');
+      prev.querySelector('.step-icon').innerHTML = '✓';
+    }
+    if (i < steps.length) {
+      const cur = document.getElementById(steps[i]);
+      cur.classList.add('active');
+      cur.querySelector('.step-icon').innerHTML = '<div class="step-spinner"></div>';
+    }
+    bar.style.width = Math.min((i / steps.length) * 90, 90) + '%';
+  }
+
+  activateStep(0);
+  loaderInterval = setInterval(() => {
+    current++;
+    if (current < steps.length) {
+      activateStep(current);
+    } else {
+      clearInterval(loaderInterval);
+    }
+  }, 1200);
+}
+
+function finishLoader() {
+  clearInterval(loaderInterval);
+  const steps = ['step0','step1','step2','step3','step4'];
+  steps.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('active');
+    el.classList.add('done');
+    el.querySelector('.step-icon').innerHTML = '✓';
+  });
+  document.getElementById('loaderBar').style.width = '100%';
+  setTimeout(() => {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('output').style.display = 'block';
+  }, 400);
+}
+
+function runDemo() {
+  document.getElementById('output').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+  startLoader();
+  setTimeout(() => {
+    finishLoader();
+    document.getElementById('outputContent').innerHTML = `<div class="proposal-output">${escapeHtml(DEMO)}</div>`;
+  }, 6500);
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+async function runProposal() {
+  const apiKey = document.getElementById('apiKey').value.trim();
+  const yourCompany = document.getElementById('yourCompany').value.trim();
+  const yourName = document.getElementById('yourName').value.trim();
+  const yourProduct = document.getElementById('yourProduct').value.trim();
+  const differentiators = document.getElementById('differentiators').value.trim();
+  const prospectCompany = document.getElementById('prospectCompany').value.trim();
+  const prospectContact = document.getElementById('prospectContact').value.trim();
+  const industry = document.getElementById('industry').value.trim();
+  const painPoints = document.getElementById('painPoints').value.trim();
+  const dealSize = document.getElementById('dealSize').value.trim();
+  const timeline = document.getElementById('timeline').value.trim();
+  const tone = document.getElementById('tone').value;
+
+  if (!apiKey) { alert('Enter your Gemini API key or use Run Demo.'); return; }
+  if (!yourCompany || !prospectCompany) { alert('Fill in at least your company name and the prospect company name.'); return; }
+
+  document.getElementById('runBtn').disabled = true;
+  document.getElementById('output').style.display = 'none';
+  document.getElementById('errorBox').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+  startLoader();
+
+  const prompt = `You are a world-class B2B sales proposal writer. Write a compelling, tailored proposal document in a ${tone} tone.
+
+SELLER:
+- Company: ${yourCompany}
+- Contact: ${yourName}
+- Product/service: ${yourProduct}
+- Key differentiators: ${differentiators}
+
+PROSPECT:
+- Company: ${prospectCompany}
+- Contact: ${prospectContact}
+- Industry/context: ${industry}
+- Pain points: ${painPoints}
+- Estimated deal size: ${dealSize}
+- Decision timeline: ${timeline}
+
+Write a complete proposal with these sections, using ━━━ dividers:
+1. Executive Summary (3-4 sentences addressing their specific situation)
+2. The Problem We're Solving (their specific pain points, framed with business impact)
+3. The Solution (specific capabilities matched to their problems)
+4. The Economics (pricing, savings, ROI — be specific)
+5. Terms & Next Steps (simple, clear, low-friction)
+
+Sign off with the seller's name and company. Be specific, avoid generic filler, speak to the prospect's actual situation. Format cleanly with the date: ${new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}.`;
+
+  try {
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: 2000 }
+      })
+    });
+    if (!resp.ok) {
+      const e = await resp.json();
+      throw new Error(e.error?.message || `API error ${resp.status}`);
+    }
+    const data = await resp.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!text) throw new Error('No response from Gemini. Check your API key.');
+    finishLoader();
+    document.getElementById('outputContent').innerHTML = `<div class="proposal-output">${escapeHtml(text)}</div>`;
+  } catch(err) {
+    clearInterval(loaderInterval);
+    document.getElementById('loading').style.display = 'none';
+    const eb = document.getElementById('errorBox');
+    eb.style.display = 'block';
+    eb.textContent = `Error: ${err.message}`;
+  } finally {
+    document.getElementById('runBtn').disabled = false;
+  }
+}
+
+function copyOutput() {
+  const el = document.querySelector('.proposal-output');
+  if (el) navigator.clipboard.writeText(el.textContent).then(() => {
+    const btn = document.querySelector('.btn-sm');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => btn.textContent = 'Copy Proposal', 2000);
+  });
+}
+</script>
+</body>
+</html>

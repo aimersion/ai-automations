@@ -197,7 +197,7 @@ twq('config','tw-r848k-r848k');
   .progress-fill {
     height: 100%; border-radius: 4px;
     background: linear-gradient(90deg, var(--teal), var(--green));
-    width: 5%; /* 1/20 */
+    width: 10%; /* 2/20 */
     box-shadow: 0 0 8px var(--teal-glow);
   }
   .progress-dots {
@@ -375,6 +375,32 @@ twq('config','tw-r848k-r848k');
   }
   .fsb:hover { border-color: var(--teal); color: var(--teal); }
 
+  /* ── Past Tools Grid ── */
+  .past-section { max-width: 900px; margin: 0 auto; padding: 0 24px 48px; }
+  .past-section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .past-section-label::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .past-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .past-card {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 16px 18px;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .past-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .past-card-icon { font-size: 26px; flex-shrink: 0; }
+  .past-card-body { min-width: 0; }
+  .past-card-day { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .past-card-name { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .past-card-arrow { margin-left: auto; font-size: 16px; color: var(--muted); flex-shrink: 0; }
+  .past-card:hover .past-card-arrow { color: var(--teal); }
+
   /* ── Responsive ── */
   @media (max-width: 700px) {
     header { padding: 11px 16px; }
@@ -408,7 +434,7 @@ twq('config','tw-r848k-r848k');
 <header>
   <a href="/" class="logo">⚡ Aimersion AI</a>
   <div class="header-right">
-    <a class="share-btn" href="https://twitter.com/intent/tweet?text=A%20new%20free%20AI%20productivity%20tool%20drops%20every%20day%20for%2020%20days%20%E2%80%94%20connects%20to%20your%20real%20Gmail%20or%20Outlook%2C%20no%20account%20needed.%20Day%2001%20is%20live%20now%20%F0%9F%94%A5%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/" target="_blank" rel="noopener">
+    <a class="share-btn" href="https://twitter.com/intent/tweet?text=2%20of%2020%20free%20AI%20tools%20are%20live%20%E2%80%94%20Day%2002%3A%20Proposal%20Generator%20just%20dropped%20%F0%9F%94%A5%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/" target="_blank" rel="noopener">
       𝕏 Share
     </a>
   </div>
@@ -418,7 +444,7 @@ twq('config','tw-r848k-r848k');
 <div class="hero">
   <div class="live-badge">
     <span class="live-dot"></span>
-    Day 01 Is Live Now
+    Day 02 Is Live Now
   </div>
   <h1>A new free AI tool<br><span class="accent">drops every day</span><br><span class="accent2">for 20 days.</span></h1>
   <p class="hero-sub">Connects to your real Gmail or Outlook. No installs. No account to create. Just click and go.</p>
@@ -426,8 +452,8 @@ twq('config','tw-r848k-r848k');
   <!-- Progress -->
   <div class="progress-wrap">
     <div class="progress-label">
-      <span>Progress: 1 of 20 tools live</span>
-      <span>5%</span>
+      <span>Progress: 2 of 20 tools live</span>
+      <span>10%</span>
     </div>
     <div class="progress-bar">
       <div class="progress-fill"></div>
@@ -439,40 +465,50 @@ twq('config','tw-r848k-r848k');
 
 <!-- ── Featured Tool ── -->
 <div class="featured-section">
-  <a href="day-01-inbox-intelligence.html" class="featured-card">
+  <a href="day-02-proposal-generator.html" class="featured-card">
     <div class="featured-left">
-      <div class="featured-day-tag">Day 01 of 20 — Live Now</div>
-      <div class="featured-icon">📬</div>
-      <h2 class="featured-title">Inbox Intelligence</h2>
-      <p class="featured-desc">Connect Gmail or Outlook and let AI triage your inbox. It surfaces what actually needs your attention, ignores the noise, and drafts replies in your voice — in under a minute.</p>
+      <div class="featured-day-tag">Day 02 of 20 — Live Now</div>
+      <div class="featured-icon">📝</div>
+      <h2 class="featured-title">Proposal Generator</h2>
+      <p class="featured-desc">Turn rough notes into a polished business proposal in seconds. Paste your bullet points, describe your client, and Gemini AI writes a full professional proposal — ready to send or copy into a doc.</p>
       <div class="featured-tags">
-        <span class="tag">Gmail</span>
-        <span class="tag">Outlook</span>
         <span class="tag">Gemini AI</span>
+        <span class="tag">No Email Needed</span>
         <span class="tag">Free</span>
+        <span class="tag">Instant</span>
       </div>
-      <div class="featured-cta">Try it free →</div>
+      <div class="featured-cta">Generate a proposal →</div>
     </div>
     <div class="featured-right">
       <div class="preview-label">Sample output</div>
-      <div class="preview-email p1">
-        <span class="preview-badge badge-urgent">Urgent</span>
-        <div class="preview-subject">Re: Term Sheet — please sign by EOD</div>
-        <div class="preview-from">Marcus Webb · Venture Bridge</div>
+      <div class="preview-email" style="border-left: 3px solid var(--teal); margin-bottom: 2px;">
+        <div class="preview-badge" style="background: rgba(6,182,212,0.12); color: var(--teal);">Proposal · Atlas Logistics</div>
+        <div class="preview-subject">Digital Transformation Initiative</div>
+        <div class="preview-from" style="font-size:12px; color: var(--muted2); margin-top:4px; line-height:1.5;">We propose a 90-day engagement to modernize Atlas Logistics' dispatch operations — reducing manual overhead by an estimated 40% through AI-assisted routing and real-time tracking dashboards...</div>
       </div>
-      <div class="preview-email p1">
-        <span class="preview-badge badge-urgent">Urgent</span>
-        <div class="preview-subject">Meridian contract — final review needed</div>
-        <div class="preview-from">Priya Nair · Meridian Group</div>
+      <div class="preview-email" style="border-left: 3px solid rgba(16,185,129,0.6);">
+        <div class="preview-badge" style="background: var(--green-dim); color: var(--green);">Investment Summary</div>
+        <div class="preview-subject">$18,500 · 90-day engagement</div>
+        <div class="preview-from">Deliverables · Timeline · ROI breakdown included</div>
       </div>
-      <div class="preview-email p2">
-        <span class="preview-badge badge-review">Review</span>
-        <div class="preview-subject">Follow up: partnership call last week</div>
-        <div class="preview-from">Dana Torres · Blue Ridge Partners</div>
-      </div>
-      <div class="preview-more">+ 17 more sorted, summarized &amp; ready</div>
+      <div class="preview-more">Full proposal in &lt; 10 seconds — paste your notes and go</div>
     </div>
   </a>
+</div>
+
+<!-- ── Past Tools ── -->
+<div class="past-section">
+  <div class="past-section-label">Past Tools</div>
+  <div class="past-grid">
+    <a href="day-01-inbox-intelligence.html" class="past-card">
+      <div class="past-card-icon">📬</div>
+      <div class="past-card-body">
+        <div class="past-card-day">Day 01</div>
+        <div class="past-card-name">Inbox Intelligence</div>
+      </div>
+      <div class="past-card-arrow">→</div>
+    </a>
+  </div>
 </div>
 
 <!-- ── Next Up / Follow ── -->
@@ -480,7 +516,7 @@ twq('config','tw-r848k-r848k');
   <div class="next-up-card">
     <div class="next-up-left">
       <div class="next-up-eyebrow">Coming tomorrow</div>
-      <div class="next-up-title">Day 02 drops in 24 hours</div>
+      <div class="next-up-title">Day 03 drops in 24 hours</div>
       <div class="next-up-sub">Follow along so you don't miss it — one free tool every day for 20 days.</div>
     </div>
     <div class="follow-buttons">
@@ -521,7 +557,7 @@ twq('config','tw-r848k-r848k');
 <footer>
   <p>Built by <a href="https://aimersion.ai">Aimersion AI</a> · Free &amp; open source · <a href="https://github.com/aimersion/ai-automations" target="_blank">View on GitHub</a> · <a href="privacy.html">Privacy Policy</a></p>
   <div class="footer-share">
-    <a class="fsb" href="https://twitter.com/intent/tweet?text=A%20new%20free%20AI%20productivity%20tool%20drops%20every%20day%20for%2020%20days%20%E2%80%94%20connects%20to%20your%20real%20Gmail%20or%20Outlook%2C%20no%20account%20needed.%20Day%2001%20is%20live%20now%20%F0%9F%94%A5%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/" target="_blank" rel="noopener">𝕏 Share on X</a>
+    <a class="fsb" href="https://twitter.com/intent/tweet?text=2%20of%2020%20free%20AI%20tools%20are%20live%20%E2%80%94%20Day%2002%3A%20Proposal%20Generator%20just%20dropped%20%F0%9F%94%A5%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/" target="_blank" rel="noopener">𝕏 Share on X</a>
     <a class="fsb" href="https://www.linkedin.com/sharing/share-offsite/?url=https://aimersion.github.io/ai-automations/" target="_blank" rel="noopener">in Share</a>
   </div>
 </footer>
@@ -531,7 +567,7 @@ twq('config','tw-r848k-r848k');
   const dots = document.getElementById('progressDots');
   for (let i = 1; i <= 20; i++) {
     const d = document.createElement('div');
-    d.className = 'pdot ' + (i === 1 ? 'pdot-live' : 'pdot-locked');
+    d.className = 'pdot ' + (i <= 2 ? 'pdot-live' : 'pdot-locked');
     d.title = 'Day ' + i;
     dots.appendChild(d);
   }
