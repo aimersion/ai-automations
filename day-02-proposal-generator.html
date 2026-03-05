@@ -210,25 +210,25 @@ twq('config','tw-r848k-r848k');
     <h3>About Your Business</h3>
     <p>What you're selling and why you're the right choice.</p>
     <div class="grid-2">
-      <div class="field"><label>Your Company Name</label><input type="text" id="yourCompany" placeholder="Aimersion" /></div>
-      <div class="field"><label>Your Name</label><input type="text" id="yourName" placeholder="Jim Lynch" /></div>
+      <div class="field"><label>Your Company Name</label><input type="text" id="yourCompany" placeholder="Apex Digital" /></div>
+      <div class="field"><label>Your Name</label><input type="text" id="yourName" placeholder="Jordan Blake" /></div>
     </div>
-    <div class="field" style="margin-bottom:14px"><label>What You Sell (1-2 sentences)</label><input type="text" id="yourProduct" placeholder="Compliance-first phone platform for service businesses. Built on Twilio + AI — no annual contracts." /></div>
-    <div class="field"><label>Your Key Differentiators</label><input type="text" id="differentiators" placeholder="No lock-in, 17% cheaper than competitors, built-in compliance logic, $0 implementation" /></div>
+    <div class="field" style="margin-bottom:14px"><label>What You Sell (1-2 sentences)</label><input type="text" id="yourProduct" placeholder="Cloud-based project management platform for mid-size teams. Replaces spreadsheet chaos with automated workflows and real-time dashboards." /></div>
+    <div class="field"><label>Your Key Differentiators</label><input type="text" id="differentiators" placeholder="No setup fees, 30% faster onboarding vs. competitors, built-in reporting, free migration from existing tools" /></div>
   </div>
 
   <div class="input-card">
     <h3>About the Prospect</h3>
     <p>The more you tell it, the more tailored the proposal.</p>
     <div class="grid-2">
-      <div class="field"><label>Company Name</label><input type="text" id="prospectCompany" placeholder="Secure Collateral Management" /></div>
-      <div class="field"><label>Contact Name &amp; Title</label><input type="text" id="prospectContact" placeholder="Robert Whiteley, AVP Skip Ops" /></div>
+      <div class="field"><label>Company Name</label><input type="text" id="prospectCompany" placeholder="Brightside Manufacturing" /></div>
+      <div class="field"><label>Contact Name &amp; Title</label><input type="text" id="prospectContact" placeholder="Sarah Chen, VP of Operations" /></div>
     </div>
-    <div class="field" style="margin-bottom:14px"><label>Their Industry / Business Type</label><input type="text" id="industry" placeholder="Debt collection / auto recovery — 100 agents, compliance-heavy operations" /></div>
-    <div class="field" style="margin-bottom:14px"><label>Their Pain Points (what problems are they trying to solve?)</label><textarea id="painPoints" placeholder="Currently on LiveVox at $0.035/min — overpaying. No API for CRM integration. Manual compliance tracking. Annual contract locks them in." style="min-height:80px"></textarea></div>
+    <div class="field" style="margin-bottom:14px"><label>Their Industry / Business Type</label><input type="text" id="industry" placeholder="Manufacturing / supply chain — 200 employees, multiple production sites" /></div>
+    <div class="field" style="margin-bottom:14px"><label>Their Pain Points (what problems are they trying to solve?)</label><textarea id="painPoints" placeholder="Managing schedules across 3 sites in spreadsheets. Missed deadlines costing $15K/month in rework. No cross-site visibility until something breaks. Legacy system flagged for removal by IT." style="min-height:80px"></textarea></div>
     <div class="grid-3">
-      <div class="field"><label>Deal Size (est.)</label><input type="text" id="dealSize" placeholder="~$7,500/month" /></div>
-      <div class="field"><label>Decision Timeline</label><input type="text" id="timeline" placeholder="Within 2 weeks" /></div>
+      <div class="field"><label>Deal Size (est.)</label><input type="text" id="dealSize" placeholder="~$4,200/month" /></div>
+      <div class="field"><label>Decision Timeline</label><input type="text" id="timeline" placeholder="Within 30 days" /></div>
       <div class="field"><label>Proposal Tone</label>
         <select id="tone">
           <option value="professional and confident">Professional &amp; Confident</option>
@@ -296,67 +296,65 @@ twq('config','tw-r848k-r848k');
 </footer>
 
 <script>
-const DEMO = `PROPOSAL: Aimersion for Secure Collateral Management
-Prepared by Jim Lynch · ${new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}
+const DEMO = `PROPOSAL: Apex Digital for Brightside Manufacturing
+Prepared by Jordan Blake · ${new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 EXECUTIVE SUMMARY
 
-Robert — you're running 100 compliance-critical agents on a platform that's costing you more than it should and giving you less than you need. Aimersion fixes both problems, with no annual contract and no implementation fee.
+Sarah — your team is coordinating production schedules across three sites in spreadsheets and email threads. The result is missed deadlines, duplicate work, and no visibility until something breaks. Apex Digital solves this in 30 days, with zero setup fees and a free migration from your current system.
 
-The bottom line: you switch from $0.035/min to $0.029/min, get a full API for your CRM integration, and have compliance logic built into the system — not bolted on after. We start month-to-month. If we don't earn your business, you walk.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-THE PROBLEM WE'RE SOLVING
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-1. You're paying a "LiveVox Tax" — bundled features you don't use, at a rate 17% above market
-2. Your CRM can't trigger calls directly — agents work around the system, not through it
-3. Compliance is manual — it relies on agent discipline, not system enforcement
-4. You're locked in annually — no performance accountability from your vendor
+The bottom line: you replace manual tracking with automated workflows, gain real-time visibility across all sites, and cut deadline-related rework by an estimated 30%. We start month-to-month. If we don’t deliver, you walk.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-THE AIMERSION SOLUTION
+THE PROBLEM WE’RE SOLVING
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-VOICE & COMPLIANCE PLATFORM
-• $0.029/min outbound (vs. $0.035 today) — clean, usage-based, no bundles
-• 7-in-7 rule enforced at the system level — violations blocked before the call starts
-• Time-zone-aware dialing — 8am–9pm local enforcement, automatic
-• 100% call recording included, secure cloud storage, instant audit retrieval
+1. Spreadsheet overload — schedules live in multiple files, updated manually, always out of sync
+2. No cross-site visibility — each plant operates in its own silo until a deadline slips
+3. Communication gaps — status updates happen over email, nothing is searchable or auditable
+4. System risk — current setup is flagged for removal and IT won’t support it past Q3
 
-CRM INTEGRATION (Your Spec)
-• Open REST API — your CRM fires the trigger, Aimersion handles the rest
-• Click-to-Dial: one event in your system initiates the full call workflow
-• Disposition logging writes back to your CRM automatically
-• Real-time call data accessible via API — no CSV exports required
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+THE APEX DIGITAL SOLUTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PROJECT & WORKFLOW PLATFORM
+• Real-time dashboards across all production sites — one view, no manual updates
+• Automated task routing — work moves to the next step without email chains
+• Deadline alerts with escalation logic — issues surface before they become problems
+• Full audit trail — every update, comment, and decision is logged automatically
+
+INTEGRATION & MIGRATION
+• Free data migration from your existing spreadsheet system
+• Connects to your ERP via open API — no duplicate data entry
+• Mobile app included — floor managers stay updated without leaving the line
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 THE ECONOMICS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Platform License:     $65 / agent / month × 100 agents = $6,500/month
-Voice & Recording:    ~$0.029/min × ~51,700 min/month  = ~$1,499/month
+Platform License:     $18 / user / month × 50 users  = $900/month
+Enterprise Add-ons:   Dashboards + API + SSO          = $600/month
 Implementation:       $0 (waived)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Estimated Total:      ~$7,999/month
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Estimated Total:      ~$1,500/month
 
-vs. current LiveVox:  ~$9,600/month (est.)
-Monthly Savings:      ~$1,600/month
-Annual Savings:       ~$19,200/year
+vs. current rework cost: ~$15,000/month (est.)
+First-year ROI:          12x+
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 TERMS & NEXT STEPS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Contract:     Month-to-month — no annual lock-in
-Start:        Pilot with 10–20 agents, full rollout within 30 days
+Start:        Pilot with 1 site, full rollout within 30 days
 Go-live:      2 weeks from signed agreement
 
-Next step: 30-minute call to confirm technical specs with Jeff and align on launch timeline.
+Next step: 30-minute call to walk through your current workflow and confirm technical specs.
 
-Jim Lynch | Aimersion
-jlynch@aimersion.ai`;
+Jordan Blake | Apex Digital
+jordan@apexdigital.io`;
 
 // ── Loader animation ──
 let loaderInterval = null;
