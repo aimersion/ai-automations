@@ -822,9 +822,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
 // ── Scraper proxy — update this after deploying your Cloudflare Worker ──
-// Deploy instructions: repo-push/scraper-worker/README.md
-// Format: https://ai-scraper.<your-account>.workers.dev
-const SCRAPER_URL = 'PASTE_YOUR_WORKER_URL_HERE';
+const SCRAPER_URL = 'https://ai-scraper.aimersion.workers.dev';
 
 /**
  * Fetch a URL via the Cloudflare Worker proxy and return clean text.
