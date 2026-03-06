@@ -285,13 +285,14 @@ twq('config','tw-r848k-r848k');
       <div class="field"><label>Company Name</label><input type="text" id="prospectCompany" placeholder="Brightside Manufacturing" /></div>
       <div class="field"><label>Contact Name &amp; Title</label><input type="text" id="prospectContact" placeholder="Sarah Chen, VP of Operations" /></div>
     </div>
-    <div class="field" style="margin-bottom:14px">
-      <label>Prospect Website <span class="url-badge">⚡ Deep scrape</span></label>
-      <input type="url" id="prospectWebsite" placeholder="https://brightside-mfg.com" />
-      <div class="key-hint" style="margin-top:5px">Optional — AI reads their real site to understand their business before writing</div>
-      <div id="prospectScrapeStatus" class="scrape-status"></div>
+    <div class="grid-2" style="margin-bottom:14px">
+      <div class="field">
+        <label>Prospect Website <span class="url-badge">⚡ Deep scrape</span></label>
+        <input type="url" id="prospectWebsite" placeholder="https://brightside-mfg.com" />
+        <div id="prospectScrapeStatus" class="scrape-status"></div>
+      </div>
+      <div class="field"><label>Their Industry / Business Type</label><input type="text" id="industry" placeholder="Manufacturing / supply chain — 200 employees, multiple production sites" /></div>
     </div>
-    <div class="field" style="margin-bottom:14px"><label>Their Industry / Business Type</label><input type="text" id="industry" placeholder="Manufacturing / supply chain — 200 employees, multiple production sites" /></div>
     <div class="field" style="margin-bottom:14px"><label>Their Pain Points (what problems are they trying to solve?)</label><textarea id="painPoints" placeholder="Managing schedules across 3 sites in spreadsheets. Missed deadlines costing $15K/month in rework. No cross-site visibility until something breaks. Legacy system flagged for removal by IT." style="min-height:80px"></textarea></div>
     <div class="grid-3">
       <div class="field"><label>Deal Size (est.)</label><input type="text" id="dealSize" placeholder="~$4,200/month" /></div>
