@@ -222,6 +222,11 @@ twq('config','tw-r848k-r848k');
   .field select { cursor: pointer; }
   .field textarea { resize: vertical; min-height: 72px; }
   .field-hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
+  .url-badge { display:inline-block; background:rgba(20,184,166,0.15); color:var(--teal); font-size:10px; font-weight:700; letter-spacing:0.5px; padding:2px 7px; border-radius:20px; margin-left:6px; vertical-align:middle; border:1px solid rgba(20,184,166,0.3); }
+  .scrape-status { font-size:11px; margin-top:5px; padding:5px 10px; border-radius:6px; display:none; }
+  .scrape-status.loading { display:block; color:var(--teal); background:rgba(20,184,166,0.08); border:1px solid rgba(20,184,166,0.2); }
+  .scrape-status.ok { display:block; color:#6EE7B7; background:rgba(5,150,105,0.08); border:1px solid rgba(5,150,105,0.2); }
+  .scrape-status.err { display:block; color:#fca5a5; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); }
   /* Key row */
   .key-row { display:flex; gap:8px; align-items:center; }
   .key-row input { flex:1; margin-bottom:0; }
@@ -564,6 +569,12 @@ twq('config','tw-r848k-r848k');
       <input type="text" id="yourCompany" placeholder="Apex Digital">
     </div>
     <div class="field">
+      <label>Your Website <span class="url-badge">⚡ Live scrape</span></label>
+      <input type="url" id="yourWebsite" placeholder="https://apexdigital.io" autocomplete="url">
+      <div class="field-hint">Optional — AI reads your actual site for more accurate positioning</div>
+      <div id="yourScrapeStatus" class="scrape-status"></div>
+    </div>
+    <div class="field">
       <label>What You Sell (1-2 sentences)</label>
       <input type="text" id="yourProduct" placeholder="Cloud-based project management platform for mid-size teams. Replaces spreadsheet chaos with automated workflows.">
     </div>
@@ -578,6 +589,12 @@ twq('config','tw-r848k-r848k');
     <div class="field">
       <label>Competitor Name <span style="color:var(--red)">*</span></label>
       <input type="text" id="competitorName" placeholder="e.g., Nexus CRM">
+    </div>
+    <div class="field">
+      <label>Competitor Website <span class="url-badge">⚡ Live scrape</span></label>
+      <input type="url" id="competitorWebsite" placeholder="https://nexuscrm.com" autocomplete="url">
+      <div class="field-hint">Optional — AI reads their real site instead of relying on training data alone</div>
+      <div id="competitorScrapeStatus" class="scrape-status"></div>
     </div>
     <div class="field">
       <label>Your Industry / Market</label>
@@ -803,6 +820,38 @@ document.addEventListener('DOMContentLoaded', () => {
 // ─────────────────────────────────────────────────────────────
 
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+
+// ── Scraper proxy — update this after deploying your Cloudflare Worker ──
+// Deploy instructions: repo-push/scraper-worker/README.md
+// Format: https://ai-scraper.<your-account>.workers.dev
+const SCRAPER_URL = 'PASTE_YOUR_WORKER_URL_HERE';
+
+/**
+ * Fetch a URL via the Cloudflare Worker proxy and return clean text.
+ * Shows a status badge below the input while loading.
+ */
+async function scrapeUrl(url, statusElId) {
+  const statusEl = document.getElementById(statusElId);
+  if (!url || !url.startsWith('http')) return null;
+  if (!SCRAPER_URL || SCRAPER_URL === 'PASTE_YOUR_WORKER_URL_HERE') return null;
+
+  statusEl.className = 'scrape-status loading';
+  statusEl.textContent = '⏳ Reading page...';
+
+  try {
+    const res = await fetch(`${SCRAPER_URL}/?url=${encodeURIComponent(url)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    statusEl.className = 'scrape-status ok';
+    statusEl.textContent = `✓ Scraped "${data.title || url}" — ${data.wordCount?.toLocaleString() || '?'} words`;
+    return data.text;
+  } catch (err) {
+    statusEl.className = 'scrape-status err';
+    statusEl.textContent = `⚠ Couldn't read page (${err.message}) — using AI training data instead`;
+    return null;
+  }
+}
 
 // ── Demo data (fictional) ──
 const DEMO_DATA = {
@@ -1154,9 +1203,11 @@ document.getElementById('copyBtn').addEventListener('click', () => {
 document.getElementById('runBtn').addEventListener('click', async () => {
   const apiKey = localStorage.getItem('gemini_key') || document.getElementById('apiKey').value.trim();
   const yourCompany = document.getElementById('yourCompany').value.trim();
+  const yourWebsite = document.getElementById('yourWebsite').value.trim();
   const yourProduct = document.getElementById('yourProduct').value.trim();
   const differentiators = document.getElementById('differentiators').value.trim();
   const competitorName = document.getElementById('competitorName').value.trim();
+  const competitorWebsite = document.getElementById('competitorWebsite').value.trim();
   const industry = document.getElementById('industry').value.trim();
   const lostDeals = document.getElementById('lostDeals').value.trim();
   const outputStyle = document.getElementById('outputStyle').value;
@@ -1183,6 +1234,12 @@ document.getElementById('runBtn').addEventListener('click', async () => {
   resetLoader();
   startLoader();
 
+  // Scrape URLs in parallel (if provided + worker is configured)
+  const [yourPageText, competitorPageText] = await Promise.all([
+    yourWebsite ? scrapeUrl(yourWebsite, 'yourScrapeStatus') : Promise.resolve(null),
+    competitorWebsite ? scrapeUrl(competitorWebsite, 'competitorScrapeStatus') : Promise.resolve(null),
+  ]);
+
   let styleInstruction = '';
   if (outputStyle === 'battle-card') {
     styleInstruction = 'Format as a concise, sales-ready battle card with punchy bullets. Every point should be something a rep can say on a call today.';
@@ -1192,6 +1249,14 @@ document.getElementById('runBtn').addEventListener('click', async () => {
     styleInstruction = 'Keep this brief and punchy — 3 most important points per section. Speed over depth.';
   }
 
+  // Build live-content sections only if we actually got scraped text
+  const ourLiveSection = yourPageText
+    ? `\nOUR WEBSITE CONTENT (live-scraped — use this as ground truth for our positioning):\n---\n${yourPageText.slice(0, 3000)}\n---`
+    : '';
+  const compLiveSection = competitorPageText
+    ? `\nCOMPETITOR WEBSITE CONTENT (live-scraped — use this as ground truth for their positioning and messaging):\n---\n${competitorPageText.slice(0, 3000)}\n---`
+    : '';
+
   const prompt = `You are a top competitive intelligence analyst preparing a sales battle card.
 
 CONTEXT:
@@ -1200,7 +1265,7 @@ CONTEXT:
 - Our Key Differentiators: ${differentiators || 'Not specified'}
 - Industry/Market: ${industry || 'Not specified'}
 - Competitor to Analyze: ${competitorName}
-${lostDeals ? `- Recent Lost Deals / Known Objections: ${lostDeals}` : ''}
+${lostDeals ? `- Recent Lost Deals / Known Objections: ${lostDeals}` : ''}${ourLiveSection}${compLiveSection}
 
 STYLE: ${styleInstruction}
 
