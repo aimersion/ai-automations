@@ -6,6 +6,7 @@
  * Single page:  GET /?url=https://example.com
  * Deep scrape:  GET /?url=https://example.com&deep=true
  *   → Fetches homepage + up to 4 key subpages (product, pricing, features, about…)
+ *   → For JS-rendered SPAs: extracts meta tags + tries common paths + sitemap.xml
  *   → Returns combined text with --- PAGE: /path --- section headers
  *
  * Returns: { title, text, url, wordCount, pages? }
@@ -42,6 +43,17 @@ const DEEP_KEYWORDS = [
   'product', 'solution', 'feature', 'platform', 'pricing', 'price',
   'how-it-works', 'how-we', 'why', 'capability', 'use-case', 'use_case',
   'about', 'tour', 'demo', 'overview', 'benefit', 'integration', 'workflow',
+];
+
+// Common SPA/React paths to try when link discovery finds nothing
+const COMMON_PATHS = [
+  '/about', '/about-us',
+  '/product', '/products',
+  '/solutions', '/solution',
+  '/platform', '/features',
+  '/pricing', '/plans',
+  '/how-it-works', '/why-us',
+  '/services', '/what-we-do',
 ];
 
 // File extensions and paths to skip
@@ -91,6 +103,68 @@ function extractText(html, wordCap = 3000) {
 }
 
 /**
+ * Extract meta/OG tags from HTML — useful for JS-rendered SPAs where the
+ * visible content isn't in the raw HTML but the meta tags still are.
+ */
+function extractMetaTags(html) {
+  const get = (pattern) => {
+    const m = html.match(pattern);
+    return m ? m[1].replace(/&amp;/g, '&').replace(/&#039;/g, "'").trim() : null;
+  };
+
+  const description =
+    get(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i) ||
+    get(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']description["']/i);
+
+  const ogDescription =
+    get(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i) ||
+    get(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:description["']/i);
+
+  const ogTitle =
+    get(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i) ||
+    get(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:title["']/i);
+
+  const keywords =
+    get(/<meta[^>]+name=["']keywords["'][^>]+content=["']([^"']+)["']/i) ||
+    get(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']keywords["']/i);
+
+  const siteName =
+    get(/<meta[^>]+property=["']og:site_name["'][^>]+content=["']([^"']+)["']/i) ||
+    get(/<meta[^>]+content=["']([^"']+)["'][^>]+property=["']og:site_name["']/i);
+
+  const parts = [];
+  if (ogTitle) parts.push(`Site: ${ogTitle}`);
+  if (siteName && siteName !== ogTitle) parts.push(`Brand: ${siteName}`);
+  if (description) parts.push(`About: ${description}`);
+  if (ogDescription && ogDescription !== description) parts.push(`Overview: ${ogDescription}`);
+  if (keywords) parts.push(`Keywords: ${keywords}`);
+
+  return parts.join('\n');
+}
+
+/**
+ * Parse sitemap.xml and extract up to 20 relevant product/about URLs.
+ */
+function parseSitemap(xml, baseHostname) {
+  const urls = [];
+  const locRegex = /<loc>([^<]+)<\/loc>/gi;
+  let m;
+  while ((m = locRegex.exec(xml)) !== null) {
+    const url = m[1].trim();
+    try {
+      const p = new URL(url);
+      if (p.hostname !== baseHostname) continue;
+      if (SKIP_EXTENSIONS.test(p.pathname)) continue;
+      if (SKIP_PATHS.test(p.pathname)) continue;
+      const path = p.pathname.toLowerCase();
+      const score = DEEP_KEYWORDS.reduce((s, kw) => path.includes(kw) ? s + 1 : s, 0);
+      if (score > 0) urls.push({ url: p.origin + p.pathname, score });
+    } catch { continue; }
+  }
+  return urls.sort((a, b) => b.score - a.score).slice(0, 4).map(x => x.url);
+}
+
+/**
  * Extract internal links from HTML that are likely product/content pages.
  * Returns absolute URLs, de-duped, ranked by keyword relevance.
  */
@@ -137,7 +211,7 @@ function extractDeepLinks(html, baseUrl) {
 }
 
 /**
- * Fetch a single URL and return { title, text, wordCount } or null on failure.
+ * Fetch a single URL and return { title, text, wordCount, url } or null on failure.
  */
 async function fetchPage(url) {
   try {
@@ -221,25 +295,71 @@ export default {
     const mainHtml = await mainResp.text();
     const mainData = extractText(mainHtml, deep ? 2500 : 6000);
 
+    // ── Detect JS-only SPA (thin page) ───────────────────
+    const isSPA = mainData.wordCount < 80;
+    const metaContent = isSPA ? extractMetaTags(mainHtml) : '';
+
     // ── Single-page mode ─────────────────────────────────
     if (!deep) {
+      let text = mainData.text;
+      let wordCount = mainData.wordCount;
+
+      // For SPAs in single mode, supplement with meta tags
+      if (isSPA && metaContent) {
+        text = `[Note: JavaScript-rendered site — extracted from meta tags]\n\n${metaContent}`;
+        wordCount = text.split(/\s+/).length;
+      }
+
       return corsResponse(
-        JSON.stringify({ url: targetUrl, title: mainData.title, text: mainData.text, wordCount: mainData.wordCount }),
+        JSON.stringify({ url: targetUrl, title: mainData.title, text, wordCount }),
         200, origin,
         { 'Cache-Control': 'public, max-age=300' }
       );
     }
 
     // ── Deep mode: discover + fetch subpages ─────────────
-    const subUrls = extractDeepLinks(mainHtml, targetUrl);
 
-    // Fetch all subpages in parallel
+    // Step 1: Try link discovery from HTML
+    let subUrls = extractDeepLinks(mainHtml, targetUrl);
+
+    // Step 2: If SPA or too few links found, try sitemap.xml + common paths
+    if (subUrls.length < 2) {
+      const base = new URL(targetUrl);
+      const sitemapPromise = fetchPage(`${base.origin}/sitemap.xml`)
+        .then(r => r ? parseSitemap(r.text, base.hostname) : []);
+
+      // Try common SPA paths
+      const commonPromise = Promise.all(
+        COMMON_PATHS.map(path => {
+          const url = `${base.origin}${path}`;
+          return fetch(url, { headers: FETCH_HEADERS, redirect: 'follow', cf: { cacheTtl: 60 } })
+            .then(r => r.ok ? url : null)
+            .catch(() => null);
+        })
+      ).then(results => results.filter(Boolean).slice(0, 4));
+
+      const [sitemapUrls, commonUrls] = await Promise.all([sitemapPromise, commonPromise]);
+
+      // Merge: sitemap takes priority, fill with common paths
+      const merged = [...new Set([...sitemapUrls, ...subUrls, ...commonUrls])].slice(0, 4);
+      subUrls = merged;
+    }
+
+    // Step 3: Fetch all subpages in parallel
     const subResults = await Promise.all(subUrls.map(u => fetchPage(u)));
-    const subPages = subResults.filter(Boolean);
+    const subPages = subResults.filter(r => r && r.wordCount > 30);
 
-    // Combine everything
+    // Step 4: Build homepage text — for SPAs, use meta content as supplement
+    let homepageText = mainData.text;
+    if (isSPA && metaContent && subPages.length > 0) {
+      homepageText = `[JavaScript-rendered site — homepage meta]\n${metaContent}`;
+    } else if (isSPA && metaContent) {
+      homepageText = `[JavaScript-rendered site — extracted from meta tags]\n\n${metaContent}`;
+    }
+
+    // Step 5: Combine everything
     const sections = [
-      `--- PAGE: / (homepage) ---\n${mainData.text}`,
+      `--- PAGE: / (homepage) ---\n${homepageText}`,
       ...subPages.map(p => {
         const path = new URL(p.url).pathname;
         return `--- PAGE: ${path} ---\n${p.text}`;
@@ -258,6 +378,7 @@ export default {
         wordCount: totalWords,
         pages: pagesFetched,
         deepScrape: true,
+        spaSite: isSPA,
       }),
       200, origin,
       { 'Cache-Control': 'public, max-age=300' }
