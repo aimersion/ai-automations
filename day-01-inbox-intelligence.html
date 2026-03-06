@@ -205,7 +205,8 @@ twq("config","tw-r848k-r848k");
   .modal-context strong { color:var(--white); }
   .original-email-toggle { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--teal); cursor:pointer; background:none; border:none; padding:0 0 10px 0; display:flex; align-items:center; gap:6px; font-family:inherit; }
   .original-email-toggle:hover { color:var(--teal-light); }
-  .original-email-body { display:none; background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); line-height:1.65; max-height:200px; overflow-y:auto; margin-bottom:12px; white-space:pre-wrap; word-break:break-word; }
+  .original-email-body { display:none; background:#fff; border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:12px; }
+  .original-email-body iframe { width:100%; min-height:180px; max-height:260px; border:none; display:block; }
   .modal-textarea { width:100%; min-height:220px; background:var(--navy); border:1px solid var(--border); color:var(--white); padding:14px; border-radius:8px; font-family:inherit; font-size:13px; line-height:1.7; resize:vertical; outline:none; }
   .modal-textarea:focus { border-color:var(--teal); }
   .modal-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
@@ -472,7 +473,9 @@ Always acknowledge the person's ask before responding."></textarea>
     <button class="original-email-toggle" onclick="toggleOriginalEmail()" id="originalEmailToggle">
       <span id="originalEmailArrow">▶</span> Show original email
     </button>
-    <div id="originalEmailBody" class="original-email-body"></div>
+    <div id="originalEmailBody" class="original-email-body">
+      <iframe id="originalEmailFrame" sandbox="allow-same-origin" title="Original email"></iframe>
+    </div>
     <div id="modalLoading" class="loading" style="padding:20px">
       <div id="modalLoaderContainer"></div>
     </div>
@@ -853,7 +856,8 @@ async function fetchOutlookEmails(since) {
 
     return (inboxResp.value || []).map(msg => {
       const raw = msg.body?.content || '';
-      const body = (msg.body?.contentType === 'html' ? stripHtml(raw) : raw).slice(0, BODY_CAP);
+      const isHtml = msg.body?.contentType === 'html';
+      const body = (isHtml ? stripHtml(raw) : raw).slice(0, BODY_CAP);
       return {
         source: 'Outlook', id: msg.id,
         conversationId: msg.conversationId || '',
@@ -861,6 +865,7 @@ async function fetchOutlookEmails(since) {
         replyTo: (msg.replyTo?.[0]?.emailAddress?.address) || msg.from?.emailAddress?.address || '',
         subject: msg.subject || '(no subject)',
         date: msg.receivedDateTime || '', snippet: body, body: body,
+        bodyHtml: isHtml ? raw : null,
         webLink: msg.webLink || '',
         alreadyReplied: repliedConvos.has(msg.conversationId)
       };
@@ -1040,10 +1045,31 @@ function openDraftModal(emailIdx) {
   document.getElementById('modalContext').innerHTML =
     `<strong>From:</strong> ${email.from}<br><strong>Subject:</strong> ${email.subject}`;
   // Populate full original email body
-  const bodyEl = document.getElementById('originalEmailBody');
+  const bodyEl  = document.getElementById('originalEmailBody');
+  const frameEl = document.getElementById('originalEmailFrame');
   const toggleEl = document.getElementById('originalEmailToggle');
-  if (email.body && email.body.trim()) {
-    bodyEl.textContent = email.body.trim();
+  const hasContent = email.bodyHtml || email.body;
+  if (hasContent) {
+    const htmlContent = email.bodyHtml ||
+      `<pre style="font-family:inherit;font-size:13px;white-space:pre-wrap;word-break:break-word;margin:0;">${email.body.replace(/</g,'&lt;')}</pre>`;
+    // Wrap in minimal page so fonts/colours render cleanly
+    const srcdoc = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+      <style>
+        body { margin:12px 14px; font-family: -apple-system, 'Segoe UI', sans-serif;
+               font-size:13px; line-height:1.65; color:#1e293b; background:#fff; }
+        img  { max-width:100%; height:auto; }
+        a    { color:#0891b2; }
+        blockquote { border-left:3px solid #cbd5e1; margin:8px 0 8px 0; padding-left:12px; color:#64748b; }
+        p    { margin:0 0 10px; }
+      </style></head><body>${htmlContent}</body></html>`;
+    frameEl.srcdoc = srcdoc;
+    // Auto-size iframe to content after load
+    frameEl.onload = () => {
+      try {
+        const h = frameEl.contentDocument?.body?.scrollHeight;
+        if (h) frameEl.style.height = Math.min(Math.max(h + 24, 80), 260) + 'px';
+      } catch {}
+    };
     bodyEl.style.display = 'none';
     document.getElementById('originalEmailArrow').textContent = '▶';
     toggleEl.style.display = 'flex';
