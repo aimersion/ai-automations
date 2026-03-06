@@ -723,6 +723,8 @@ async function connectMicrosoft() {
     document.getElementById('msBtn').style.display = 'none';
     document.getElementById('msDisBtn').style.display = '';
     updateCardStatuses();
+    if (typeof gtag !== 'undefined') gtag('event', 'email_connected', { provider: 'outlook' });
+    if (typeof fbq !== 'undefined') fbq('trackCustom', 'EmailConnected', { provider: 'outlook' });
   } catch (e) {
     if (e.errorCode === 'user_cancelled') return; // user closed popup — no alert needed
     console.error('Microsoft login error:', e);
@@ -962,6 +964,8 @@ Sort by priority (1s first), with already-replied emails ranked lower. Include t
     // Save timestamp so "Since last check" works next time
     localStorage.setItem('last_triage', Date.now());
     updateLastCheckOption();
+    if (typeof gtag !== 'undefined') gtag('event', 'inbox_analyzed', { email_count: emails.length });
+    if (typeof fbq !== 'undefined') fbq('trackCustom', 'InboxAnalyzed', { email_count: emails.length });
   } catch (e) { output.innerHTML = `<div class="error-msg">${e.message}</div>`; }
 
   btn.disabled = false; btn.textContent = '🧠 Analyze Inbox';
@@ -1061,7 +1065,33 @@ function openDraftModal(emailIdx) {
         a    { color:#0891b2; }
         blockquote { border-left:3px solid #cbd5e1; margin:8px 0 8px 0; padding-left:12px; color:#64748b; }
         p    { margin:0 0 10px; }
-      </style></head><body>${htmlContent}</body></html>`;
+      </style></head><body>${htmlContent}<!-- ═══ COOKIE CONSENT BANNER ═══ -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0F1F3D;border-top:1px solid #2A4A70;padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+  <p style="color:#8AAFD0;font-size:13px;margin:0;line-height:1.5;flex:1;min-width:220px;">
+    We use cookies for analytics and retargeting on Meta, LinkedIn, and X.
+    <a href="/ai-automations/privacy.html" style="color:#22D3EE;text-decoration:underline;">Privacy Policy</a>
+  </p>
+  <div style="display:flex;gap:10px;flex-shrink:0;">
+    <button onclick="declineCookies()" style="background:transparent;color:#8AAFD0;border:1px solid #2A4A70;border-radius:6px;padding:7px 16px;font-size:13px;cursor:pointer;">Decline</button>
+    <button onclick="acceptCookies()" style="background:#0891B2;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;">Accept</button>
+  </div>
+</div>
+<script>
+(function(){
+  var consent = localStorage.getItem("cookieConsent");
+  if (!consent) { document.getElementById("cookie-banner").style.display = "flex"; }
+})();
+function acceptCookies() {
+  localStorage.setItem("cookieConsent", "accepted");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+function declineCookies() {
+  localStorage.setItem("cookieConsent", "declined");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+</scr"+"ipt>
+<!-- ═══ END COOKIE BANNER ═══ -->
+</body></html>`;
     frameEl.srcdoc = srcdoc;
     // Auto-size iframe to content after load
     frameEl.onload = () => {
@@ -1121,6 +1151,8 @@ Write a reply that follows the personal style instructions above (if provided). 
     stopFunLoader();
     document.getElementById('modalLoading').style.display = 'none';
     document.getElementById('modalBody').style.display = 'block';
+    if (typeof gtag !== 'undefined') gtag('event', 'draft_generated', { source: email.source || 'unknown' });
+    if (typeof fbq !== 'undefined') fbq('trackCustom', 'DraftGenerated');
 
     // Build action buttons based on which accounts are connected
     const actions = document.getElementById('modalActions');

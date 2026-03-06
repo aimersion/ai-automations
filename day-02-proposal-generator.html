@@ -400,6 +400,8 @@ async function submitFooter() {
       msg.style.color = '#6EE7B7'; msg.style.background = 'rgba(16,185,129,0.08)'; msg.style.border = '1px solid rgba(16,185,129,0.2)';
       msg.textContent = "✓ You're in! Check your inbox.";
       input.value = ''; btn.textContent = '✓ Done';
+      if (typeof gtag !== 'undefined') gtag('event', 'subscribe', { source: 'day02-footer' });
+      if (typeof fbq !== 'undefined') fbq('track', 'CompleteRegistration', { source: 'day02-footer' });
     } else { throw new Error(data.error || 'Unknown error'); }
   } catch(err) {
     msg.style.display = 'block';
@@ -771,6 +773,8 @@ Use ## before each section header exactly as shown. Be specific, direct, and ${t
     document.getElementById('output').style.display = 'block';
     document.getElementById('loading').style.display = 'none';
     document.getElementById('outputContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (typeof gtag !== 'undefined') gtag('event', 'proposal_generated');
+    if (typeof fbq !== 'undefined') fbq('track', 'Lead');
   } catch(err) {
     clearInterval(loaderInterval);
     document.getElementById('loading').style.display = 'none';
@@ -844,5 +848,31 @@ function copyOutput() {
     <div class="key-privacy-note">🔒 Your key stays in your browser only — we never store or see it.</div>
   </div>
 </div>
+<!-- ═══ COOKIE CONSENT BANNER ═══ -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0F1F3D;border-top:1px solid #2A4A70;padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+  <p style="color:#8AAFD0;font-size:13px;margin:0;line-height:1.5;flex:1;min-width:220px;">
+    We use cookies for analytics and retargeting on Meta, LinkedIn, and X.
+    <a href="/ai-automations/privacy.html" style="color:#22D3EE;text-decoration:underline;">Privacy Policy</a>
+  </p>
+  <div style="display:flex;gap:10px;flex-shrink:0;">
+    <button onclick="declineCookies()" style="background:transparent;color:#8AAFD0;border:1px solid #2A4A70;border-radius:6px;padding:7px 16px;font-size:13px;cursor:pointer;">Decline</button>
+    <button onclick="acceptCookies()" style="background:#0891B2;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;">Accept</button>
+  </div>
+</div>
+<script>
+(function(){
+  var consent = localStorage.getItem("cookieConsent");
+  if (!consent) { document.getElementById("cookie-banner").style.display = "flex"; }
+})();
+function acceptCookies() {
+  localStorage.setItem("cookieConsent", "accepted");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+function declineCookies() {
+  localStorage.setItem("cookieConsent", "declined");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+</scr"+"ipt>
+<!-- ═══ END COOKIE BANNER ═══ -->
 </body>
 </html>

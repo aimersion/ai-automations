@@ -650,7 +650,7 @@ twq('config','tw-r848k-r848k');
       <a class="follow-btn follow-btn-x" href="https://twitter.com/jimlynchAI" target="_blank" rel="noopener">
         𝕏 Follow @jimlynchAI
       </a>
-      <a class="follow-btn follow-btn-li" href="https://linkedin.com/in/en-82QXy5B" target="_blank" rel="noopener">
+      <a class="follow-btn follow-btn-li" href="https://www.linkedin.com/in/jim-lynch-2993999/" target="_blank" rel="noopener">
         in Follow on LinkedIn
       </a>
     </div>
@@ -748,5 +748,31 @@ twq('config','tw-r848k-r848k');
   });
 </script>
 
+<!-- ═══ COOKIE CONSENT BANNER ═══ -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0F1F3D;border-top:1px solid #2A4A70;padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+  <p style="color:#8AAFD0;font-size:13px;margin:0;line-height:1.5;flex:1;min-width:220px;">
+    We use cookies for analytics and retargeting on Meta, LinkedIn, and X.
+    <a href="/ai-automations/privacy.html" style="color:#22D3EE;text-decoration:underline;">Privacy Policy</a>
+  </p>
+  <div style="display:flex;gap:10px;flex-shrink:0;">
+    <button onclick="declineCookies()" style="background:transparent;color:#8AAFD0;border:1px solid #2A4A70;border-radius:6px;padding:7px 16px;font-size:13px;cursor:pointer;">Decline</button>
+    <button onclick="acceptCookies()" style="background:#0891B2;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;">Accept</button>
+  </div>
+</div>
+<script>
+(function(){
+  var consent = localStorage.getItem("cookieConsent");
+  if (!consent) { document.getElementById("cookie-banner").style.display = "flex"; }
+})();
+function acceptCookies() {
+  localStorage.setItem("cookieConsent", "accepted");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+function declineCookies() {
+  localStorage.setItem("cookieConsent", "declined");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+</scr"+"ipt>
+<!-- ═══ END COOKIE BANNER ═══ -->
 </body>
 </html>
