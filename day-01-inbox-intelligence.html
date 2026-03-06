@@ -860,7 +860,7 @@ async function fetchOutlookEmails(since) {
         from: msg.from?.emailAddress?.address || '',
         replyTo: (msg.replyTo?.[0]?.emailAddress?.address) || msg.from?.emailAddress?.address || '',
         subject: msg.subject || '(no subject)',
-        date: msg.receivedDateTime || '', snippet: body,
+        date: msg.receivedDateTime || '', snippet: body, body: body,
         webLink: msg.webLink || '',
         alreadyReplied: repliedConvos.has(msg.conversationId)
       };
