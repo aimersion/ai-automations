@@ -269,6 +269,12 @@ twq('config','tw-r848k-r848k');
       <div class="field"><label>Your Name</label><input type="text" id="yourName" placeholder="Jordan Blake" /></div>
     </div>
     <div class="field" style="margin-bottom:14px"><label>What You Sell (1-2 sentences)</label><input type="text" id="yourProduct" placeholder="Cloud-based project management platform for mid-size teams. Replaces spreadsheet chaos with automated workflows and real-time dashboards." /></div>
+    <div class="field" style="margin-bottom:14px">
+      <label>Your Website <span class="url-badge">⚡ Deep scrape</span></label>
+      <input type="url" id="yourWebsite" placeholder="https://apexdigital.io" />
+      <div class="key-hint" style="margin-top:5px">Optional — AI reads your real site to ground your differentiators in your actual messaging</div>
+      <div id="yourScrapeStatus" class="scrape-status"></div>
+    </div>
     <div class="field"><label>Your Key Differentiators</label><input type="text" id="differentiators" placeholder="No setup fees, 30% faster onboarding vs. competitors, built-in reporting, free migration from existing tools" /></div>
   </div>
 
@@ -620,6 +626,7 @@ async function runProposal() {
   const yourProduct = document.getElementById('yourProduct').value.trim();
   const differentiators = document.getElementById('differentiators').value.trim();
   const prospectCompany = document.getElementById('prospectCompany').value.trim();
+  const yourWebsite = document.getElementById('yourWebsite').value.trim();
   const prospectWebsite = document.getElementById('prospectWebsite').value.trim();
   const prospectContact = document.getElementById('prospectContact').value.trim();
   const industry = document.getElementById('industry').value.trim();
@@ -647,13 +654,17 @@ async function runProposal() {
   document.getElementById('loading').style.display = 'block';
   startLoader();
 
-  // Scrape prospect website if provided
-  const prospectPageText = prospectWebsite
-    ? await scrapeUrl(prospectWebsite, 'prospectScrapeStatus')
-    : null;
+  // Scrape both websites in parallel
+  const [yourPageText, prospectPageText] = await Promise.all([
+    yourWebsite ? scrapeUrl(yourWebsite, 'yourScrapeStatus') : Promise.resolve(null),
+    prospectWebsite ? scrapeUrl(prospectWebsite, 'prospectScrapeStatus') : Promise.resolve(null),
+  ]);
 
+  const yourLiveSection = yourPageText
+    ? `\nOUR WEBSITE CONTENT (live-scraped — use as ground truth for our real messaging and positioning):\n---\n${yourPageText.slice(0, 3000)}\n---`
+    : '';
   const prospectLiveSection = prospectPageText
-    ? `\nPROSPECT WEBSITE CONTENT (live-scraped — use as ground truth for their business):\n---\n${prospectPageText.slice(0, 3500)}\n---`
+    ? `\nPROSPECT WEBSITE CONTENT (live-scraped — use as ground truth for their business):\n---\n${prospectPageText.slice(0, 3000)}\n---`
     : '';
 
   const prompt = `You are a world-class B2B sales proposal writer. Write a compelling, tailored proposal in a ${tone} tone. Every section must speak directly to THIS prospect's specific situation — no generic filler.
@@ -662,7 +673,7 @@ SELLER:
 - Company: ${yourCompany}
 - Contact: ${yourName || 'not provided'}
 - Product/service: ${yourProduct || 'not specified'}
-- Key differentiators: ${differentiators || 'not specified'}
+- Key differentiators: ${differentiators || 'not specified'}${yourLiveSection}
 
 PROSPECT:
 - Company: ${prospectCompany}
