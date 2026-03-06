@@ -385,21 +385,34 @@ twq('config','tw-r848k-r848k');
   .past-section-label::after {
     content: ''; flex: 1; height: 1px; background: var(--border);
   }
-  .past-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+  .past-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
   .past-card {
-    display: flex; align-items: center; gap: 14px;
+    display: flex; flex-direction: column;
     background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; padding: 16px 18px;
+    border-radius: 14px; padding: 22px 24px;
     text-decoration: none; color: inherit;
-    transition: border-color 0.2s, transform 0.15s;
+    transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
   }
-  .past-card:hover { border-color: var(--teal); transform: translateY(-2px); }
-  .past-card-icon { font-size: 26px; flex-shrink: 0; }
-  .past-card-body { min-width: 0; }
-  .past-card-day { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
-  .past-card-name { font-size: 15px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .past-card-arrow { margin-left: auto; font-size: 16px; color: var(--muted); flex-shrink: 0; }
-  .past-card:hover .past-card-arrow { color: var(--teal); }
+  .past-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(6,182,212,0.1);
+  }
+  .past-card-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .past-card-day { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); }
+  .past-card-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+  .past-card-icon { font-size: 32px; margin-bottom: 10px; }
+  .past-card-name { font-size: 18px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
+  .past-card-desc { font-size: 13px; color: var(--muted2); line-height: 1.65; margin-bottom: 20px; flex: 1; }
+  .past-card-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--teal); font-size: 13px; font-weight: 700;
+    margin-top: auto; transition: gap 0.15s;
+  }
+  .past-card:hover .past-card-cta { gap: 10px; }
 
   /* ── Responsive ── */
   @media (max-width: 700px) {
@@ -480,42 +493,57 @@ twq('config','tw-r848k-r848k');
       <div class="featured-cta">Build your battle card →</div>
     </div>
     <div class="featured-right">
-      <div class="preview-label">Sample output</div>
+      <div class="preview-label">Sample output — vs. Balto</div>
       <div class="preview-email" style="border-left: 3px solid #F87171; margin-bottom: 2px;">
-        <div class="preview-badge" style="background: rgba(248,113,113,0.12); color: #F87171;">Vulnerable · Nexus CRM</div>
-        <div class="preview-subject">No AI features — all manual data entry</div>
-        <div class="preview-from">Scales poorly above 50 seats · No dedicated CS team</div>
+        <div class="preview-badge" style="background: rgba(248,113,113,0.12); color: #F87171;">Vulnerability · Balto</div>
+        <div class="preview-subject">Agents ignore prompts under call pressure</div>
+        <div class="preview-from">Opaque pricing · CRM sync friction · complex setup</div>
       </div>
       <div class="preview-email" style="border-left: 3px solid var(--amber); margin-bottom: 2px;">
         <div class="preview-badge" style="background: rgba(245,158,11,0.12); color: var(--amber);">Objection Handler</div>
-        <div class="preview-subject">"Nexus is half the price."</div>
-        <div class="preview-from" style="font-size:12px; color: var(--muted2); margin-top:3px; line-height:1.5;">Add their paid integrations and support tier — the gap closes fast. Most teams find we're within 15% all-in, before accounting for what the insights actually recover...</div>
+        <div class="preview-subject">"Balto is cheaper and we're already paying for it."</div>
+        <div class="preview-from" style="font-size:12px; color: var(--muted2); margin-top:3px; line-height:1.5;">Balto's pricing isn't public — users on G2 report sticker shock after adding seats and integrations. The real gap closes fast once you factor in what's actually included...</div>
       </div>
-      <div class="preview-more">6 sections · 60 seconds · ready to copy to your CRM</div>
+      <div class="preview-more">6 sections · 60 seconds · ready to use on your next call</div>
     </div>
   </a>
 </div>
 
 <!-- ── Past Tools ── -->
 <div class="past-section">
-  <div class="past-section-label">Past Tools</div>
+  <div class="past-section-label">Previous Tools</div>
   <div class="past-grid">
+
     <a href="day-01-inbox-intelligence.html" class="past-card">
+      <div class="past-card-top">
+        <span class="past-card-day">Day 01 of 20</span>
+        <div class="past-card-tags">
+          <span class="tag">Gmail</span>
+          <span class="tag">Outlook</span>
+          <span class="tag">Free</span>
+        </div>
+      </div>
       <div class="past-card-icon">📬</div>
-      <div class="past-card-body">
-        <div class="past-card-day">Day 01</div>
-        <div class="past-card-name">Inbox Intelligence</div>
-      </div>
-      <div class="past-card-arrow">→</div>
+      <div class="past-card-name">Inbox Intelligence</div>
+      <p class="past-card-desc">Connect your Gmail or Outlook and get every email scored, summarized, and actioned. Surfaces only what actually needs your attention — urgent replies, things to decide, threads to kill — so you can clear your inbox in minutes, not hours.</p>
+      <div class="past-card-cta">Use this tool →</div>
     </a>
+
     <a href="day-02-proposal-generator.html" class="past-card">
-      <div class="past-card-icon">📝</div>
-      <div class="past-card-body">
-        <div class="past-card-day">Day 02</div>
-        <div class="past-card-name">Proposal Generator</div>
+      <div class="past-card-top">
+        <span class="past-card-day">Day 02 of 20</span>
+        <div class="past-card-tags">
+          <span class="tag">Sales</span>
+          <span class="tag">Gemini AI</span>
+          <span class="tag">Free</span>
+        </div>
       </div>
-      <div class="past-card-arrow">→</div>
+      <div class="past-card-icon">📝</div>
+      <div class="past-card-name">Proposal Generator</div>
+      <p class="past-card-desc">Fill in what you know about the prospect and get a complete, tailored sales proposal ready to send in 4 minutes. Not a template — a real document written for this specific deal, with executive summary, ROI story, and next steps.</p>
+      <div class="past-card-cta">Use this tool →</div>
     </a>
+
   </div>
 </div>
 
