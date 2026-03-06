@@ -20,9 +20,9 @@ You need one free API key from [Google AI Studio](https://aistudio.google.com/ap
 
 | Day | Tool | What It Does | Status |
 |-----|------|-------------|--------|
-| 01 | 📬 **Inbox Intelligence** | Triages Gmail + Outlook by priority, drafts smart replies in your voice | ✅ **Live** |
-| 02 | 🔒 | *Drops tomorrow* | 🔒 Coming |
-| 03 | 🔒 | *Unlocks Day 3* | 🔒 Coming |
+| 01 | 📬 **[Inbox Intelligence](https://aimersion.github.io/ai-automations/day-01-inbox-intelligence.html)** | Connects to your Outlook inbox, triages emails by priority, and drafts smart replies in your voice | ✅ **Live** |
+| 02 | 📝 **[Proposal Generator](https://aimersion.github.io/ai-automations/day-02-proposal-generator.html)** | Turn a prospect's pain points into a polished, tailored sales proposal in minutes | ✅ **Live** |
+| 03 | 🎯 **[Competitor Intel Brief](https://aimersion.github.io/ai-automations/day-03-competitor-intel.html)** | Drop in a competitor's URL and get a full battlecard — positioning, strengths, weaknesses, and talking points | ✅ **Live** |
 | 04 | 🔒 | *Unlocks Day 4* | 🔒 Coming |
 | 05 | 🔒 | *Unlocks Day 5* | 🔒 Coming |
 | 06 | 🔒 | *Unlocks Day 6* | 🔒 Coming |
