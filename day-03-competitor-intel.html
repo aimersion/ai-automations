@@ -569,7 +569,7 @@ twq('config','tw-r848k-r848k');
       <input type="text" id="yourCompany" placeholder="Apex Digital">
     </div>
     <div class="field">
-      <label>Your Website <span class="url-badge">⚡ Live scrape</span></label>
+      <label>Your Website <span class="url-badge">⚡ Deep scrape</span></label>
       <input type="url" id="yourWebsite" placeholder="https://apexdigital.io" autocomplete="url">
       <div class="field-hint">Optional — AI reads your actual site for more accurate positioning</div>
       <div id="yourScrapeStatus" class="scrape-status"></div>
@@ -591,7 +591,7 @@ twq('config','tw-r848k-r848k');
       <input type="text" id="competitorName" placeholder="e.g., Nexus CRM">
     </div>
     <div class="field">
-      <label>Competitor Website <span class="url-badge">⚡ Live scrape</span></label>
+      <label>Competitor Website <span class="url-badge">⚡ Deep scrape</span></label>
       <input type="url" id="competitorWebsite" placeholder="https://nexuscrm.com" autocomplete="url">
       <div class="field-hint">Optional — AI reads their real site instead of relying on training data alone</div>
       <div id="competitorScrapeStatus" class="scrape-status"></div>
@@ -834,15 +834,16 @@ async function scrapeUrl(url, statusElId) {
   if (!SCRAPER_URL || SCRAPER_URL === 'PASTE_YOUR_WORKER_URL_HERE') return null;
 
   statusEl.className = 'scrape-status loading';
-  statusEl.textContent = '⏳ Reading page...';
+  statusEl.textContent = '⏳ Deep-reading site...';
 
   try {
-    const res = await fetch(`${SCRAPER_URL}/?url=${encodeURIComponent(url)}`);
+    const res = await fetch(`${SCRAPER_URL}/?url=${encodeURIComponent(url)}&deep=true`);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     if (data.error) throw new Error(data.error);
     statusEl.className = 'scrape-status ok';
-    statusEl.textContent = `✓ Scraped "${data.title || url}" — ${data.wordCount?.toLocaleString() || '?'} words`;
+    const pagesNote = data.pages ? ` across ${data.pages.length} page${data.pages.length > 1 ? 's' : ''}` : '';
+    statusEl.textContent = `✓ Read "${data.title || url}"${pagesNote} — ${data.wordCount?.toLocaleString() || '?'} words`;
     return data.text;
   } catch (err) {
     statusEl.className = 'scrape-status err';
