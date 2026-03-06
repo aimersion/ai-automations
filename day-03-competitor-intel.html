@@ -756,10 +756,57 @@ twq('config','tw-r848k-r848k');
   </div>
 </div>
 
+<!-- Subscribe strip -->
+<div style="border-top:1px solid #1E3050;padding:32px 24px;text-align:center;background:#080E1A;">
+  <div style="max-width:520px;margin:0 auto;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#10B981;margin-bottom:8px;">Free · No spam · Unsubscribe anytime</div>
+    <div style="font-size:18px;font-weight:800;color:#F1F5F9;margin-bottom:6px;">Get notified when the next tool drops</div>
+    <div style="font-size:13px;color:#64748B;margin-bottom:18px;">One email per day. Just the new tool — what it does and a link to use it.</div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <input id="footerEmail" type="email" placeholder="your@email.com" style="flex:1;min-width:200px;max-width:280px;background:#0F1829;border:1px solid #1E3050;border-radius:8px;padding:10px 14px;color:#F1F5F9;font-size:14px;outline:none;" />
+      <button id="footerBtn" onclick="submitFooter()" style="background:#10B981;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;">Notify me</button>
+    </div>
+    <div id="footerMsg" style="display:none;margin-top:10px;font-size:13px;padding:8px 14px;border-radius:6px;"></div>
+  </div>
+</div>
+
 <!-- ── Footer ── -->
 <footer>
   <p>Built by <a href="https://x.com/jimlynchAI" target="_blank">@jimlynchAI</a> as part of <a href="index.html">20 Free AI Tools in 20 Days</a> · <a href="https://github.com/aimersion/ai-automations" target="_blank">Open source on GitHub</a> · <a href="privacy.html">Privacy Policy</a></p>
 </footer>
+
+<script>
+async function submitFooter() {
+  const input = document.getElementById('footerEmail');
+  const btn   = document.getElementById('footerBtn');
+  const msg   = document.getElementById('footerMsg');
+  const email = input.value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    msg.style.display = 'block';
+    msg.style.color = '#fca5a5'; msg.style.background = 'rgba(239,68,68,0.08)'; msg.style.border = '1px solid rgba(239,68,68,0.2)';
+    msg.textContent = 'Please enter a valid email address.'; return;
+  }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    const res  = await fetch('https://ai-subscribe.aimersion.workers.dev/subscribe', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, source: 'day03-footer', day: '3' }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      msg.style.display = 'block';
+      msg.style.color = '#6EE7B7'; msg.style.background = 'rgba(16,185,129,0.08)'; msg.style.border = '1px solid rgba(16,185,129,0.2)';
+      msg.textContent = "✓ You're in! Check your inbox.";
+      input.value = ''; btn.textContent = '✓ Done';
+    } else { throw new Error(data.error || 'Unknown error'); }
+  } catch(err) {
+    msg.style.display = 'block';
+    msg.style.color = '#fca5a5'; msg.style.background = 'rgba(239,68,68,0.08)'; msg.style.border = '1px solid rgba(239,68,68,0.2)';
+    msg.textContent = err.message || 'Something went wrong — please try again.';
+    btn.disabled = false; btn.textContent = 'Notify me';
+  }
+}
+</script>
 
 <script>
 // ── Key management ──────────────────────────────────────────
