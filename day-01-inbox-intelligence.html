@@ -201,8 +201,11 @@ twq("config","tw-r848k-r848k");
   .digest-icon { font-size:22px; line-height:1; flex-shrink:0; margin-top:1px; }
   .digest-label { font-size:10px; font-weight:800; letter-spacing:2px; color:var(--teal); text-transform:uppercase; margin-bottom:5px; }
   .digest-text { font-size:15px; color:var(--white); line-height:1.65; }
-  .modal-context { background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; line-height:1.5; }
+  .modal-context { background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); margin-bottom:10px; line-height:1.5; }
   .modal-context strong { color:var(--white); }
+  .original-email-toggle { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--teal); cursor:pointer; background:none; border:none; padding:0 0 10px 0; display:flex; align-items:center; gap:6px; font-family:inherit; }
+  .original-email-toggle:hover { color:var(--teal-light); }
+  .original-email-body { display:none; background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); line-height:1.65; max-height:200px; overflow-y:auto; margin-bottom:12px; white-space:pre-wrap; word-break:break-word; }
   .modal-textarea { width:100%; min-height:220px; background:var(--navy); border:1px solid var(--border); color:var(--white); padding:14px; border-radius:8px; font-family:inherit; font-size:13px; line-height:1.7; resize:vertical; outline:none; }
   .modal-textarea:focus { border-color:var(--teal); }
   .modal-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
@@ -466,6 +469,10 @@ Always acknowledge the person's ask before responding."></textarea>
       <button class="modal-close" onclick="closeDraftModal()">×</button>
     </div>
     <div id="modalContext" class="modal-context"></div>
+    <button class="original-email-toggle" onclick="toggleOriginalEmail()" id="originalEmailToggle">
+      <span id="originalEmailArrow">▶</span> Show original email
+    </button>
+    <div id="originalEmailBody" class="original-email-body"></div>
     <div id="modalLoading" class="loading" style="padding:20px">
       <div id="modalLoaderContainer"></div>
     </div>
@@ -1031,7 +1038,19 @@ function openDraftModal(emailIdx) {
   document.getElementById('modalTo').value = fromEmail;
   document.getElementById('modalSubject').value = email.subject.startsWith('Re:') ? email.subject : 'Re: ' + email.subject;
   document.getElementById('modalContext').innerHTML =
-    `<strong>From:</strong> ${email.from}<br><strong>Subject:</strong> ${email.subject}<br><strong>Preview:</strong> ${email.snippet.slice(0,200)}`;
+    `<strong>From:</strong> ${email.from}<br><strong>Subject:</strong> ${email.subject}`;
+  // Populate full original email body
+  const bodyEl = document.getElementById('originalEmailBody');
+  const toggleEl = document.getElementById('originalEmailToggle');
+  if (email.body && email.body.trim()) {
+    bodyEl.textContent = email.body.trim();
+    bodyEl.style.display = 'none';
+    document.getElementById('originalEmailArrow').textContent = '▶';
+    toggleEl.style.display = 'flex';
+  } else {
+    toggleEl.style.display = 'none';
+    bodyEl.style.display = 'none';
+  }
   document.getElementById('modalLoading').style.display = 'block';
   document.getElementById('modalBody').style.display = 'none';
   document.getElementById('draftModal').style.display = 'flex';
@@ -1042,17 +1061,32 @@ function openDraftModal(emailIdx) {
   generateDraftReply(email);
 }
 
+function toggleOriginalEmail() {
+  const bodyEl = document.getElementById('originalEmailBody');
+  const arrowEl = document.getElementById('originalEmailArrow');
+  const toggleEl = document.getElementById('originalEmailToggle');
+  const isHidden = bodyEl.style.display === 'none';
+  bodyEl.style.display = isHidden ? 'block' : 'none';
+  arrowEl.textContent = isHidden ? '▼' : '▶';
+  toggleEl.querySelector('span:last-child') && (toggleEl.lastChild.textContent = isHidden ? ' Hide original email' : ' Show original email');
+  // Update button text
+  const textNode = [...toggleEl.childNodes].find(n => n.nodeType === 3);
+  if (textNode) textNode.textContent = isHidden ? ' Hide original email' : ' Show original email';
+}
+
 async function generateDraftReply(email) {
   try {
     const userStyle = localStorage.getItem('reply_instructions') || '';
     const styleBlock = userStyle
       ? `\n\nPERSONAL REPLY STYLE — follow these instructions exactly:\n${userStyle}\n`
       : '';
+    const emailContent = email.body && email.body.trim() ? email.body.trim().slice(0, 8000) : email.snippet;
     const prompt = `You are a professional email assistant. Write a reply to this email.${styleBlock}
 EMAIL TO REPLY TO:
 From: ${email.from}
 Subject: ${email.subject}
-Preview: ${email.snippet}
+Body:
+${emailContent}
 
 Write a reply that follows the personal style instructions above (if provided). Do not include a subject line — just the body text starting with a greeting. End with an appropriate sign-off.`;
 
