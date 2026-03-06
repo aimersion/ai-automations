@@ -572,7 +572,7 @@ Write a complete proposal with these sections, using ━━━ dividers:
 Sign off with the seller's name and company. Be specific, avoid generic filler, speak to the prospect's actual situation. Format cleanly with the date: ${new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}.`;
 
   try {
-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
