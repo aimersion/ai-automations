@@ -979,7 +979,7 @@ function renderTriage(data) {
       <div class="digest-icon">🧠</div>
       <div>
         <div class="digest-label">AI Inbox Digest</div>
-        <div class="digest-text">${data.digest}</div>
+        <div class="digest-text">${renderMd(data.digest)}</div>
       </div>
     </div>`;
   }
@@ -1011,12 +1011,12 @@ function renderTriage(data) {
       <div class="email-item priority-${e.priority}">
         <div class="email-meta">
           <span class="priority-badge ${pc}">${pl}</span>
-          <span class="email-from">${e.from||''} · ${e.source||''}</span>
+          <span class="email-from">${renderMd(e.from||'')} · ${e.source||''}</span>
         </div>
-        <div class="email-subject">${e.subject||''}</div>
-        <div class="email-summary">${e.summary||''}</div>
+        <div class="email-subject">${renderMd(e.subject||'')}</div>
+        <div class="email-summary">${renderMd(e.summary||'')}</div>
         <div class="email-footer">
-          <div class="email-action">→ ${e.action||''}</div>
+          <div class="email-action">→ ${renderMd(e.action||'')}</div>
           <div style="display:flex;gap:6px;align-items:center">
             ${openLink}
             ${e.already_replied
@@ -1229,7 +1229,7 @@ function showSampleOutput() {
   </div>`;
   html += `<div class="digest-card">
     <div class="digest-icon">🧠</div>
-    <div><div class="digest-label">AI Inbox Digest</div><div class="digest-text">${sampleData.digest}</div></div>
+    <div><div class="digest-label">AI Inbox Digest</div><div class="digest-text">${renderMd(sampleData.digest)}</div></div>
   </div>`;
   const s = sampleData.summary;
   html += `<div class="summary-bar">
@@ -1242,11 +1242,11 @@ function showSampleOutput() {
     const pc = e.priority===1?'p1':e.priority===2?'p2':'p3';
     const pl = e.priority===1?'Urgent':e.priority===2?'Review':'FYI';
     html += `<div class="email-item priority-${e.priority}">
-      <div class="email-meta"><span class="priority-badge ${pc}">${pl}</span><span class="email-from">${e.from} · ${e.source}</span></div>
-      <div class="email-subject">${e.subject}</div>
-      <div class="email-summary">${e.summary}</div>
+      <div class="email-meta"><span class="priority-badge ${pc}">${pl}</span><span class="email-from">${renderMd(e.from)} · ${e.source}</span></div>
+      <div class="email-subject">${renderMd(e.subject)}</div>
+      <div class="email-summary">${renderMd(e.summary)}</div>
       <div class="email-footer">
-        <div class="email-action">→ ${e.action}</div>
+        <div class="email-action">→ ${renderMd(e.action)}</div>
         <div style="display:flex;gap:6px;align-items:center">
           ${e.needs_reply
             ? `<button class="btn btn-ghost reply-btn-needed" onclick="alert('Connect your email to draft real replies!')" title="AI thinks this needs a reply">✍️ Draft Reply</button>`
@@ -1258,6 +1258,14 @@ function showSampleOutput() {
   }
   html += '</div>';
   output.innerHTML = html;
+}
+
+// ─── Markdown renderer ─────────────────────────────────
+function renderMd(s) {
+  if (!s) return '';
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>');
 }
 
 // ─── Time Window Helpers ───────────────────────────────

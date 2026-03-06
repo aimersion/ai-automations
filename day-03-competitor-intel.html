@@ -851,45 +851,54 @@ async function scrapeUrl(url, statusElId) {
   }
 }
 
-// ── Demo data (fictional) ──
+// ── Markdown renderer ──
+function renderMd(text) {
+  if (!text) return '';
+  return text
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/^RESPONSE\s*:\s*/i, '');
+}
+
+// ── Demo data ──
 const DEMO_DATA = {
-  yourCompany: 'Apex Digital',
-  competitor: 'Nexus CRM',
-  overview: `Nexus CRM is a mid-market CRM platform targeting sales teams of 20–200 reps. They compete primarily on price and ease of setup, positioning themselves as the "no-setup CRM" for companies moving off spreadsheets. They have a growing user base in SMB, but have been slow to incorporate AI features and have significant gaps in reporting depth and enterprise integrations. Founded in 2017, they've raised $42M and are currently in an aggressive land-and-expand motion.`,
+  yourCompany: 'Aimersion',
+  competitor: 'Balto',
+  overview: 'Balto is a real-time AI platform for contact centers, built around in-call guidance, automated QA scoring, and voice AI for high-volume tasks. Founded in 2017 and backed by $106M in funding, they serve BPO and internal contact center teams with a compelling "SuperAgent" narrative — turning average agents into top performers through live nudges and post-call coaching. Their core limitation: they optimize the conversation layer, not the underlying business decision logic. When a policy changes, Balto requires updates to coaching cards and scripts across every workflow. There is no central enforcement engine.',
   positioning: [
-    '"The CRM that sets itself up in a day" — speed and simplicity as core brand pillars',
-    'Targets SMB and lower mid-market sales teams transitioning from spreadsheets',
-    'Core message: fast time-to-value, low cost, minimal onboarding',
-    'Frequently wins on price and ease of deployment against legacy CRMs',
-    'Weakness: no meaningful AI, poor enterprise integrations, limited customization depth',
+    '"SuperAgent" narrative — turn every agent into a top performer through real-time in-call nudges',
+    'Heavy emphasis on influencing calls while they\'re happening, not just post-call review',
+    'Pitching a consolidated CC suite: Insights, Coaching, Quality, and Voice AI in one platform',
+    'Outcome-linked coaching — connecting agent behaviors directly to conversion or compliance metrics',
+    '"Togo" Voice AI for replacing human effort on high-volume repetitive tasks like scheduling',
+    'Key positioning weakness: logic is tied to the interaction (the conversation), not enterprise policy (the underlying business decision)',
   ],
   strengths: [
-    'Fast time-to-value — most teams are live in under a day',
-    'Aggressive pricing — entry tier starts at $29/user/month',
-    'Clean, simple UI with a low learning curve',
-    'Strong review presence on G2 and Capterra (4.3 stars)',
-    'Good mobile app for field reps',
-    'Active community and self-serve documentation',
+    'Agent adoption — their Real-Time Assist interface is highly rated by front-line agents',
+    'QA automation — moves organizations from 2% manual call sampling to 100% automated scoring',
+    'Live compliance — triggers supervisor alerts when a compliance breach is detected mid-call',
+    'Call summarization — mature Notes feature that reliably reduces After-Call Work (ACW)',
+    'Market presence — high brand awareness within the traditional BPO and contact center space',
   ],
   weaknesses: [
-    'No AI features — all manual data entry, zero predictive insights',
-    'Integration gaps — doesn\'t connect to major ERPs or marketing automation platforms natively',
-    'Shallow reporting — no pipeline analytics, no meaningful forecasting',
-    'Scales poorly — consistent churn reported above 50 seats',
-    'No dedicated customer success team — purely self-serve post-onboarding',
-    'Feature velocity is slow — last major release was 8+ months ago',
-    'No role-based permissions — a security concern for any team beyond startup stage',
+    'Decentralized logic — Balto manages conversations, not enterprise decision infrastructure; policy changes require manual updates across every coaching card and script',
+    'Voice-centric DNA — struggles with complex multi-step workflows in email, messaging, or back-office dispute resolution',
+    '"Nudges" vs. "Enforcement" — Balto suggests what agents should do; it doesn\'t enforce what the business must do',
+    'Limited Revenue Ops scope — stays in the call center and doesn\'t bridge into broader Revenue Operations or back-office decisioning',
+    'Implementation heavy — effective real-time nudges require significant manual effort to script and maintain as business rules evolve',
+    'Siloed intelligence — insights are trapped in the contact center and don\'t feed a centralized enterprise decision engine',
   ],
   tactics: [
-    { label: 'Open with the growth wall', body: '"Nexus gets teams moving fast — that\'s real. The question we always ask is: what happens at 40, 50 reps? Every Nexus customer we talk to hits the same wall: the reports stop making sense, the integrations break, and they realize they built on a foundation that can\'t grow with them."' },
-    { label: 'Pivot to intelligence', body: '"Apex isn\'t just a place to log calls and contacts. It surfaces which deals need attention today, which reps are underperforming, and where your forecast is at risk — before you\'re blind-sided at the end of the quarter. That\'s not infrastructure. That\'s revenue."' },
-    { label: 'Position the difference', body: '"Nexus is built to get you started. Apex is built to help you win. They\'re solving a different problem — getting off spreadsheets. We\'re solving the one after that — actually closing more business."' },
-    { label: 'Close on cost of staying', body: '"The math isn\'t $29/seat vs. $65/seat. It\'s what bad data costs you. How many deals fell through because someone\'s pipeline wasn\'t updated? How much did your last missed quarter cost? That\'s the real number."' },
+    { label: 'Shift from guidance to infrastructure', body: '"Balto is great for helping an agent sound better — but it doesn\'t solve the underlying problem of scattered decision logic. We build the engine that decides what happens. A decision made on a voice call should be the same one made in email or by your billing system. Balto can\'t guarantee that. We can."' },
+    { label: 'Expose the logic maintenance trap', body: '"Ask them: how do you update your collection policy across 500 agents and 3 channels today? With Balto, you\'re updating coaching cards and hoping agents follow the nudge. With Aimersion, you update the Decision Engine once and it\'s enforced everywhere — voice, email, back-office — instantly."' },
+    { label: 'Make the enforcement argument for compliance', body: '"In a regulated environment, a nudge is just a suggestion. You don\'t want your agent to be guided toward following the law — you want the system to ensure they literally cannot deviate from policy. That\'s the difference between an assistant and infrastructure. One is nice to have. The other is what regulated industries actually need."' },
+    { label: 'Expose the omnichannel gap', body: '"Your revenue operations happen across email, messaging, and system workflows — not just phone calls. Why buy a tool that only fixes the voice slice of the pie when you can centralize the decision logic for the entire customer journey? Ask them: what happens when the same customer calls in, emails support, and triggers a billing exception — all in the same week?"' },
   ],
   objections: [
-    { q: '"Nexus is half the price."', r: 'Absolutely — and if you\'re under 15 reps and just getting started, it might be the right call. But pricing math changes fast. Add their paid integrations, their support tier, and the productivity loss from manual data entry — the gap closes quickly. We\'re happy to run the numbers with you. Most teams find we\'re within 15% all-in, and that\'s before accounting for what the insights actually recover.' },
-    { q: '"We just set up Nexus. Switching costs are high."', r: 'We migrate teams from Nexus in 48 hours — contacts, deals, activity history, all of it. We\'ve done it dozens of times. The switching cost is one week of your time, not six months dragging the wrong tool along. And we guarantee a 60-day out if it\'s not working. Zero lock-in.' },
-    { q: '"Our reps love the simple UI."', r: 'Apex is simpler than you\'d expect from a platform this deep. But more importantly — your reps will love winning more. Better data means better territory coverage, smarter prioritization, fewer dead-end calls. Simple feels good until it costs you quota. We can show you the UI in 20 minutes — it\'s not what most people expect.' },
+    { q: 'Balto already gives my agents real-time suggestions on what to say.', r: 'Suggestions are helpful for soft skills — we don\'t argue that. But suggestions don\'t guarantee consistency. Aimersion isn\'t coaching agents on what to say; we\'re enforcing what the business must do. When a policy changes, Balto requires updates to coaching cards and scripts across every workflow. We update the Decision Engine once, and it\'s enforced everywhere — voice, email, and back-office — instantly.' },
+    { q: 'We use Balto\'s QA automation and our team loves it.', r: 'Balto\'s QA automation is genuinely strong — moving from 2% call sampling to 100% automated scoring is real value. But QA captures what went wrong after the fact. Aimersion ensures the right decision happens in the moment, across every channel. When a dispute comes in over email or a billing exception hits your back-office system, Balto isn\'t in the room. We are.' },
+    { q: 'Balto is already integrated with our contact center stack. Switching is a lot of work.', r: 'Integration is a one-week project, not a reason to leave policy enforcement gaps open. The real question is whether your decision logic lives in one place or scattered across coaching cards, email templates, and phone scripts. We centralize it into a single Decision Engine. We\'ve replaced Balto in regulated environments specifically because a nudge isn\'t sufficient in collections or compliance scenarios — the risk exposure isn\'t worth it.' },
   ],
 };
 
@@ -951,14 +960,14 @@ function renderCard(data) {
     'Generated ' + new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
   // Overview
-  document.getElementById('sec-overview').textContent = data.overview;
+  document.getElementById('sec-overview').innerHTML = renderMd(data.overview);
 
   // Positioning bullets
   const posEl = document.getElementById('sec-positioning');
   posEl.innerHTML = '';
   data.positioning.forEach(p => {
     const li = document.createElement('li');
-    li.innerHTML = `<span class="bullet-dot" style="background:var(--purple)"></span><span>${p}</span>`;
+    li.innerHTML = `<span class="bullet-dot" style="background:var(--purple)"></span><span>${renderMd(p)}</span>`;
     posEl.appendChild(li);
   });
 
@@ -967,7 +976,7 @@ function renderCard(data) {
   strEl.innerHTML = '';
   data.strengths.forEach(s => {
     const li = document.createElement('li');
-    li.innerHTML = `<span class="bullet-dot dot-green"></span><span>${s}</span>`;
+    li.innerHTML = `<span class="bullet-dot dot-green"></span><span>${renderMd(s)}</span>`;
     strEl.appendChild(li);
   });
 
@@ -976,7 +985,7 @@ function renderCard(data) {
   weakEl.innerHTML = '';
   data.weaknesses.forEach(w => {
     const li = document.createElement('li');
-    li.innerHTML = `<span class="bullet-dot dot-red"></span><span>${w}</span>`;
+    li.innerHTML = `<span class="bullet-dot dot-red"></span><span>${renderMd(w)}</span>`;
     weakEl.appendChild(li);
   });
 
@@ -989,8 +998,8 @@ function renderCard(data) {
     div.innerHTML = `
       <div class="tactic-num">${i+1}</div>
       <div>
-        <div class="tactic-label">${t.label}</div>
-        <div class="tactic-body">${t.body}</div>
+        <div class="tactic-label">${renderMd(t.label)}</div>
+        <div class="tactic-body">${renderMd(t.body)}</div>
       </div>`;
     tacEl.appendChild(div);
   });
@@ -1003,9 +1012,9 @@ function renderCard(data) {
     div.className = 'objection';
     div.innerHTML = `
       <div class="obj-q">OBJECTION ${i+1}</div>
-      <div class="obj-q-text">"${o.q.replace(/^"|"$/g,'')}"</div>
+      <div class="obj-q-text">"${renderMd(o.q.replace(/^"|"$/g,''))}"</div>
       <div class="obj-r-label">YOUR RESPONSE</div>
-      <div class="obj-r-text">${o.r}</div>`;
+      <div class="obj-r-text">${renderMd(o.r)}</div>`;
     objEl.appendChild(div);
   });
 
@@ -1135,13 +1144,17 @@ function parseAIResponse(text, yourCompany, competitor) {
     let mode = 'q';
     lines.forEach(l => {
       if (l.toUpperCase().includes('OBJECTION') && l.length < 60) return;
-      if (l.toUpperCase().startsWith('RESPONSE') || l.toUpperCase().startsWith('ANSWER') || l.toUpperCase().startsWith('COUNTER')) {
+      // Detect RESPONSE: line — capture any inline text after the colon
+      if (l.toUpperCase().match(/^(RESPONSE|ANSWER|COUNTER)\s*:/i)) {
         if (currentQ && currentR.length) {
           objs.push({ q: currentQ, r: currentR.join(' ') });
           currentR = [];
         }
         mode = 'r';
-        currentQ = currentQ || 'Common objection';
+        currentQ = currentQ || null;
+        // Grab text on the same line after "RESPONSE:"
+        const inline = l.replace(/^(RESPONSE|ANSWER|COUNTER)\s*:\s*/i, '').trim();
+        if (inline) currentR.push(inline);
       } else if (l.startsWith('"') || l.match(/^(They |Prospect |Customer |Rep )/i)) {
         if (currentQ && currentR.length) objs.push({ q: currentQ, r: currentR.join(' ') });
         currentQ = l.replace(/^"|"$/g, '');
@@ -1153,16 +1166,14 @@ function parseAIResponse(text, yourCompany, competitor) {
     });
     if (currentQ && currentR.length) objs.push({ q: currentQ, r: currentR.join(' ') });
 
-    // Fallback
+    // Fallback — try harder to split by numbered objections
     if (objs.length === 0) {
-      const all = lines.filter(l => l.length > 20);
-      const size = Math.ceil(all.length / 3);
-      for (let i = 0; i < 3 && i * size < all.length; i++) {
-        objs.push({
-          q: `Common objection about ${competitor}`,
-          r: all.slice(i * size, (i+1)*size).join(' ')
-        });
-      }
+      const numbered = lines.join('\n').split(/\n(?=\d+\.\s*")/);
+      numbered.forEach(block => {
+        const qMatch = block.match(/"([^"]+)"/);
+        const rMatch = block.match(/(?:RESPONSE|ANSWER)\s*:\s*(.+)/is);
+        if (qMatch && rMatch) objs.push({ q: qMatch[1], r: rMatch[1].trim() });
+      });
     }
     return objs.slice(0, 3);
   }

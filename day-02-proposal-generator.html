@@ -419,7 +419,7 @@ function renderProposal(text, yourCompany, prospectCompany, yourName) {
         <span class="prop-section-icon">${cfg.icon}</span>
         <span class="prop-section-title">${escapeHtml(sec.title)}</span>
       </div>
-      <div class="prop-section-body">${escapeHtml(sec.body)}</div>
+      <div class="prop-section-body">${renderMd(sec.body)}</div>
     </div>`;
   });
 
@@ -427,7 +427,7 @@ function renderProposal(text, yourCompany, prospectCompany, yourName) {
   if (sections.length === 0) {
     html += `<div class="prop-section prop-s1">
       <div class="prop-section-head"><span class="prop-section-icon">📄</span><span class="prop-section-title">Proposal</span></div>
-      <div class="prop-section-body">${escapeHtml(text)}</div>
+      <div class="prop-section-body">${renderMd(text)}</div>
     </div>`;
   }
 
@@ -605,6 +605,11 @@ function runDemo() {
 
 function escapeHtml(s) {
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function renderMd(s) {
+  return escapeHtml(s)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>');
 }
 
 async function runProposal() {
