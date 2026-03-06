@@ -883,23 +883,24 @@ const DEMO_DATA = {
     'Market presence — high brand awareness within the traditional BPO and contact center space',
   ],
   weaknesses: [
-    'Decentralized logic — Balto manages conversations, not enterprise decision infrastructure; policy changes require manual updates across every coaching card and script',
+    'Pricing opacity — quote-only contracts obscure onboarding fees, seat minimums, and compliance pack costs; advanced analytics and compliance features locked behind expensive add-ons (real pattern in G2/Capterra reviews)',
+    'Decentralized logic — policy changes require manual updates across every coaching card and script; there is no central enforcement engine',
     'Voice-centric DNA — struggles with complex multi-step workflows in email, messaging, or back-office dispute resolution',
-    '"Nudges" vs. "Enforcement" — Balto suggests what agents should do; it doesn\'t enforce what the business must do',
-    'Limited Revenue Ops scope — stays in the call center and doesn\'t bridge into broader Revenue Operations or back-office decisioning',
-    'Implementation heavy — effective real-time nudges require significant manual effort to script and maintain as business rules evolve',
+    '"Nudges" vs. "Enforcement" — Balto suggests what agents should do; it doesn\'t enforce what the business must do; agents can and do ignore prompts',
+    'CRM sync friction — reporting requires multiple exports to cross-reference records; real-time data doesn\'t flow cleanly into downstream systems (flagged repeatedly in reviews)',
+    'Implementation heavy — initial setup is complex and tedious; effective nudges require significant manual scripting and ongoing maintenance as business rules evolve',
     'Siloed intelligence — insights are trapped in the contact center and don\'t feed a centralized enterprise decision engine',
   ],
   tactics: [
     { label: 'Shift from guidance to infrastructure', body: '"Balto is great for helping an agent sound better — but it doesn\'t solve the underlying problem of scattered decision logic. We build the engine that decides what happens. A decision made on a voice call should be the same one made in email or by your billing system. Balto can\'t guarantee that. We can."' },
-    { label: 'Expose the logic maintenance trap', body: '"Ask them: how do you update your collection policy across 500 agents and 3 channels today? With Balto, you\'re updating coaching cards and hoping agents follow the nudge. With Aimersion, you update the Decision Engine once and it\'s enforced everywhere — voice, email, back-office — instantly."' },
-    { label: 'Make the enforcement argument for compliance', body: '"In a regulated environment, a nudge is just a suggestion. You don\'t want your agent to be guided toward following the law — you want the system to ensure they literally cannot deviate from policy. That\'s the difference between an assistant and infrastructure. One is nice to have. The other is what regulated industries actually need."' },
-    { label: 'Expose the omnichannel gap', body: '"Your revenue operations happen across email, messaging, and system workflows — not just phone calls. Why buy a tool that only fixes the voice slice of the pie when you can centralize the decision logic for the entire customer journey? Ask them: what happens when the same customer calls in, emails support, and triggers a billing exception — all in the same week?"' },
+    { label: 'Challenge the "cheaper" assumption', body: '"Balto\'s pricing looks clean until you get to the contract. Advanced analytics, compliance packs, and integrations are all add-ons. Customers on review sites consistently report the real cost lands significantly higher than the initial quote. We price transparently — one number, everything included. Let\'s put the actual numbers side by side."' },
+    { label: 'Make the enforcement argument for compliance', body: '"In a regulated environment, a nudge is just a suggestion. You don\'t want your agent to be guided toward following the law — you want the system to ensure they literally cannot deviate from policy. Balto users on G2 specifically flag that agents ignore prompts under pressure. That\'s not acceptable in collections or healthcare. We\'re infrastructure, not a coaching app."' },
+    { label: 'Expose the omnichannel gap', body: '"Ask them: what happens when the same customer calls in, emails support, and triggers a billing exception — all in the same week? Balto only sees the call. The email and the back-office event happen in a complete blind spot. We centralize the decision logic for the entire customer journey — not just the voice channel."' },
   ],
   objections: [
-    { q: 'Balto already gives my agents real-time suggestions on what to say.', r: 'Suggestions are helpful for soft skills — we don\'t argue that. But suggestions don\'t guarantee consistency. Aimersion isn\'t coaching agents on what to say; we\'re enforcing what the business must do. When a policy changes, Balto requires updates to coaching cards and scripts across every workflow. We update the Decision Engine once, and it\'s enforced everywhere — voice, email, and back-office — instantly.' },
-    { q: 'We use Balto\'s QA automation and our team loves it.', r: 'Balto\'s QA automation is genuinely strong — moving from 2% call sampling to 100% automated scoring is real value. But QA captures what went wrong after the fact. Aimersion ensures the right decision happens in the moment, across every channel. When a dispute comes in over email or a billing exception hits your back-office system, Balto isn\'t in the room. We are.' },
-    { q: 'Balto is already integrated with our contact center stack. Switching is a lot of work.', r: 'Integration is a one-week project, not a reason to leave policy enforcement gaps open. The real question is whether your decision logic lives in one place or scattered across coaching cards, email templates, and phone scripts. We centralize it into a single Decision Engine. We\'ve replaced Balto in regulated environments specifically because a nudge isn\'t sufficient in collections or compliance scenarios — the risk exposure isn\'t worth it.' },
+    { q: 'Balto is cheaper and we\'re already paying for it.', r: 'That\'s the most common thing we hear — and it\'s usually based on the initial quote, not the final contract. G2 and Capterra reviewers consistently flag hidden costs: compliance packs, advanced analytics, integrations, and seat minimums that aren\'t in the headline price. Ask your Balto rep for a fully-loaded quote including all add-ons. We price transparently — one number, everything in. Most teams find the gap is much smaller than they expected, and the enforcement capability is categorically different.' },
+    { q: 'Our agents love the real-time guidance. I don\'t want to take that away from them.', r: 'That\'s a real strength of Balto and we won\'t pretend otherwise. But here\'s the thing — Balto reviewers also flag that agents under pressure ignore the prompts. A suggestion is only as good as the agent\'s compliance with it. Aimersion doesn\'t replace what agents love; we ensure that the critical decisions — the ones your business is legally or financially exposed on — can\'t be deviated from. Agents still have full control over how they communicate. The infrastructure just ensures the right outcome.' },
+    { q: 'We\'ve invested a lot in setting up Balto. Switching feels like starting over.', r: 'We hear this a lot, and it\'s a fair concern — Balto\'s own customers on review sites say the initial setup was complex and time-consuming. The honest question is: if you\'ve put that much work into scripting coaching cards and maintaining prompts, how long does it take when a policy changes? If the answer is "days to weeks," you\'re running on a manual maintenance burden that will only grow. Aimersion\'s Decision Engine is built to absorb that complexity — one update propagates everywhere. The migration is typically two weeks, not months.' },
   ],
 };
 
@@ -1291,15 +1292,15 @@ WHERE THEY'RE STRONG
 [5-6 bullets: Genuine strengths. Be honest — reps need to know the real competition.]
 
 WHERE THEY'RE VULNERABLE
-[6-7 bullets: Real weaknesses, blind spots, gaps. Where do they consistently lose?]
+[6-7 bullets: Real weaknesses, blind spots, gaps. Draw on what you know from customer reviews (G2, Capterra, Reddit), analyst reports, and common sales battle patterns. Where do they consistently lose? What do their own customers complain about?]
 
 HOW TO BEAT THEM IN A SALES CALL
-[4 numbered tactics. Each should have a short bold label and 2-3 sentences of what to actually say. Make them feel like scripts a rep can use today.]
+[4 numbered tactics. Each should have a short bold label and 2-3 sentences of what to actually say. Make them feel like scripts a rep can use today. Ground them in real competitive dynamics, not generic advice.]
 
 OBJECTION HANDLERS
-[Exactly 3 objections. Format each as:
-"[The objection the prospect says]"
-RESPONSE: [Direct, punchy response that handles the objection and pivots to your value]
+[Exactly 3 objections. Use the actual language prospects use in the real world — phrases you'd hear on a discovery call or find in competitor reviews. Format each as:
+"[The exact words a prospect says when defending the competitor or resisting the switch]"
+RESPONSE: [Direct, punchy response that handles the objection and pivots to your value. Reference specific review data or known patterns where it strengthens the argument.]
 ]
 
 Be specific, practical, and immediately actionable. No filler. Every sentence should help a rep win.`;
