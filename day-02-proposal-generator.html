@@ -158,6 +158,30 @@ twq('config','tw-r848k-r848k');
   .output-header h2 { font-size: 18px; font-weight: 700; }
   .btn-sm { background: var(--navy2); border: 1px solid var(--border); color: var(--muted); padding: 8px 16px; border-radius: 6px; font-size: 13px; cursor: pointer; transition: all 0.2s; width: auto; margin: 0; }
   .btn-sm:hover { border-color: var(--amber); color: var(--amber); background: transparent; }
+  /* Key row */
+  .key-row { display:flex; gap:8px; align-items:center; }
+  .key-row input { flex:1; }
+  .btn-key-toggle { background:transparent; border:1px solid var(--border); color:var(--muted); padding:8px 14px; border-radius:6px; font-size:12px; font-weight:600; cursor:pointer; white-space:nowrap; transition:all 0.2s; flex-shrink:0; }
+  .btn-key-toggle:hover { border-color:var(--amber); color:var(--amber); }
+  .btn-key-save { background:var(--amber); color:#000; border:none; padding:8px 16px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer; white-space:nowrap; transition:opacity 0.2s; flex-shrink:0; }
+  .btn-key-save:hover { opacity:0.85; }
+  .key-hint { font-size:11px; color:var(--muted); margin-top:7px; line-height:1.5; }
+  .key-hint a { color:var(--amber); text-decoration:none; }
+  /* Modal */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.78); z-index:1000; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal-box { background:var(--card); border:1px solid var(--border); border-radius:16px; padding:28px; max-width:480px; width:100%; max-height:88vh; overflow-y:auto; }
+  .modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+  .modal-label { font-size:11px; font-weight:700; letter-spacing:2px; color:var(--amber); text-transform:uppercase; }
+  .modal-close-btn { background:none; border:none; color:var(--muted); cursor:pointer; font-size:22px; line-height:1; padding:0 4px; }
+  .modal-close-btn:hover { color:#fff; }
+  .onboard-steps { display:grid; gap:10px; margin:14px 0; }
+  .onboard-step { display:flex; gap:12px; align-items:flex-start; }
+  .step-circle { width:26px; height:26px; border-radius:50%; background:var(--amber); color:#000; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+  .step-body { font-size:13px; color:#fff; line-height:1.55; }
+  .step-big-link { display:inline-block; color:#000; font-weight:800; font-size:14px; text-decoration:none; background:var(--amber); padding:7px 16px; border-radius:8px; transition:opacity 0.2s; }
+  .step-big-link:hover { opacity:0.85; }
+  .key-privacy-note { background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.25); border-radius:8px; padding:9px 14px; font-size:12px; color:#fbbf24; margin-top:14px; }
+  .modal-err { color:#f87171; font-size:12px; margin-top:6px; display:none; }
   .proposal-output { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 28px; white-space: pre-wrap; font-size: 14px; line-height: 1.8; color: #B8D4F0; font-family: 'Segoe UI', system-ui, sans-serif; }
 
   .error-box { background: #2D0A0A; border: 1px solid var(--red); border-radius: 8px; padding: 16px; color: #FCA5A5; font-size: 14px; margin-top: 16px; display: none; }
@@ -202,8 +226,12 @@ twq('config','tw-r848k-r848k');
 
   <div class="api-card">
     <h3>Your Gemini API Key</h3>
-    <input type="password" id="apiKey" placeholder="Paste your Gemini key here..." />
-    <div class="api-hint">Get yours free (no credit card) at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> · Key stays in your browser, never sent anywhere else. <strong style="color:var(--amber)">No key? Hit "Run Demo."</strong></div>
+    <div class="key-row">
+      <input type="password" id="apiKey" placeholder="Starts with AIza..." />
+      <button class="btn-key-toggle" onclick="toggleKey('apiKey')">Show</button>
+      <button class="btn-key-save" onclick="saveKey()">Save</button>
+    </div>
+    <div class="key-hint">Free at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a> — no credit card · <button onclick="showKeyModal()" style="background:none;border:none;color:var(--amber);font-size:11px;cursor:pointer;padding:0;font-family:inherit;text-decoration:underline;">Step-by-step help →</button> &nbsp;·&nbsp; <strong style="color:var(--amber)">No key? Hit "Run Demo."</strong></div>
   </div>
 
   <div class="input-card">
@@ -296,6 +324,61 @@ twq('config','tw-r848k-r848k');
 </footer>
 
 <script>
+// ── Key management ──────────────────────────────────────────
+function toggleKey(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+  const btn = document.querySelector('.btn-key-toggle');
+  if (btn) btn.textContent = el.type === 'password' ? 'Show' : 'Hide';
+}
+function saveKey() {
+  const val = document.getElementById('apiKey').value.trim();
+  if (!val) { showToast('Paste your key first', '#d97706'); return; }
+  localStorage.setItem('gemini_key', val);
+  showToast('✓ Key saved — you\'re ready to go!', '#059669');
+  const btn = document.querySelector('.btn-key-save');
+  if (btn) { btn.textContent = '✓ Saved'; setTimeout(() => btn.textContent = 'Save', 2000); }
+}
+function showKeyModal() {
+  document.getElementById('keyModalInput').value = '';
+  const e = document.getElementById('keyModalError'); if (e) e.style.display = 'none';
+  document.getElementById('keyOnboardModal').style.display = 'flex';
+}
+function closeKeyModal() { document.getElementById('keyOnboardModal').style.display = 'none'; }
+function saveKeyFromModal() {
+  const val = document.getElementById('keyModalInput').value.trim();
+  const errEl = document.getElementById('keyModalError');
+  if (!val || !val.startsWith('AIza')) {
+    errEl.textContent = 'Key should start with "AIza..." — double-check and try again.';
+    errEl.style.display = 'block'; return;
+  }
+  errEl.style.display = 'none';
+  localStorage.setItem('gemini_key', val);
+  document.getElementById('apiKey').value = val;
+  closeKeyModal();
+  showToast('✓ API key saved — you\'re all set!', '#059669');
+}
+function showToast(msg, color = '#059669') {
+  let t = document.getElementById('d2toast');
+  if (!t) {
+    t = document.createElement('div'); t.id = 'd2toast';
+    t.style.cssText = 'position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#059669;color:#fff;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:700;z-index:9999;transition:opacity 0.3s;pointer-events:none;white-space:nowrap';
+    document.body.appendChild(t);
+  }
+  t.style.background = color; t.style.opacity = '1'; t.textContent = msg;
+  clearTimeout(t._t); t._t = setTimeout(() => t.style.opacity = '0', 2800);
+}
+// ── Init ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('gemini_key');
+  if (saved) {
+    document.getElementById('apiKey').value = saved;
+    const btn = document.querySelector('.btn-key-save');
+    if (btn) btn.textContent = '✓ Saved';
+  }
+});
+// ─────────────────────────────────────────────────────────────
+
 const DEMO = `PROPOSAL: Apex Digital for Brightside Manufacturing
 Prepared by Jordan Blake · ${new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -430,7 +513,7 @@ function escapeHtml(s) {
 }
 
 async function runProposal() {
-  const apiKey = document.getElementById('apiKey').value.trim();
+  const apiKey = localStorage.getItem('gemini_key') || document.getElementById('apiKey').value.trim();
   const yourCompany = document.getElementById('yourCompany').value.trim();
   const yourName = document.getElementById('yourName').value.trim();
   const yourProduct = document.getElementById('yourProduct').value.trim();
@@ -443,8 +526,19 @@ async function runProposal() {
   const timeline = document.getElementById('timeline').value.trim();
   const tone = document.getElementById('tone').value;
 
-  if (!apiKey) { alert('Enter your Gemini API key or use Run Demo.'); return; }
-  if (!yourCompany || !prospectCompany) { alert('Fill in at least your company name and the prospect company name.'); return; }
+  const errBox = document.getElementById('errorBox');
+  if (!apiKey) {
+    errBox.textContent = 'Paste your Gemini API key above and hit Save — or use Run Demo.';
+    errBox.style.display = 'block';
+    document.getElementById('apiKey').focus();
+    return;
+  }
+  if (!yourCompany || !prospectCompany) {
+    errBox.textContent = 'Fill in at least your company name and the prospect company name.';
+    errBox.style.display = 'block';
+    return;
+  }
+  errBox.style.display = 'none';
 
   document.getElementById('runBtn').disabled = true;
   document.getElementById('output').style.display = 'none';
@@ -515,5 +609,54 @@ function copyOutput() {
   });
 }
 </script>
+
+<!-- API Key Onboarding Modal -->
+<div id="keyOnboardModal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeKeyModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-label">⚡ Set up your AI — free forever</div>
+      <button class="modal-close-btn" onclick="closeKeyModal()">×</button>
+    </div>
+    <p style="color:#94a3b8;font-size:14px;line-height:1.65;margin-bottom:4px">
+      You need a free Google AI key. Takes about <strong style="color:#fff">60 seconds</strong>,
+      works on <strong style="color:#fff">all 20 tools</strong>, and you only do this once.
+    </p>
+    <div style="margin:18px 0 0">
+      <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--amber);margin-bottom:8px">Already have a key? Paste it here →</div>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="keyModalInput"
+          placeholder="Starts with AIza..."
+          style="flex:1;background:#1e293b;border:1px solid #334155;color:#fff;padding:12px 14px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;transition:border 0.2s"
+          onfocus="this.style.borderColor='var(--amber)'" onblur="this.style.borderColor='#334155'"
+          onkeydown="if(event.key==='Enter')saveKeyFromModal()" />
+        <button style="background:var(--amber);color:#000;border:none;padding:12px 22px;border-radius:8px;font-size:14px;font-weight:800;cursor:pointer" onclick="saveKeyFromModal()">Go →</button>
+      </div>
+      <div id="keyModalError" class="modal-err"></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;margin:20px 0 16px">
+      <div style="flex:1;height:1px;background:#334155"></div>
+      <div style="font-size:11px;color:#64748b;font-weight:700;letter-spacing:1px;white-space:nowrap">NEED ONE? 3 CLICKS</div>
+      <div style="flex:1;height:1px;background:#334155"></div>
+    </div>
+    <div class="onboard-steps">
+      <div class="onboard-step">
+        <div class="step-circle">1</div>
+        <div class="step-body">
+          <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" class="step-big-link">Open Google AI Studio →</a>
+          <div style="color:#64748b;font-size:12px;margin-top:4px">Sign in with any Google account — it's free</div>
+        </div>
+      </div>
+      <div class="onboard-step">
+        <div class="step-circle">2</div>
+        <div class="step-body">Click <strong style="color:#fff">"Create API key"</strong> — takes 2 seconds</div>
+      </div>
+      <div class="onboard-step">
+        <div class="step-circle">3</div>
+        <div class="step-body">Copy the key and paste it in the box above</div>
+      </div>
+    </div>
+    <div class="key-privacy-note">🔒 Your key stays in your browser only — we never store or see it.</div>
+  </div>
+</div>
 </body>
 </html>
