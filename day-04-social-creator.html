@@ -128,6 +128,15 @@
   .step-link:hover { background: rgba(8,145,178,0.12); }
   .key-privacy { background: rgba(5,150,105,0.1); border: 1px solid rgba(5,150,105,0.25); border-radius: 8px; padding: 9px 14px; font-size: 12px; color: #6EE7B7; margin-top: 12px; display: flex; align-items: center; gap: 8px; }
 
+  /* ── Demo button ── */
+  .btn-demo {
+    padding: 9px 24px; background: transparent;
+    border: 1px solid var(--border); color: var(--muted);
+    font-size: 13px; font-weight: 600; border-radius: 8px;
+    cursor: pointer; transition: border-color 0.2s, color 0.2s; font-family: inherit;
+  }
+  .btn-demo:hover { border-color: var(--teal); color: var(--teal); }
+
   /* ── Empty State ── */
   .empty-state {
     background: var(--card); border: 1px dashed var(--border);
@@ -240,8 +249,9 @@
         </select>
       </div>
     </div>
-    <div style="text-align:center">
+    <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px">
       <button class="btn btn-amber" id="genBtn" onclick="generateContent()" style="font-size:15px;padding:12px 36px">✨ Generate Content</button>
+      <button class="btn-demo" id="demoBtn">👀 Preview sample output</button>
     </div>
   </div>
 
@@ -249,7 +259,7 @@
   <div class="empty-state" id="emptyState">
     <div class="empty-icon">📣</div>
     <h3>Your content will appear here</h3>
-    <p>Fill in a topic or URL above and hit Generate — or try it now to see what you'll get.</p>
+    <p>Fill in a topic or URL above and hit Generate — or hit <strong style="color:var(--white)">"Preview sample output"</strong> to see what you'll get before entering a key.</p>
   </div>
 
   <div class="loader-panel" id="loaderPanel">
@@ -359,6 +369,34 @@
 
 <script>
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent';
+
+// ── Demo data ──────────────────────────────────────────────────────────────────
+const DEMO_DATA = {
+  x_thread: [
+    { tweet: "I tracked every hour I spent on content last month.\n\nPosting took 2 hrs.\nWriting the posts took 14.\n\nThat ratio is broken. Here's what I changed 🧵", chars: 156 },
+    { tweet: "Most founders write content when they \"have time.\"\n\nWhich means: never.\n\nOr in a panic at 11pm before a big launch.\n\nI used to do both. Neither worked.", chars: 152 },
+    { tweet: "The fix wasn't writing faster.\n\nIt was separating THINKING from WRITING.\n\nI batch ideas on Mondays (20 min).\nAI turns them into posts Wednesday (10 min).\nI edit and schedule Thursday (15 min).\n\nTotal: 45 min/week.", chars: 210 },
+    { tweet: "What changed when I actually started posting consistently:\n\n→ Inbound leads went from 2/mo to 11/mo\n→ 3 partnerships from people who found me on LinkedIn\n→ One enterprise deal that mentioned a specific thread\n\nContent compounds. Most people quit before they see it.", chars: 263 },
+    { tweet: "The voice thing matters more than people admit.\n\nI tried \"Thought Leader\" AI content for 2 weeks.\n\nGot 40% fewer replies.\n\nWent back to Founder voice — raw, specific, a little messy.\n\nPeople buy from people. Sound like one.", chars: 225 },
+    { tweet: "If you're a founder who knows you should post but never does:\n\nYou don't have a discipline problem.\nYou have a friction problem.\n\nRemove the friction.\n\nTool I use is free and takes 60 seconds: [link]\n\nWhat's your biggest content blocker? 👇", chars: 242 }
+  ],
+  linkedin_post: "I spent 14 hours last month writing content.\n\nI spent 2 hours actually posting it.\n\nThat ratio is embarrassing. And I'm supposed to be the guy who talks about AI efficiency.\n\nSo I fixed it.\n\nHere's the system I built:\n\n→ Monday: 20 minutes capturing ideas (voice notes while walking, screenshots of things that made me think)\n→ Wednesday: 10 minutes running them through an AI content tool. X thread, LinkedIn post, 5 hook variations — all in one shot.\n→ Thursday: 15 minutes editing, personalizing, scheduling.\n\nTotal weekly content time: 45 minutes.\n\nWhat happened after 6 weeks of actually posting consistently:\n\n• Inbound leads: 2/month → 11/month\n• 3 new partnerships from people who found me through a single thread\n• One enterprise deal where the buyer mentioned a specific LinkedIn post from 3 weeks earlier\n\nContent compounds. The problem isn't that it doesn't work. The problem is most founders quit before the compounding kicks in — usually around week 3 or 4.\n\nThe thing that finally made it stick for me wasn't discipline.\n\nIt was removing the friction between \"I have something to say\" and \"I said it.\"\n\nWhat does your content process look like right now?",
+  hooks: [
+    "I wasted 14 hours last month writing content. Here's the system that got that down to 45 minutes.",
+    "Most founders know they should post. Almost none of them do. The reason isn't laziness.",
+    "6 weeks ago I committed to posting consistently. Here's exactly what happened to my inbound pipeline.",
+    "The ROI on consistent content posting took me 6 weeks to see. Most people quit on week 3.",
+    "Everyone says 'post more content.' Nobody talks about how founders with 12 other jobs are supposed to actually do it."
+  ],
+  best_time_to_post: "LinkedIn: Tue–Thu 7–9am or 12–1pm. X: Tue–Thu 8–10am or 5–7pm for B2B/founder audiences.",
+  hashtags: ["#FounderLife", "#ContentMarketing", "#AITools"]
+};
+
+document.getElementById('demoBtn').addEventListener('click', () => {
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('output').innerHTML = '';
+  renderContent(DEMO_DATA);
+});
 
 // ── Loader ─────────────────────────────────────────────────────────────────────
 let loaderInterval = null;
