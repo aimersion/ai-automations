@@ -23,7 +23,7 @@ You need one free API key from [Google AI Studio](https://aistudio.google.com/ap
 | 01 | 📬 **[Inbox Intelligence](https://aimersion.github.io/ai-automations/day-01-inbox-intelligence.html)** | Connects to your Outlook inbox, triages emails by priority, and drafts smart replies in your voice | ✅ **Live** |
 | 02 | 📝 **[Proposal Generator](https://aimersion.github.io/ai-automations/day-02-proposal-generator.html)** | Turn a prospect's pain points into a polished, tailored sales proposal in minutes | ✅ **Live** |
 | 03 | 🎯 **[Competitor Intel Brief](https://aimersion.github.io/ai-automations/day-03-competitor-intel.html)** | Drop in a competitor's URL and get a full battlecard — positioning, strengths, weaknesses, and talking points | ✅ **Live** |
-| 04 | 🔒 | *Unlocks Day 4* | 🔒 Coming |
+| 04 | 📣 **[Social Content Creator](https://aimersion.github.io/ai-automations/day-04-social-creator.html)** | Paste any topic or URL → get a full X thread, LinkedIn post, and 5 viral hooks ready to copy in seconds | ✅ **Live** |
 | 05 | 🔒 | *Unlocks Day 5* | 🔒 Coming |
 | 06 | 🔒 | *Unlocks Day 6* | 🔒 Coming |
 | 07 | 🔒 | *Unlocks Day 7* | 🔒 Coming |
@@ -66,15 +66,15 @@ You need one free API key from [Google AI Studio](https://aistudio.google.com/ap
 │                       │                             │
 │          ┌────────────┼────────────┐                │
 │          ▼            ▼            ▼                │
-│   Gemini API    xAI Grok API   Anthropic API        │
-│   (your key)   (your key)      (your key)           │
+│        Gemini API           Anthropic API            │
+│        (your key)           (your key)               │
 └─────────────────────────────────────────────────────┘
 ```
 
 - **No backend** — GitHub Pages only, zero server-side code
 - **No data storage** — OAuth tokens in `sessionStorage`, API keys in `localStorage`, cleared when you close the tab
 - **OAuth 2.0** — Google Identity Services (Gmail/Calendar) + MSAL.js 2.x (Outlook/M365)
-- **AI** — Gemini 2.0/2.5 Flash + Pro, xAI Grok (social tool), optional Claude
+- **AI** — Gemini 3 Flash Preview (all tools), optional Claude
 - **Open source** — fork it, self-host it, modify it however you want
 
 ---
@@ -107,9 +107,8 @@ In the day's HTML file, delete the block between the `═══ COMING SOON OVER
 | Key | Where to Get It | Which Tools |
 |-----|----------------|-------------|
 | Gemini (required) | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) — free | All tools |
-| xAI Grok (optional) | [console.x.ai](https://console.x.ai) | Day 04 Social Creator |
 
-Keys are stored in your browser's `localStorage`. They are only ever sent directly to Google's or xAI's API — never to us.
+Keys are stored in your browser's `localStorage`. They are only ever sent directly to Google's API — never to us.
 
 ---
 
