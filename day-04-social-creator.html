@@ -104,9 +104,6 @@
   .thread-tweet { border-left: 2px solid var(--teal); margin-bottom: 12px; padding-left: 14px; }
   .thread-num   { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
 
-  /* Loading */
-  .loading  { text-align: center; padding: 40px; color: var(--muted); }
-  .spinner  { display: inline-block; width: 24px; height: 24px; border: 3px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 12px; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
   .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; }
@@ -130,6 +127,54 @@
   .step-link { display: inline-block; margin-left: 8px; color: var(--teal-light); font-weight: 700; font-size: 12px; text-decoration: none; border: 1px solid rgba(8,145,178,0.4); padding: 2px 10px; border-radius: 6px; }
   .step-link:hover { background: rgba(8,145,178,0.12); }
   .key-privacy { background: rgba(5,150,105,0.1); border: 1px solid rgba(5,150,105,0.25); border-radius: 8px; padding: 9px 14px; font-size: 12px; color: #6EE7B7; margin-top: 12px; display: flex; align-items: center; gap: 8px; }
+
+  /* ── Empty State ── */
+  .empty-state {
+    background: var(--card); border: 1px dashed var(--border);
+    border-radius: 16px; padding: 56px 32px; text-align: center;
+  }
+  .empty-icon { font-size: 40px; margin-bottom: 16px; }
+  .empty-state h3 { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+  .empty-state p { font-size: 14px; line-height: 1.6; color: var(--muted); }
+
+  /* ── Loader ── */
+  .loader-panel {
+    display: none; background: var(--card); border: 1px solid var(--border);
+    border-radius: 16px; padding: 36px 28px;
+  }
+  .loader-panel.active { display: block; }
+  .loader-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 24px; }
+  .loader-steps { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+  .loader-step {
+    display: flex; align-items: center; gap: 14px; padding: 12px 16px;
+    background: var(--navy); border: 1px solid var(--border); border-radius: 10px; transition: all 0.3s;
+  }
+  .loader-step.active { border-color: var(--teal); background: rgba(8,145,178,0.08); }
+  .loader-step.done   { border-color: var(--green); background: rgba(5,150,105,0.08); }
+  .ldr-icon { width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+  .ldr-spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.7s linear infinite; }
+  .ldr-text { font-size: 13px; font-weight: 600; color: var(--muted); }
+  .loader-step.active .ldr-text { color: var(--white); }
+  .loader-step.done   .ldr-text { color: var(--green); }
+  .loader-bar-wrap { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .loader-bar { height: 100%; border-radius: 4px; width: 0%; background: linear-gradient(90deg, var(--teal), var(--green)); transition: width 0.5s ease; }
+
+  /* ── How It Works ── */
+  .how-section { max-width: 900px; margin: 0 auto; padding: 48px 24px 20px; text-align: center; }
+  .how-section h2 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+  .how-section > p { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+  .how-steps { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+  .how-step { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; max-width: 260px; text-align: left; flex: 1; min-width: 180px; }
+  .how-num { width: 28px; height: 28px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+  .how-step h3 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .how-step p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .how-step a { color: var(--teal-light); text-decoration: none; }
+
+  /* ── Footer ── */
+  footer { border-top: 1px solid var(--border); padding: 24px 32px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  footer p { font-size: 13px; color: var(--muted); }
+  footer a { color: var(--teal); text-decoration: none; }
+  @media(max-width:700px) { footer { padding: 18px 14px; flex-direction: column; align-items: center; text-align: center; } }
 </style>
 </head>
 <body>
@@ -200,9 +245,79 @@
     </div>
   </div>
 
-  <!-- Output -->
+  <!-- Output Area -->
+  <div class="empty-state" id="emptyState">
+    <div class="empty-icon">📣</div>
+    <h3>Your content will appear here</h3>
+    <p>Fill in a topic or URL above and hit Generate — or try it now to see what you'll get.</p>
+  </div>
+
+  <div class="loader-panel" id="loaderPanel">
+    <div class="loader-title">Creating your content...</div>
+    <div class="loader-steps">
+      <div class="loader-step" id="lstep0">
+        <div class="ldr-icon" id="licon0">🧠</div>
+        <div class="ldr-text">Analyzing your topic and voice...</div>
+      </div>
+      <div class="loader-step" id="lstep1">
+        <div class="ldr-icon" id="licon1">🐦</div>
+        <div class="ldr-text">Writing your X thread...</div>
+      </div>
+      <div class="loader-step" id="lstep2">
+        <div class="ldr-icon" id="licon2">💼</div>
+        <div class="ldr-text">Crafting your LinkedIn post...</div>
+      </div>
+      <div class="loader-step" id="lstep3">
+        <div class="ldr-icon" id="licon3">🎣</div>
+        <div class="ldr-text">Generating scroll-stopping hooks...</div>
+      </div>
+      <div class="loader-step" id="lstep4">
+        <div class="ldr-icon" id="licon4">✨</div>
+        <div class="ldr-text">Packaging your content...</div>
+      </div>
+    </div>
+    <div class="loader-bar-wrap"><div class="loader-bar" id="loaderBar"></div></div>
+  </div>
+
   <div id="output"></div>
 
+</div>
+
+<!-- ── How It Works ── -->
+<div class="how-section">
+  <h2>How it works</h2>
+  <p>Three steps. No setup. No installs. Works in any browser.</p>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-num">1</div>
+      <h3>Get a free API key</h3>
+      <p>Grab a free Gemini key from <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. No credit card. Takes 60 seconds. Paste it once and it's saved for every tool.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">2</div>
+      <h3>Describe your content</h3>
+      <p>Enter a topic, paste a URL, or drop in a rough idea. Pick your brand voice and what you want — a full thread, LinkedIn post, or just hooks.</p>
+    </div>
+    <div class="how-step">
+      <div class="how-num">3</div>
+      <h3>Copy and post</h3>
+      <p>Get platform-ready posts in seconds. Copy the full thread, individual tweets, your LinkedIn post, or just the best hook — one click each.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Subscribe strip -->
+<div style="border-top:1px solid var(--border);padding:32px 24px;text-align:center;background:rgba(8,14,26,0.6);">
+  <div style="max-width:520px;margin:0 auto;">
+    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px;">Free · No spam · Unsubscribe anytime</div>
+    <div style="font-size:18px;font-weight:800;color:var(--white);margin-bottom:6px;">Get notified when Day 05 drops</div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:18px;">One email per day. Just the new tool — what it does and a link to use it.</div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <input id="footerEmail" type="email" placeholder="your@email.com" style="flex:1;min-width:200px;max-width:280px;background:var(--navy);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--white);font-size:14px;outline:none;" />
+      <button id="footerBtn" onclick="submitFooter()" style="background:var(--green);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;">Notify me</button>
+    </div>
+    <div id="footerMsg" style="display:none;margin-top:10px;font-size:13px;padding:8px 14px;border-radius:6px;"></div>
+  </div>
 </div>
 
 <!-- Key Onboarding Modal -->
@@ -244,6 +359,62 @@
 
 <script>
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent';
+
+// ── Loader ─────────────────────────────────────────────────────────────────────
+let loaderInterval = null;
+
+function startLoader() {
+  const steps  = ['lstep0','lstep1','lstep2','lstep3','lstep4'];
+  const icons  = ['licon0','licon1','licon2','licon3','licon4'];
+  const emojis = ['🧠','🐦','💼','🎣','✨'];
+  const bar    = document.getElementById('loaderBar');
+  let current  = 0;
+
+  // Reset all steps
+  steps.forEach((s, i) => {
+    const el = document.getElementById(s);
+    el.classList.remove('active','done');
+    document.getElementById(icons[i]).innerHTML = emojis[i];
+  });
+  bar.style.width = '0%';
+  document.getElementById('loaderPanel').classList.add('active');
+
+  function activateStep(i) {
+    if (i > 0) {
+      document.getElementById(steps[i-1]).classList.remove('active');
+      document.getElementById(steps[i-1]).classList.add('done');
+      document.getElementById(icons[i-1]).innerHTML = '✓';
+    }
+    if (i < steps.length) {
+      document.getElementById(steps[i]).classList.add('active');
+      document.getElementById(icons[i]).innerHTML = '<div class="ldr-spinner"></div>';
+    }
+    bar.style.width = Math.min((i / steps.length) * 88, 88) + '%';
+  }
+
+  activateStep(0);
+  loaderInterval = setInterval(() => {
+    current++;
+    if (current < steps.length) activateStep(current);
+    else clearInterval(loaderInterval);
+  }, 1200);
+}
+
+function finishLoader(data) {
+  clearInterval(loaderInterval);
+  const steps = ['lstep0','lstep1','lstep2','lstep3','lstep4'];
+  const icons = ['licon0','licon1','licon2','licon3','licon4'];
+  steps.forEach((s, i) => {
+    document.getElementById(s).classList.remove('active');
+    document.getElementById(s).classList.add('done');
+    document.getElementById(icons[i]).innerHTML = '✓';
+  });
+  document.getElementById('loaderBar').style.width = '100%';
+  setTimeout(() => {
+    document.getElementById('loaderPanel').classList.remove('active');
+    if (data) renderContent(data);
+  }, 400);
+}
 
 // ── Key helpers ────────────────────────────────────────────────────────────────
 function toggleKey() {
@@ -300,7 +471,9 @@ async function generateContent() {
 
   btn.disabled = true;
   btn.textContent = '⏳ Generating...';
-  document.getElementById('output').innerHTML = `<div class="loading"><div class="spinner"></div><br>Creating your content with Gemini...</div>`;
+  document.getElementById('emptyState').style.display = 'none';
+  document.getElementById('output').innerHTML = '';
+  startLoader();
 
   // Fire analytics event
   if (typeof gtag !== 'undefined') gtag('event', 'tool_used', { tool_name: 'social-content-creator', day: 4 });
@@ -367,6 +540,7 @@ Omit keys that don't apply to the requested content type.`;
       data = JSON.parse(match ? match[0] : rawText);
     } catch {
       // Fallback: show raw output if JSON parse fails
+      finishLoader(null);
       document.getElementById('output').innerHTML =
         `<div class="card"><pre style="color:var(--white);font-size:13px;white-space:pre-wrap;line-height:1.6">${rawText}</pre></div>`;
       btn.disabled = false;
@@ -374,11 +548,11 @@ Omit keys that don't apply to the requested content type.`;
       return;
     }
 
-    renderContent(data);
-
-    if (typeof gtag !== 'undefined') gtag('event', 'output_copied', { tool_name: 'social-content-creator' });
+    finishLoader(data);
 
   } catch (e) {
+    clearInterval(loaderInterval);
+    document.getElementById('loaderPanel').classList.remove('active');
     document.getElementById('output').innerHTML = `<div class="error-msg">⚠️ ${e.message}</div>`;
   }
 
@@ -512,6 +686,38 @@ function copyHook(i) {
   navigator.clipboard.writeText(d.hooks[i]).then(() => showToast('Hook copied!'));
 }
 
+// ── Footer subscribe ───────────────────────────────────────────────────────────
+async function submitFooter() {
+  const input = document.getElementById('footerEmail');
+  const btn   = document.getElementById('footerBtn');
+  const msg   = document.getElementById('footerMsg');
+  const email = input.value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    msg.style.display = 'block';
+    msg.style.color = '#fca5a5'; msg.style.background = 'rgba(239,68,68,0.08)'; msg.style.border = '1px solid rgba(239,68,68,0.2)';
+    msg.textContent = 'Please enter a valid email address.'; return;
+  }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    const res  = await fetch('https://ai-subscribe.aimersion.workers.dev/subscribe', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, source: 'day04-footer', day: '4' }),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      msg.style.display = 'block';
+      msg.style.color = '#6EE7B7'; msg.style.background = 'rgba(16,185,129,0.08)'; msg.style.border = '1px solid rgba(16,185,129,0.2)';
+      msg.textContent = "✓ You're in! Check your inbox.";
+      input.value = ''; btn.textContent = '✓ Done';
+    } else throw new Error(data.error || 'Error');
+  } catch {
+    msg.style.display = 'block';
+    msg.style.color = '#fca5a5'; msg.style.background = 'rgba(239,68,68,0.08)'; msg.style.border = '1px solid rgba(239,68,68,0.2)';
+    msg.textContent = 'Something went wrong — try again.';
+    btn.disabled = false; btn.textContent = 'Notify me';
+  }
+}
+
 // ── Escape HTML ────────────────────────────────────────────────────────────────
 function escHtml(s) {
   return String(s)
@@ -522,6 +728,10 @@ function escHtml(s) {
     .replace(/\n/g, '<br>');
 }
 </script>
+
+<footer>
+  <p>Built by <a href="https://x.com/jimlynchAI" target="_blank">@jimlynchAI</a> as part of <a href="index.html">20 Free AI Tools in 20 Days</a> · <a href="https://github.com/aimersion/ai-automations" target="_blank">Open source on GitHub</a> · <a href="privacy.html">Privacy Policy</a></p>
+</footer>
 
 </body>
 </html>
