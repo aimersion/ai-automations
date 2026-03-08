@@ -85,22 +85,6 @@
 
   label { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 5px; }
 
-  /* Model selector */
-  .model-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px; }
-  .model-btn {
-    border: 2px solid var(--border); border-radius: 12px; padding: 12px 8px;
-    cursor: pointer; background: var(--navy); display: flex; flex-direction: column;
-    align-items: center; gap: 2px; transition: all .18s; text-align: center;
-  }
-  .model-btn:hover  { border-color: var(--teal); }
-  .model-btn.active { border-color: var(--teal); background: rgba(8,145,178,0.1); box-shadow: 0 0 0 3px rgba(8,145,178,.12); }
-  .model-emoji { font-size: 1.5rem; line-height: 1; }
-  .model-name  { font-weight: 700; font-size: .85rem; color: var(--white); margin-top: 2px; }
-  .model-desc  { font-size: .68rem; color: var(--muted); line-height: 1.3; }
-  .model-badge { font-size: .62rem; color: var(--muted); font-family: monospace; }
-  .model-cost  { font-size: .78rem; color: var(--teal-light); font-weight: 700; }
-  .model-hint  { font-size: .72rem; color: var(--muted); }
-  @media(max-width:600px){ .model-selector { grid-template-columns: repeat(2,1fr); } }
 
   /* Tabs */
   .tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
@@ -177,42 +161,6 @@
       <button class="need-key-btn" onclick="openKeyModal()" style="font-size:11px;color:var(--teal-light);background:none;border:1px solid var(--border);border-radius:6px;padding:6px 12px;cursor:pointer;font-family:inherit;white-space:nowrap">Need a key?</button>
     </div>
     <div class="key-hint">Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a> — takes 60 seconds, no credit card.</div>
-  </div>
-
-  <!-- Intelligence Level -->
-  <div class="card">
-    <div class="card-title">⚡ Intelligence Level <span style="font-weight:400;color:#94a3b8;font-size:.8rem">— higher = smarter = more API cost</span></div>
-    <div class="model-selector">
-      <button class="model-btn" onclick="selectModel('gemini-2.5-flash')" id="mbtn-quick">
-        <span class="model-emoji">⚡</span>
-        <span class="model-name">Quick</span>
-        <span class="model-desc">Fast &amp; cheap</span>
-        <span class="model-badge">2.5 Flash</span>
-        <span class="model-cost">$</span>
-      </button>
-      <button class="model-btn active" onclick="selectModel('gemini-2.0-flash')" id="mbtn-smart">
-        <span class="model-emoji">🔥</span>
-        <span class="model-name">Smart</span>
-        <span class="model-desc">Best balance</span>
-        <span class="model-badge">2.0 Flash</span>
-        <span class="model-cost">$$</span>
-      </button>
-      <button class="model-btn" onclick="selectModel('gemini-2.5-pro')" id="mbtn-deep">
-        <span class="model-emoji">🧠</span>
-        <span class="model-name">Deep</span>
-        <span class="model-desc">Advanced reasoning</span>
-        <span class="model-badge">2.5 Pro</span>
-        <span class="model-cost">$$$</span>
-      </button>
-      <button class="model-btn" onclick="selectModel('gemini-2.0-pro-exp')" id="mbtn-max">
-        <span class="model-emoji">🚀</span>
-        <span class="model-name">Max</span>
-        <span class="model-desc">Most thorough</span>
-        <span class="model-badge">2.0 Pro</span>
-        <span class="model-cost">$$$$</span>
-      </button>
-    </div>
-    <div class="model-hint">Prices vary by model. <a href="https://ai.google.dev/pricing" target="_blank" style="color:var(--teal-light)">See Gemini pricing →</a></div>
   </div>
 
   <!-- Content Brief -->
@@ -295,22 +243,7 @@
 </div>
 
 <script>
-// ── Model selector ────────────────────────────────────────────────────────────
-const MODEL_IDS = {
-  'gemini-2.5-flash':  'mbtn-quick',
-  'gemini-2.0-flash':  'mbtn-smart',
-  'gemini-2.5-pro':    'mbtn-deep',
-  'gemini-2.0-pro-exp':'mbtn-max'
-};
-let _selectedModel = localStorage.getItem('gemini_model') || 'gemini-2.0-flash';
-
-function selectModel(model) {
-  _selectedModel = model;
-  localStorage.setItem('gemini_model', model);
-  document.querySelectorAll('.model-btn').forEach(b => b.classList.remove('active'));
-  const btn = document.getElementById(MODEL_IDS[model]);
-  if (btn) btn.classList.add('active');
-}
+const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent';
 
 // ── Key helpers ────────────────────────────────────────────────────────────────
 function toggleKey() {
@@ -350,7 +283,6 @@ function showToast(msg) {
 // ── Init ───────────────────────────────────────────────────────────────────────
 window.addEventListener('load', () => {
   checkApiKey();
-  selectModel(_selectedModel);
 });
 
 // ── Generate ───────────────────────────────────────────────────────────────────
@@ -414,7 +346,7 @@ Omit keys that don't apply to the requested content type.`;
 
   try {
     const resp = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${_selectedModel}:generateContent?key=${geminiKey}`,
+      `${GEMINI_URL}?key=${geminiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
