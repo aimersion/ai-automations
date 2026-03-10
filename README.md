@@ -20,13 +20,13 @@ You need one free API key from [Google AI Studio](https://aistudio.google.com/ap
 
 | Day | Tool | What It Does | Status |
 |-----|------|-------------|--------|
-| 01 | 📬 **[Inbox Intelligence](https://aimersion.github.io/ai-automations/day-01-inbox-intelligence.html)** | Connects to your Outlook inbox, triages emails by priority, and drafts smart replies in your voice | ✅ **Live** |
+| 01 | 📬 **[Inbox Intelligence](https://aimersion.github.io/ai-automations/day-01-inbox-intelligence.html)** | Connects to your Gmail and Outlook inbox, triages emails by priority, and drafts smart replies in your voice | ✅ **Live** |
 | 02 | 📝 **[Proposal Generator](https://aimersion.github.io/ai-automations/day-02-proposal-generator.html)** | Turn a prospect's pain points into a polished, tailored sales proposal in minutes | ✅ **Live** |
 | 03 | 🎯 **[Competitor Intel Brief](https://aimersion.github.io/ai-automations/day-03-competitor-intel.html)** | Drop in a competitor's URL and get a full battlecard — positioning, strengths, weaknesses, and talking points | ✅ **Live** |
-| 04 | 📣 **[Social Content Creator](https://aimersion.github.io/ai-automations/day-04-social-creator.html)** | Paste any topic or URL → get a full X thread, LinkedIn post, and 5 viral hooks ready to copy in seconds | ✅ **Live** |
-| 05 | 🔒 | *Unlocks Day 5* | 🔒 Coming |
-| 06 | 🔒 | *Unlocks Day 6* | 🔒 Coming |
-| 07 | 🔒 | *Unlocks Day 7* | 🔒 Coming |
+| 04 | 📣 **[Social Content Machine](https://aimersion.github.io/ai-automations/day-04-social-content-machine.html)** | Paste any topic or URL → get a full X thread, LinkedIn post, and 5 viral hooks ready to copy in seconds | ✅ **Live** |
+| 05 | 🔒 **[Pipeline Prioritizer](https://aimersion.github.io/ai-automations/day-05-pipeline-prioritizer.html)** | Paste your CRM deals and let AI rank which to work this week — with reasoning and next actions for each | ✅ **Live** |
+| 06 | 🗓️ **[Meeting Prep Brief](https://aimersion.github.io/ai-automations/day-06-meeting-prep.html)** | Paste a meeting invite and get a full briefing — attendee research, agenda, talk track, and objection prep | ✅ **Live** |
+| 07 | 🤝 **[Client Onboarding Kit](https://aimersion.github.io/ai-automations/day-07-client-onboarding.html)** | Generate a full onboarding package in seconds — welcome email, kickoff agenda, week 1 checklist, and intake questionnaire | ✅ **Live** |
 | 08 | 🔒 | *Unlocks Day 8* | 🔒 Coming |
 | 09 | 🔒 | *Unlocks Day 9* | 🔒 Coming |
 | 10 | 🔒 | *Unlocks Day 10* | 🔒 Coming |
@@ -74,7 +74,7 @@ You need one free API key from [Google AI Studio](https://aistudio.google.com/ap
 - **No backend** — GitHub Pages only, zero server-side code
 - **No data storage** — OAuth tokens in `sessionStorage`, API keys in `localStorage`, cleared when you close the tab
 - **OAuth 2.0** — Google Identity Services (Gmail/Calendar) + MSAL.js 2.x (Outlook/M365)
-- **AI** — Gemini 3 Flash Preview (all tools), optional Claude
+- **AI** — Gemini 3.1 Flash Lite Preview (all tools)
 - **Open source** — fork it, self-host it, modify it however you want
 
 ---
@@ -126,7 +126,7 @@ PRs welcome. Each tool is a single self-contained HTML file — no build step, n
 
 New tool drops every day. Follow the series:
 - 🌐 [aimersion.github.io/ai-automations](https://aimersion.github.io/ai-automations/)
-- 🐦 Share on X: [Tweet about this](https://twitter.com/intent/tweet?text=20%20free%20AI%20tools%20in%2020%20days%20%E2%80%94%20real%20email%20access%2C%20zero%20backend%2C%20runs%20in%20your%20browser.%20Day%201%20is%20live%20now%20%F0%9F%94%A5&url=https://aimersion.github.io/ai-automations/)
+- 🐦 Share on X: [Tweet about this](https://twitter.com/intent/tweet?text=20%20free%20AI%20tools%20in%2020%20days%20%E2%80%94%20real%20email%20access%2C%20zero%20backend%2C%20runs%20in%20your%20browser.%20Day%207%20is%20live%20now%20%F0%9F%94%A5&url=https://aimersion.github.io/ai-automations/)
 - 💼 [Aimersion AI](https://aimersion.ai)
 
 ---

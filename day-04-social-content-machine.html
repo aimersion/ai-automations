@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Content Machine — Free AI Tool | Aimersion Day 4</title>
+    <meta name="description" content="One idea in. Five ready-to-post pieces out. X thread, LinkedIn post, Instagram caption, email teaser, and YouTube hook — all in one click. Free.">
+
+  <!-- ═══ ANALYTICS & RETARGETING ═══ -->
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-69LQQBX0C1');
+  </script>
+
+  <!-- Meta Pixel (Aimersion) -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      }; if (!f._fbq) f._fbq = n;
+      n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+    }(window,
+      document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '876506382017154');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1" /></noscript>
+
+  <!-- LinkedIn Insight Tag -->
+  <script type="text/javascript">
+    _linkedin_partner_id = "514319631";
+    window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+  </script>
+  <script type="text/javascript">
+    (function (l) {
+      if (!l) {
+        window.lintrk = function (a, b) { window.lintrk.q.push([a, b]) };
+        window.lintrk.q = []
+      }
+      var s = document.getElementsByTagName("script")[0];
+      var b = document.createElement("script");
+      b.type = "text/javascript"; b.async = true;
+      b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+      s.parentNode.insertBefore(b, s);
+    })(window.lintrk);
+  </script>
+  <noscript><img height="1" width="1" style="display:none;" alt=""
+      src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif" /></noscript>
+
+  <!-- X (Twitter) Pixel -->
+  <script>
+    !function (e, t, n, s, u, a) {
+      e.twq || (s = e.twq = function () {
+        s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
+      }, s.version = '1.1', s.queue = [], u = t.createElement(n), u.async = !0, u.src = 'https://static.ads-twitter.com/uwt.js',
+        a = t.getElementsByTagName(n)[0], a.parentNode.insertBefore(u, a))
+    }(window, document, 'script');
+    twq('config', 'tw-r848k-r848k');
+  </script>
+  <!-- ═══ END ANALYTICS ═══ -->
+
+    <style>
+        :root {
+            --navy: #0F1F3D;
+            --navy2: #1A2F52;
+            --teal: #0891B2;
+            --teal-light: #22D3EE;
+            --amber: #F59E0B;
+            --green: #059669;
+            --red: #DC2626;
+            --white: #F0F7FF;
+            --muted: #8AAFD0;
+            --card: #162840;
+            --border: #2A4A70;
+            --purple: #7C3AED;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 100%);
+            color: var(--white);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: var(--teal-light);
+        }
+
+        .badge {
+            background: var(--purple);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        /* Day Label */
+        .day-label {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 16px;
+            color: var(--white);
+        }
+
+        h1 span {
+            color: var(--purple);
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: var(--muted);
+            line-height: 1.6;
+            margin-bottom: 32px;
+            max-width: 700px;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
+            margin-bottom: 50px;
+        }
+
+        .stat {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--purple);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* Form Section */
+        .form-section {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .form-section h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--teal-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--white);
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--purple);
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+
+        input::placeholder {
+            color: var(--muted);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Button Row */
+        .button-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: var(--purple);
+            color: var(--white);
+            flex: 1;
+            min-width: 240px;
+        }
+
+        .btn-primary:hover {
+            background: #6D28D9;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--teal-light);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--teal);
+        }
+
+        .btn-copy {
+            padding: 8px 12px;
+            font-size: 12px;
+            background: rgba(124, 58, 237, 0.2);
+            color: var(--purple);
+            border: 1px solid var(--purple);
+        }
+
+        .btn-copy:hover {
+            background: rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: rgba(5, 150, 105, 0.2);
+            color: var(--green);
+            border-color: var(--green);
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        .spinner.active {
+            display: block;
+        }
+
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9998;
+            display: none;
+        }
+
+        .spinner-overlay.active {
+            display: block;
+        }
+
+        .spin {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(124, 58, 237, 0.2);
+            border-top-color: var(--purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Output Section */
+        .output-section {
+            display: none;
+            margin-bottom: 50px;
+        }
+
+        .output-section.active {
+            display: block;
+        }
+
+        .output-section h2 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        /* Day Tabs */
+        .day-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .day-tab {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            color: var(--muted);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .day-tab.active {
+            background: var(--purple);
+            border-color: var(--purple);
+            color: var(--white);
+        }
+
+        .day-tab:hover {
+            border-color: var(--purple);
+        }
+
+        /* Day Content */
+        .day-content {
+            display: none;
+        }
+
+        .day-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .day-theme {
+            background: rgba(124, 58, 237, 0.1);
+            border-left: 4px solid var(--purple);
+            padding: 16px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: var(--teal-light);
+        }
+
+        /* Platform Cards */
+        .platform-cards {
+            display: grid;
+            gap: 20px;
+        }
+
+        .platform-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            overflow: hidden;
+        }
+
+        .platform-card h4 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+            color: var(--teal-light);
+        }
+
+        .platform-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .platform-card.twitter .platform-icon {
+            color: #1DA1F2;
+        }
+
+        .platform-card.linkedin .platform-icon {
+            color: #0A66C2;
+        }
+
+        .platform-card.facebook .platform-icon {
+            color: #1877F2;
+        }
+
+        .post-content {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--white);
+            word-break: break-word;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .char-count {
+            background: rgba(124, 58, 237, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: var(--purple);
+        }
+
+        /* Hashtags */
+        .hashtags {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .hashtags strong {
+            display: block;
+            color: var(--teal-light);
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .hashtag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .hashtag {
+            background: rgba(2, 132, 199, 0.2);
+            color: var(--teal);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Error Message */
+        .error-message {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid var(--red);
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--red);
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.active {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding-top: 40px;
+            margin-top: 60px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        footer a {
+            color: var(--teal-light);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 32px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-row {
+                flex-direction: column;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">AIMERSION</div>
+            <div class="badge">20 Automations · Day 4 of 20</div>
+        </header>
+
+        <!-- Hero -->
+        <div class="hero">
+            <div class="day-label">
+                Automation #4 — Inspired by Google Gemini's new agentic capabilities taking over routine tasks
+            </div>
+            <h1>Never Stare at a Blank Post Box <span>Again</span>.</h1>
+            <p class="tagline">
+                Tell it your business, your week's theme, and your voice. Get 5 days of social posts across X, LinkedIn, and Facebook — ready to copy, schedule, and ship.
+            </p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">5 Platforms</div>
+                <div class="stat-label">One run</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">$0.004</div>
+                <div class="stat-label">Per week of content</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">5 min</div>
+                <div class="stat-label">Saved per post</div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="form-section">
+            <h2>Configure Your Content</h2>
+            
+            <div class="error-message" id="errorMessage"></div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="apiKey">Anthropic API Key</label>
+                    <input 
+                        type="password" 
+                        id="apiKey" 
+                        placeholder="sk-ant-..."
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="businessName">Business / Brand Name</label>
+                    <input 
+                        type="text" 
+                        id="businessName" 
+                        placeholder="e.g., Aimersion"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="whatYouDo">What You Do (1 sentence)</label>
+                    <input 
+                        type="text" 
+                        id="whatYouDo" 
+                        placeholder="e.g., We help service businesses automate with AI"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="targetAudience">Target Audience</label>
+                    <input 
+                        type="text" 
+                        id="targetAudience" 
+                        placeholder="e.g., Small business owners, entrepreneurs"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="weeklyTheme">This Week's Content Theme</label>
+                    <input 
+                        type="text" 
+                        id="weeklyTheme" 
+                        placeholder="e.g., AI automation for service businesses"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="voiceTone">Your Voice / Tone</label>
+                    <select id="voiceTone" required>
+                        <option value="">Select a tone...</option>
+                        <option value="Thought Leader">Thought Leader</option>
+                        <option value="Conversational & Real">Conversational & Real</option>
+                        <option value="Educational">Educational</option>
+                        <option value="Motivational">Motivational</option>
+                        <option value="Behind the Scenes">Behind the Scenes</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ctaType">Include CTA on Each Post?</label>
+                    <select id="ctaType" required>
+                        <option value="">Select CTA type...</option>
+                        <option value="Yes - drive to DMs">Yes - drive to DMs</option>
+                        <option value="Yes - drive to website">Yes - drive to website</option>
+                        <option value="Yes - drive to free tool">Yes - drive to free tool</option>
+                        <option value="No CTA">No CTA</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="websiteLink">Your Website or Link (optional)</label>
+                    <input 
+                        type="text" 
+                        id="websiteLink" 
+                        placeholder="https://example.com"
+                    >
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button class="btn-primary" onclick="generateContent()">
+                    ⚡ Generate My Week of Content
+                </button>
+                <button class="btn-secondary" onclick="loadDemoContent()">
+                    → Try Demo
+                </button>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="output-section" id="outputSection">
+            <h2>Your 5-Day Content Plan</h2>
+            
+            <div class="day-tabs" id="dayTabs"></div>
+            <div id="dayContents"></div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>
+                <strong>Social Content Machine</strong> — Day 4 of 20 Automations in 20 Days
+            </p>
+            <p style="margin-top: 12px;">
+                Built with <span style="color: var(--purple);">⚡</span> by <a href="#">@jimlynchAI</a> at <a href="#">Aimersion</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="spinner-overlay" id="spinnerOverlay"></div>
+    <div class="spinner" id="spinner">
+        <div class="spin"></div>
+    </div>
+
+    <script>
+        // Sample output for demo - 5 days × 3 platforms
+        const DEMO_CONTENT = {
+            days: [
+                {
+                    day: "Monday",
+                    theme: "Hook + Problem",
+                    platforms: {
+                        twitter: {
+                            content: "Your team spends 40% of their time on tasks AI could handle tomorrow. Yet you're still scheduling posts manually. The gap between what's possible and what you're doing? That's the automation tax. 🔴",
+                            charCount: 204,
+                            hashtags: ["#AIAutomation", "#ServiceBiz", "#Productivity"]
+                        },
+                        linkedin: {
+                            content: "I was chatting with a service business owner last week who told me something that stopped me cold: 'We're managing our own social media, still doing data entry manually, and copying invoices by hand.'\n\nWhy? Because automating felt too complicated.\n\nBut here's what most service business owners don't realize: The tools that power giants like Google and Netflix are now accessible to everyone. AI agents that can work 24/7, making decisions, drafting content, processing data.\n\nThe businesses winning right now aren't the biggest. They're the ones automating the boring stuff so they can focus on what actually grows revenue.",
+                            charCount: 456,
+                            hashtags: ["#Automation", "#ServiceBusiness", "#AITools"]
+                        },
+                        facebook: {
+                            content: "Hey! Quick question: What task on your to-do list do you absolutely DREAD doing?\n\nFor most service business owners, it's the repetitive stuff. Scheduling posts, sending follow-ups, data entry, invoicing.\n\nHere's the truth: You don't need to hire someone to do it. You need the right automation.\n\nStay tuned—we're sharing exactly how to set up automations that'll save you hours every single week.",
+                            charCount: 334,
+                            hashtags: ["#ServiceBiz", "#SmallBusiness"]
+                        }
+                    }
+                },
+                {
+                    day: "Tuesday",
+                    theme: "The Solution",
+                    platforms: {
+                        twitter: {
+                            content: "What if your marketing ran while you slept?\n\nAI agents don't need breaks. They don't forget. They don't half-ass your content calendar.\n\nThey just... work.\n\nThat's the future of service businesses. And it's available today. Let's build it together.",
+                            charCount: 188,
+                            hashtags: ["#AIAutomation", "#ContentMarketing", "#ServiceBiz"]
+                        },
+                        linkedin: {
+                            content: "The solution to the automation problem isn't more tools.\n\nIt's agents.\n\nHere's the difference: Traditional tools do one thing. Click → output. Clean but limited.\n\nAI agents work differently. You give them a goal—'generate my social content calendar'—and they:\n\n1) Ask clarifying questions\n2) Break the work into steps\n3) Make decisions about tone, timing, audience\n4) Create and format the output\n5) Learn from feedback\n\nThey're not just faster. They're smarter.\n\nAnd right now, the businesses using agents are months ahead of everyone else.",
+                            charCount: 512,
+                            hashtags: ["#AIAgents", "#Automation", "#ServiceBusiness"]
+                        },
+                        facebook: {
+                            content: "Tired of the content creation grind? 🤔\n\nWe built something that changes the game.\n\nInstead of spending 2 hours on social content every week, you spend 5 minutes telling an AI agent:\n- Who your audience is\n- What you want to say\n- What tone to use\n\nThen step back while it generates 5 days of ready-to-post content for X, LinkedIn, and Facebook.\n\nNo design skills. No copywriting degree. Just your story + the AI.",
+                            charCount: 376,
+                            hashtags: ["#ContentMarketing", "#AITools", "#SmallBiz"]
+                        }
+                    }
+                },
+                {
+                    day: "Wednesday",
+                    theme: "Social Proof / Story",
+                    platforms: {
+                        twitter: {
+                            content: "Last month, we asked 50 service business owners: 'How many hours do you spend on admin work every week?'\n\nAverage answer: 16 hours.\n\nWith automation? That number drops to 4.\n\nThe catch? They had to actually set it up.\n\nWe just built that setup for you.",
+                            charCount: 239,
+                            hashtags: ["#CaseStudy", "#Automation", "#ROI"]
+                        },
+                        linkedin: {
+                            content: "\"Before automation, I was spending 10 hours a week on social media and admin work. I felt like I had no time to actually work with clients.\"\n\n— Sarah M., Service Business Owner\n\nThat was 6 months ago.\n\nToday? She spends 90 minutes a week. The difference? \n\nShe automated her content calendar.\nShe automated her follow-up sequences.\nShe automated her invoice reminders.\n\nWas it complicated? Initially, yes.\n\nIs it worth it? She just booked her 3 biggest clients of the year.\n\nThe math:\n- 8 hours/week saved\n- 20 new clients from focusing on relationships\n- ~$150K+ in new revenue\n\nAutomation isn't about working less. It's about working on what matters.",
+                            charCount: 687,
+                            hashtags: ["#ClientStory", "#Automation", "#ServiceBusiness"]
+                        },
+                        facebook: {
+                            content: "Meet Marcus 👋\n\nHe runs a digital marketing agency with 3 team members. Six months ago, his team was drowning in admin work:\n\n✓ Scheduling social posts manually\n✓ Writing the same follow-up emails over and over\n✓ Tracking invoices in spreadsheets\n\nWe helped him automate 80% of that.\n\nResult? His team focused on actual client work. And in 6 months, revenue grew 40%.\n\n\"Automation gave us our time back,\" he told us. \"And time is money.\"\n\nIf you're ready for that kind of change, let's talk.",
+                            charCount: 412,
+                            hashtags: ["#Success", "#Automation", "#BusinessGrowth"]
+                        }
+                    }
+                },
+                {
+                    day: "Thursday",
+                    theme: "Tactical Tip",
+                    platforms: {
+                        twitter: {
+                            content: "Quick automation hack:\n\nInstead of manually scheduling posts, create a template:\n- Problem (your audience faces it)\n- Insight (you solve it)\n- CTA (next step)\n\nLet AI generate variations. You approve. You ship.\n\n5 posts in 20 minutes instead of 2 hours.",
+                            charCount: 204,
+                            hashtags: ["#AutomationTip", "#ContentStrategy", "#Productivity"]
+                        },
+                        linkedin: {
+                            content: "Here's a tactical breakdown of how to automate your content creation in 4 steps:\n\n**Step 1: Create Your Content Framework**\nDefine your core message themes (problem → solution → social proof → tips → CTA). Don't make it up as you go.\n\n**Step 2: Use AI to Generate Variations**\nOnce you have the framework, AI can generate 20+ variations in seconds. You're not replacing the thinking—you're scaling it.\n\n**Step 3: Build Your Template**\nFor each platform (X, LinkedIn, Facebook), create a character/format template. This ensures consistency.\n\n**Step 4: Batch Approve and Schedule**\nReview your week's content in one sitting. Approve it. Schedule it with a tool like Buffer or Later.\n\nTime investment: 30 minutes to set up. 5 minutes to generate weekly content.\n\nTime saved: 10+ hours/month.\n\nThat's not just efficient. That's leverage.",
+                            charCount: 734,
+                            hashtags: ["#ContentStrategy", "#Automation", "#BusinessTips"]
+                        },
+                        facebook: {
+                            content: "Pro tip: Content doesn't have to be spontaneous to feel authentic 🎯\n\nHere's what works:\n\n1) Batch create your week's content in one sitting\n2) Use AI to help generate ideas, not replace your voice\n3) Schedule it across the week\n4) Respond to comments in real-time (that's where the real engagement happens)\n\nYou get consistency + authenticity + time back.\n\nThat's the sweet spot.",
+                            charCount: 289,
+                            hashtags: ["#SocialMediaTip", "#ContentCreation"]
+                        }
+                    }
+                },
+                {
+                    day: "Friday",
+                    theme: "Call to Action",
+                    platforms: {
+                        twitter: {
+                            content: "Done overthinking your content calendar?\n\nWe built a tool that handles it for you. 5 days of posts. 3 platforms. One prompt.\n\nReady to reclaim your Friday afternoons?\n\nDM me. Let's set it up.",
+                            charCount: 175,
+                            hashtags: ["#CTA", "#Automation", "#AI"]
+                        },
+                        linkedin: {
+                            content: "If you're still manually creating your social content, we need to talk.\n\nYou're leaving money on the table. Specifically:\n- The revenue from the 5+ new clients you could've closed with consistent visibility\n- The hours you could've spent on high-value work\n- The confidence that comes with a content strategy that actually works\n\nHere's what's next:\n\n1) Reply to this post or DM me\n2) We'll have a 15-minute conversation about your business\n3) I'll show you exactly how to automate your content (custom to your industry and audience)\n4) You'll have a 5-day content plan you can use immediately\n\nNo sales pitch. No fluff. Just clarity on how automation can transform your business.\n\nLet's go.",
+                            charCount: 634,
+                            hashtags: ["#CallToAction", "#Automation", "#ServiceBusiness"]
+                        },
+                        facebook: {
+                            content: "That's it for this week's content strategy breakdown 👆\n\nHere's the takeaway: You don't need to work harder. You need to work smarter.\n\nIf you're ready to automate your content and reclaim 5+ hours every week, here's what to do:\n\n1. Drop a comment: \"AUTOMATION\"\n2. Message me with your biggest content challenge\n3. I'll send you the blueprint we use\n\nCheers to working less and earning more 🚀",
+                            charCount: 338,
+                            hashtags: ["#CallToAction", "#Automation"]
+                        }
+                    }
+                }
+            ]
+        };
+
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.classList.add('active');
+            setTimeout(() => {
+                errorEl.classList.remove('active');
+            }, 5000);
+        }
+
+        function showSpinner(show) {
+            document.getElementById('spinner').classList.toggle('active', show);
+            document.getElementById('spinnerOverlay').classList.toggle('active', show);
+        }
+
+        function displayContent(content) {
+            const outputSection = document.getElementById('outputSection');
+            const dayTabs = document.getElementById('dayTabs');
+            const dayContents = document.getElementById('dayContents');
+
+            // Clear previous content
+            dayTabs.innerHTML = '';
+            dayContents.innerHTML = '';
+
+            // Create tabs and content
+            content.days.forEach((day, index) => {
+                // Create tab
+                const tab = document.createElement('button');
+                tab.className = `day-tab ${index === 0 ? 'active' : ''}`;
+                tab.textContent = day.day;
+                tab.onclick = () => switchDay(index);
+                dayTabs.appendChild(tab);
+
+                // Create content
+                const dayContent = document.createElement('div');
+                dayContent.className = `day-content ${index === 0 ? 'active' : ''}`;
+                dayContent.id = `day-${index}`;
+
+                let html = `<div class="day-theme"><strong>${day.theme}</strong></div>`;
+                html += '<div class="platform-cards">';
+
+                // Twitter
+                html += createPlatformCard('twitter', 'X (Twitter)', day.platforms.twitter);
+
+                // LinkedIn
+                html += createPlatformCard('linkedin', 'LinkedIn', day.platforms.linkedin);
+
+                // Facebook
+                html += createPlatformCard('facebook', 'Facebook', day.platforms.facebook);
+
+                html += '</div>';
+                dayContent.innerHTML = html;
+                dayContents.appendChild(dayContent);
+
+                // Add copy button event listeners
+                dayContent.querySelectorAll('.btn-copy').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const text = e.target.dataset.text;
+                        copyToClipboard(text, e.target);
+                    });
+                });
+            });
+
+            outputSection.classList.add('active');
+            window.scrollTo({ top: outputSection.offsetTop - 100, behavior: 'smooth' });
+        }
+
+        function createPlatformCard(platform, label, data) {
+            const charCount = data.charCount || 0;
+            const hashtags = data.hashtags || [];
+            const charLimit = platform === 'twitter' ? 280 : 5000;
+            const charStatus = charCount > charLimit ? `${charCount} (OVER LIMIT)` : `${charCount} / ${charLimit}`;
+
+            let html = `
+                <div class="platform-card ${platform}">
+                    <h4>
+                        <span class="platform-icon">${platform === 'twitter' ? '𝕏' : platform === 'linkedin' ? 'in' : 'f'}</span>
+                        ${label}
+                    </h4>
+                    <div class="post-content">${escapeHtml(data.content)}</div>
+                    <div class="post-meta">
+                        <div class="char-count">${charStatus}</div>
+                        <button class="btn-copy" data-text="${escapeHtml(data.content)}">Copy Post</button>
+                    </div>
+            `;
+
+            if (hashtags.length > 0) {
+                html += `
+                    <div class="hashtags">
+                        <strong>Suggested Hashtags:</strong>
+                        <div class="hashtag-list">
+                            ${hashtags.map(tag => `<span class="hashtag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function switchDay(index) {
+            // Update tabs
+            document.querySelectorAll('.day-tab').forEach((tab, i) => {
+                tab.classList.toggle('active', i === index);
+            });
+
+            // Update content
+            document.querySelectorAll('.day-content').forEach((content, i) => {
+                content.classList.toggle('active', i === index);
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function copyToClipboard(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const original = button.textContent;
+                button.textContent = '✓ Copied!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = original;
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+
+        function validateForm() {
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const businessName = document.getElementById('businessName').value.trim();
+            const whatYouDo = document.getElementById('whatYouDo').value.trim();
+            const targetAudience = document.getElementById('targetAudience').value.trim();
+            const weeklyTheme = document.getElementById('weeklyTheme').value.trim();
+            const voiceTone = document.getElementById('voiceTone').value;
+            const ctaType = document.getElementById('ctaType').value;
+
+            if (!apiKey) {
+                showError('Please enter your Anthropic API key');
+                return false;
+            }
+
+            if (!businessName) {
+                showError('Please enter your business name');
+                return false;
+            }
+
+            if (!whatYouDo) {
+                showError('Please describe what you do');
+                return false;
+            }
+
+            if (!targetAudience) {
+                showError('Please specify your target audience');
+                return false;
+            }
+
+            if (!weeklyTheme) {
+                showError('Please enter your weekly theme');
+                return false;
+            }
+
+            if (!voiceTone) {
+                showError('Please select your voice/tone');
+                return false;
+            }
+
+            if (!ctaType) {
+                showError('Please select a CTA type');
+                return false;
+            }
+
+            return true;
+        }
+
+        async function generateContent() {
+            if (!validateForm()) return;
+
+            const apiKey = document.getElementById('apiKey').value.trim();
+            const businessName = document.getElementById('businessName').value.trim();
+            const whatYouDo = document.getElementById('whatYouDo').value.trim();
+            const targetAudience = document.getElementById('targetAudience').value.trim();
+            const weeklyTheme = document.getElementById('weeklyTheme').value.trim();
+            const voiceTone = document.getElementById('voiceTone').value;
+            const ctaType = document.getElementById('ctaType').value;
+            const websiteLink = document.getElementById('websiteLink').value.trim();
+
+            showSpinner(true);
+
+            const prompt = `You are a world-class social media strategist and copywriter. Generate a 5-day social media content plan for the following business:
+
+Business: ${businessName}
+What they do: ${whatYouDo}
+Target audience: ${targetAudience}
+Weekly theme: ${weeklyTheme}
+Voice/Tone: ${voiceTone}
+CTA type: ${ctaType}
+${websiteLink ? `Website/Link: ${websiteLink}` : ''}
+
+Generate content for MONDAY through FRIDAY. For each day:
+
+1. Assign a theme (e.g., "Hook + Problem", "The Solution", "Social Proof/Story", "Tactical Tip", "Call to Action")
+2. Create 3 versions of the post:
+   - X (Twitter): Max 280 characters, punchy and engaging
+   - LinkedIn: 300-500 characters, professional and thoughtful
+   - Facebook: 250-400 characters, casual and community-focused
+
+For each post, include 3-4 relevant hashtags. Format your response as a structured JSON object with this format:
+
+{
+  "days": [
+    {
+      "day": "Monday",
+      "theme": "Hook + Problem",
+      "platforms": {
+        "twitter": {
+          "content": "...",
+          "charCount": number,
+          "hashtags": ["#tag1", "#tag2"]
+        },
+        "linkedin": {
+          "content": "...",
+          "charCount": number,
+          "hashtags": ["#tag1", "#tag2"]
+        },
+        "facebook": {
+          "content": "...",
+          "charCount": number,
+          "hashtags": ["#tag1", "#tag2"]
+        }
+      }
+    },
+    // ... repeat for Tue, Wed, Thu, Fri
+  ]
+}
+
+Ensure:
+- Each post aligns with the voice/tone specified
+- CTAs match the selected type
+- Content is cohesive across the week
+- Posts feel natural and authentic
+- Hashtags are specific and relevant`;
+
+            try {
+                const response = await fetch('https://api.anthropic.com/v1/messages', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': apiKey,
+                        'anthropic-version': '2023-06-01',
+                        'anthropic-dangerous-direct-browser-access': 'true'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-3-5-haiku-20241022',
+                        max_tokens: 4000,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: prompt
+                            }
+                        ]
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error?.message || 'API request failed');
+                }
+
+                const data = await response.json();
+                const content = data.content[0].text;
+
+                // Extract JSON from response
+                const jsonMatch = content.match(/\{[\s\S]*\}/);
+                if (!jsonMatch) {
+                    throw new Error('Could not parse response as JSON');
+                }
+
+                const parsedContent = JSON.parse(jsonMatch[0]);
+                displayContent(parsedContent);
+                showSpinner(false);
+
+            } catch (error) {
+                showSpinner(false);
+                showError(`Error: ${error.message}`);
+            }
+        }
+
+        function loadDemoContent() {
+            displayContent(DEMO_CONTENT);
+        }
+    </script>
+</body>
+</html>

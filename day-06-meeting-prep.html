@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meeting Prep Assistant — Free AI Tool | Aimersion Day 6</title>
+  <meta name="description"
+    content="Walk into every meeting fully prepared. Paste who you're meeting and why — AI builds your agenda, talking points, questions, and risks in 30 seconds. Free.">
+
+  <!-- Favicon set -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+  <meta name="theme-color" content="#0F1F3D">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimersion.github.io/ai-automations/day-06-meeting-prep.html">
+  <meta property="og:site_name" content="Aimersion">
+  <meta property="og:title" content="Meeting Prep Assistant — Free AI Tool (Day 6 of 20)">
+  <meta property="og:description"
+    content="Walk into every meeting fully prepared. AI builds your agenda, talking points, key questions, and risks in 30 seconds. Free.">
+  <meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Meeting Prep Assistant — AI tool by Aimersion">
+
+  <!-- Twitter / X Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@aimersion">
+  <meta name="twitter:title" content="Meeting Prep Assistant — Free AI Tool (Day 6 of 20)">
+  <meta name="twitter:description"
+    content="Walk into every meeting fully prepared. AI builds your agenda, talking points, and key questions in 30 seconds. Free.">
+  <meta name="twitter:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+  <meta name="twitter:image:alt" content="Meeting Prep Assistant — AI tool by Aimersion">
+
+  <!-- ═══ ANALYTICS & RETARGETING ═══ -->
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-69LQQBX0C1');
+  </script>
+  <!-- Meta Pixel (Aimersion) -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      }; if (!f._fbq) f._fbq = n;
+      n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+    }(window,
+      document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '876506382017154');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1" /></noscript>
+  <!-- LinkedIn Insight Tag -->
+  <script type="text/javascript">
+    _linkedin_partner_id = "514319631";
+    window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+  </script>
+  <script type="text/javascript">
+    (function (l) {
+      if (!l) {
+        window.lintrk = function (a, b) { window.lintrk.q.push([a, b]) };
+        window.lintrk.q = []
+      }
+      var s = document.getElementsByTagName("script")[0];
+      var b = document.createElement("script");
+      b.type = "text/javascript"; b.async = true;
+      b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+      s.parentNode.insertBefore(b, s);
+    })(window.lintrk);
+  </script>
+  <noscript><img height="1" width="1" style="display:none;" alt=""
+      src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif" /></noscript>
+  <!-- X (Twitter) Pixel -->
+  <script>
+    !function (e, t, n, s, u, a) {
+      e.twq || (s = e.twq = function () {
+        s.exe ? s.exe.apply(s, arguments) : s.queue.push(arguments);
+      }, s.version = '1.1', s.queue = [], u = t.createElement(n), u.async = !0, u.src = 'https://static.ads-twitter.com/uwt.js',
+        a = t.getElementsByTagName(n)[0], a.parentNode.insertBefore(u, a))
+    }(window, document, 'script');
+    twq('config', 'tw-r848k-r848k');
+  </script>
+  <!-- ═══ END ANALYTICS ═══ -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080E1A;
+      --surface: #0F1829;
+      --surface2: #152035;
+      --border: #1E3050;
+      --border-bright: #2A4A70;
+      --orange: #EA580C;
+      --orange-dim: rgba(234, 88, 12, 0.12);
+      --orange-glow: rgba(234, 88, 12, 0.3);
+      --teal: #06B6D4;
+      --teal-dim: rgba(6, 182, 212, 0.12);
+      --amber: #F59E0B;
+      --amber-dim: rgba(245, 158, 11, 0.12);
+      --green: #10B981;
+      --green-dim: rgba(16, 185, 129, 0.12);
+      --red: #EF4444;
+      --red-dim: rgba(239, 68, 68, 0.12);
+      --white: #F1F5F9;
+      --muted: #64748B;
+      --muted2: #94A3B8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(8, 14, 26, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      color: var(--muted2); font-size: 13px; font-weight: 600;
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--teal); }
+    .nav-badge {
+      background: var(--orange-dim);
+      border: 1px solid rgba(234, 88, 12, 0.3);
+      color: var(--orange);
+      font-size: 11px; font-weight: 700;
+      padding: 4px 12px; border-radius: 20px;
+      letter-spacing: 1.5px; text-transform: uppercase;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center; padding: 56px 24px 32px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute;
+      top: -60px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 400px;
+      background: radial-gradient(ellipse at center, var(--orange-dim) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .day-label {
+      font-size: 11px; color: var(--orange);
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 14px; font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(32px, 5vw, 44px);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -1px; margin-bottom: 14px;
+    }
+    h1 span { color: var(--orange); }
+    .tagline {
+      font-size: 16px; color: var(--muted2);
+      max-width: 580px; margin: 0 auto 28px; line-height: 1.65;
+    }
+    .stat-row {
+      display: flex; justify-content: center;
+      gap: 32px; margin-bottom: 40px; flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 26px; font-weight: 800; color: var(--orange); }
+    .stat-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+
+    /* ── Steps ── */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 12px; max-width: 860px;
+      margin: 0 auto 28px; padding: 0 24px;
+    }
+    .step-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 14px 16px;
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .step-circle {
+      width: 26px; height: 26px; border-radius: 50%;
+      color: #fff; font-size: 12px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+    .step-desc { font-size: 13px; color: var(--muted2); line-height: 1.5; }
+    .step-desc a { color: var(--teal); text-decoration: none; }
+
+    /* ── Main ── */
+    .main { max-width: 860px; margin: 0 auto; padding: 0 24px 80px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 20px 24px; margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 12px; font-weight: 700; letter-spacing: 2px;
+      color: var(--teal); text-transform: uppercase; margin-bottom: 14px;
+    }
+
+    /* Collapsible */
+    .card.collapsible { padding-bottom: 20px; }
+    .card-header {
+      display: flex; justify-content: space-between;
+      align-items: center; cursor: pointer;
+      user-select: none; margin-bottom: 14px;
+    }
+    .card-header .card-title { margin-bottom: 0; }
+    .card-toggle {
+      background: none; border: none; color: var(--muted);
+      font-size: 20px; cursor: pointer; padding: 0; line-height: 1;
+      transition: transform 0.22s, color 0.15s; flex-shrink: 0;
+    }
+    .card-header:hover .card-toggle { color: var(--teal); }
+    .card.collapsed .card-toggle { transform: rotate(-90deg); }
+    .card.collapsed .card-body { display: none; }
+    .card-status {
+      font-size: 12px; color: var(--green); font-weight: 600;
+      opacity: 0; transition: opacity 0.2s; margin-left: 10px; white-space: nowrap;
+    }
+    .card.collapsed .card-status { opacity: 1; }
+
+    /* ── Form ── */
+    .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    input[type="password"], input[type="text"], textarea, select {
+      background: var(--bg); border: 1px solid var(--border);
+      color: var(--white); padding: 10px 14px;
+      border-radius: 8px; font-size: 13px;
+      font-family: inherit; outline: none;
+      transition: border 0.2s; width: 100%;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px var(--orange-dim);
+    }
+    textarea { resize: vertical; line-height: 1.6; min-height: 120px; }
+    select { cursor: pointer; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .field label {
+      display: block; font-size: 11px; color: var(--muted2);
+      margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;
+    }
+    .key-hint { font-size: 13px; color: var(--muted); margin-top: 8px; }
+    .key-hint a { color: var(--teal); text-decoration: none; }
+    .example-box {
+      background: var(--bg); border: 1px dashed var(--border);
+      border-radius: 8px; padding: 14px; margin-bottom: 14px;
+      font-size: 12px; color: var(--muted); line-height: 1.7;
+    }
+    .example-box strong { color: var(--white); }
+
+    /* ── Buttons ── */
+    .btn {
+      padding: 9px 18px; border-radius: 8px;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      border: none; transition: all 0.2s;
+      white-space: nowrap; display: inline-flex;
+      align-items: center; gap: 6px; font-family: inherit;
+    }
+    .btn-orange { background: var(--orange); color: #fff; }
+    .btn-orange:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent; color: var(--muted2);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+    .btn-teal { background: var(--teal); color: #fff; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .btn-run {
+      width: 100%; padding: 14px; font-size: 16px; font-weight: 800;
+      background: linear-gradient(135deg, var(--orange), #F97316);
+      color: #fff; border: none; border-radius: 10px;
+      cursor: pointer; transition: all 0.2s; margin-bottom: 8px;
+    }
+    .btn-run:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    .btn-run:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-demo {
+      width: 100%; padding: 10px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--muted2); font-size: 13px; font-weight: 600;
+      border-radius: 8px; cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .btn-demo:hover { border-color: var(--orange); color: var(--orange); }
+    .btn-sm {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted2); padding: 8px 16px;
+      border-radius: 6px; font-size: 13px;
+      cursor: pointer; transition: all 0.2s; font-family: inherit;
+    }
+    .btn-sm:hover { border-color: var(--orange); color: var(--orange); }
+    .need-key-btn {
+      font-size: 11px; color: var(--teal);
+      background: none; border: 1px solid var(--border);
+      border-radius: 6px; padding: 3px 10px;
+      cursor: pointer; font-family: inherit; white-space: nowrap;
+    }
+    .need-key-btn:hover { border-color: var(--teal); }
+
+    /* ── Loading ── */
+    .loading { display: none; text-align: center; padding: 40px; }
+    .fun-loader { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .loader-emoji { font-size: 3rem; animation: bounce 0.7s ease-in-out infinite alternate; }
+    .loader-msg { font-size: 1rem; color: var(--orange); font-weight: 500; min-height: 1.4em; transition: opacity 0.4s; }
+    .loader-sub { font-size: 0.8rem; color: var(--muted); }
+    @keyframes bounce {
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-10px) scale(1.1); }
+    }
+
+    /* ── Output ── */
+    .output { display: none; margin-top: 20px; }
+    .output-header {
+      display: flex; align-items: center;
+      justify-content: space-between; margin-bottom: 16px;
+      flex-wrap: wrap; gap: 10px;
+    }
+    .output-header h2 { font-size: 18px; font-weight: 800; }
+
+    /* Prep sections */
+    .prep-section {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 18px 20px; margin-bottom: 12px;
+    }
+    .prep-section-title {
+      font-size: 11px; font-weight: 800; letter-spacing: 2px;
+      text-transform: uppercase; margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .prep-section-body { font-size: 14px; color: var(--muted2); line-height: 1.7; }
+    .prep-section-body strong { color: var(--white); }
+
+    .agenda-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .agenda-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .agenda-time {
+      font-size: 11px; font-weight: 700; color: var(--orange);
+      background: var(--orange-dim); border: 1px solid rgba(234,88,12,0.2);
+      border-radius: 5px; padding: 3px 8px; white-space: nowrap; flex-shrink: 0; margin-top: 1px;
+    }
+    .agenda-topic { font-size: 13px; color: var(--white); font-weight: 600; }
+    .agenda-sub { font-size: 12px; color: var(--muted2); margin-top: 2px; }
+
+    .talking-point {
+      display: flex; gap: 10px; padding: 9px 0;
+      border-bottom: 1px solid var(--border); align-items: flex-start;
+    }
+    .talking-point:last-child { border-bottom: none; }
+    .tp-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; margin-top: 5px; }
+    .tp-text { font-size: 13px; color: var(--muted2); line-height: 1.55; }
+    .tp-text strong { color: var(--white); }
+
+    .question-pill {
+      display: inline-block; margin: 4px 4px 4px 0;
+      background: var(--teal-dim); border: 1px solid rgba(6,182,212,0.25);
+      color: var(--teal); font-size: 12px; font-weight: 600;
+      border-radius: 20px; padding: 5px 12px; line-height: 1.4;
+    }
+
+    .risk-item {
+      display: flex; gap: 10px; padding: 9px 0;
+      border-bottom: 1px solid var(--border); align-items: flex-start;
+    }
+    .risk-item:last-child { border-bottom: none; }
+    .risk-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+    .risk-text { font-size: 13px; color: var(--muted2); line-height: 1.55; }
+    .risk-text strong { color: var(--white); }
+
+    .goal-strip {
+      background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(16,185,129,0.03));
+      border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 10px; padding: 16px 20px; margin-bottom: 16px;
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .goal-icon { font-size: 22px; flex-shrink: 0; }
+    .goal-label { font-size: 10px; font-weight: 800; letter-spacing: 2px; color: var(--green); text-transform: uppercase; margin-bottom: 5px; }
+    .goal-text { font-size: 14px; color: var(--white); line-height: 1.6; }
+
+    /* Raw fallback */
+    .raw-output {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; padding: 24px;
+      white-space: pre-wrap; font-size: 13px;
+      line-height: 1.8; color: var(--muted2);
+    }
+    .error-box {
+      background: var(--red-dim); border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 8px; padding: 16px; color: #FCA5A5;
+      font-size: 14px; display: none; margin-top: 12px;
+    }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 16px; padding: 28px; max-width: 520px; width: 100%;
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .modal-title { font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; }
+    .modal-close { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 22px; line-height: 1; padding: 0 4px; }
+    .modal-close:hover { color: var(--white); }
+    .onboard-steps { display: grid; gap: 10px; margin: 14px 0; }
+    .onboard-step { display: flex; gap: 12px; align-items: flex-start; }
+    .step-num-circle {
+      width: 26px; height: 26px; border-radius: 50%; background: var(--orange);
+      color: #fff; font-size: 12px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .step-text { font-size: 13px; color: var(--white); line-height: 1.55; }
+    .step-link-big {
+      display: inline-block; color: #fff; font-weight: 800; font-size: 14px;
+      text-decoration: none; background: var(--orange);
+      padding: 7px 16px; border-radius: 8px; transition: opacity 0.2s;
+    }
+    .step-link-big:hover { opacity: 0.85; }
+    .key-privacy {
+      background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25);
+      border-radius: 8px; padding: 9px 14px; font-size: 12px;
+      color: #6EE7B7; margin-top: 12px; display: flex; align-items: center; gap: 8px;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border); padding: 28px 32px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    footer p { font-size: 13px; color: var(--muted); }
+    footer a { color: var(--teal); text-decoration: none; }
+    .footer-share { display: flex; align-items: center; gap: 10px; }
+    .fsb {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--border-bright); color: var(--muted2);
+      font-size: 12px; font-weight: 600; padding: 7px 14px;
+      border-radius: 7px; text-decoration: none; transition: border-color 0.2s, color 0.2s;
+    }
+    .fsb:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── Mobile ── */
+    @media (max-width: 640px) {
+      header { padding: 11px 16px; }
+      .hero { padding: 28px 16px 20px; }
+      h1 { font-size: 28px; }
+      .tagline { font-size: 14px; }
+      .stat-row { gap: 20px; }
+      .stat-num { font-size: 20px; }
+      .steps-grid {
+        grid-template-columns: 1fr; gap: 0; padding: 0 14px;
+        border: 1px solid var(--border); border-radius: 12px;
+        overflow: hidden; margin-left: 14px; margin-right: 14px;
+      }
+      .step-card { border-radius: 0; border: none; border-bottom: 1px solid var(--border); padding: 12px 14px; }
+      .step-card:last-child { border-bottom: none; }
+      .main { padding: 0 14px 60px; }
+      .card { padding: 16px; }
+      .grid-2 { grid-template-columns: 1fr; }
+      .btn-run { font-size: 15px; padding: 16px; }
+      .output-header { flex-direction: column; align-items: flex-start; }
+      footer { padding: 20px 16px; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
+      .footer-share { justify-content: center; flex-wrap: wrap; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" class="nav-back">← All Tools</a>
+    <div class="nav-badge">Day 06 of 20</div>
+  </header>
+
+  <div class="hero">
+    <div class="day-label">Automation #6 of 20</div>
+    <h1>Walk Into Every Meeting<br><span>Fully Prepared.</span></h1>
+    <p class="tagline">Tell AI who you're meeting and why. Get back a full prep brief — agenda, talking points,
+      questions to ask, and risks to watch — in 30 seconds.</p>
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-num">30 sec</div>
+        <div class="stat-lbl">to prep any meeting</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Zero</div>
+        <div class="stat-lbl">scrambling before calls</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">Free</div>
+        <div class="stat-lbl">Gemini 3.1 · no cost</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Start Guide -->
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-circle" style="background:var(--orange)">1</div>
+      <div>
+        <div class="step-title">Get a free API key</div>
+        <div class="step-desc">Paste your Gemini key below. Free at <a href="https://aistudio.google.com/apikey"
+            target="_blank">AI Studio</a> — no credit card.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-circle" style="background:var(--orange)">2</div>
+      <div>
+        <div class="step-title">Describe your meeting</div>
+        <div class="step-desc">Who you're meeting, what you want to achieve, and what you already know about them.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-circle" style="background:var(--amber);color:#000">3</div>
+      <div>
+        <div class="step-title">Get your prep brief</div>
+        <div class="step-desc">AI builds your agenda, talking points, smart questions, and risk flags. Walk in confident.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- API Key Card -->
+    <div class="card collapsible" id="card-keys">
+      <div class="card-header" onclick="toggleCard('card-keys')">
+        <div class="card-title">🔑 API Key <span style="font-weight:400;color:#6EE7B7;font-size:.78rem">— free, no credit card</span></div>
+        <span class="card-status" id="card-keys-status"></span>
+        <button class="card-toggle" aria-label="Toggle">▾</button>
+      </div>
+      <div class="card-body">
+        <div class="row" style="margin-bottom:10px">
+          <input type="password" id="apiKey" placeholder="Gemini API key — aistudio.google.com" style="flex:1;min-width:200px" />
+          <button class="btn btn-ghost" onclick="toggleKey()">Show</button>
+          <button class="btn btn-teal" onclick="saveKey()">Save</button>
+        </div>
+        <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com/apikey"
+            target="_blank">aistudio.google.com/apikey</a> — <button onclick="showKeyModal()"
+            class="need-key-btn">Step-by-step help →</button></div>
+      </div>
+    </div>
+
+    <!-- Meeting Details Card -->
+    <div class="card collapsible" id="card-meeting">
+      <div class="card-header" onclick="toggleCard('card-meeting')">
+        <div class="card-title">📅 Meeting Details</div>
+        <span class="card-status" id="card-meeting-status"></span>
+        <button class="card-toggle" aria-label="Toggle">▾</button>
+      </div>
+      <div class="card-body">
+        <div class="grid-2">
+          <div class="field">
+            <label>Meeting Title / Purpose</label>
+            <input type="text" id="meetingTitle" placeholder="e.g. Discovery call with Apex HVAC" />
+          </div>
+          <div class="field">
+            <label>Meeting Type</label>
+            <select id="meetingType">
+              <option>Sales Discovery</option>
+              <option>Sales Follow-Up / Close</option>
+              <option>Client Check-In</option>
+              <option>Kickoff / Onboarding</option>
+              <option>Partnership / Vendor</option>
+              <option>Internal Team Meeting</option>
+              <option>Investor / Pitch</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label>Who You're Meeting</label>
+            <input type="text" id="attendees" placeholder="e.g. Sarah Chen, VP Operations at Apex HVAC" />
+          </div>
+          <div class="field">
+            <label>Meeting Length</label>
+            <select id="duration">
+              <option value="30">30 minutes</option>
+              <option value="45">45 minutes</option>
+              <option value="60" selected>60 minutes</option>
+              <option value="90">90 minutes</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:14px">
+          <label>What's Your #1 Goal for This Meeting?</label>
+          <input type="text" id="meetingGoal" placeholder="e.g. Understand their pain points and qualify budget" />
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label>What You Already Know (optional)</label>
+          <div class="example-box">
+            <strong>Paste anything useful:</strong> recent news about their company, past emails, notes from a previous call, LinkedIn bio, deal context — AI will weave it all into your prep.
+          </div>
+          <textarea id="context" placeholder="e.g. Met at a trade show last month. They're switching from ServiceTitan. Sarah mentioned they have 4 crews and want to reduce scheduling time. Budget is around $500/mo..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Run Buttons -->
+    <button class="btn-run" id="runBtn" onclick="runPrep()">🎯 Build My Meeting Brief</button>
+    <button class="btn-demo" onclick="runDemo()">▶ Run Demo (no API key needed)</button>
+    <div class="error-box" id="errorBox"></div>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+      <div class="fun-loader">
+        <div class="loader-emoji" id="loaderEmoji">🎯</div>
+        <div class="loader-msg" id="loaderMsg">Researching your meeting...</div>
+        <div class="loader-sub">This usually takes 5–10 seconds</div>
+      </div>
+    </div>
+
+    <!-- Output -->
+    <div class="output" id="output">
+      <div class="output-header">
+        <h2>📋 Your Meeting Brief</h2>
+        <button class="btn-sm" onclick="copyOutput()">Copy Brief</button>
+      </div>
+      <div id="outputContent"></div>
+    </div>
+
+  </div>
+
+  <!-- Key Onboarding Modal -->
+  <div id="keyModal" style="display:none" class="modal-overlay" onclick="if(event.target===this)closeKeyModal()">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div class="modal-title">🔑 Get Your Free API Key</div>
+        <button class="modal-close" onclick="closeKeyModal()">×</button>
+      </div>
+      <div class="onboard-steps">
+        <div class="onboard-step">
+          <div class="step-num-circle">1</div>
+          <div class="step-text">Go to Google AI Studio and sign in with your Google account:<br><a
+              href="https://aistudio.google.com/apikey" target="_blank" class="step-link-big"
+              style="margin-top:6px">Open AI Studio →</a></div>
+        </div>
+        <div class="onboard-step">
+          <div class="step-num-circle">2</div>
+          <div class="step-text">Click <strong>"Create API Key"</strong> — it generates instantly. No credit card required.</div>
+        </div>
+        <div class="onboard-step">
+          <div class="step-num-circle">3</div>
+          <div class="step-text">Copy the key (starts with <code style="color:var(--orange)">AIza...</code>) and paste it in the field above.</div>
+        </div>
+      </div>
+      <div class="key-privacy">🔒 Your key stays in your browser only. Never sent to our servers.</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>Built by <a href="https://aimersion.ai">Aimersion AI</a> · Part of <strong>20 Automations in 20 Days</strong> ·
+      <a href="https://x.com/jimlynchAI" target="_blank">@jimlynchAI</a>
+    </p>
+    <div class="footer-share">
+      <a class="fsb"
+        href="https://twitter.com/intent/tweet?text=Day%206%20of%2020%20free%20AI%20tools%20%E2%80%94%20Meeting%20Prep%20Assistant%20just%20dropped%20%F0%9F%94%A5%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/day-06-meeting-prep.html"
+        target="_blank" rel="noopener">𝕏 Share</a>
+      <a class="fsb"
+        href="https://www.linkedin.com/sharing/share-offsite/?url=https://aimersion.github.io/ai-automations/day-06-meeting-prep.html"
+        target="_blank" rel="noopener">in Share</a>
+    </div>
+  </footer>
+
+  <script>
+    // ─── Collapsible Cards ────────────────────────────────
+    function toggleCard(id) { document.getElementById(id)?.classList.toggle('collapsed'); updateStatuses(); }
+    function updateStatuses() {
+      const ks = document.getElementById('card-keys-status');
+      if (ks) ks.textContent = localStorage.getItem('gemini_key') ? '✓ Saved' : '';
+      const ms = document.getElementById('card-meeting-status');
+      if (ms) ms.textContent = document.getElementById('meetingTitle')?.value.trim() ? '✓ Ready' : '';
+    }
+    function initCollapsed() {
+      updateStatuses();
+      if (localStorage.getItem('gemini_key')) {
+        document.getElementById('card-keys')?.classList.add('collapsed');
+      }
+    }
+
+    // ─── API Key ──────────────────────────────────────────
+    function toggleKey() { const e = document.getElementById('apiKey'); e.type = e.type === 'password' ? 'text' : 'password'; }
+    function saveKey() {
+      const val = document.getElementById('apiKey').value.trim();
+      if (!val) { showToast('⚠️ Paste your Gemini API key first.', '#d97706'); return; }
+      localStorage.setItem('gemini_key', val);
+      showToast('✓ API key saved!', '#059669');
+      updateStatuses();
+    }
+    function showToast(msg, color) {
+      const t = document.createElement('div');
+      t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${color || 'var(--orange)'};color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;font-family:Inter,system-ui,sans-serif;`;
+      t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000);
+    }
+    function showKeyModal() { document.getElementById('keyModal').style.display = ''; }
+    function closeKeyModal() { document.getElementById('keyModal').style.display = 'none'; }
+
+    // ─── Fun Loader ───────────────────────────────────────
+    const LOADER_FRAMES = [
+      { emoji: '🎯', msg: 'Researching your meeting...' },
+      { emoji: '🧠', msg: 'Building your agenda...' },
+      { emoji: '💬', msg: 'Crafting talking points...' },
+      { emoji: '❓', msg: 'Generating smart questions...' },
+      { emoji: '⚠️', msg: 'Spotting potential risks...' },
+      { emoji: '✅', msg: 'Defining success criteria...' },
+      { emoji: '📋', msg: 'Assembling your brief...' },
+    ];
+    let _loaderInterval = null;
+    function startLoader() {
+      stopLoader();
+      let i = 0;
+      _loaderInterval = setInterval(() => {
+        i = (i + 1) % LOADER_FRAMES.length;
+        const e = document.getElementById('loaderEmoji'), m = document.getElementById('loaderMsg');
+        if (e) e.textContent = LOADER_FRAMES[i].emoji;
+        if (m) { m.style.opacity = 0; setTimeout(() => { m.textContent = LOADER_FRAMES[i].msg; m.style.opacity = 1; }, 200); }
+      }, 2200);
+    }
+    function stopLoader() { if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; } }
+
+    // ─── Demo ─────────────────────────────────────────────
+    function runDemo() {
+      showLoading();
+      setTimeout(() => { hideLoading(); renderDemoOutput(); }, 2500);
+    }
+
+    function renderDemoOutput() {
+      const html = `
+      <div class="goal-strip">
+        <div class="goal-icon">🎯</div>
+        <div>
+          <div class="goal-label">Meeting Goal</div>
+          <div class="goal-text">Understand pain points, qualify budget, and position Vertex Consulting as the right partner. Leave with a clear next step — either a proposal or a follow-up with the decision maker.</div>
+        </div>
+      </div>
+
+      <div class="prep-section">
+        <div class="prep-section-title" style="color:var(--orange)">📅 Suggested Agenda <span style="color:var(--muted);font-weight:400;font-size:10px;margin-left:4px">60 min</span></div>
+        <div class="agenda-item">
+          <div class="agenda-time">0–5 min</div>
+          <div><div class="agenda-topic">Rapport & housekeeping</div><div class="agenda-sub">Confirm recording, set agenda, ask if anything urgent changed since scheduling.</div></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">5–20 min</div>
+          <div><div class="agenda-topic">Their world — discovery</div><div class="agenda-sub">Current process, what's broken, what they've already tried. Let them talk 80% here.</div></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">20–35 min</div>
+          <div><div class="agenda-topic">Business impact — dig deeper</div><div class="agenda-sub">Quantify the pain. How much time, money, or growth is the current problem costing them?</div></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">35–50 min</div>
+          <div><div class="agenda-topic">Our fit — light positioning</div><div class="agenda-sub">Connect what they said to what you do. Don't pitch yet — frame how you solve exactly what they described.</div></div>
+        </div>
+        <div class="agenda-item">
+          <div class="agenda-time">50–60 min</div>
+          <div><div class="agenda-topic">Next steps — close the loop</div><div class="agenda-sub">Confirm decision process, timeline, and lock a specific next step before leaving the call.</div></div>
+        </div>
+      </div>
+
+      <div class="prep-section">
+        <div class="prep-section-title" style="color:var(--teal)">💬 Talking Points</div>
+        <div class="talking-point"><div class="tp-dot"></div><div class="tp-text"><strong>Lead with their trade show comment.</strong> "You mentioned wanting to reduce scheduling time — that's the exact problem we hear most from HVAC operators your size. Tell me more about how you're handling that today."</div></div>
+        <div class="talking-point"><div class="tp-dot"></div><div class="tp-text"><strong>ServiceTitan migration is a buying signal.</strong> Companies actively switching platforms are 3× more likely to buy. Acknowledge the pain without badmouthing the competition: "Switching platforms is a big decision — what finally pushed you to evaluate something new?"</div></div>
+        <div class="talking-point"><div class="tp-dot"></div><div class="tp-text"><strong>4 crews = specific ROI math.</strong> If you can save 30 min/crew/day, that's 2 hours daily. At $50/hr that's $500/week saved — far more than the $500/mo budget she mentioned.</div></div>
+        <div class="talking-point"><div class="tp-dot"></div><div class="tp-text"><strong>Position as the easy migration.</strong> If ServiceTitan data export is a concern, lead with: "We've done this migration 40+ times — here's exactly what the process looks like."</div></div>
+      </div>
+
+      <div class="prep-section">
+        <div class="prep-section-title" style="color:var(--amber)">❓ Questions to Ask</div>
+        <div style="padding-top:4px">
+          <span class="question-pill">What does your current scheduling process look like on a busy day?</span>
+          <span class="question-pill">What made you start looking at alternatives to ServiceTitan?</span>
+          <span class="question-pill">Who else is involved in this decision besides you?</span>
+          <span class="question-pill">What would success look like 90 days after switching?</span>
+          <span class="question-pill">Is the $500/mo range firm, or does it depend on ROI?</span>
+          <span class="question-pill">What's your timeline for making a decision?</span>
+          <span class="question-pill">What would make you say no to moving forward?</span>
+        </div>
+      </div>
+
+      <div class="prep-section">
+        <div class="prep-section-title" style="color:var(--red)">⚠️ Risks to Watch</div>
+        <div class="risk-item"><div class="risk-icon">⚠️</div><div class="risk-text"><strong>She may not be the final decision maker.</strong> VP Ops often needs sign-off from the owner. Ask early: "Is this a decision you can make, or does it need to go to ownership?"</div></div>
+        <div class="risk-item"><div class="risk-icon">⚠️</div><div class="risk-text"><strong>ServiceTitan switching costs may stall the deal.</strong> They may feel locked in by data or training investment. Have a data migration story ready.</div></div>
+        <div class="risk-item"><div class="risk-icon">⚠️</div><div class="risk-text"><strong>Budget anchor at $500/mo is low.</strong> Don't let it cap the conversation. Reframe around ROI before price comes up.</div></div>
+      </div>
+      `;
+      document.getElementById('outputContent').innerHTML = html;
+      document.getElementById('output').style.display = 'block';
+      document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ─── Real API Call ────────────────────────────────────
+    async function runPrep() {
+      const apiKey = document.getElementById('apiKey').value.trim() || localStorage.getItem('gemini_key') || '';
+      const title = document.getElementById('meetingTitle').value.trim();
+      const type = document.getElementById('meetingType').value;
+      const attendees = document.getElementById('attendees').value.trim();
+      const duration = document.getElementById('duration').value;
+      const goal = document.getElementById('meetingGoal').value.trim();
+      const context = document.getElementById('context').value.trim();
+
+      if (!apiKey) { showToast('⚠️ Enter your Gemini API key or click Run Demo.', '#d97706'); return; }
+      if (!title) { showToast('⚠️ Add a meeting title first.', '#d97706'); return; }
+
+      showLoading();
+
+      const prompt = `You are an elite business meeting coach. Prepare a comprehensive pre-meeting brief for the following meeting.
+
+MEETING DETAILS:
+Title: ${title}
+Type: ${type}
+Attendees: ${attendees || 'Not specified'}
+Duration: ${duration} minutes
+Goal: ${goal || 'Not specified'}
+Context / Background: ${context || 'None provided'}
+
+Produce a structured meeting prep brief with EXACTLY these five sections:
+
+MEETING GOAL
+One clear sentence defining what success looks like at the end of this meeting.
+
+SUGGESTED AGENDA
+A realistic minute-by-minute agenda for a ${duration}-minute meeting. Format each item as: [TIME BLOCK] | [TOPIC] | [WHAT TO DO/SAY]
+
+TALKING POINTS
+4–6 specific, actionable talking points tailored to this meeting and these attendees. Be specific — generic advice is useless. Each point should have a bold headline and 1–2 sentences of detail.
+
+QUESTIONS TO ASK
+6–8 smart, open-ended questions designed to achieve the meeting goal. These should be questions that get the other party talking and reveal the information you need.
+
+RISKS TO WATCH
+3–4 specific risks, objections, or pitfalls for this exact meeting — with a brief note on how to handle each.
+
+Be direct and practical. Every word should be actionable. Tailor everything to the specific meeting, attendees, and context provided.`;
+
+      try {
+        const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { maxOutputTokens: 2048 } })
+        });
+        if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || `API error ${resp.status}`); }
+        const data = await resp.json();
+        const text = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response received.';
+        hideLoading();
+        document.getElementById('outputContent').innerHTML = `<div class="raw-output">${escapeHtml(text)}</div>`;
+        document.getElementById('output').style.display = 'block';
+        document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } catch (err) {
+        hideLoading();
+        const eb = document.getElementById('errorBox');
+        eb.style.display = 'block';
+        eb.textContent = `Error: ${err.message}. Check your API key and try again.`;
+      }
+    }
+
+    function escapeHtml(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function showLoading() {
+      document.getElementById('runBtn').disabled = true;
+      document.getElementById('output').style.display = 'none';
+      document.getElementById('errorBox').style.display = 'none';
+      document.getElementById('loading').style.display = 'block';
+      startLoader();
+    }
+    function hideLoading() {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('runBtn').disabled = false;
+      stopLoader();
+    }
+    function copyOutput() {
+      const el = document.querySelector('.raw-output') || document.getElementById('outputContent');
+      if (el) navigator.clipboard.writeText(el.textContent).then(() => {
+        const btn = document.querySelector('.btn-sm');
+        btn.textContent = '✓ Copied!'; setTimeout(() => btn.textContent = 'Copy Brief', 2000);
+      });
+    }
+
+    // ─── Init ─────────────────────────────────────────────
+    window.addEventListener('load', () => {
+      const gk = localStorage.getItem('gemini_key');
+      if (gk) document.getElementById('apiKey').value = gk;
+      initCollapsed();
+      document.getElementById('meetingTitle').addEventListener('input', updateStatuses);
+    });
+  </script>
+</body>
+</html>
