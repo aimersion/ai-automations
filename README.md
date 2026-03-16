@@ -27,10 +27,10 @@ You need one free API key from [Google AI Studio](https://aistudio.google.com/ap
 | 05 | 🔒 **[Pipeline Prioritizer](https://aimersion.github.io/ai-automations/day-05-pipeline-prioritizer.html)** | Paste your CRM deals and let AI rank which to work this week — with reasoning and next actions for each | ✅ **Live** |
 | 06 | 🗓️ **[Meeting Prep Brief](https://aimersion.github.io/ai-automations/day-06-meeting-prep.html)** | Paste a meeting invite and get a full briefing — attendee research, agenda, talk track, and objection prep | ✅ **Live** |
 | 07 | 🤝 **[Client Onboarding Kit](https://aimersion.github.io/ai-automations/day-07-client-onboarding.html)** | Generate a full onboarding package in seconds — welcome email, kickoff agenda, week 1 checklist, and intake questionnaire | ✅ **Live** |
-| 08 | 🔒 | *Unlocks Day 8* | 🔒 Coming |
-| 09 | 🔒 | *Unlocks Day 9* | 🔒 Coming |
-| 10 | 🔒 | *Unlocks Day 10* | 🔒 Coming |
-| 11 | 🔒 | *Unlocks Day 11* | 🔒 Coming |
+| 08 | 📨 **[Follow-Up Machine](https://aimersion.github.io/ai-automations/day-08-followup-machine.html)** | Meeting just ended? Connect Outlook, add your notes, and send a polished follow-up email with action items and a CRM note — in 60 seconds | ✅ **Live** |
+| 09 | 📊 **[Weekly Status Report](https://aimersion.github.io/ai-automations/day-09-weekly-status.html)** | Connect Outlook and Microsoft Calendar — AI reads your sent emails and meetings from the past week and writes your status report for you | ✅ **Live** |
+| 10 | 🎯 **[Cold Outreach Personalizer](https://aimersion.github.io/ai-automations/day-10-cold-outreach.html)** | Paste a company name and what you do — AI researches their world and generates a personalized cold email, LinkedIn DM, and 3-touch follow-up sequence | ✅ **Live** |
+| 11 | 📄 **[Scope of Work Generator](https://aimersion.github.io/ai-automations/day-11-scope-of-work.html)** | Pull context from your proposal emails, fill in the project details, and generate a complete professional SOW ready to send to the client via Outlook | ✅ **Live** |
 | 12 | 🔒 | *Unlocks Day 12* | 🔒 Coming |
 | 13 | 🔒 | *Unlocks Day 13* | 🔒 Coming |
 | 14 | 🔒 | *Unlocks Day 14* | 🔒 Coming |
@@ -126,7 +126,7 @@ PRs welcome. Each tool is a single self-contained HTML file — no build step, n
 
 New tool drops every day. Follow the series:
 - 🌐 [aimersion.github.io/ai-automations](https://aimersion.github.io/ai-automations/)
-- 🐦 Share on X: [Tweet about this](https://twitter.com/intent/tweet?text=20%20free%20AI%20tools%20in%2020%20days%20%E2%80%94%20real%20email%20access%2C%20zero%20backend%2C%20runs%20in%20your%20browser.%20Day%207%20is%20live%20now%20%F0%9F%94%A5&url=https://aimersion.github.io/ai-automations/)
+- 🐦 Share on X: [Tweet about this](https://twitter.com/intent/tweet?text=11%20of%2020%20free%20AI%20tools%20now%20live%20%E2%80%94%20Day%2011%3A%20Scope%20of%20Work%20Generator%20just%20dropped%20%F0%9F%94%A5%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/)
 - 💼 [Aimersion AI](https://aimersion.ai)
 
 ---
