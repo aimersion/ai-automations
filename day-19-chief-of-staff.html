@@ -806,6 +806,23 @@
       return localStorage.getItem('gemini_key');
     }
 
+    function initializeSettings() {
+      const savedKey = localStorage.getItem('gemini_key');
+      if (savedKey) {
+        const geminiKeyInput = document.getElementById('geminiKey');
+        if (geminiKeyInput) {
+          geminiKeyInput.value = '•'.repeat(20); // Show masking instead of actual key
+          geminiKeyInput.setAttribute('data-key-saved', 'true');
+        }
+      }
+    }
+
+    // Initialize on page load
+    window.addEventListener('load', () => {
+      initializeSettings();
+      checkOutlookStatus();
+    });
+
     // ====================
     // GRAPH API CALLS
     // ====================
@@ -1073,7 +1090,7 @@ Be concise. No fluff. Every sentence must earn its place.`;
           </div>
           <div class="item-preview">${email.bodyPreview || '(No preview)'}</div>
           <div class="item-actions">
-            <button class="btn-action" onclick="alert('Draft reply feature in Day 20 Command Center')">Draft Reply</button>
+            <button class="btn-action" onclick="showToast('Draft reply feature in Day 20 Command Center')">Draft Reply</button>
           </div>
         </div>`;
       });
@@ -1143,7 +1160,7 @@ Be concise. No fluff. Every sentence must earn its place.`;
           </div>
           <div class="item-preview">${email.bodyPreview || '(No preview)'}</div>
           <div class="item-actions">
-            <button class="btn-action" onclick="alert('Full email and reply compose in Day 20')">View & Reply</button>
+            <button class="btn-action" onclick="showToast('Full email and reply compose in Day 20')">View & Reply</button>
           </div>
         </div>`;
       });
@@ -1390,6 +1407,21 @@ Be concise. No fluff. Every sentence must earn its place.`;
       setTimeout(() => {
         errorContainer.innerHTML = '';
       }, 3000);
+    }
+
+    function showToast(msg, duration = 3000) {
+      let t = document.getElementById('_toast');
+      if (!t) {
+        t = document.createElement('div');
+        t.id = '_toast';
+        t.style.cssText = 'display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#0F1829;border:1px solid #1E293B;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F1F5F9;transition:opacity 0.3s;';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg;
+      t.style.display = 'block';
+      t.style.opacity = '1';
+      clearTimeout(t._timeout);
+      t._timeout = setTimeout(() => { t.style.opacity='0'; setTimeout(()=>{t.style.display='none';},300); }, duration);
     }
 
     function sanitizeHTML(str) {

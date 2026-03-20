@@ -799,7 +799,7 @@
     const MSAL_CONFIG = {
       auth: {
         clientId: AZURE_CLIENT_ID,
-        authority: 'https://login.microsoftsoftware.com/common'
+        authority: 'https://login.microsoftonline.com/common'
       },
       cache: {
         cacheLocation: 'sessionStorage',
@@ -957,7 +957,7 @@
             <div class="activity-meta">${sanitizeHTML(item.meta)}</div>
           </div>
           <div class="activity-exclude">
-            <input type="checkbox" class="checkbox" data-item-id="${item.id}" onchange="toggleItemExclusion('${item.id}')">
+            <input type="checkbox" class="checkbox" data-item-id="${sanitizeAttribute(item.id)}" onchange="toggleItemExclusion(this.getAttribute('data-item-id'))">
           </div>
         </div>
       `).join('');
@@ -965,11 +965,16 @@
       document.getElementById('activity-list').innerHTML = html;
     }
 
+    function sanitizeAttribute(str) {
+      return (str || '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
     function toggleItemExclusion(itemId) {
+      if (!itemId) return;
       const checkbox = document.querySelector(`[data-item-id="${itemId}"]`);
-      if (checkbox.checked) {
+      if (checkbox && checkbox.checked) {
         excludedItems.add(itemId);
-      } else {
+      } else if (checkbox) {
         excludedItems.delete(itemId);
       }
     }
@@ -1115,6 +1120,7 @@ Blockers:
         return;
       }
       localStorage.setItem('gemini_key', key);
+      document.getElementById('gemini-key').value = '';
       showAuthStatus('API key saved successfully', 'success');
       toggleSettings();
     }
@@ -1217,8 +1223,9 @@ Blockers:
       initMsal();
 
       // Load saved API key if exists
-      if (localStorage.getItem('gemini_key')) {
-        document.getElementById('gemini-key').value = '••••••••••••••••';
+      const savedKey = localStorage.getItem('gemini_key');
+      if (savedKey) {
+        document.getElementById('gemini-key').value = savedKey;
       }
     });
   </script>

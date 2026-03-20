@@ -772,6 +772,14 @@
       document.getElementById('benefits').value = inputs.benefits;
     }
 
+    // Pre-fill API key on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedKey = localStorage.getItem('gemini_key');
+      if (savedKey && document.getElementById('gemini-key')) {
+        document.getElementById('gemini-key').value = savedKey;
+      }
+    });
+
     function runDemo() {
       const demoInputs = {
         jobTitle: 'Senior Product Manager — Growth',
@@ -859,6 +867,7 @@
         } else {
           showError('Unexpected API response.');
         }
+        if (apiKey) localStorage.setItem('gemini_key', apiKey);
       } catch (error) {
         showError(`Error generating JD: ${error.message}`);
       }

@@ -637,6 +637,7 @@
                 <div class="tag">✏️ Inline Editing</div>
                 <div class="tag">📬 Outlook Send</div>
             </div>
+            <button class="demo-button" id="settings-btn" onclick="openSettingsModal()" style="margin-top: 1rem;">⚙️ API Settings</button>
         </div>
 
         <!-- Setup Section -->
@@ -726,6 +727,20 @@
         </div>
     </div>
 
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <h3>Settings</h3>
+            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Gemini API Key</label>
+            <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem;">Get your free API key from <a href="https://aistudio.google.com" target="_blank" style="color: var(--teal);">Google AI Studio</a></p>
+            <input type="password" id="settings-api-key" class="modal-input" placeholder="Enter your Gemini API key">
+            <div class="modal-actions">
+                <button class="action-button" onclick="closeSettingsModal()">Cancel</button>
+                <button class="action-button primary" onclick="saveSettings()">Save</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Send Email Modal -->
     <div class="modal" id="send-modal">
         <div class="modal-content">
@@ -800,7 +815,7 @@
             try {
                 const apiKey = localStorage.getItem('gemini_key');
                 if (!apiKey) {
-                    showMessage('API key not configured. Click Settings to add your Gemini API key.', 'error');
+                    showMessage('API key not configured. Click the ⚙️ API Settings button at the top.', 'error');
                     document.getElementById('loading-skeleton').classList.add('hidden');
                     return;
                 }
@@ -1022,6 +1037,34 @@ Return JSON:
         }
 
         // Send modal
+        // Settings modal
+        function openSettingsModal() {
+            const savedKey = localStorage.getItem('gemini_key');
+            if (savedKey) {
+                document.getElementById('settings-api-key').value = '••••••••••••••••';
+            } else {
+                document.getElementById('settings-api-key').value = '';
+            }
+            document.getElementById('settings-modal').classList.add('active');
+            document.getElementById('settings-api-key').focus();
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').classList.remove('active');
+            document.getElementById('settings-api-key').value = '';
+        }
+
+        function saveSettings() {
+            const apiKey = document.getElementById('settings-api-key').value.trim();
+            if (!apiKey) {
+                showMessage('API key is required', 'error');
+                return;
+            }
+            localStorage.setItem('gemini_key', apiKey);
+            showMessage('Settings saved! Your API key is stored locally.', 'success');
+            closeSettingsModal();
+        }
+
         function openSendModal() {
             document.getElementById('send-modal').classList.add('active');
             document.getElementById('recipient-email').focus();
@@ -1148,7 +1191,10 @@ Return JSON:
 
         // Close modal on escape
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeSendModal();
+            if (e.key === 'Escape') {
+                closeSendModal();
+                closeSettingsModal();
+            }
         });
 
         // Initialize

@@ -991,6 +991,7 @@
         return;
       }
       localStorage.setItem('gemini_key', key);
+      document.getElementById('geminiKey').value = '';
       showToast('API key saved (stored locally in your browser)', 'success');
     }
 
@@ -1181,7 +1182,7 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
         <p>${document.getElementById('ratingJustification').value || 'Professional performance review'}</p>
       </div>`;
 
-      fullHTML += sanitizeHTML(data.fullReview || 'No full review generated');
+      fullHTML += sanitizeText(data.fullReview || 'No full review generated');
       document.getElementById('fullReviewContent').innerHTML = fullHTML;
 
       // Email
@@ -1252,6 +1253,14 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
       document.body.appendChild(toast);
       setTimeout(() => toast.remove(), 3000);
     }
+
+    // Pre-fill API key on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedKey = localStorage.getItem('gemini_key');
+      if (savedKey && document.getElementById('geminiKey')) {
+        document.getElementById('geminiKey').value = savedKey;
+      }
+    });
   </script>
 </body>
 </html>

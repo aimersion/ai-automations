@@ -1650,6 +1650,11 @@ Thank you for your business. Questions? Contact ${senderEmail}
     initMsal();
     setDueDate();
     updateTotals();
+    // Pre-fill saved API key
+    const savedKey = localStorage.getItem('gemini_key');
+    if (savedKey && document.getElementById('apiKey')) {
+      document.getElementById('apiKey').value = savedKey;
+    }
   });
 </script>
 
