@@ -1254,7 +1254,7 @@
         });
 
         const result = await geminiResponse.json();
-        const draftReply = result.contents?.[0]?.parts?.[0]?.text || 'Unable to generate reply';
+        const draftReply = result.candidates?.[0]?.content?.parts?.[0]?.text || 'Unable to generate reply';
 
         return `
           <div class="email-expanded" style="margin-top: 0.75rem;">
@@ -1391,7 +1391,7 @@ Format: bullet points, action-oriented, max 60 words total.`;
         });
 
         const result = await geminiResponse.json();
-        const brief = result.contents?.[0]?.parts?.[0]?.text || 'Unable to generate brief';
+        const brief = result.candidates?.[0]?.content?.parts?.[0]?.text || 'Unable to generate brief';
 
         const items = brief.split('\n').filter(line => line.trim()).slice(0, 5);
         const html = items.map(item => `<div class="brief-item">${item.replace(/^[-•]\s/, '')}</div>`).join('');
@@ -1431,7 +1431,7 @@ Format: bullet points, action-oriented, max 60 words total.`;
         });
 
         const result = await response.json();
-        const emailText = result.contents?.[0]?.parts?.[0]?.text || '';
+        const emailText = result.candidates?.[0]?.content?.parts?.[0]?.text || '';
         const [subjectMatch, bodyMatch] = [
           emailText.match(/SUBJECT:\s*(.+?)(?=BODY:|$)/i),
           emailText.match(/BODY:\s*(.+?)$/is)
