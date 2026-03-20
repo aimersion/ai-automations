@@ -438,7 +438,7 @@ async function initMsal() {
   }
   msalInstance = new msal.PublicClientApplication({
     auth: { clientId: AZURE_CLIENT_ID, authority: 'https://login.microsoftonline.com/common',
-            redirectUri: window.location.href.split('?')[0].split('#')[0] },
+            redirectUri: 'https://aimersion.github.io/ai-automations/auth.html' },
     cache: { cacheLocation: 'sessionStorage' }
   });
   await msalInstance.initialize();

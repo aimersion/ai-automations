@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Authenticating…</title>
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js"
+  onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';document.head.appendChild(s);})()"></script>
+<style>
+  body { background: #0F1F3D; color: #8AAFD0; font-family: 'Segoe UI', system-ui, sans-serif;
+         display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+  .msg { text-align: center; }
+  .spinner { width: 32px; height: 32px; border: 3px solid #2A4A70; border-top-color: #0891B2;
+             border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 1rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div class="msg">
+  <div class="spinner"></div>
+  <div>Completing sign-in…</div>
+</div>
+<script>
+// This page is used as the redirect URI for Microsoft OAuth popup flow.
+// MSAL handles the auth response and closes this popup automatically.
+(async function() {
+  try {
+    const msalInstance = new msal.PublicClientApplication({
+      auth: {
+        clientId: '0bd4af4c-6b02-481f-8c36-b2899333f44d',
+        authority: 'https://login.microsoftonline.com/common',
+        redirectUri: window.location.href.split('?')[0].split('#')[0]
+      },
+      cache: { cacheLocation: 'sessionStorage' }
+    });
+    await msalInstance.initialize();
+    await msalInstance.handleRedirectPromise();
+  } catch(e) {
+    console.warn('auth.html redirect handling:', e.message);
+  }
+})();
+</script>
+</body>
+</html>
