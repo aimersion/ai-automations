@@ -1,1897 +1,846 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI Command Center — 20 AI Tools in 20 Days</title>
-  <meta name="description" content="The final tool: one dashboard to run your entire business day. Inbox triage, morning brief, AI email compose, deal tracking, and sequence launch.">
-  <meta property="og:title" content="AI Command Center — 20 AI Tools in 20 Days">
-  <meta property="og:description" content="The final tool: one dashboard to run your entire business day. Inbox triage, morning brief, AI email compose, deal tracking, and sequence launch — all from one tab.">
-  <meta property="og:url" content="https://aimersion.github.io/ai-automations/day-20-command-center.html">
-  <meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
-  <meta property="og:type" content="website">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; connect-src https:; script-src 'self' https: 'unsafe-inline';">
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-  <!-- GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-69LQQBX0C1');</script>
-
-  <!-- Meta Pixel -->
-  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','876506382017154');fbq('track','PageView');</script>
-
-  <!-- LinkedIn -->
-  <script type="text/javascript">_linkedin_partner_id="514319631";window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];window._linkedin_data_partner_ids.push(_linkedin_partner_id);</script><script type="text/javascript">(function(l){if(!l){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[]}l=document.createElement("script");l.type="text/javascript";l.async=!0;l.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(l,s);})(window.linkedin_analytic_data);</script>
-
-  <!-- X Pixel -->
-  <script>!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');twq('config','tw-r848k-r848k');</script>
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --bg: #080E1A;
-      --surface: #0F1829;
-      --surface2: #162035;
-      --orange: #EA580C;
-      --teal: #06B6D4;
-      --text: #F1F5F9;
-      --muted: #94A3B8;
-      --border: #1E293B;
-      --success: #10B981;
-      --warning: #F59E0B;
-      --danger: #EF4444;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* Header */
-    header {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    .header-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .header-title span {
-      font-size: 0.75rem;
-      background: var(--surface2);
-      padding: 0.25rem 0.75rem;
-      border-radius: 4px;
-      color: var(--muted);
-    }
-
-    .connection-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 0.5rem 1rem;
-      background: var(--surface2);
-      border-radius: 6px;
-      font-size: 0.875rem;
-      color: var(--muted);
-    }
-
-    .connection-badge.connected {
-      color: var(--success);
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--danger);
-      animation: pulse 2s infinite;
-    }
-
-    .status-dot.live {
-      background: var(--orange);
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    button {
-      padding: 0.5rem 1rem;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 6px;
-      font-size: 0.875rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    button:hover {
-      background: var(--orange);
-      border-color: var(--orange);
-    }
-
-    button.secondary {
-      background: transparent;
-    }
-
-    button.secondary:hover {
-      background: var(--surface2);
-    }
-
-    /* Main Container */
-    .container {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    /* Dashboard Grid */
-    .dashboard {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin-bottom: 2rem;
-    }
-
-    @media (max-width: 1280px) {
-      .dashboard {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Module Card */
-    .module {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      min-height: 400px;
-      position: relative;
-    }
-
-    .module.full-width {
-      grid-column: 1 / -1;
-    }
-
-    .module-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .module-title {
-      font-size: 1rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .module-tabs {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .tab-button {
-      padding: 0.4rem 0.8rem;
-      font-size: 0.75rem;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .tab-button.active {
-      background: var(--orange);
-      border-color: var(--orange);
-      color: var(--text);
-    }
-
-    .tab-button:hover {
-      border-color: var(--teal);
-      color: var(--teal);
-    }
-
-    /* Module Actions */
-    .module-actions {
-      display: flex;
-      gap: 0.5rem;
-      margin-left: auto;
-    }
-
-    .icon-button {
-      width: 32px;
-      height: 32px;
-      padding: 0;
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all 0.2s;
-    }
-
-    .icon-button:hover {
-      background: var(--surface2);
-      border-color: var(--teal);
-      color: var(--teal);
-    }
-
-    /* Content */
-    .module-content {
-      flex: 1;
-      overflow-y: auto;
-    }
-
-    .email-card {
-      background: var(--surface2);
-      border-left: 3px solid var(--border);
-      padding: 1rem;
-      margin-bottom: 0.75rem;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .email-card:hover {
-      background: #1A2A40;
-      border-left-color: var(--teal);
-    }
-
-    .email-card.urgent {
-      border-left-color: var(--danger);
-    }
-
-    .email-card.respond {
-      border-left-color: var(--warning);
-    }
-
-    .email-card.fyi {
-      border-left-color: var(--teal);
-    }
-
-    .email-sender {
-      font-weight: 600;
-      font-size: 0.9rem;
-      margin-bottom: 0.25rem;
-    }
-
-    .email-subject {
-      font-size: 0.875rem;
-      color: var(--muted);
-      margin-bottom: 0.5rem;
-    }
-
-    .email-summary {
-      font-size: 0.875rem;
-      line-height: 1.4;
-      margin-bottom: 0.75rem;
-    }
-
-    .email-category {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .email-category.urgent {
-      background: rgba(239, 68, 68, 0.2);
-      color: var(--danger);
-    }
-
-    .email-category.respond {
-      background: rgba(245, 158, 11, 0.2);
-      color: var(--warning);
-    }
-
-    .email-category.fyi {
-      background: rgba(6, 182, 212, 0.2);
-      color: var(--teal);
-    }
-
-    /* Expanded Email */
-    .email-expanded {
-      background: var(--surface2);
-      padding: 1.5rem;
-      border-radius: 8px;
-      margin: 1rem 0;
-    }
-
-    .email-expanded-header {
-      font-weight: 600;
-      margin-bottom: 0.75rem;
-      color: var(--teal);
-      font-size: 0.9rem;
-    }
-
-    .email-expanded-content {
-      background: var(--bg);
-      padding: 1rem;
-      border-radius: 6px;
-      margin-bottom: 1rem;
-      font-size: 0.875rem;
-      line-height: 1.5;
-      max-height: 200px;
-      overflow-y: auto;
-    }
-
-    .email-expanded-actions {
-      display: flex;
-      gap: 0.5rem;
-    }
-
-    .email-expanded-actions button {
-      flex: 1;
-    }
-
-    /* Brief */
-    .brief-item {
-      padding: 0.75rem;
-      background: var(--surface2);
-      border-left: 3px solid var(--teal);
-      border-radius: 4px;
-      margin-bottom: 0.75rem;
-      font-size: 0.875rem;
-      line-height: 1.5;
-    }
-
-    /* Deal Card */
-    .deal-card {
-      background: var(--surface2);
-      padding: 1rem;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-      border-left: 3px solid var(--border);
-    }
-
-    .deal-card.hot {
-      border-left-color: var(--danger);
-    }
-
-    .deal-card.warm {
-      border-left-color: var(--warning);
-    }
-
-    .deal-card.at-risk {
-      border-left-color: var(--orange);
-    }
-
-    .deal-card.stalled {
-      border-left-color: var(--muted);
-    }
-
-    .deal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem;
-    }
-
-    .deal-company {
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .deal-health {
-      padding: 0.25rem 0.75rem;
-      border-radius: 4px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .deal-health.hot {
-      background: rgba(239, 68, 68, 0.2);
-      color: var(--danger);
-    }
-
-    .deal-health.warm {
-      background: rgba(245, 158, 11, 0.2);
-      color: var(--warning);
-    }
-
-    .deal-health.at-risk {
-      background: rgba(234, 88, 12, 0.2);
-      color: var(--orange);
-    }
-
-    .deal-health.stalled {
-      background: rgba(148, 163, 184, 0.2);
-      color: var(--muted);
-    }
-
-    .deal-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 0.75rem;
-    }
-
-    .deal-action {
-      font-size: 0.875rem;
-      color: var(--teal);
-      font-style: italic;
-    }
-
-    /* Input Fields */
-    input[type="text"],
-    input[type="email"],
-    textarea,
-    select {
-      width: 100%;
-      padding: 0.75rem;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 0.875rem;
-      margin-bottom: 0.75rem;
-      transition: all 0.2s;
-    }
-
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    textarea:focus,
-    select:focus {
-      outline: none;
-      border-color: var(--teal);
-      background: var(--bg);
-    }
-
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    /* Sequence Preview */
-    .sequence-email {
-      background: var(--bg);
-      padding: 1rem;
-      border-radius: 6px;
-      margin-bottom: 0.75rem;
-      border-left: 3px solid var(--teal);
-      font-size: 0.85rem;
-    }
-
-    .sequence-email-num {
-      color: var(--teal);
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-
-    .sequence-email-subject {
-      color: var(--muted);
-      font-size: 0.8rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .sequence-email-body {
-      line-height: 1.4;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Loading */
-    .loading {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--muted);
-      font-size: 0.875rem;
-    }
-
-    .spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--border);
-      border-top-color: var(--teal);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      color: var(--muted);
-      text-align: center;
-      min-height: 200px;
-    }
-
-    .empty-state-icon {
-      font-size: 2.5rem;
-      opacity: 0.5;
-    }
-
-    /* Footer */
-    .celebration {
-      background: linear-gradient(135deg, var(--surface) 0%, var(--surface2) 100%);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 3rem 2rem;
-      text-align: center;
-      margin-top: 4rem;
-      margin-bottom: 2rem;
-    }
-
-    .celebration-emoji {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-    }
-
-    .celebration h2 {
-      font-size: 1.75rem;
-      margin-bottom: 1rem;
-      font-weight: 800;
-    }
-
-    .celebration p {
-      color: var(--muted);
-      margin-bottom: 2rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-      line-height: 1.6;
-    }
-
-    .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
-      max-width: 1200px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .tool-link {
-      padding: 1rem;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      text-decoration: none;
-      transition: all 0.2s;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-
-    .tool-link:hover {
-      background: var(--orange);
-      border-color: var(--orange);
-    }
-
-    .celebration-cta {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      margin-top: 2rem;
-    }
-
-    .cta-button {
-      padding: 0.75rem 1.5rem;
-      background: var(--orange);
-      border: none;
-      color: white;
-      border-radius: 6px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s;
-    }
-
-    .cta-button:hover {
-      background: #D94700;
-    }
-
-    .cta-button.secondary {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    .cta-button.secondary:hover {
-      background: var(--surface2);
-      border-color: var(--teal);
-      color: var(--teal);
-    }
-
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.8);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal.active {
-      display: flex;
-    }
-
-    .modal-content {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 600px;
-      width: 90%;
-      max-height: 80vh;
-      overflow-y: auto;
-      position: relative;
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 32px;
-      height: 32px;
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-
-    .modal-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-
-    /* Settings */
-    .settings-group {
-      margin-bottom: 1.5rem;
-    }
-
-    .settings-group label {
-      display: block;
-      font-size: 0.875rem;
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: var(--text);
-    }
-
-    .settings-group input[type="password"] {
-      width: 100%;
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .header-left {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-      }
-
-      .header-right {
-        flex-direction: column;
-        width: 100%;
-      }
-
-      .header-right button {
-        width: 100%;
-      }
-
-      .container {
-        padding: 1rem;
-      }
-
-      .dashboard {
-        gap: 1rem;
-      }
-
-      .module {
-        min-height: 300px;
-      }
-
-      .module-title {
-        font-size: 0.95rem;
-      }
-
-      .celebration h2 {
-        font-size: 1.5rem;
-      }
-
-      .tool-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 20: AI Command Center — The Ultimate Dashboard | Aimersion</title>
+<meta name="description" content="The grand finale. Your complete AI command center dashboard. Inbox triage, morning brief, email compose, deal room, sequences, and chief of staff—all from one tab.">
+
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<meta name="theme-color" content="#0F1F3D">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://aimersion.github.io/ai-automations/day-20-command-center.html">
+<meta property="og:site_name" content="Aimersion">
+<meta property="og:title" content="AI Command Center — The Ultimate Dashboard (Day 20 of 20)">
+<meta property="og:description" content="One dashboard to run your entire workday. Inbox triage, brief, compose, sequences, deals, chief of staff. All in one tab.">
+<meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aimersion">
+<meta name="twitter:title" content="AI Command Center — The Ultimate Dashboard (Day 20 of 20)">
+<meta name="twitter:description" content="One dashboard. One tab. All your AI tools unified.">
+<meta name="twitter:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-69LQQBX0C1');
+</script>
+
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '876506382017154');
+  fbq('track', 'PageView');
+</script>
+
+<script type="text/javascript">
+  _linkedin_partner_id = "514319631";
+  window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+  window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+</script>
+<script type="text/javascript">
+  (function(l) {
+    if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+    window.lintrk.q=[]}
+    var s = document.getElementsByTagName("script")[0];
+    var b = document.createElement("script");
+    b.type = "text/javascript";b.async = true;
+    b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+    s.parentNode.insertBefore(b, s);})(window.lintrk);
+</script>
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version="1.1",s.queue=[],u=t.createElement(n),u.async=!0,u.src="https://static.ads-twitter.com/uwt.js",
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,"script");
+twq("config","tw-r848k-r848k");
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';document.head.appendChild(s);})()"></script>
+
+<style>
+  :root {
+    --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
+    --amber: #F59E0B; --green: #059669; --red: #DC2626; --white: #F0F7FF;
+    --muted: #8AAFD0; --card: #162840; --border: #2A4A70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 16px; }
+  .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: var(--teal-light); }
+  .hero { text-align: center; padding: 40px 32px 32px; border-bottom: 1px solid var(--border); }
+  .day-label { font-size: 11px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+  h1 { font-size: 38px; font-weight: 900; margin-bottom: 10px; }
+  h1 span { color: var(--teal); }
+  .tagline { font-size: 16px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+
+  /* Dashboard Layout */
+  .dashboard { display: grid; grid-template-columns: 280px 1fr; gap: 0; min-height: 100vh; }
+  .sidebar { background: var(--navy2); border-right: 1px solid var(--border); padding: 24px 16px; overflow-y: auto; max-height: 100vh; }
+  .sidebar-item { padding: 12px 14px; margin-bottom: 8px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; border: 1px solid transparent; }
+  .sidebar-item:hover { background: var(--card); border-color: var(--border); color: var(--teal-light); }
+  .sidebar-item.active { background: var(--teal); color: #000; border-color: var(--teal); }
+  .sidebar-stat { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-top: 16px; font-size: 11px; }
+  .sidebar-stat-num { font-size: 18px; font-weight: 800; color: var(--teal); display: block; }
+  .sidebar-stat-label { color: var(--muted); margin-top: 3px; }
+
+  .main-area { padding: 32px 40px 80px; overflow-y: auto; }
+  .module { display: none; }
+  .module.active { display: block; }
+  .module-title { font-size: 14px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 16px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .card-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-teal { background: var(--teal); color: #fff; }
+  .btn-amber { background: var(--amber); color: #000; }
+  .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  input[type="text"], input[type="password"], textarea, select {
+    background: var(--navy); border: 1px solid var(--border); color: var(--white);
+    padding: 9px 14px; border-radius: 8px; font-size: 13px; font-family: inherit;
+    outline: none; transition: border 0.2s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--teal); }
+  textarea { resize: vertical; min-height: 100px; }
+
+  .loading { text-align: center; padding: 40px; color: var(--muted); }
+  .fun-loader { display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .loader-emoji { font-size: 3rem; animation: bounce 0.7s ease-in-out infinite alternate; }
+  .loader-msg { font-size: 1rem; color: var(--teal-light); font-weight: 500; transition: opacity 0.4s; }
+  @keyframes bounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-10px) scale(1.1); } }
+
+  .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
+  .info-msg { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); color: var(--teal-light); padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
+
+  .email-item { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; }
+  .email-item.p1 { border-left: 3px solid var(--red); }
+  .email-item.p2 { border-left: 3px solid var(--amber); }
+  .email-item.p3 { border-left: 3px solid var(--green); }
+  .email-from { font-size: 12px; color: var(--teal); font-weight: 600; }
+  .email-subject { font-size: 14px; font-weight: 700; color: var(--white); margin-top: 4px; }
+  .email-actions { display: flex; gap: 6px; margin-top: 8px; }
+  .email-actions .btn { font-size: 11px; padding: 5px 10px; }
+
+  .digest-card { background:linear-gradient(135deg,rgba(8,145,178,0.12),rgba(34,211,238,0.06)); border:1px solid rgba(8,145,178,0.35); border-radius:10px; padding:16px 20px; margin-bottom:18px; }
+  .digest-text { font-size:14px; color:var(--white); line-height:1.65; }
+
+  .priority-item { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; }
+  .priority-action { font-size: 13px; font-weight: 600; color: var(--white); }
+
+  /* Celebration section */
+  .celebration { background: linear-gradient(135deg, rgba(34,211,238,0.1), rgba(8,145,178,0.1)); border: 1px solid rgba(8,145,178,0.3); border-radius: 12px; padding: 32px; margin-top: 40px; text-align: center; }
+  .celebration-title { font-size: 28px; font-weight: 900; color: var(--teal-light); margin-bottom: 12px; }
+  .celebration-text { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-top: 20px; }
+  .tool-link { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-decoration: none; color: var(--teal-light); font-size: 12px; font-weight: 600; text-align: center; transition: all 0.2s; }
+  .tool-link:hover { background: var(--navy2); border-color: var(--teal); color: var(--teal); }
+  .social-links { margin-top: 20px; display: flex; gap: 12px; justify-content: center; }
+  .social-links a { color: var(--teal-light); text-decoration: none; font-size: 13px; }
+  .social-links a:hover { color: var(--teal); }
+
+  @media (max-width: 768px) {
+    .dashboard { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .main-area { padding: 16px 12px 80px; }
+    h1 { font-size: 28px; }
+    .tagline { font-size: 13px; }
+    .tools-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
+  }
+
+  #_toast { display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#162840;border:1px solid #2A4A70;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F0F7FF;transition:opacity 0.3s; }
+</style>
 </head>
+
 <body>
-  <!-- Header -->
-  <header>
-    <div class="header-left">
-      <div class="header-title">
-        🎛️ COMMAND CENTER
-        <span>20/20</span>
+
+<div id="__setupBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0F1829 0%,#080E1A 100%);border-bottom:1px solid #1E293B;box-shadow:0 4px 32px rgba(0,0,0,0.5);padding:0;overflow:hidden;">
+  <div style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:#EA580C;text-transform:uppercase;margin-bottom:0.25rem;">Quick Setup</div>
+        <div style="font-weight:800;font-size:1rem;color:#F1F5F9;">Two steps to launch Command Center</div>
       </div>
-      <div class="connection-badge" id="connectionBadge">
-        <span class="status-dot"></span>
-        Initializing...
+      <button onclick="document.getElementById('__setupBanner').style.display='none'" style="background:transparent;border:1px solid #1E293B;color:#94A3B8;padding:0.4rem 0.75rem;border-radius:6px;cursor:pointer;font-size:0.75rem;">✕ dismiss</button>
+    </div>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+      <div id="__step1" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;">
+        <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+          <span id="__s1icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">1</span>
+          Free Gemini API Key
+        </div>
+        <div style="display:flex;gap:0.5rem;">
+          <input id="__geminiInput" type="password" placeholder="Paste key (AIza...)" style="flex:1;padding:0.5rem 0.75rem;background:#0F1829;border:1px solid #1E293B;border-radius:6px;color:#F1F5F9;font-size:0.8rem;min-width:0;" oninput="checkSetup()">
+          <button onclick="saveGeminiKey()" style="padding:0.5rem 0.75rem;background:#EA580C;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Save</button>
+        </div>
+        <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size:0.7rem;color:#06B6D4;display:inline-block;margin-top:0.4rem;">→ Get free key at aistudio.google.com</a>
+      </div>
+      <div id="__step2" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;opacity:0.55;transition:opacity 0.3s;">
+        <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+          <span id="__s2icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">2</span>
+          Connect Outlook
+        </div>
+        <button id="__outlookBtn" onclick="connectMicrosoft()" style="width:100%;padding:0.5rem 0.75rem;background:#06B6D4;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;">
+          📧 Connect Outlook Account
+        </button>
+        <div id="__outlookStatus" style="font-size:0.7rem;color:#94A3B8;margin-top:0.4rem;min-height:1rem;"></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;padding:0 0.5rem;">
+        <div style="text-align:center;">
+          <div style="font-size:0.65rem;color:#94A3B8;margin-bottom:0.35rem;">or skip setup</div>
+          <button onclick="runDemo()" style="padding:0.5rem 1rem;background:transparent;border:1px solid #1E293B;border-radius:6px;color:#94A3B8;cursor:pointer;font-size:0.75rem;white-space:nowrap;">▶ Try Demo</button>
+        </div>
       </div>
     </div>
-    <div class="header-right">
-      <button class="secondary" id="refreshAllBtn">↻ Refresh All</button>
-      <button class="secondary" id="settingsBtn">⚙️ Settings</button>
+  </div>
+</div>
+<div id="__setupSpacer" style="display:none;height:170px;"></div>
+
+<header>
+  <div class="logo">⚡ Aimersion · Day 20</div>
+  <div class="nav-links">
+    <a href="index.html">← All Tools</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="day-label">Day 20 of 20 — The Grand Finale</div>
+  <h1>AI <span>Command Center</span></h1>
+  <p class="tagline">One dashboard to run your entire workday. Inbox triage, morning brief, email compose, sequences, deals, and chief of staff intelligence—all unified in one tab.</p>
+</div>
+
+<div class="dashboard">
+  <!-- Sidebar Navigation -->
+  <div class="sidebar">
+    <div style="font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 16px;">Modules</div>
+    <div class="sidebar-item active" onclick="switchModule('inbox')">📬 Inbox</div>
+    <div class="sidebar-item" onclick="switchModule('brief')">📊 Brief</div>
+    <div class="sidebar-item" onclick="switchModule('compose')">✍️ Compose</div>
+    <div class="sidebar-item" onclick="switchModule('sequence')">📧 Sequences</div>
+    <div class="sidebar-item" onclick="switchModule('deals')">🤝 Deal Room</div>
+    <div class="sidebar-item" onclick="switchModule('chief')">🧠 Chief of Staff</div>
+
+    <div class="sidebar-stat">
+      <span class="sidebar-stat-num" id="inboxCount">—</span>
+      <span class="sidebar-stat-label">Inbox Messages</span>
     </div>
-  </header>
+    <div class="sidebar-stat">
+      <span class="sidebar-stat-num" id="priorityCount">—</span>
+      <span class="sidebar-stat-label">Priority Items</span>
+    </div>
+  </div>
 
-  <!-- Main Container -->
-  <div class="container">
-    <!-- Dashboard Grid -->
-    <div class="dashboard">
-      <!-- Module 1: INBOX INTEL -->
-      <div class="module">
-        <div class="module-header">
-          <div class="module-title">📬 INBOX INTEL</div>
-          <div class="module-actions">
-            <button class="icon-button" id="refreshInboxBtn" title="Refresh">↻</button>
-          </div>
+  <!-- Main Content Area -->
+  <div class="main-area">
+    <!-- Inbox Module -->
+    <div id="inbox" class="module active">
+      <div class="module-title">📬 Inbox Intelligence</div>
+      <div class="card">
+        <div class="card-title">Quick Triage</div>
+        <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+          <button class="btn btn-amber" onclick="triageInbox()">🤖 Triage My Inbox</button>
+          <button class="btn btn-ghost" onclick="switchModule('chief')">→ See Chief of Staff Brief</button>
         </div>
-        <div class="module-tabs" style="margin-bottom: 1rem;">
-          <button class="tab-button active" data-filter="all">All</button>
-          <button class="tab-button" data-filter="urgent">Urgent</button>
-          <button class="tab-button" data-filter="respond">Respond</button>
-          <button class="tab-button" data-filter="fyi">FYI</button>
-        </div>
-        <div class="module-content" id="inboxContent">
-          <div class="empty-state">
-            <div class="spinner"></div>
-            <div>Loading inbox...</div>
-          </div>
-        </div>
+        <div id="inboxOutput"></div>
       </div>
+    </div>
 
-      <!-- Module 2: TODAY'S BRIEF -->
-      <div class="module">
-        <div class="module-header">
-          <div class="module-title">☀️ TODAY'S BRIEF</div>
-          <div class="module-actions">
-            <button class="icon-button" id="refreshBriefBtn" title="Refresh">↻</button>
-          </div>
+    <!-- Brief Module -->
+    <div id="brief" class="module">
+      <div class="module-title">📊 Morning Brief</div>
+      <div class="card">
+        <div class="card-title">Your Day at a Glance</div>
+        <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+          <select id="briefTimeRange">
+            <option value="24">Last 24 hours</option>
+            <option value="48">Last 48 hours</option>
+            <option value="today">Today</option>
+          </select>
+          <button class="btn btn-amber" onclick="generateBrief()">📊 Generate Brief</button>
         </div>
-        <div class="module-content" id="briefContent">
-          <div class="empty-state">
-            <div class="spinner"></div>
-            <div>Generating brief...</div>
-          </div>
-        </div>
+        <div id="briefOutput"></div>
       </div>
+    </div>
 
-      <!-- Module 3: QUICK COMPOSE -->
-      <div class="module">
-        <div class="module-header">
-          <div class="module-title">⚡ QUICK COMPOSE</div>
+    <!-- Compose Module -->
+    <div id="compose" class="module">
+      <div class="module-title">✍️ Quick Compose</div>
+      <div class="card">
+        <div class="card-title">Describe What You Need to Send</div>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px;">To:</label>
+          <input type="text" id="composeToField" placeholder="recipient@example.com" style="width: 100%;">
         </div>
-        <div class="module-content">
-          <div style="margin-bottom: 1rem;">
-            <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--muted);">What do you want to say?</label>
-            <textarea id="composeInstruction" placeholder="e.g., Tell Sarah at Apex we're ready to move to contract..."></textarea>
-          </div>
-          <input type="email" id="composeEmail" placeholder="recipient@example.com">
-          <button style="width: 100%; margin-bottom: 0.5rem; background: var(--teal);" id="generateEmailBtn">✨ Generate Email</button>
-          <div id="composePreview"></div>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px;">What do you want to say?</label>
+          <textarea id="composePrompt" placeholder="E.g., 'Tell them we need to schedule a call about the proposal, keep it friendly and professional'"></textarea>
         </div>
+        <button class="btn btn-amber" onclick="generateCompose()" style="width: 100%; justify-content: center;">✍️ Write Email</button>
+        <div id="composeOutput" style="margin-top: 16px;"></div>
       </div>
+    </div>
 
-      <!-- Module 4: ACTIVE DEALS TRACKER -->
-      <div class="module">
-        <div class="module-header">
-          <div class="module-title">📊 ACTIVE DEALS</div>
-          <div class="module-actions">
-            <button class="icon-button" id="addDealBtn" title="Add Deal">+</button>
-          </div>
+    <!-- Sequences Module -->
+    <div id="sequence" class="module">
+      <div class="module-title">📧 Email Sequences</div>
+      <div class="card">
+        <div class="card-title">Quick Sequence Generator</div>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px;">Sequence Type:</label>
+          <select id="sequenceType" style="width: 100%;">
+            <option value="followup">Follow-up Sequence (3 emails)</option>
+            <option value="nurture">Nurture Sequence (5 emails)</option>
+            <option value="reactivation">Reactivation Sequence (3 emails)</option>
+          </select>
         </div>
-        <div class="module-content" id="dealsContent">
-          <div class="empty-state">
-            <div class="empty-state-icon">🤝</div>
-            <div>No deals yet. Add one to get started.</div>
-          </div>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px;">About:</label>
+          <input type="text" id="sequenceAbout" placeholder="E.g., 'Product demo for B2B SaaS tool'" style="width: 100%;">
         </div>
+        <button class="btn btn-amber" onclick="generateSequence()" style="width: 100%; justify-content: center;">📧 Generate Sequence</button>
+        <div id="sequenceOutput" style="margin-top: 16px;"></div>
       </div>
+    </div>
 
-      <!-- Module 5: SEQUENCE LAUNCHER -->
-      <div class="module">
-        <div class="module-header">
-          <div class="module-title">🚀 SEQUENCE LAUNCHER</div>
+    <!-- Deals Module -->
+    <div id="deals" class="module">
+      <div class="module-title">🤝 Deal Room</div>
+      <div class="card">
+        <div class="card-title">Quick Deal Intel</div>
+        <div style="margin-bottom: 12px;">
+          <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px;">Company or Contact Name:</label>
+          <input type="text" id="dealQuery" placeholder="E.g., 'Acme Corp' or 'John Smith'" style="width: 100%;">
         </div>
-        <div class="module-content">
-          <div style="margin-bottom: 1rem;">
-            <label style="display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--muted);">Template</label>
-            <select id="sequenceTemplate">
-              <option value="cold">Cold Outreach</option>
-              <option value="followup">Follow-Up Series</option>
-              <option value="reengagement">Re-engagement</option>
-            </select>
-          </div>
-          <input type="text" id="sequenceContact" placeholder="Contact Name">
-          <input type="text" id="sequenceCompany" placeholder="Company Name">
-          <input type="text" id="sequenceDescription" placeholder="What do you do?">
-          <button style="width: 100%; margin-bottom: 1rem; background: var(--orange);" id="generateSequenceBtn">📧 Generate Sequence</button>
-          <div id="sequencePreview"></div>
+        <button class="btn btn-amber" onclick="generateDealIntel()" style="width: 100%; justify-content: center;">🔍 Research Deal</button>
+        <div id="dealOutput" style="margin-top: 16px;"></div>
+      </div>
+    </div>
+
+    <!-- Chief of Staff Module -->
+    <div id="chief" class="module">
+      <div class="module-title">🧠 Chief of Staff Brief</div>
+      <div class="card">
+        <div class="card-title">Executive Summary & Action Items</div>
+        <div style="display: flex; gap: 10px; margin-bottom: 14px;">
+          <select id="chiefTimeRange">
+            <option value="24">Last 24 hours</option>
+            <option value="48">Last 48 hours</option>
+            <option value="today">Today</option>
+          </select>
+          <button class="btn btn-amber" onclick="generateChiefBrief()">🧠 Brief Me</button>
         </div>
+        <div id="chiefOutput"></div>
       </div>
     </div>
 
     <!-- Celebration Section -->
     <div class="celebration">
-      <div class="celebration-emoji">🎉</div>
-      <h2>20 Tools. 20 Days. All Free.</h2>
-      <p>From cold outreach to customer success, we built a complete AI toolkit for growing businesses. Each day introduced a new power — now it all converges here. This is your mission control.</p>
-
-      <div style="background: var(--surface2); padding: 2rem; border-radius: 8px; margin: 2rem 0;">
-        <h3 style="margin-bottom: 1rem; font-size: 1rem;">The Complete Series</h3>
-        <div class="tool-grid">
-          <a href="day-01-inbox-intelligence.html" class="tool-link">Day 1: Inbox Intelligence</a>
-          <a href="day-02-proposal-generator.html" class="tool-link">Day 2: Proposal Generator</a>
-          <a href="day-03-competitor-intel.html" class="tool-link">Day 3: Competitor Intel</a>
-          <a href="day-04-social-content-machine.html" class="tool-link">Day 4: Social Content</a>
-          <a href="day-05-pipeline-prioritizer.html" class="tool-link">Day 5: Pipeline Prioritizer</a>
-          <a href="day-06-meeting-prep.html" class="tool-link">Day 6: Meeting Prep</a>
-          <a href="day-07-client-onboarding.html" class="tool-link">Day 7: Client Onboarding</a>
-          <a href="day-08-followup-machine.html" class="tool-link">Day 8: Follow-Up Machine</a>
-          <a href="day-09-weekly-status.html" class="tool-link">Day 9: Weekly Status</a>
-          <a href="day-10-cold-outreach.html" class="tool-link">Day 10: Cold Outreach</a>
-          <a href="day-11-scope-of-work.html" class="tool-link">Day 11: Scope of Work</a>
-          <a href="day-12-invoice-generator.html" class="tool-link">Day 12: Invoice Generator</a>
-          <a href="day-13-job-description.html" class="tool-link">Day 13: Job Description</a>
-          <a href="day-14-performance-review.html" class="tool-link">Day 14: Performance Review</a>
-          <a href="day-15-contract-summarizer.html" class="tool-link">Day 15: Contract Summarizer</a>
-          <a href="day-16-standup-generator.html" class="tool-link">Day 16: Standup Generator</a>
-          <a href="day-17-email-sequence.html" class="tool-link">Day 17: Email Sequence</a>
-          <a href="day-18-deal-room.html" class="tool-link">Day 18: Deal Room Builder</a>
-          <a href="day-19-chief-of-staff.html" class="tool-link">Day 19: Chief of Staff</a>
-          <a href="day-20-command-center.html" class="tool-link" style="background: var(--orange); border-color: var(--orange);">Day 20: Command Center</a>
-        </div>
+      <div class="celebration-title">🎉 You've Reached Day 20!</div>
+      <div class="celebration-text">
+        Congratulations! You've mastered all 20 AI automation tools. This Command Center pulls together inbox intelligence, email composition, deal research, sequences, daily briefs, and executive intelligence all in one dashboard. Ready to explore the other tools?
       </div>
-
-      <div class="celebration-cta">
-        <a href="https://x.com/jimlynchAI" class="cta-button" target="_blank">→ Follow @jimlynchAI on X</a>
-        <a href="https://linkedin.com/in/jimlynch" class="cta-button secondary" target="_blank">→ Follow on LinkedIn</a>
+      <div class="tools-grid">
+        <a href="day-01-inbox-intelligence.html" class="tool-link">Day 1: Inbox</a>
+        <a href="day-02-proposal-generator.html" class="tool-link">Day 2: Proposals</a>
+        <a href="day-03-competitor-intel.html" class="tool-link">Day 3: Competitors</a>
+        <a href="day-04-social-content-machine.html" class="tool-link">Day 4: Social</a>
+        <a href="day-05-pipeline-prioritizer.html" class="tool-link">Day 5: Pipeline</a>
+        <a href="day-06-meeting-prep.html" class="tool-link">Day 6: Meetings</a>
+        <a href="day-07-client-onboarding.html" class="tool-link">Day 7: Onboarding</a>
+        <a href="day-08-followup-machine.html" class="tool-link">Day 8: Follow-ups</a>
+        <a href="day-09-weekly-status.html" class="tool-link">Day 9: Status</a>
+        <a href="day-10-cold-outreach.html" class="tool-link">Day 10: Outreach</a>
+        <a href="day-11-scope-of-work.html" class="tool-link">Day 11: SOW</a>
+        <a href="day-12-invoice-generator.html" class="tool-link">Day 12: Invoices</a>
+        <a href="day-13-job-description.html" class="tool-link">Day 13: Job Posts</a>
+        <a href="day-14-performance-review.html" class="tool-link">Day 14: Reviews</a>
+        <a href="day-15-contract-summarizer.html" class="tool-link">Day 15: Contracts</a>
+        <a href="day-16-standup-generator.html" class="tool-link">Day 16: Standups</a>
+        <a href="day-17-email-sequence.html" class="tool-link">Day 17: Sequences</a>
+        <a href="day-18-deal-room.html" class="tool-link">Day 18: Deals</a>
+        <a href="day-19-chief-of-staff.html" class="tool-link">Day 19: Chief</a>
+        <a href="day-20-command-center.html" class="tool-link">Day 20: Command</a>
       </div>
-
-      <p style="margin-top: 2rem; font-size: 0.875rem; color: var(--muted);">Built by <strong>Aimersion.ai</strong> — AI automation for growing businesses</p>
-    </div>
-  </div>
-
-  <!-- Settings Modal -->
-  <div class="modal" id="settingsModal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="document.getElementById('settingsModal').classList.remove('active')">×</button>
-      <div class="modal-title">Settings</div>
-      <div class="settings-group">
-        <label>Outlook Account</label>
-        <button style="width: 100%; margin-bottom: 0.5rem;" id="loginBtn">Sign in with Outlook</button>
-        <div style="font-size: 0.8rem; color: var(--muted);" id="accountInfo"></div>
-      </div>
-      <div class="settings-group">
-        <label>Gemini API Key</label>
-        <input type="password" id="geminiKey" placeholder="Your Gemini API key">
-        <button style="width: 100%;" onclick="saveGeminiKey()">Save API Key</button>
-        <p style="font-size: 0.75rem; color: var(--muted); margin-top: 0.5rem;">Get your free key at <a href="https://makersuite.google.com/app/apikey" style="color: var(--teal);" target="_blank">makersuite.google.com</a></p>
-      </div>
-      <div class="settings-group">
-        <label>Demo Mode</label>
-        <button style="width: 100%;" id="demoBtn">Load Demo Data</button>
-        <p style="font-size: 0.75rem; color: var(--muted); margin-top: 0.5rem;">See all features in action without signing in</p>
+      <div class="social-links">
+        <span style="color: var(--muted);">Share your progress:</span>
+        <a href="https://x.com/intent/tweet?text=I%20just%20completed%20all%2020%20AI%20automation%20tools%20with%20%40aimersion%21%20The%20Command%20Center%20is%20game-changing.%20https://aimersion.github.io/ai-automations/day-20-command-center.html" target="_blank">𝕏</a>
+        <a href="https://linkedin.com/sharing/share-offsite/?url=https://aimersion.github.io/ai-automations/day-20-command-center.html" target="_blank">LinkedIn</a>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Add Deal Modal -->
-  <div class="modal" id="addDealModal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="document.getElementById('addDealModal').classList.remove('active')">×</button>
-      <div class="modal-title">Add Deal</div>
-      <input type="text" id="dealCompany" placeholder="Company Name">
-      <input type="text" id="dealValue" placeholder="Deal Value (e.g., $50K)">
-      <select id="dealStage">
-        <option value="prospecting">Prospecting</option>
-        <option value="qualified">Qualified</option>
-        <option value="proposal">Proposal Sent</option>
-        <option value="negotiation">Negotiation</option>
-        <option value="closed">Closed Won</option>
-      </select>
-      <button style="width: 100%; background: var(--orange);" onclick="addDealFromModal()">Add Deal</button>
+<script>
+const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+let msalInstance = null, msAccount = null;
+
+function showToast(msg) {
+  let toast = document.getElementById('_toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = '_toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.display = 'block';
+  toast.style.opacity = '1';
+  clearTimeout(toast._tmr);
+  toast._tmr = setTimeout(() => {
+    toast.style.opacity = '0';
+    setTimeout(() => { toast.style.display = 'none'; }, 300);
+  }, 3000);
+}
+
+function switchModule(name) {
+  document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+  document.getElementById(name).classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function saveGeminiKey() {
+  const key = document.getElementById('__geminiInput').value.trim();
+  if (!key) {
+    showToast('❌ Paste an API key first');
+    return;
+  }
+  localStorage.setItem('gemini_key', key);
+  document.getElementById('__geminiInput').value = '';
+  showToast('✅ Gemini key saved');
+  checkSetup();
+}
+
+async function initMsal() {
+  if (typeof msal === 'undefined') {
+    await new Promise((resolve, reject) => {
+      let waited = 0;
+      const check = setInterval(() => {
+        if (typeof msal !== 'undefined') { clearInterval(check); resolve(); }
+        else if ((waited += 250) >= 5000) { clearInterval(check); reject(new Error('Microsoft Auth library failed to load.')); }
+      }, 250);
+    });
+  }
+  msalInstance = new msal.PublicClientApplication({
+    auth: { clientId: AZURE_CLIENT_ID, authority: 'https://login.microsoftonline.com/common',
+            redirectUri: window.location.href.split('?')[0].split('#')[0] },
+    cache: { cacheLocation: 'sessionStorage' }
+  });
+  await msalInstance.initialize();
+  const accounts = msalInstance.getAllAccounts();
+  if (accounts.length > 0) {
+    msAccount = accounts[0];
+  }
+}
+
+async function connectMicrosoft() {
+  try {
+    if (!msalInstance) await initMsal();
+    const resp = await msalInstance.loginPopup({
+      scopes: ['https://graph.microsoft.com/Mail.Read','https://graph.microsoft.com/Mail.ReadWrite',
+               'https://graph.microsoft.com/Mail.Send','https://graph.microsoft.com/Calendars.Read',
+               'https://graph.microsoft.com/User.Read'],
+      prompt: 'select_account'
+    });
+    msAccount = resp.account;
+    checkSetup();
+    showToast('✅ Outlook connected');
+  } catch(e) {
+    if (e.errorCode === 'user_cancelled') return;
+    showToast('❌ Microsoft login error: ' + e.message);
+  }
+}
+
+async function getMsToken() {
+  if (!msalInstance || !msAccount) return null;
+  const scopes = ['https://graph.microsoft.com/Mail.Read','https://graph.microsoft.com/Mail.Send',
+                  'https://graph.microsoft.com/Calendars.Read','https://graph.microsoft.com/User.Read'];
+  try {
+    const r = await msalInstance.acquireTokenSilent({ scopes, account: msAccount });
+    return r.accessToken;
+  } catch {
+    const r = await msalInstance.acquireTokenPopup({ scopes, account: msAccount });
+    return r.accessToken;
+  }
+}
+
+async function callGemini(prompt) {
+  const key = localStorage.getItem('gemini_key');
+  if (!key) {
+    showToast('❌ Add Gemini API key first');
+    return null;
+  }
+  try {
+    const resp = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=' + key, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    });
+    if (!resp.ok) throw new Error('API error: ' + resp.status);
+    const result = await resp.json();
+    return result.candidates?.[0]?.content?.parts?.[0]?.text || null;
+  } catch (e) {
+    console.error('Gemini error:', e);
+    showToast('❌ Gemini error: ' + e.message);
+    return null;
+  }
+}
+
+function checkSetup() {
+  const hasKey = !!localStorage.getItem('gemini_key');
+  const hasAccount = msalInstance && msalInstance.getAllAccounts && msalInstance.getAllAccounts().length > 0;
+
+  if (hasKey) {
+    document.getElementById('__s1icon').style.background = '#10B981';
+    document.getElementById('__s1icon').style.color = '#fff';
+    document.getElementById('__s1icon').textContent = '✓';
+    document.getElementById('__step2').style.opacity = '1';
+  }
+
+  if (hasAccount) {
+    document.getElementById('__s2icon').style.background = '#10B981';
+    document.getElementById('__s2icon').style.color = '#fff';
+    document.getElementById('__s2icon').textContent = '✓';
+    document.getElementById('__outlookStatus').textContent = '✅ Connected';
+  } else {
+    document.getElementById('__outlookStatus').textContent = '📧 Connect to begin';
+  }
+
+  if (hasKey && hasAccount) {
+    setTimeout(() => {
+      document.getElementById('__setupBanner').style.display = 'none';
+      document.getElementById('__setupSpacer').style.display = 'none';
+    }, 600);
+  } else {
+    document.getElementById('__setupBanner').style.display = 'block';
+    document.getElementById('__setupSpacer').style.display = 'block';
+  }
+}
+
+async function triageInbox() {
+  const token = await getMsToken();
+  if (!token) {
+    showToast('❌ Connect Outlook first');
+    return;
+  }
+
+  const out = document.getElementById('inboxOutput');
+  out.innerHTML = '<div class="loading"><div class="fun-loader"><div class="loader-emoji">📬</div><div class="loader-msg">Triaging your inbox...</div></div></div>';
+
+  try {
+    const resp = await fetch('https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=20&$select=id,subject,from,receivedDateTime,bodyPreview,isRead&$orderby=receivedDateTime%20desc', { headers: { 'Authorization': 'Bearer ' + token } });
+    const data = await resp.json();
+    const emails = data.value || [];
+
+    const prompt = 'Triage these emails into URGENT (respond today), IMPORTANT (this week), or FYI (just read). Return JSON:\n' +
+      emails.map((e, i) => `${i+1}. From: ${e.from.emailAddress.name}, Subject: ${e.subject}, Preview: ${e.bodyPreview}`).join('\n') +
+      '\n\nReturn valid JSON: { "triaged": [{"subject": "...", "priority": "URGENT|IMPORTANT|FYI", "reason": "..."}] }';
+
+    const result = await callGemini(prompt);
+    if (!result) {
+      out.innerHTML = '<div class="error-msg">❌ Failed to triage</div>';
+      return;
+    }
+
+    let triaged;
+    try {
+      triaged = JSON.parse(result);
+    } catch (e) {
+      const jsonMatch = result.match(/\{[\s\S]*\}/);
+      if (jsonMatch) triaged = JSON.parse(jsonMatch[0]);
+      else throw e;
+    }
+
+    let html = '';
+    (triaged.triaged || []).forEach((item, i) => {
+      const priorityClass = item.priority === 'URGENT' ? 'p1' : item.priority === 'IMPORTANT' ? 'p2' : 'p3';
+      html += `<div class="email-item ${priorityClass}">
+        <div class="email-subject">${item.subject}</div>
+        <div class="email-from">Priority: ${item.priority}</div>
+        <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">${item.reason}</div>
+      </div>`;
+    });
+
+    out.innerHTML = html || '<div class="info-msg">📭 No emails</div>';
+  } catch (e) {
+    console.error(e);
+    out.innerHTML = '<div class="error-msg">❌ Error: ' + e.message + '</div>';
+  }
+}
+
+async function generateBrief() {
+  const token = await getMsToken();
+  if (!token) {
+    showToast('❌ Connect Outlook first');
+    return;
+  }
+
+  const out = document.getElementById('briefOutput');
+  out.innerHTML = '<div class="loading"><div class="fun-loader"><div class="loader-emoji">☕</div><div class="loader-msg">Brewing your brief...</div></div></div>';
+
+  try {
+    const resp = await fetch('https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=15&$select=subject,from,receivedDateTime&$orderby=receivedDateTime%20desc', { headers: { 'Authorization': 'Bearer ' + token } });
+    const data = await resp.json();
+    const emails = (data.value || []).map(e => `${e.subject} (from ${e.from.emailAddress.name})`).join('\n');
+
+    const prompt = 'Create a 4-sentence morning brief for this inbox:\n' + (emails || '(empty)') + '\n\nReturn valid JSON: { "brief": "..." }';
+
+    const result = await callGemini(prompt);
+    if (!result) {
+      out.innerHTML = '<div class="error-msg">❌ Failed to generate</div>';
+      return;
+    }
+
+    let briefData;
+    try {
+      briefData = JSON.parse(result);
+    } catch (e) {
+      const jsonMatch = result.match(/\{[\s\S]*\}/);
+      if (jsonMatch) briefData = JSON.parse(jsonMatch[0]);
+      else throw e;
+    }
+
+    out.innerHTML = `<div class="digest-card"><div class="digest-text">${briefData.brief}</div></div>`;
+  } catch (e) {
+    console.error(e);
+    out.innerHTML = '<div class="error-msg">❌ Error: ' + e.message + '</div>';
+  }
+}
+
+async function generateCompose() {
+  const prompt = document.getElementById('composePrompt').value.trim();
+  const to = document.getElementById('composeToField').value.trim();
+  if (!prompt || !to) {
+    showToast('❌ Fill in both fields');
+    return;
+  }
+
+  const out = document.getElementById('composeOutput');
+  out.innerHTML = '<div class="loading"><div class="fun-loader"><div class="loader-emoji">✍️</div><div class="loader-msg">Writing email...</div></div></div>';
+
+  try {
+    const result = await callGemini('Write a professional business email that is ' + prompt + '. Keep it concise (under 100 words). Return valid JSON: { "email": "..." }');
+    if (!result) {
+      out.innerHTML = '<div class="error-msg">❌ Failed to generate</div>';
+      return;
+    }
+
+    let emailData;
+    try {
+      emailData = JSON.parse(result);
+    } catch (e) {
+      const jsonMatch = result.match(/\{[\s\S]*\}/);
+      if (jsonMatch) emailData = JSON.parse(jsonMatch[0]);
+      else throw e;
+    }
+
+    out.innerHTML = `
+      <div style="background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;"><strong>To:</strong> ${to}</div>
+        <div style="font-size: 13px; color: var(--white); line-height: 1.6;">${emailData.email}</div>
+      </div>
+      <div style="display: flex; gap: 8px;">
+        <button class="btn btn-teal" onclick="copyToClipboard('${emailData.email.replace(/'/g, "\\'")}')">📋 Copy</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('composePrompt').value = '';">Clear</button>
+      </div>
+    `;
+  } catch (e) {
+    console.error(e);
+    out.innerHTML = '<div class="error-msg">❌ Error: ' + e.message + '</div>';
+  }
+}
+
+async function generateSequence() {
+  const type = document.getElementById('sequenceType').value;
+  const about = document.getElementById('sequenceAbout').value.trim();
+  if (!about) {
+    showToast('❌ Describe the sequence topic');
+    return;
+  }
+
+  const out = document.getElementById('sequenceOutput');
+  out.innerHTML = '<div class="loading"><div class="fun-loader"><div class="loader-emoji">📧</div><div class="loader-msg">Generating sequence...</div></div></div>';
+
+  try {
+    const result = await callGemini(`Create a ${type} email sequence about: ${about}. Return valid JSON: { "emails": [{"subject": "...", "body": "..."}] }`);
+    if (!result) {
+      out.innerHTML = '<div class="error-msg">❌ Failed to generate</div>';
+      return;
+    }
+
+    let seqData;
+    try {
+      seqData = JSON.parse(result);
+    } catch (e) {
+      const jsonMatch = result.match(/\{[\s\S]*\}/);
+      if (jsonMatch) seqData = JSON.parse(jsonMatch[0]);
+      else throw e;
+    }
+
+    let html = '';
+    (seqData.emails || []).forEach((e, i) => {
+      html += `<div style="background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 10px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--teal); margin-bottom: 6px;">Email ${i + 1}: ${e.subject}</div>
+        <div style="font-size: 13px; color: var(--white); line-height: 1.6; margin-bottom: 8px;">${e.body}</div>
+        <button class="btn btn-teal" onclick="copyToClipboard('Subject: ${e.subject}\\n\\n${e.body.replace(/'/g, "\\'")}')">📋 Copy</button>
+      </div>`;
+    });
+
+    out.innerHTML = html;
+  } catch (e) {
+    console.error(e);
+    out.innerHTML = '<div class="error-msg">❌ Error: ' + e.message + '</div>';
+  }
+}
+
+async function generateDealIntel() {
+  const query = document.getElementById('dealQuery').value.trim();
+  if (!query) {
+    showToast('❌ Enter a company or contact name');
+    return;
+  }
+
+  const out = document.getElementById('dealOutput');
+  out.innerHTML = '<div class="loading"><div class="fun-loader"><div class="loader-emoji">🔍</div><div class="loader-msg">Researching deal...</div></div></div>';
+
+  try {
+    const result = await callGemini(`Provide business intelligence on: ${query}. Include: industry, size, key contacts, recent news, sales opportunities. Return valid JSON: { "intel": "...", "opportunities": ["...", "..."] }`);
+    if (!result) {
+      out.innerHTML = '<div class="error-msg">❌ Failed to generate</div>';
+      return;
+    }
+
+    let dealData;
+    try {
+      dealData = JSON.parse(result);
+    } catch (e) {
+      const jsonMatch = result.match(/\{[\s\S]*\}/);
+      if (jsonMatch) dealData = JSON.parse(jsonMatch[0]);
+      else throw e;
+    }
+
+    out.innerHTML = `
+      <div class="digest-card">
+        <div class="digest-text">${dealData.intel}</div>
+      </div>
+      <div style="margin-top: 12px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--teal); margin-bottom: 8px;">Opportunities:</div>
+        ${(dealData.opportunities || []).map(opp => `<div style="background: var(--navy2); border-left: 3px solid var(--teal); padding: 8px 12px; margin-bottom: 6px; border-radius: 4px; font-size: 12px; color: var(--white);">💡 ${opp}</div>`).join('')}
+      </div>
+    `;
+  } catch (e) {
+    console.error(e);
+    out.innerHTML = '<div class="error-msg">❌ Error: ' + e.message + '</div>';
+  }
+}
+
+async function generateChiefBrief() {
+  const token = await getMsToken();
+  if (!token) {
+    showToast('❌ Connect Outlook first');
+    return;
+  }
+
+  const out = document.getElementById('chiefOutput');
+  out.innerHTML = '<div class="loading"><div class="fun-loader"><div class="loader-emoji">🧠</div><div class="loader-msg">Your Chief of Staff is analyzing...</div></div></div>';
+
+  try {
+    const [inboxResp, calResp] = await Promise.all([
+      fetch('https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=20&$select=subject,from,receivedDateTime,bodyPreview&$orderby=receivedDateTime%20desc', { headers: { 'Authorization': 'Bearer ' + token } }),
+      fetch('https://graph.microsoft.com/v1.0/me/calendarview?startDateTime=' + new Date().toISOString() + '&endDateTime=' + new Date(Date.now() + 86400000).toISOString(), { headers: { 'Authorization': 'Bearer ' + token } })
+    ]);
+
+    const inbox = await inboxResp.json();
+    const cal = await calResp.json();
+
+    const inboxSummary = (inbox.value || []).map(e => `From ${e.from.emailAddress.name}: ${e.subject}`).join('\n');
+    const calSummary = (cal.value || []).map(e => `${e.subject} at ${e.start.dateTime}`).join('\n');
+
+    const prompt = `You are an executive Chief of Staff. Analyze this inbox and calendar and provide:\n\nINBOX:\n${inboxSummary || '(empty)'}\n\nCALENDAR:\n${calSummary || '(empty)'}\n\nReturn valid JSON: { "digest": "3-4 sentence overview", "priorities": ["...", "..."], "meetingPrep": "..." }`;
+
+    const result = await callGemini(prompt);
+    if (!result) {
+      out.innerHTML = '<div class="error-msg">❌ Failed to generate</div>';
+      return;
+    }
+
+    let briefData;
+    try {
+      briefData = JSON.parse(result);
+    } catch (e) {
+      const jsonMatch = result.match(/\{[\s\S]*\}/);
+      if (jsonMatch) briefData = JSON.parse(jsonMatch[0]);
+      else throw e;
+    }
+
+    let html = `<div class="digest-card"><div class="digest-text">${briefData.digest}</div></div>`;
+    if (briefData.priorities && briefData.priorities.length > 0) {
+      html += '<div style="margin-top: 16px;"><div style="font-size: 12px; font-weight: 600; color: var(--teal); margin-bottom: 8px;">🎯 Priorities</div>';
+      briefData.priorities.forEach((p, i) => {
+        html += `<div class="priority-item"><span class="priority-action">${i + 1}. ${p}</span></div>`;
+      });
+      html += '</div>';
+    }
+    if (briefData.meetingPrep) {
+      html += `<div style="margin-top: 16px; background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 12px; color: var(--white); line-height: 1.6;"><strong style="color: var(--teal);">📅 Meeting Prep:</strong> ${briefData.meetingPrep}</div>`;
+    }
+
+    out.innerHTML = html;
+  } catch (e) {
+    console.error(e);
+    out.innerHTML = '<div class="error-msg">❌ Error: ' + e.message + '</div>';
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('✅ Copied to clipboard');
+  });
+}
+
+function runDemo() {
+  document.getElementById('inboxOutput').innerHTML = `
+    <div class="email-item p1">
+      <div class="email-subject">Acme Corp: Contract Renewal - Pricing Discussion</div>
+      <div class="email-from">Priority: URGENT</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Contract renewal at risk; they need response today on volume tiers</div>
     </div>
-  </div>
-
-  <!-- Onboarding Overlay -->
-  <div id="onboardingOverlay" style="display:none; position:fixed; inset:0; background:rgba(8,14,26,0.97); z-index:9999; overflow-y:auto; padding:2rem;">
-    <div style="max-width:560px; margin:4rem auto; text-align:center;">
-      <div style="font-size:3rem; margin-bottom:1rem;">🚀</div>
-      <div style="font-size:0.75rem; font-weight:700; letter-spacing:3px; color:var(--orange); text-transform:uppercase; margin-bottom:1rem;">Day 20 of 20</div>
-      <h1 style="font-size:2rem; font-weight:900; margin-bottom:1rem; line-height:1.15;">AI Command Center</h1>
-      <p style="color:var(--muted); margin-bottom:2.5rem; font-size:1rem; line-height:1.7;">Five AI modules. One Outlook connection. Your entire business day from one tab. Let's get you set up — takes 60 seconds.</p>
-
-      <!-- Step 1: Gemini Key -->
-      <div id="setupStep1" style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.75rem; margin-bottom:1rem; text-align:left;">
-        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-          <div id="step1Badge" style="width:28px; height:28px; border-radius:50%; background:var(--surface2); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; flex-shrink:0;">1</div>
-          <div>
-            <div style="font-weight:700; font-size:0.95rem;">Add your free Gemini API key</div>
-            <div style="font-size:0.8rem; color:var(--muted);">Free from Google AI Studio — no credit card needed</div>
-          </div>
-        </div>
-        <div style="display:flex; gap:0.5rem;">
-          <input type="password" id="setupGeminiKey" placeholder="Paste your key (starts with AIza...)" style="flex:1; padding:0.75rem 1rem; background:var(--surface2); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:0.875rem;">
-          <button onclick="saveSetupKey()" style="padding:0.75rem 1.25rem; background:var(--orange); border:none; border-radius:8px; color:#fff; font-weight:700; cursor:pointer; white-space:nowrap;">Save ✓</button>
-        </div>
-        <a href="https://aistudio.google.com/apikey" target="_blank" style="display:inline-block; margin-top:0.6rem; font-size:0.78rem; color:var(--teal);">→ Get a free key at aistudio.google.com</a>
-      </div>
-
-      <!-- Step 2: Outlook -->
-      <div id="setupStep2" style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:1.75rem; margin-bottom:1rem; text-align:left; opacity:0.5; transition:opacity 0.3s;">
-        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
-          <div id="step2Badge" style="width:28px; height:28px; border-radius:50%; background:var(--surface2); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:0.75rem; font-weight:700; flex-shrink:0;">2</div>
-          <div>
-            <div style="font-weight:700; font-size:0.95rem;">Connect your Outlook account</div>
-            <div style="font-size:0.8rem; color:var(--muted);">Read inbox, pull calendar, send emails — all from here</div>
-          </div>
-        </div>
-        <button id="setupOutlookBtn" onclick="setupConnectOutlook()" style="width:100%; padding:0.85rem; background:var(--teal); border:none; border-radius:8px; color:#fff; font-weight:700; cursor:pointer; font-size:0.9rem;">
-          📧 Connect Outlook
-        </button>
-        <div id="setupConnected" style="display:none; margin-top:0.6rem; font-size:0.8rem; color:var(--success);">✅ Connected!</div>
-      </div>
-
-      <!-- Action buttons -->
-      <div style="display:flex; gap:0.75rem; margin-top:1.5rem;">
-        <button id="setupLaunchBtn" onclick="launchDashboard()" disabled style="flex:1; padding:1rem; background:var(--orange); border:none; border-radius:10px; color:#fff; font-weight:800; font-size:1rem; cursor:not-allowed; opacity:0.4; transition:all 0.3s;">
-          Open Command Center →
-        </button>
-      </div>
-      <button onclick="skipToDemo()" style="width:100%; margin-top:0.75rem; padding:0.85rem; background:transparent; border:1px solid var(--border); border-radius:10px; color:var(--muted); font-size:0.875rem; cursor:pointer;">
-        Not ready yet — show me the demo first
-      </button>
+    <div class="email-item p2">
+      <div class="email-subject">Product team: Q2 roadmap feedback request</div>
+      <div class="email-from">Priority: IMPORTANT</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Planning meeting next week; need your input on feature prioritization</div>
     </div>
-  </div>
+    <div class="email-item p3">
+      <div class="email-subject">Weekly newsletter from your industry</div>
+      <div class="email-from">Priority: FYI</div>
+      <div style="font-size: 12px; color: var(--muted); margin-top: 4px;">Read when you have time; no action needed</div>
+    </div>
+  `;
+
+  showToast('💡 Demo mode loaded. Connect Outlook + API key for live data.');
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  initMsal().then(() => {
+    checkSetup();
+  }).catch(e => console.error('MSAL init error:', e));
+});
+</script>
 
-  <!-- Toast notification -->
-  <div id="toast" style="display:none; position:fixed; bottom:2rem; left:50%; transform:translateX(-50%); background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:0.85rem 1.5rem; font-size:0.875rem; font-weight:600; z-index:99999; box-shadow:0 8px 32px rgba(0,0,0,0.4); transition:opacity 0.3s;"></div>
-
-  <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
-  <script>
-    // MSAL Configuration
-    const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
-    const MSAL_CONFIG = {
-      auth: {
-        clientId: AZURE_CLIENT_ID,
-        authority: 'https://login.microsoftonline.com/common',
-        redirectUri: window.location.origin + window.location.pathname
-      },
-      cache: {
-        cacheLocation: 'sessionStorage',
-        storeAuthStateInCookie: false
-      }
-    };
-
-    const LOGIN_REQUEST = {
-      scopes: ['Mail.Read', 'Mail.ReadWrite', 'Mail.Send', 'Calendars.Read', 'User.Read']
-    };
-
-    let msalInstance;
-    let account;
-    let accessToken;
-    let currentEmailFilter = 'all';
-
-    // Initialize MSAL
-    async function initMsal() {
-      try {
-        msalInstance = new msal.PublicClientApplication(MSAL_CONFIG);
-        await msalInstance.initialize();
-
-        account = msalInstance.getAllAccounts()[0];
-        if (account) {
-          updateConnectionStatus(true);
-          // Only auto-load if we also have the API key
-          if (localStorage.getItem('gemini_key')) {
-            await loadAllModules();
-          } else {
-            checkOnboarding();
-          }
-        } else {
-          updateConnectionStatus(false);
-          // Show modules in "not connected" state, then check onboarding
-          showModulesDisconnected();
-          checkOnboarding();
-        }
-      } catch (error) {
-        console.error('MSAL init error:', error);
-        updateConnectionStatus(false);
-        showModulesDisconnected();
-        checkOnboarding();
-      }
-    }
-
-    function showModulesDisconnected() {
-      const messages = [
-        ['inboxContent', '📬', 'Connect Outlook to see your inbox'],
-        ['briefContent', '☀️', 'Connect Outlook to generate your morning brief'],
-      ];
-      messages.forEach(([id, icon, msg]) => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = `<div class="empty-state"><div style="font-size:2rem;margin-bottom:0.5rem;">${icon}</div><div style="color:var(--muted);font-size:0.875rem;">${msg}</div></div>`;
-      });
-    }
-
-    function updateConnectionStatus(isConnected) {
-      const badge = document.getElementById('connectionBadge');
-      if (isConnected) {
-        badge.classList.add('connected');
-        badge.innerHTML = `<span class="status-dot live"></span>Connected: ${account.name} · ${account.username}`;
-        document.getElementById('accountInfo').innerHTML = `Signed in as: <strong>${account.name}</strong><br>${account.username}`;
-      } else {
-        badge.innerHTML = `<span class="status-dot"></span>Not Connected`;
-        document.getElementById('accountInfo').innerHTML = 'Not signed in';
-      }
-    }
-
-    async function login() {
-      try {
-        const response = await msalInstance.acquireTokenPopup(LOGIN_REQUEST);
-        accessToken = response.accessToken;
-        account = response.account;
-        updateConnectionStatus(true);
-        await loadAllModules();
-      } catch (error) {
-        console.error('Login error:', error);
-      }
-    }
-
-    async function getAccessToken() {
-      if (!account) return null;
-      try {
-        const response = await msalInstance.acquireTokenSilent({
-          ...LOGIN_REQUEST,
-          account: account
-        });
-        accessToken = response.accessToken;
-        return accessToken;
-      } catch (error) {
-        if (error instanceof msal.InteractionRequiredAuthError) {
-          return await login();
-        }
-        console.error('Token error:', error);
-        return null;
-      }
-    }
-
-    async function loadAllModules() {
-      await Promise.all([
-        loadInbox(),
-        loadTodaysBrief(),
-        loadDeals()
-      ]);
-    }
-
-    // Module 1: Inbox Intel
-    async function loadInbox() {
-      const container = document.getElementById('inboxContent');
-
-      if (!account) {
-        container.innerHTML = `<div class="empty-state"><div>Sign in to view inbox</div></div>`;
-        return;
-      }
-
-      container.innerHTML = `<div class="loading"><div class="spinner"></div>Loading inbox...</div>`;
-
-      try {
-        const token = await getAccessToken();
-        if (!token) return;
-
-        const response = await fetch('https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=20&$orderby=receivedDateTime desc', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-
-        const data = await response.json();
-        const emails = data.value || [];
-
-        if (emails.length === 0) {
-          container.innerHTML = `<div class="empty-state"><div>No emails yet</div></div>`;
-          return;
-        }
-
-        let html = '';
-        for (const email of emails) {
-          const category = await categorizeEmail(email);
-          html += createEmailCard(email, category);
-        }
-
-        container.innerHTML = html;
-        attachEmailListeners();
-        filterEmails('all');
-      } catch (error) {
-        console.error('Inbox load error:', error);
-        container.innerHTML = `<div class="empty-state"><div>Unable to load inbox</div></div>`;
-      }
-    }
-
-    async function categorizeEmail(email) {
-      const apiKey = localStorage.getItem('gemini_key');
-      if (!apiKey) return 'fyi';
-
-      try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: `Categorize this email as URGENT, RESPOND, or FYI based on importance and required action.\n\nFrom: ${email.from.emailAddress.name}\nSubject: ${email.subject}\nPreview: ${email.bodyPreview}\n\nRespond with just one word: URGENT, RESPOND, or FYI`
-              }]
-            }]
-          })
-        });
-
-        const result = await response.json();
-        const text = result.candidates?.[0]?.content?.parts?.[0]?.text?.toUpperCase() || 'FYI';
-        if (text.includes('URGENT')) return 'urgent';
-        if (text.includes('RESPOND')) return 'respond';
-        return 'fyi';
-      } catch (error) {
-        return 'fyi';
-      }
-    }
-
-    function createEmailCard(email, category) {
-      return `
-        <div class="email-card ${category}" data-id="${email.id}" data-category="${category}">
-          <div class="email-sender">${email.from.emailAddress.name}</div>
-          <div class="email-subject">${email.subject}</div>
-          <div class="email-summary">${email.bodyPreview}</div>
-          <div class="email-category ${category}">${category.toUpperCase()}</div>
-          <div id="expanded-${email.id}"></div>
-        </div>
-      `;
-    }
-
-    function attachEmailListeners() {
-      document.querySelectorAll('.email-card').forEach(card => {
-        card.addEventListener('click', async (e) => {
-          const expanded = document.getElementById(`expanded-${card.dataset.id}`);
-          if (expanded.innerHTML === '') {
-            expanded.innerHTML = `<div class="loading" style="margin-top: 0.75rem;"><div class="spinner"></div>Loading...</div>`;
-            const reply = await generateReply(card.dataset.id);
-            expanded.innerHTML = reply;
-          } else {
-            expanded.innerHTML = '';
-          }
-        });
-      });
-    }
-
-    async function generateReply(emailId) {
-      const apiKey = localStorage.getItem('gemini_key');
-      if (!apiKey) return `<div style="margin-top: 0.75rem; color: var(--muted);">Set Gemini API key in settings to generate replies</div>`;
-
-      try {
-        const token = await getAccessToken();
-        const response = await fetch(`https://graph.microsoft.com/v1.0/me/messages/${emailId}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const email = await response.json();
-
-        const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: `Write a professional, brief reply to this email:\n\nFrom: ${email.from.emailAddress.name}\nSubject: ${email.subject}\nMessage: ${email.bodyPreview}\n\nKeep it under 100 words. Professional tone.`
-              }]
-            }]
-          })
-        });
-
-        const result = await geminiResponse.json();
-        const draftReply = result.candidates?.[0]?.content?.parts?.[0]?.text || 'Unable to generate reply';
-
-        return `
-          <div class="email-expanded" style="margin-top: 0.75rem;">
-            <div class="email-expanded-header">✨ Suggested Reply</div>
-            <div class="email-expanded-content">${draftReply}</div>
-            <div class="email-expanded-actions">
-              <button onclick="sendReply('${email.id}', '${draftReply.replace(/'/g, "\\'")}')">📧 Send This</button>
-              <button class="secondary" onclick="this.parentElement.parentElement.innerHTML=''">Edit First</button>
-            </div>
-          </div>
-        `;
-      } catch (error) {
-        console.error('Reply generation error:', error);
-        return `<div style="margin-top: 0.75rem; color: var(--danger);">Error generating reply</div>`;
-      }
-    }
-
-    async function sendReply(emailId, replyText) {
-      const token = await getAccessToken();
-      if (!token) return;
-
-      try {
-        const messageResponse = await fetch(`https://graph.microsoft.com/v1.0/me/messages/${emailId}`, {
-          headers: { 'Authorization': `Bearer ${token}` }
-        });
-        const originalEmail = await messageResponse.json();
-
-        await fetch(`https://graph.microsoft.com/v1.0/me/sendMail`, {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: {
-              subject: `Re: ${originalEmail.subject}`,
-              body: { contentType: 'text', content: replyText },
-              toRecipients: [{ emailAddress: originalEmail.from.emailAddress }]
-            },
-            saveToSentItems: true
-          })
-        });
-
-        showToast('✅ Email sent!');
-      } catch (error) {
-        console.error('Send error:', error);
-        showToast('❌ Error sending email');
-      }
-    }
-
-    function filterEmails(filter) {
-      currentEmailFilter = filter;
-      document.querySelectorAll('.tab-button').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.filter === filter);
-      });
-
-      document.querySelectorAll('.email-card').forEach(card => {
-        if (filter === 'all' || card.dataset.category === filter) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    // Module 2: Today's Brief
-    async function loadTodaysBrief() {
-      const container = document.getElementById('briefContent');
-
-      if (!account) {
-        container.innerHTML = `<div class="empty-state"><div>Sign in to view brief</div></div>`;
-        return;
-      }
-
-      container.innerHTML = `<div class="loading"><div class="spinner"></div>Generating brief...</div>`;
-
-      try {
-        const token = await getAccessToken();
-        if (!token) return;
-
-        const today = new Date().toISOString().split('T')[0];
-        const tomorrow = new Date(new Date().getTime() + 86400000).toISOString().split('T')[0];
-
-        const [calendarResponse, emailResponse] = await Promise.all([
-          fetch(`https://graph.microsoft.com/v1.0/me/calendarview?startDateTime=${today}T00:00:00&endDateTime=${tomorrow}T00:00:00`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          }),
-          fetch(`https://graph.microsoft.com/v1.0/me/messages?$top=5&$filter=receivedDateTime ge ${today}T00:00:00&$orderby=receivedDateTime desc`, {
-            headers: { 'Authorization': `Bearer ${token}` }
-          })
-        ]);
-
-        const calendarData = await calendarResponse.json();
-        const emailData = await emailResponse.json();
-
-        const events = calendarData.value || [];
-        const emails = emailData.value || [];
-
-        const briefPrompt = `Create a 5-bullet executive brief for today based on:
-
-Events:
-${events.map(e => `- ${e.start.dateTime.split('T')[1].substring(0, 5)} ${e.subject}`).join('\n')}
-
-Recent emails:
-${emails.map(e => `- From ${e.from.emailAddress.name}: ${e.subject}`).join('\n')}
-
-Format: bullet points, action-oriented, max 60 words total.`;
-
-        const apiKey = localStorage.getItem('gemini_key');
-        if (!apiKey) {
-          container.innerHTML = `
-            <div class="brief-item">
-              <strong>${events.length} meetings today</strong><br>
-              ${events.map(e => `${e.start.dateTime.split('T')[1].substring(0, 5)} - ${e.subject}`).join('<br>')}
-            </div>
-            <div class="brief-item">
-              <strong>${emails.length} new emails</strong><br>
-              Set Gemini API key in settings for AI-powered brief
-            </div>
-          `;
-          return;
-        }
-
-        const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: briefPrompt
-              }]
-            }]
-          })
-        });
-
-        const result = await geminiResponse.json();
-        const brief = result.candidates?.[0]?.content?.parts?.[0]?.text || 'Unable to generate brief';
-
-        const items = brief.split('\n').filter(line => line.trim()).slice(0, 5);
-        const html = items.map(item => `<div class="brief-item">${item.replace(/^[-•]\s/, '')}</div>`).join('');
-
-        container.innerHTML = html || `<div class="empty-state"><div>No events or emails today</div></div>`;
-      } catch (error) {
-        console.error('Brief error:', error);
-        container.innerHTML = `<div class="empty-state"><div>Unable to load brief</div></div>`;
-      }
-    }
-
-    // Module 3: Quick Compose
-    async function generateAndSendEmail() {
-      const instruction = document.getElementById('composeInstruction').value;
-      const recipient = document.getElementById('composeEmail').value;
-      const apiKey = localStorage.getItem('gemini_key');
-
-      if (!instruction || !recipient || !apiKey) {
-        showToast('⚠️ Fill in all fields and set your Gemini API key');
-        return;
-      }
-
-      const previewDiv = document.getElementById('composePreview');
-      previewDiv.innerHTML = `<div class="loading"><div class="spinner"></div>Generating email...</div>`;
-
-      try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: `Write a professional business email based on this instruction:\n"${instruction}"\n\nInclude a subject line and body. Format as:\nSUBJECT: [subject]\nBODY: [body]`
-              }]
-            }]
-          })
-        });
-
-        const result = await response.json();
-        const emailText = result.candidates?.[0]?.content?.parts?.[0]?.text || '';
-        const [subjectMatch, bodyMatch] = [
-          emailText.match(/SUBJECT:\s*(.+?)(?=BODY:|$)/i),
-          emailText.match(/BODY:\s*(.+?)$/is)
-        ];
-
-        const subject = subjectMatch?.[1]?.trim() || 'Message';
-        const body = bodyMatch?.[1]?.trim() || emailText;
-
-        previewDiv.innerHTML = `
-          <div class="email-expanded" style="margin-top: 1rem;">
-            <div class="email-expanded-header">📧 Preview</div>
-            <div style="margin-bottom: 0.75rem;">
-              <strong>To:</strong> ${recipient}<br>
-              <strong>Subject:</strong> ${subject}
-            </div>
-            <div class="email-expanded-content">${body}</div>
-            <div class="email-expanded-actions">
-              <button onclick="sendComposedEmail('${recipient}', '${subject.replace(/'/g, "\\'")}', '${body.replace(/'/g, "\\'")}')">📬 Send Now</button>
-              <button class="secondary" onclick="document.getElementById('composePreview').innerHTML=''">Discard</button>
-            </div>
-          </div>
-        `;
-      } catch (error) {
-        console.error('Email generation error:', error);
-        previewDiv.innerHTML = `<div style="color: var(--danger);">Error generating email</div>`;
-      }
-    }
-
-    async function sendComposedEmail(recipient, subject, body) {
-      const token = await getAccessToken();
-      if (!token) {
-        showToast('⚠️ Connect Outlook first');
-        return;
-      }
-
-      try {
-        await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: {
-              subject: subject,
-              body: { contentType: 'text', content: body },
-              toRecipients: [{ emailAddress: { address: recipient } }]
-            },
-            saveToSentItems: true
-          })
-        });
-
-        showToast('✅ Email sent!');
-        document.getElementById('composeInstruction').value = '';
-        document.getElementById('composeEmail').value = '';
-        document.getElementById('composePreview').innerHTML = '';
-      } catch (error) {
-        console.error('Send error:', error);
-        showToast('❌ Error sending email');
-      }
-    }
-
-    // Module 4: Active Deals
-    function loadDeals() {
-      const stored = localStorage.getItem('deals') ? JSON.parse(localStorage.getItem('deals')) : [];
-      const container = document.getElementById('dealsContent');
-
-      if (stored.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="empty-state-icon">🤝</div><div>No deals yet. Add one to get started.</div></div>`;
-        return;
-      }
-
-      const html = stored.map(deal => createDealCard(deal)).join('');
-      container.innerHTML = html;
-    }
-
-    function createDealCard(deal) {
-      const health = deal.health || assessDealHealth(deal);
-      return `
-        <div class="deal-card ${health}">
-          <div class="deal-header">
-            <div class="deal-company">${deal.company}</div>
-            <div class="deal-health ${health}">${health.toUpperCase()}</div>
-          </div>
-          <div class="deal-meta">
-            <span>${deal.value || 'TBD'}</span>
-            <span>${deal.stage || 'Prospecting'}</span>
-          </div>
-          <div class="deal-action">Next: ${getDealAction(health)}</div>
-        </div>
-      `;
-    }
-
-    function assessDealHealth(deal) {
-      const stage = (deal.stage || '').toLowerCase();
-      if (stage.includes('closed') || stage.includes('negotiation')) return 'hot';
-      if (stage.includes('proposal')) return 'warm';
-      if (stage.includes('qualified')) return 'at-risk';
-      return 'stalled';
-    }
-
-    function getDealAction(health) {
-      const actions = {
-        hot: 'Close the deal this week',
-        warm: 'Follow up with timeline',
-        'at-risk': 'Clarify their needs',
-        stalled: 'Re-engage with value prop'
-      };
-      return actions[health] || 'Follow up';
-    }
-
-    function addDealFromModal() {
-      const company = document.getElementById('dealCompany').value;
-      const value = document.getElementById('dealValue').value;
-      const stage = document.getElementById('dealStage').value;
-
-      if (!company) {
-        showToast('⚠️ Please enter a company name');
-        return;
-      }
-
-      const deals = localStorage.getItem('deals') ? JSON.parse(localStorage.getItem('deals')) : [];
-      deals.push({ company, value, stage, health: assessDealHealth({ stage }) });
-      localStorage.setItem('deals', JSON.stringify(deals));
-
-      document.getElementById('addDealModal').classList.remove('active');
-      document.getElementById('dealCompany').value = '';
-      document.getElementById('dealValue').value = '';
-      loadDeals();
-    }
-
-    // Module 5: Sequence Launcher
-    async function generateSequence() {
-      const template = document.getElementById('sequenceTemplate').value;
-      const contact = document.getElementById('sequenceContact').value;
-      const company = document.getElementById('sequenceCompany').value;
-      const description = document.getElementById('sequenceDescription').value;
-      const apiKey = localStorage.getItem('gemini_key');
-
-      if (!contact || !company || !apiKey) {
-        showToast('⚠️ Fill in all fields and set your Gemini API key');
-        return;
-      }
-
-      const previewDiv = document.getElementById('sequencePreview');
-      previewDiv.innerHTML = `<div class="loading"><div class="spinner"></div>Generating sequence...</div>`;
-
-      try {
-        const prompt = `Generate a 3-email sequence (${template}) for:
-Contact: ${contact}
-Company: ${company}
-What we do: ${description}
-
-Format each email as:
-EMAIL 1:
-SUBJECT: [subject]
-BODY: [body]
-
-EMAIL 2:
-SUBJECT: [subject]
-BODY: [body]
-
-EMAIL 3:
-SUBJECT: [subject]
-BODY: [body]
-
-Keep emails professional, short, and action-oriented.`;
-
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: prompt
-              }]
-            }]
-          })
-        });
-
-        const result = await response.json();
-        const text = result.candidates?.[0]?.content?.parts?.[0]?.text || '';
-
-        const emails = [];
-        const emailMatches = text.match(/EMAIL \d+:\s*SUBJECT:\s*(.+?)\s*BODY:\s*(.+?)(?=EMAIL \d+:|$)/gs) || [];
-
-        emailMatches.forEach((match, i) => {
-          const subjectMatch = match.match(/SUBJECT:\s*(.+?)\s*BODY:/);
-          const bodyMatch = match.match(/BODY:\s*(.+?)$/s);
-          if (subjectMatch && bodyMatch) {
-            emails.push({
-              num: i + 1,
-              subject: subjectMatch[1].trim(),
-              body: bodyMatch[1].trim()
-            });
-          }
-        });
-
-        let html = '';
-        emails.slice(0, 3).forEach(email => {
-          html += `
-            <div class="sequence-email">
-              <div class="sequence-email-num">Email ${email.num}</div>
-              <div class="sequence-email-subject">Subject: ${email.subject}</div>
-              <div class="sequence-email-body">${email.body}</div>
-            </div>
-          `;
-        });
-
-        if (emails.length > 0) {
-          html += `<button style="width: 100%; margin-top: 1rem; background: var(--orange);" onclick="sendSequenceEmail(0, '${contact}', '${company}')">📧 Send Email 1</button>`;
-        }
-
-        previewDiv.innerHTML = html || `<div style="color: var(--danger);">Error generating sequence</div>`;
-        localStorage.setItem('currentSequence', JSON.stringify(emails));
-      } catch (error) {
-        console.error('Sequence error:', error);
-        previewDiv.innerHTML = `<div style="color: var(--danger);">Error generating sequence</div>`;
-      }
-    }
-
-    async function sendSequenceEmail(index, contact, company) {
-      const token = await getAccessToken();
-      if (!token) {
-        showToast('⚠️ Connect Outlook first');
-        return;
-      }
-
-      const sequence = JSON.parse(localStorage.getItem('currentSequence') || '[]');
-      if (index >= sequence.length) return;
-
-      const email = sequence[index];
-
-      try {
-        await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            message: {
-              subject: email.subject,
-              body: { contentType: 'text', content: email.body },
-              toRecipients: [{ emailAddress: { address: contact } }]
-            },
-            saveToSentItems: true
-          })
-        });
-
-        showToast(`✅ Email ${index + 1} sent to ${contact}!`);
-      } catch (error) {
-        console.error('Send error:', error);
-        showToast('❌ Error sending email');
-      }
-    }
-
-    // Demo Mode
-    function runDemo() {
-      // Demo Deals
-      const demoDeal = [
-        { company: 'Apex Corp', value: '$150K', stage: 'negotiation', health: 'hot' },
-        { company: 'Meridian Solutions', value: '$75K', stage: 'proposal', health: 'warm' },
-        { company: 'TechFlow Inc', value: '$50K', stage: 'qualified', health: 'at-risk' },
-        { company: 'Global Ventures', value: '$200K', stage: 'prospecting', health: 'stalled' }
-      ];
-      localStorage.setItem('deals', JSON.stringify(demoDeal));
-
-      // Demo Emails
-      document.getElementById('inboxContent').innerHTML = `
-        <div class="email-card urgent" data-id="1" data-category="urgent">
-          <div class="email-sender">Sarah Johnson</div>
-          <div class="email-subject">RE: Apex Contract Review</div>
-          <div class="email-summary">Need your signature on the final contract ASAP. Client wants to move forward by EOW.</div>
-          <div class="email-category urgent">URGENT</div>
-        </div>
-        <div class="email-card respond" data-id="2" data-category="respond">
-          <div class="email-sender">Michael Chen</div>
-          <div class="email-subject">Q1 Budget Review</div>
-          <div class="email-summary">Following up on the budget allocation for Q1. Need your approval to proceed with resource planning.</div>
-          <div class="email-category respond">RESPOND</div>
-        </div>
-        <div class="email-card fyi" data-id="3" data-category="fyi">
-          <div class="email-sender">Team Updates</div>
-          <div class="email-subject">Weekly Standup Summary</div>
-          <div class="email-summary">This week's progress: Closed 2 deals, 3 proposals sent, customer NPS at 42. All on track.</div>
-          <div class="email-category fyi">FYI</div>
-        </div>
-      `;
-
-      // Demo Brief
-      document.getElementById('briefContent').innerHTML = `
-        <div class="brief-item">☀️ <strong>3 Meetings Today:</strong> 10am Team Sync, 2pm Apex Call, 4pm Board Update</div>
-        <div class="brief-item">🎯 <strong>Key Focus:</strong> Close Apex contract, review Q1 budget, update board on pipeline</div>
-        <div class="brief-item">📊 <strong>Pipeline Health:</strong> $475K in active deals, 2 at risk, 1 closing EOW</div>
-        <div class="brief-item">✅ <strong>This Week's Wins:</strong> Meridian proposal sent, TechFlow qualified, 42 NPS average</div>
-      `;
-
-      // Demo Compose
-      document.getElementById('composeInstruction').value = 'Tell Sarah we can sign the Apex contract this week but need legal review first';
-      document.getElementById('composeEmail').value = 'sarah.johnson@company.com';
-
-      // Demo Sequence
-      document.getElementById('sequenceContact').value = 'John Smith';
-      document.getElementById('sequenceCompany').value = 'TechFlow Inc';
-      document.getElementById('sequenceDescription').value = 'Sales automation platform';
-
-      loadDeals();
-      showToast('🎉 Demo loaded — explore all 5 modules!');
-    }
-
-    // ── Toast notification ──
-    function showToast(msg, duration = 3000) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.style.display = 'block';
-      t.style.opacity = '1';
-      clearTimeout(t._timeout);
-      t._timeout = setTimeout(() => {
-        t.style.opacity = '0';
-        setTimeout(() => { t.style.display = 'none'; }, 300);
-      }, duration);
-    }
-
-    // ── Onboarding logic ──
-    let setupKeyDone = false;
-    let setupOutlookDone = false;
-
-    function checkOnboarding() {
-      const hasKey = !!localStorage.getItem('gemini_key');
-      const hasAccount = !!(msalInstance && msalInstance.getAllAccounts()[0]);
-      if (!hasKey || !hasAccount) {
-        document.getElementById('onboardingOverlay').style.display = 'block';
-        if (hasKey) markStep1Done();
-        if (hasAccount) markStep2Done();
-        // Pre-fill key if saved
-        const saved = localStorage.getItem('gemini_key');
-        if (saved) document.getElementById('setupGeminiKey').value = '••••••••••••';
-      }
-    }
-
-    function saveSetupKey() {
-      const val = document.getElementById('setupGeminiKey').value.trim();
-      if (!val || val === '••••••••••••') {
-        showToast('⚠️ Please paste your Gemini API key');
-        return;
-      }
-      localStorage.setItem('gemini_key', val);
-      markStep1Done();
-    }
-
-    function markStep1Done() {
-      setupKeyDone = true;
-      const badge = document.getElementById('step1Badge');
-      badge.textContent = '✓';
-      badge.style.background = 'var(--success)';
-      badge.style.borderColor = 'var(--success)';
-      badge.style.color = '#fff';
-      document.getElementById('setupStep1').style.borderColor = 'var(--success)';
-      document.getElementById('setupStep2').style.opacity = '1';
-      if (document.getElementById('geminiKey')) {
-        document.getElementById('geminiKey').value = localStorage.getItem('gemini_key') || '';
-      }
-      checkLaunchReady();
-    }
-
-    async function setupConnectOutlook() {
-      const btn = document.getElementById('setupOutlookBtn');
-      btn.textContent = '⏳ Connecting...';
-      btn.disabled = true;
-      try {
-        await login();
-        markStep2Done();
-      } catch(e) {
-        btn.textContent = '📧 Connect Outlook';
-        btn.disabled = false;
-        showToast('❌ Connection failed — try again');
-      }
-    }
-
-    function markStep2Done() {
-      setupOutlookDone = true;
-      const badge = document.getElementById('step2Badge');
-      badge.textContent = '✓';
-      badge.style.background = 'var(--success)';
-      badge.style.borderColor = 'var(--success)';
-      badge.style.color = '#fff';
-      document.getElementById('setupStep2').style.borderColor = 'var(--success)';
-      document.getElementById('setupConnected').style.display = 'block';
-      document.getElementById('setupOutlookBtn').style.display = 'none';
-      checkLaunchReady();
-    }
-
-    function checkLaunchReady() {
-      const btn = document.getElementById('setupLaunchBtn');
-      if (setupKeyDone && setupOutlookDone) {
-        btn.disabled = false;
-        btn.style.opacity = '1';
-        btn.style.cursor = 'pointer';
-      }
-    }
-
-    function launchDashboard() {
-      document.getElementById('onboardingOverlay').style.display = 'none';
-      loadAllModules();
-      showToast('🚀 Command Center loaded!');
-    }
-
-    function skipToDemo() {
-      document.getElementById('onboardingOverlay').style.display = 'none';
-      runDemo();
-    }
-
-    // Save Gemini API Key
-    function saveGeminiKey() {
-      const key = document.getElementById('geminiKey').value;
-      if (!key) {
-        showToast('⚠️ Please enter your API key');
-        return;
-      }
-      localStorage.setItem('gemini_key', key);
-      document.getElementById('geminiKey').value = '';
-      showToast('✅ API key saved');
-    }
-
-    // Event Listeners
-    document.getElementById('settingsBtn').addEventListener('click', () => {
-      document.getElementById('settingsModal').classList.add('active');
-    });
-
-    document.getElementById('loginBtn').addEventListener('click', login);
-    document.getElementById('demoBtn').addEventListener('click', runDemo);
-
-    document.getElementById('refreshAllBtn').addEventListener('click', async () => {
-      if (account) {
-        await loadAllModules();
-        showToast('✅ All modules refreshed');
-      } else {
-        showToast('⚠️ Connect Outlook first');
-        document.getElementById('onboardingOverlay').style.display = 'block';
-      }
-    });
-
-    document.getElementById('refreshInboxBtn').addEventListener('click', loadInbox);
-    document.getElementById('refreshBriefBtn').addEventListener('click', loadTodaysBrief);
-
-    document.getElementById('generateEmailBtn').addEventListener('click', generateAndSendEmail);
-
-    document.getElementById('addDealBtn').addEventListener('click', () => {
-      document.getElementById('addDealModal').classList.add('active');
-    });
-
-    document.getElementById('generateSequenceBtn').addEventListener('click', generateSequence);
-
-    document.querySelectorAll('[data-filter]').forEach(btn => {
-      btn.addEventListener('click', () => filterEmails(btn.dataset.filter));
-    });
-
-    // Initialize on load
-    initMsal();
-  </script>
 </body>
 </html>

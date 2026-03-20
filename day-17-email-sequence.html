@@ -1,1335 +1,698 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; connect-src https:; script-src 'self' https: 'unsafe-inline';">
-    <title>Day 17: Email Sequence Builder | 20 AI Tools in 20 Days</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <!-- GA4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-69LQQBX0C1');</script>
-
-    <!-- Meta Pixel -->
-    <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement('script');t.async=!0;t.src='https://connect.facebook.net/en_US/fbevents.js';b.getElementsByTagName('head')[0].appendChild(t)}(window, document, 'script');fbq('init', '876506382017154');fbq('track', 'PageView');</script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
-
-    <!-- LinkedIn -->
-    <script type="text/javascript">_linkedin_partner_id="514319631";window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];window._linkedin_data_partner_ids.push(_linkedin_partner_id);</script><script type="text/javascript">(function(l){if(!l){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[];}else if(window.lintrk){return;}var s=document.getElementsByTagName("script")[0];var b=document.createElement("script");b.type="text/javascript";b.async=true;b.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";s.parentNode.insertBefore(b,s);}})(window.linkedin_insightInit);</script>
-    <noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif" /></noscript>
-
-    <!-- X Pixel -->
-    <script>!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)},s.version='1.1',s.queue=[],u=document.createElement('script'),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=document.getElementsByTagName('script')[0],a.parentNode.insertBefore(u,a))}(window,document);</script>
-    <script>twq('config','tw-r848k');twq('track','PageView');</script>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg: #080E1A;
-            --surface: #0F1829;
-            --surface2: #162035;
-            --orange: #EA580C;
-            --teal: #06B6D4;
-            --text: #F1F5F9;
-            --muted: #94A3B8;
-            --border: #1E293B;
-            --success: #10B981;
-            --warning: #F59E0B;
-            --danger: #EF4444;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        nav a {
-            color: var(--teal);
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.2s;
-        }
-
-        nav a:hover {
-            color: var(--orange);
-        }
-
-        nav > span {
-            font-size: 0.85rem;
-            color: var(--muted);
-            font-weight: 500;
-        }
-
-        nav div {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        /* Layout */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Hero */
-        .hero {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .day-badge {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--orange), var(--teal));
-            color: var(--text);
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--text), var(--teal));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: var(--muted);
-            margin-bottom: 1.5rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .tags {
-            display: flex;
-            justify-content: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        /* Setup Form */
-        .setup-section {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .setup-section h2 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--text);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        input[type="text"],
-        select,
-        textarea {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            transition: border-color 0.2s;
-        }
-
-        input[type="text"]:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--teal);
-            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
-        }
-
-        .cta-button {
-            background: linear-gradient(135deg, var(--orange), #ff7f3f);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(234, 88, 12, 0.3);
-        }
-
-        .cta-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding: 2rem 0;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, var(--border), transparent);
-            transform: translateX(-1px);
-        }
-
-        .email-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            position: relative;
-            animation: fadeInUp 0.5s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .email-card::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: -1rem;
-            width: 1rem;
-            height: 1rem;
-            background: var(--orange);
-            border: 3px solid var(--bg);
-            border-radius: 50%;
-            transform: translateX(-50%);
-        }
-
-        .email-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .email-number {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--orange);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .send-day {
-            font-size: 0.85rem;
-            color: var(--muted);
-            font-weight: 500;
-        }
-
-        .email-purpose {
-            font-size: 0.9rem;
-            color: var(--teal);
-            font-style: italic;
-        }
-
-        .email-subject-label {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        .email-subject {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 1rem;
-            font-family: 'Inter', sans-serif;
-        }
-
-        .email-subject:focus {
-            outline: none;
-            border-color: var(--teal);
-            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
-        }
-
-        .email-body-label {
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
-        }
-
-        .email-body {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            min-height: 150px;
-            resize: vertical;
-            margin-bottom: 1rem;
-        }
-
-        .email-body:focus {
-            outline: none;
-            border-color: var(--teal);
-            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
-        }
-
-        .char-count {
-            font-size: 0.8rem;
-            color: var(--muted);
-            text-align: right;
-            margin-bottom: 1rem;
-        }
-
-        .email-actions {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .action-button {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.65rem 1.25rem;
-            border-radius: 0.5rem;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .action-button:hover {
-            border-color: var(--teal);
-            color: var(--teal);
-        }
-
-        .action-button.primary {
-            background: var(--teal);
-            border-color: var(--teal);
-            color: var(--bg);
-        }
-
-        .action-button.primary:hover {
-            background: #0891b2;
-            border-color: #0891b2;
-        }
-
-        .action-button.send {
-            background: linear-gradient(135deg, var(--success), #059669);
-            border: none;
-            color: white;
-        }
-
-        .action-button.send:hover {
-            filter: brightness(1.1);
-        }
-
-        /* Export Section */
-        .export-section {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-top: 3rem;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        /* Loading State */
-        .loading-skeleton {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .skeleton-line {
-            height: 1rem;
-            background: linear-gradient(90deg, var(--surface2) 25%, var(--border) 50%, var(--surface2) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .modal h3 {
-            margin-bottom: 1.5rem;
-            font-size: 1.3rem;
-        }
-
-        .modal-input {
-            width: 100%;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .timeline::before {
-                left: 0;
-            }
-
-            .email-card::before {
-                left: 0;
-                transform: translateX(-50%);
-            }
-
-            .email-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
-            }
-
-            .email-actions {
-                flex-direction: column;
-            }
-
-            .action-button {
-                width: 100%;
-                text-align: center;
-            }
-
-            .export-section {
-                flex-direction: column;
-            }
-
-            .export-section button {
-                width: 100%;
-            }
-        }
-
-        /* Utility */
-        .hidden {
-            display: none !important;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .mt-2 {
-            margin-top: 2rem;
-        }
-
-        .success-message {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success);
-            color: var(--success);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            animation: fadeInUp 0.3s ease-out;
-        }
-
-        .error-message {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid var(--danger);
-            color: var(--danger);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            animation: fadeInUp 0.3s ease-out;
-        }
-
-        .demo-button {
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--teal);
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-left: 0.5rem;
-        }
-
-        .demo-button:hover {
-            border-color: var(--teal);
-            background: rgba(6, 182, 212, 0.1);
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 17: Email Sequence Builder | 20 AI Tools in 20 Days</title>
+<meta name="description" content="AI-powered email sequence builder. Describe your goal, audience, and tone — get a complete multi-email sequence with subjects, timing, bodies, and CTAs ready to send.">
+
+<!-- Favicon set -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<meta name="theme-color" content="#0F1F3D">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Email Sequence Builder — AI Cold Outreach & Nurture (Day 17 of 20)">
+<meta property="og:description" content="AI generates complete email sequences. Specify your product, audience, and goal — get 3-10 personalized emails with subjects, timing, and CTAs.">
+<meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aimersion">
+<meta name="twitter:title" content="Email Sequence Builder — AI Cold Outreach & Nurture (Day 17 of 20)">
+<meta name="twitter:description" content="AI generates complete email sequences. Specify your product, audience, and goal — get 3-10 personalized emails with subjects, timing, and CTAs.">
+
+<!-- ═══ ANALYTICS & RETARGETING ═══ -->
+<!-- Google Analytics 4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-69LQQBX0C1');
+</script>
+
+<!-- Meta Pixel (Aimersion) -->
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '876506382017154');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
+
+<!-- LinkedIn Insight Tag -->
+<script type="text/javascript">
+  _linkedin_partner_id = "514319631";
+  window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+  window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+</script>
+<script type="text/javascript">
+  (function(l) {
+    if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+    window.lintrk.q=[]}
+    var s = document.getElementsByTagName("script")[0];
+    var b = document.createElement("script");
+    b.type = "text/javascript";b.async = true;
+    b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+    s.parentNode.insertBefore(b, s);})(window.lintrk);
+</script>
+<noscript><img height="1" width="1" style="display:none;" alt=""
+  src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif" /></noscript>
+
+<!-- X (Twitter) Pixel -->
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version="1.1",s.queue=[],u=t.createElement(n),u.async=!0,u.src="https://static.ads-twitter.com/uwt.js",
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,"script");
+twq("config","tw-r848k-r848k");
+</script>
+<!-- ═══ END ANALYTICS ═══ -->
+
+<script src="https://cdn.jsdelivr.net/npm/@google/generative-ai@0.4.1/dist/index.min.js"></script>
+<style>
+  :root {
+    --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
+    --amber: #F59E0B; --green: #059669; --red: #DC2626; --white: #F0F7FF;
+    --muted: #8AAFD0; --card: #162840; --border: #2A4A70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 16px; }
+  .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: var(--teal-light); }
+  .hero { text-align: center; padding: 40px 32px 32px; }
+  .day-label { font-size: 11px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+  h1 { font-size: 38px; font-weight: 900; margin-bottom: 10px; }
+  h1 span { color: var(--teal); }
+  .tagline { font-size: 16px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+  .main { max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .card-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  .card.collapsible { padding-bottom: 20px; }
+  .card-header { display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none; margin-bottom: 14px; }
+  .card-header .card-title { margin-bottom: 0; }
+  .card-toggle { background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; padding:0; line-height:1; transition:transform 0.22s, color 0.15s; flex-shrink:0; }
+  .card-header:hover .card-toggle { color:var(--teal-light); }
+  .card.collapsed .card-toggle { transform: rotate(-90deg); }
+  .card.collapsed .card-body { display: none; }
+  .card.collapsed { padding-bottom: 20px; }
+  .card-status { font-size:12px; color:var(--green); font-weight:600; opacity:0; transition:opacity 0.2s; margin-left:10px; white-space:nowrap; }
+  .card.collapsed .card-status { opacity:1; }
+  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  input[type="password"], input[type="text"], textarea, select {
+    background: var(--navy); border: 1px solid var(--border); color: var(--white);
+    padding: 9px 14px; border-radius: 8px; font-size: 13px; font-family: inherit;
+    outline: none; transition: border 0.2s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--teal); }
+  .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-teal { background: var(--teal); color: #fff; }
+  .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn-amber { background: var(--amber); color: #000; }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
+  #runBtn { padding: 12px 32px; font-size: 15px; }
+  .output-area { min-height: 120px; }
+  .loading { text-align: center; padding: 40px; color: var(--muted); }
+  .fun-loader { display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .loader-emoji { font-size: 3rem; animation: bounce 0.7s ease-in-out infinite alternate; }
+  .loader-msg { font-size: 1rem; color: var(--teal-light); font-weight: 500; min-height: 1.4em; transition: opacity 0.4s; }
+  .loader-sub { font-size: 0.8rem; color: var(--muted); }
+  @keyframes bounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-10px) scale(1.1); } }
+  .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+  .step-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; }
+  .step-num-circle { width:26px; height:26px; border-radius:50%; color:#fff; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .step-title { font-size:14px; font-weight:700; margin-bottom:3px; color:var(--white); }
+  .step-desc { font-size:13px; color:var(--muted); line-height:1.5; }
+  .key-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .key-hint a { color: var(--teal-light); }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-label { font-size: 12px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; }
+  textarea { min-height: 80px; resize: vertical; }
+  .email-sequence { display: grid; gap: 16px; }
+  .email-card { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .email-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .email-num-badge { width: 32px; height: 32px; border-radius: 50%; background: var(--teal); color: #fff; font-size: 14px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .email-info { flex: 1; }
+  .email-timing { font-size: 11px; color: var(--amber); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+  .email-subject { font-size: 14px; font-weight: 800; color: var(--white); margin-bottom: 2px; }
+  .email-preview { font-size: 12px; color: var(--muted); font-style: italic; }
+  .email-body { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 12px; font-size: 13px; line-height: 1.65; color: var(--white); max-height: 200px; overflow-y: auto; }
+  .email-cta { background: rgba(8,145,178,0.15); border-left: 3px solid var(--teal); padding: 10px 12px; margin-bottom: 12px; font-size: 12px; color: var(--teal-light); font-weight: 600; }
+  .email-footer { display: flex; gap: 8px; flex-wrap: wrap; }
+  .email-footer .btn { font-size: 12px; padding: 7px 14px; }
+  .sequence-overview { background: linear-gradient(135deg,rgba(8,145,178,0.12),rgba(34,211,238,0.06)); border: 1px solid rgba(8,145,178,0.35); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
+  .overview-title { font-size: 12px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .overview-text { font-size: 14px; color: var(--white); line-height: 1.6; margin-bottom: 10px; }
+  .overview-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
+  .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
+  .empty-state-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .empty-state-text { font-size: 13px; line-height: 1.6; max-width: 380px; margin: 0 auto; }
+
+  /* ── Mobile ─────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    header { padding: 11px 16px; }
+    .logo { font-size: 11px; letter-spacing: 2px; }
+    .hero { padding: 20px 16px 16px; }
+    h1 { font-size: 28px; }
+    .tagline { font-size: 13px; }
+    .main { padding: 0 12px 96px; }
+    .card { padding: 14px 14px; margin-bottom: 14px; }
+    .steps-grid { grid-template-columns: 1fr; gap: 0; margin-bottom: 16px;
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .step-card { border-radius: 0; border: none;
+      border-bottom: 1px solid var(--border); padding: 12px 14px; }
+    .step-card:last-child { border-bottom: none; }
+    input[type="password"], input[type="text"], textarea, select { font-size: 15px; padding: 11px 14px; }
+    .controls { flex-direction: column; align-items: stretch; gap: 10px; }
+    .controls select { width: 100%; }
+    #runBtn { width: 100%; padding: 17px; font-size: 18px; font-weight: 900;
+      border-radius: 14px; letter-spacing: 0.3px; }
+    .form-grid { grid-template-columns: 1fr; }
+    .email-card { padding: 12px; }
+    .sticky-cta { display: flex; }
+  }
+
+  .sticky-cta {
+    display: none;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+    padding: 12px 16px 28px;
+    background: linear-gradient(to top, var(--navy) 65%, transparent);
+    pointer-events: none;
+  }
+  .sticky-cta button {
+    pointer-events: all;
+    width: 100%; padding: 17px; font-size: 18px; font-weight: 900;
+    background: var(--amber); color: #000; border: none; border-radius: 14px;
+    cursor: pointer; font-family: inherit; letter-spacing: 0.3px;
+    box-shadow: 0 4px 24px rgba(245,158,11,0.35);
+    transition: opacity 0.2s, transform 0.15s;
+  }
+  .sticky-cta button:active { opacity: 0.85; transform: scale(0.98); }
+  .sticky-cta button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+</style>
 </head>
 <body>
-  <!-- ═══ UNIVERSAL SETUP BANNER ═══ -->
-  <div id="__setupBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0F1829 0%,#080E1A 100%);border-bottom:1px solid #1E293B;box-shadow:0 4px 32px rgba(0,0,0,0.5);padding:0;overflow:hidden;">
-    <div style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
-        <div>
-          <div style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:#EA580C;text-transform:uppercase;margin-bottom:0.25rem;">Quick Setup</div>
-          <div style="font-weight:800;font-size:1rem;color:#F1F5F9;">Two steps to get started</div>
-        </div>
-        <button onclick="document.getElementById('__setupBanner').style.display='none'" style="background:transparent;border:1px solid #1E293B;color:#94A3B8;padding:0.4rem 0.75rem;border-radius:6px;cursor:pointer;font-size:0.75rem;">✕ dismiss</button>
+
+<!-- ═══ UNIVERSAL SETUP BANNER ═══ -->
+<div id="__setupBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0F1829 0%,#080E1A 100%);border-bottom:1px solid #1E293B;box-shadow:0 4px 32px rgba(0,0,0,0.5);padding:0;overflow:hidden;">
+  <div style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+      <div>
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:#EA580C;text-transform:uppercase;margin-bottom:0.25rem;">Quick Setup</div>
+        <div style="font-weight:800;font-size:1rem;color:#F1F5F9;">One step to get started</div>
       </div>
-      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-        <!-- Step 1: Gemini key -->
-        <div id="__step1" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;">
-          <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-            <span id="__s1icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">1</span>
-            Free Gemini API Key
-          </div>
-          <div style="display:flex;gap:0.5rem;">
-            <input id="__geminiInput" type="password" placeholder="Paste key (AIza...)" style="flex:1;padding:0.5rem 0.75rem;background:#0F1829;border:1px solid #1E293B;border-radius:6px;color:#F1F5F9;font-size:0.8rem;min-width:0;" oninput="__checkSetup()">
-            <button onclick="__saveGeminiKey()" style="padding:0.5rem 0.75rem;background:#EA580C;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Save</button>
-          </div>
-          <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size:0.7rem;color:#06B6D4;display:inline-block;margin-top:0.4rem;">→ Get free key at aistudio.google.com</a>
+      <button onclick="document.getElementById('__setupBanner').style.display='none'" style="background:transparent;border:1px solid #1E293B;color:#94A3B8;padding:0.4rem 0.75rem;border-radius:6px;cursor:pointer;font-size:0.75rem;">✕ dismiss</button>
+    </div>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+      <!-- Step 1: Gemini key -->
+      <div id="__step1" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;">
+        <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+          <span id="__s1icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">1</span>
+          Free Gemini API Key
         </div>
-        <!-- Step 2: Outlook -->
-        <div id="__step2" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;opacity:0.55;transition:opacity 0.3s;">
-          <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-            <span id="__s2icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">2</span>
-            Connect Outlook
-          </div>
-          <button id="__outlookBtn" onclick="__connectOutlook()" style="width:100%;padding:0.5rem 0.75rem;background:#06B6D4;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;">
-            📧 Connect Outlook Account
-          </button>
-          <div id="__outlookStatus" style="font-size:0.7rem;color:#94A3B8;margin-top:0.4rem;min-height:1rem;"></div>
+        <div style="display:flex;gap:0.5rem;">
+          <input id="__geminiInput" type="password" placeholder="Paste key (AIza...)" style="flex:1;padding:0.5rem 0.75rem;background:#0F1829;border:1px solid #1E293B;border-radius:6px;color:#F1F5F9;font-size:0.8rem;min-width:0;" oninput="__checkSetup()">
+          <button onclick="__saveGeminiKey()" style="padding:0.5rem 0.75rem;background:#EA580C;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Save</button>
         </div>
-        <!-- Or: Demo -->
-        <div style="display:flex;align-items:center;justify-content:center;padding:0 0.5rem;">
-          <div style="text-align:center;">
-            <div style="font-size:0.65rem;color:#94A3B8;margin-bottom:0.35rem;">or skip setup</div>
-            <button onclick="__runPageDemo()" style="padding:0.5rem 1rem;background:transparent;border:1px solid #1E293B;border-radius:6px;color:#94A3B8;cursor:pointer;font-size:0.75rem;white-space:nowrap;">▶ Try Demo</button>
-          </div>
+        <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size:0.7rem;color:#06B6D4;display:inline-block;margin-top:0.4rem;">→ Get free key at aistudio.google.com</a>
+      </div>
+      <!-- Or: Demo -->
+      <div style="display:flex;align-items:center;justify-content:center;padding:0 0.5rem;">
+        <div style="text-align:center;">
+          <div style="font-size:0.65rem;color:#94A3B8;margin-bottom:0.35rem;">or skip setup</div>
+          <button onclick="__runPageDemo()" style="padding:0.5rem 1rem;background:transparent;border:1px solid #1E293B;border-radius:6px;color:#94A3B8;cursor:pointer;font-size:0.75rem;white-space:nowrap;">▶ Try Demo</button>
         </div>
       </div>
     </div>
   </div>
-  <div id="__setupSpacer" style="display:none;height:170px;"></div>
+</div>
+<div id="__setupSpacer" style="display:none;height:130px;"></div>
 
-  <script>
-  (function(){
-    // ── Universal setup helper ──
-    function __showToast(msg,dur=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#0F1829;border:1px solid #1E293B;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F1F5F9;transition:opacity 0.3s;';document.body.appendChild(t);}t.textContent=msg;t.style.display='block';t.style.opacity='1';clearTimeout(t._tmr);t._tmr=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none';},300);},dur);}
-    window.__showToast = __showToast;
+<script>
+(function(){
+  function __showToast(msg,dur=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#0F1829;border:1px solid #1E293B;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F1F5F9;transition:opacity 0.3s;';document.body.appendChild(t);}t.textContent=msg;t.style.display='block';t.style.opacity='1';clearTimeout(t._tmr);t._tmr=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none';},300);},dur);}
+  window.__showToast = __showToast;
 
-    function __checkSetup(){
-      const hasKey=!!localStorage.getItem('gemini_key');
-      const hasAccount=typeof msalInstance!=='undefined'&&msalInstance&&msalInstance.getAllAccounts&&msalInstance.getAllAccounts().length>0;
-      // Mark step 1
-      const s1=document.getElementById('__step1');
-      const s1icon=document.getElementById('__s1icon');
-      if(hasKey){s1.style.borderColor='#10B981';s1icon.style.background='#10B981';s1icon.style.color='#fff';s1icon.textContent='✓';document.getElementById('__step2').style.opacity='1';}
-      // Mark step 2
-      const s2=document.getElementById('__step2');
-      const s2icon=document.getElementById('__s2icon');
-      if(hasAccount){s2.style.borderColor='#10B981';s2icon.style.background='#10B981';s2icon.style.color='#fff';s2icon.textContent='✓';const acc=msalInstance.getAllAccounts()[0];document.getElementById('__outlookStatus').innerHTML='<span style="color:#10B981">✓ '+acc.username+'</span>';document.getElementById('__outlookBtn').style.display='none';}
-      // Hide banner if both done
-      if(hasKey&&hasAccount){setTimeout(()=>{document.getElementById('__setupBanner').style.display='none';document.getElementById('__setupSpacer').style.display='none';},600);}
-    }
-    window.__checkSetup=__checkSetup;
+  function __checkSetup(){
+    const hasKey=!!localStorage.getItem('gemini_key');
+    const s1=document.getElementById('__step1');
+    const s1icon=document.getElementById('__s1icon');
+    if(hasKey){s1.style.borderColor='#10B981';s1icon.style.background='#10B981';s1icon.style.color='#fff';s1icon.textContent='✓';}
+    if(hasKey){setTimeout(()=>{document.getElementById('__setupBanner').style.display='none';document.getElementById('__setupSpacer').style.display='none';},600);}
+  }
+  window.__checkSetup=__checkSetup;
 
-    function __saveGeminiKey(){
-      const v=document.getElementById('__geminiInput').value.trim();
-      if(!v){__showToast('⚠️ Paste your Gemini API key first');return;}
-      localStorage.setItem('gemini_key',v);
-      // Also set in any existing key input on the page
-      ['geminiKey','gemini-key','apiKey','api-key','geminiApiKey'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=v;});
-      __showToast('✅ Key saved — good across all 20 tools!');
-      __checkSetup();
-    }
-    window.__saveGeminiKey=__saveGeminiKey;
+  function __saveGeminiKey(){
+    const v=document.getElementById('__geminiInput').value.trim();
+    if(!v){__showToast('⚠️ Paste your Gemini API key first');return;}
+    localStorage.setItem('gemini_key',v);
+    ['geminiKey','gemini-key','apiKey','api-key','geminiApiKey'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=v;});
+    __showToast('✅ Key saved — good across all 20 tools!');
+    __checkSetup();
+  }
+  window.__saveGeminiKey=__saveGeminiKey;
 
-    async function __connectOutlook(){
-      const btn=document.getElementById('__outlookBtn');
-      const status=document.getElementById('__outlookStatus');
-      btn.textContent='⏳ Connecting...';
-      btn.disabled=true;
-      status.textContent='Opening Microsoft login...';
-      try{
-        // Try the page's own login/connect function first
-        const fns=['login','connectMicrosoft','connectOutlook','handleConnect','handleSignIn','loginOutlook'];
-        for(const fn of fns){if(typeof window[fn]==='function'){await window[fn]();break;}}
-        setTimeout(__checkSetup,1000);
-      }catch(e){
-        btn.textContent='📧 Connect Outlook Account';
-        btn.disabled=false;
-        status.textContent='';
-        __showToast('❌ Connection failed — try again');
-      }
-    }
-    window.__connectOutlook=__connectOutlook;
+  function __runPageDemo(){
+    document.getElementById('__setupBanner').style.display='none';
+    document.getElementById('__setupSpacer').style.display='none';
+    const fns=['runDemo','loadDemo','loadDemoData','loadDemoContent','showDemo'];
+    for(const fn of fns){if(typeof window[fn]==='function'){window[fn]();return;}}
+    __showToast('ℹ️ No demo available — set up your keys above to get started');
+    document.getElementById('__setupBanner').style.display='block';
+    document.getElementById('__setupSpacer').style.display='block';
+  }
+  window.__runPageDemo=__runPageDemo;
 
-    function __runPageDemo(){
-      document.getElementById('__setupBanner').style.display='none';
-      document.getElementById('__setupSpacer').style.display='none';
-      const fns=['runDemo','loadDemo','loadDemoData','loadDemoContent','showDemo'];
-      for(const fn of fns){if(typeof window[fn]==='function'){window[fn]();return;}}
-      __showToast('ℹ️ No demo available — set up your keys above to get started');
+  const savedKey=localStorage.getItem('gemini_key');
+  if(savedKey){document.getElementById('__geminiInput').value=savedKey;}
+
+  function __maybeShowBanner(){
+    const hasKey=!!localStorage.getItem('gemini_key');
+    if(!hasKey){
       document.getElementById('__setupBanner').style.display='block';
       document.getElementById('__setupSpacer').style.display='block';
+      __checkSetup();
     }
-    window.__runPageDemo=__runPageDemo;
-
-    // Pre-fill key if already saved
-    const savedKey=localStorage.getItem('gemini_key');
-    if(savedKey){document.getElementById('__geminiInput').value=savedKey;}
-
-    // Show banner if setup incomplete — wait for MSAL to init
-    function __maybeShowBanner(){
-      const hasKey=!!localStorage.getItem('gemini_key');
-      const hasAccount=typeof msalInstance!=='undefined'&&msalInstance&&msalInstance.getAllAccounts&&msalInstance.getAllAccounts().length>0;
-      if(!hasKey||!hasAccount){
-        document.getElementById('__setupBanner').style.display='block';
-        document.getElementById('__setupSpacer').style.display='block';
-        __checkSetup();
-      }
-    }
-    // Run after page + MSAL are ready
-    if(document.readyState==='complete'){setTimeout(__maybeShowBanner,800);}
-    else{window.addEventListener('load',function(){setTimeout(__maybeShowBanner,800);});}
-  })();
-  </script>
-  <!-- ═══ END SETUP BANNER ═══ -->
-
-    <!-- Navigation -->
-    <nav>
-        <a href="index.html">← All Tools</a>
-        <span>Day 17 of 20</span>
-        <div>
-            <a href="day-16-standup-generator.html">‹ Day 16</a>
-            <a href="day-18-deal-room.html">Day 18 ›</a>
-        </div>
-    </nav>
-
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Hero Section -->
-        <div class="hero">
-            <div class="day-badge">Day 17 of 20</div>
-            <h1>Email Sequence Builder</h1>
-            <p>Describe your goal → get a complete multi-email sequence with subject lines, copy, and timing. Edit inline. Send Email 1 now via Outlook.</p>
-            <div class="tags">
-                <div class="tag">📧 Multi-Email Sequences</div>
-                <div class="tag">✏️ Inline Editing</div>
-                <div class="tag">📬 Outlook Send</div>
-            </div>
-            <button class="demo-button" id="settings-btn" onclick="openSettingsModal()" style="margin-top: 1rem;">⚙️ API Settings</button>
-        </div>
-
-        <!-- Setup Section -->
-        <div class="setup-section">
-            <h2>Step 1: Describe Your Sequence</h2>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="sequence-goal">Sequence Goal</label>
-                    <select id="sequence-goal">
-                        <option value="">Select a goal...</option>
-                        <option value="cold">Cold Outreach</option>
-                        <option value="nurture">Lead Nurture</option>
-                        <option value="demo">Post-Demo Follow-up</option>
-                        <option value="onboarding">Customer Onboarding</option>
-                        <option value="reengagement">Re-engagement</option>
-                        <option value="proposal">Proposal Follow-up</option>
-                        <option value="event">Event Follow-up</option>
-                        <option value="custom">Custom</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="product-service">Your Product/Service</label>
-                    <input type="text" id="product-service" placeholder="What do you sell or offer?">
-                </div>
-
-                <div class="form-group">
-                    <label for="target-audience">Target Audience</label>
-                    <input type="text" id="target-audience" placeholder="Who are these emails for?">
-                </div>
-
-                <div class="form-group">
-                    <label for="tone">Tone</label>
-                    <select id="tone">
-                        <option value="professional">Professional</option>
-                        <option value="friendly">Friendly</option>
-                        <option value="direct">Direct</option>
-                        <option value="consultative">Consultative</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="num-emails">Number of Emails</label>
-                    <select id="num-emails">
-                        <option value="3">3 emails</option>
-                        <option value="5" selected>5 emails</option>
-                        <option value="7">7 emails</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="timing-style">Timing Style</label>
-                    <select id="timing-style">
-                        <option value="aggressive">Aggressive (every 2 days)</option>
-                        <option value="standard" selected>Standard (every 3-4 days)</option>
-                        <option value="patient">Patient (weekly)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                <button class="cta-button" id="generate-btn">Generate Sequence</button>
-                <button class="demo-button" id="demo-btn">↻ Load Demo</button>
-            </div>
-
-            <div id="setup-message"></div>
-        </div>
-
-        <!-- Timeline / Sequence Builder -->
-        <div id="timeline-container" class="hidden">
-            <h2 style="margin-bottom: 2rem; font-size: 1.5rem;">Step 2: Edit Your Sequence</h2>
-            <div class="timeline" id="timeline"></div>
-
-            <!-- Export Section -->
-            <div class="export-section">
-                <button class="cta-button" id="copy-full-btn">📋 Copy Full Sequence</button>
-                <button class="cta-button" id="download-btn">📥 Download as Text</button>
-                <button class="cta-button" style="background: linear-gradient(135deg, var(--success), #059669);" id="send-first-btn">✉️ Send Email 1 Now</button>
-            </div>
-        </div>
-
-        <!-- Loading Skeleton -->
-        <div id="loading-skeleton" class="hidden">
-            <div class="skeleton-line"></div>
-            <div class="skeleton-line" style="width: 90%;"></div>
-            <div class="skeleton-line" style="width: 85%;"></div>
-        </div>
-    </div>
-
-    <!-- Settings Modal -->
-    <div class="modal" id="settings-modal">
-        <div class="modal-content">
-            <h3>Settings</h3>
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Gemini API Key</label>
-            <p style="font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem;">Get your free API key from <a href="https://aistudio.google.com" target="_blank" style="color: var(--teal);">Google AI Studio</a></p>
-            <input type="password" id="settings-api-key" class="modal-input" placeholder="Enter your Gemini API key">
-            <div class="modal-actions">
-                <button class="action-button" onclick="closeSettingsModal()">Cancel</button>
-                <button class="action-button primary" onclick="saveSettings()">Save</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Send Email Modal -->
-    <div class="modal" id="send-modal">
-        <div class="modal-content">
-            <h3>Send Email 1</h3>
-            <div id="send-error"></div>
-            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">Recipient Email Address</label>
-            <input type="email" id="recipient-email" class="modal-input" placeholder="recipient@example.com">
-            <div class="modal-actions">
-                <button class="action-button" onclick="closeSendModal()">Cancel</button>
-                <button class="action-button primary" onclick="sendEmailViaOutlook()">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MSAL -->
-    <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
-
-    <script>
-        // Configuration
-        const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
-        const MSAL_CONFIG = {
-            auth: {
-                clientId: AZURE_CLIENT_ID,
-                authority: 'https://login.microsoftonline.com/common'
-            },
-            cache: {
-                cacheLocation: 'sessionStorage',
-                storeAuthStateInCookie: false
-            }
-        };
-        const LOGIN_REQUEST = { scopes: ['Mail.Send', 'User.Read'] };
-
-        let msalInstance;
-        let currentSequence = null;
-
-        // Initialize MSAL
-        async function initMsal() {
-            try {
-                msalInstance = new msal.PublicClientApplication(MSAL_CONFIG);
-                await msalInstance.initialize();
-            } catch (error) {
-                console.error('MSAL init error');
-            }
-        }
-
-        // Sanitize HTML
-        function sanitizeHTML(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Generate sequence via Gemini
-        async function generateSequence() {
-            const goal = document.getElementById('sequence-goal').value;
-            const product = document.getElementById('product-service').value;
-            const audience = document.getElementById('target-audience').value;
-            const tone = document.getElementById('tone').value;
-            const numEmails = document.getElementById('num-emails').value;
-            const timingStyle = document.getElementById('timing-style').value;
-
-            if (!goal || !product || !audience) {
-                showMessage('Please fill in all required fields.', 'error');
-                return;
-            }
-
-            // Show loading
-            document.getElementById('loading-skeleton').classList.remove('hidden');
-            document.getElementById('timeline-container').classList.add('hidden');
-            document.getElementById('setup-message').innerHTML = '';
-
-            try {
-                const apiKey = localStorage.getItem('gemini_key');
-                if (!apiKey) {
-                    showMessage('API key not configured. Click the ⚙️ API Settings button at the top.', 'error');
-                    document.getElementById('loading-skeleton').classList.add('hidden');
-                    return;
-                }
-
-                const prompt = `You are an expert email copywriter. Create a ${numEmails}-email sequence for ${goal.replace(/_/g, ' ')}.
-
-Context:
-- Product/Service: ${product}
-- Target Audience: ${audience}
-- Tone: ${tone}
-- Timing: ${timingStyle}
-
-Rules:
-1. Each email must serve a distinct purpose in the sequence arc
-2. Avoid repetitive openers
-3. Each adds new value (angle, objection handle, social proof)
-4. Subject lines under 50 chars
-5. Body under 200 words each
-6. Include P.S. where appropriate
-7. Include send day and purpose for each email
-
-Return ONLY valid JSON array with this structure (no markdown, no code block):
-[
-  {
-    "emailNumber": 1,
-    "sendDay": 0,
-    "subject": "Subject line here",
-    "body": "Email body here...",
-    "purpose": "First touch / Value prop"
   }
-]`;
+  if(document.readyState==='complete'){setTimeout(__maybeShowBanner,800);}
+  else{window.addEventListener('load',function(){setTimeout(__maybeShowBanner,800);});}
+})();
+</script>
+<!-- ═══ END SETUP BANNER ═══ -->
 
-                const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=' + apiKey, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: {
-                            temperature: 0.7,
-                            maxOutputTokens: 4000
-                        }
-                    })
-                });
+<header>
+  <div class="logo">⚡ Aimersion · Day 17</div>
+  <div class="nav-links">
+    <a href="index.html">← All Tools</a>
+  </div>
+</header>
 
-                if (!response.ok) {
-                    throw new Error('API error');
-                }
+<div class="hero">
+  <div class="day-label">Automation #17 of 20</div>
+  <h1>✉️ Email <span>Sequences</span></h1>
+  <p class="tagline">Describe your product, audience, and goal. AI generates a complete multi-email sequence with subject lines, timing, bodies, and CTAs.</p>
+</div>
 
-                const data = await response.json();
-                const content = data.candidates?.[0]?.content?.parts?.[0]?.text;
+<div class="main">
 
-                if (!content) {
-                    throw new Error('No content in response');
-                }
+  <!-- Quick Start Guide -->
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num-circle" style="background:var(--teal)">1</div>
+      <div>
+        <div class="step-title">Get a free API key</div>
+        <div class="step-desc">Paste your Gemini key below. Free at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--teal-light)">AI Studio</a> — no credit card.</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num-circle" style="background:var(--teal)">2</div>
+      <div>
+        <div class="step-title">Fill in your details</div>
+        <div class="step-desc">Product/service, target audience, sequence goal, tone, and how many emails you want (3–10).</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num-circle" style="background:var(--amber);color:#000">3</div>
+      <div>
+        <div class="step-title">Generate sequence</div>
+        <div class="step-desc">AI creates ready-to-send emails with timing, subjects, bodies, and CTAs you can copy instantly.</div>
+      </div>
+    </div>
+  </div>
 
-                // Parse JSON from response (handle markdown code blocks)
-                let jsonStr = content;
-                if (jsonStr.includes('```json')) {
-                    jsonStr = jsonStr.split('```json')[1].split('```')[0];
-                } else if (jsonStr.includes('```')) {
-                    jsonStr = jsonStr.split('```')[1].split('```')[0];
-                }
-                jsonStr = jsonStr.trim();
+  <!-- API Keys -->
+  <div class="card collapsible" id="card-keys">
+    <div class="card-header" onclick="toggleCard('card-keys')">
+      <div class="card-title">🔑 API Keys <span style="font-weight:400;color:#6EE7B7;font-size:.78rem">— free, no credit card</span></div>
+      <span class="card-status" id="card-keys-status"></span>
+      <button class="card-toggle" aria-label="Toggle">▾</button>
+    </div>
+    <div class="card-body">
+      <div class="row" style="margin-bottom:10px">
+        <input type="password" id="geminiKey" placeholder="Gemini API key (required) — aistudio.google.com" />
+        <button class="btn btn-ghost" onclick="toggleKey('geminiKey')">Show</button>
+        <button class="btn btn-teal" onclick="saveKey('gemini')">Save</button>
+      </div>
+      <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></div>
+    </div>
+  </div>
 
-                const emails = JSON.parse(jsonStr);
-                currentSequence = emails;
-                renderTimeline(emails);
+  <!-- Build Your Sequence -->
+  <div class="card collapsible" id="card-build">
+    <div class="card-header" onclick="toggleCard('card-build')">
+      <div class="card-title">🛠️ Build Your Sequence</div>
+      <button class="card-toggle" aria-label="Toggle">▾</button>
+    </div>
+    <div class="card-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Product/Service Name</label>
+          <input type="text" id="product" placeholder="e.g., Aimersion, SaaS platform, design agency">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Target Audience</label>
+          <input type="text" id="audience" placeholder="e.g., marketing directors at B2B SaaS, e-commerce owners">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Sequence Goal</label>
+          <select id="goal">
+            <option value="">Choose...</option>
+            <option value="cold_outreach">Cold Outreach — Initial prospecting</option>
+            <option value="re_engagement">Re-engagement — Win back inactive leads</option>
+            <option value="onboarding">Onboarding — Welcome + success sequence</option>
+            <option value="nurture">Nurture — Build relationship over time</option>
+            <option value="upsell">Upsell — Cross-sell to existing customers</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tone</label>
+          <select id="tone">
+            <option value="">Choose...</option>
+            <option value="professional">Professional & formal</option>
+            <option value="casual">Casual & friendly</option>
+            <option value="bold">Bold & punchy</option>
+            <option value="consultative">Consultative & advisory</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Emails</label>
+          <select id="numEmails">
+            <option value="">Choose...</option>
+            <option value="3">3 emails</option>
+            <option value="5">5 emails</option>
+            <option value="7">7 emails</option>
+            <option value="10">10 emails</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Key Value Proposition</label>
+          <textarea id="valueProposition" placeholder="What makes your offer unique? What problem do you solve?"></textarea>
+        </div>
+      </div>
+      <button class="btn btn-amber" id="runBtn" onclick="generateSequence()">🧠 Generate Sequence</button>
+    </div>
+  </div>
 
-                document.getElementById('loading-skeleton').classList.add('hidden');
-                document.getElementById('timeline-container').classList.remove('hidden');
-            } catch (error) {
-                console.error('Generation error');
-                showMessage('Failed to generate sequence. Check API key and try again.', 'error');
-                document.getElementById('loading-skeleton').classList.add('hidden');
-            }
-        }
+  <!-- Output -->
+  <div class="card output-area" id="outputCard">
+    <div class="card-title">📧 Your Email Sequence</div>
+    <div id="output">
+      <div class="empty-state">
+        <div class="empty-state-icon">📧</div>
+        <div class="empty-state-title">Ready to generate?</div>
+        <div class="empty-state-text">Fill in your product details above and click "Generate Sequence" to create a complete email series with subjects, timing, bodies, and CTAs.</div>
+      </div>
+    </div>
+  </div>
 
-        // Render timeline
-        function renderTimeline(emails) {
-            const timeline = document.getElementById('timeline');
-            timeline.innerHTML = '';
+</div>
 
-            emails.forEach((email, idx) => {
-                const card = document.createElement('div');
-                card.className = 'email-card';
+<script>
+const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
 
-                const charCount = email.body.length;
-                const wordCount = email.body.split(/\s+/).length;
+const LOADER_FRAMES = [
+  { emoji: '✉️', msg: 'Writing emails people will actually open...' },
+  { emoji: '🎯', msg: 'Nailing the subject lines...' },
+  { emoji: '🤝', msg: 'Building trust one email at a time...' },
+  { emoji: '📈', msg: 'Optimizing for clicks, not eyerolls...' },
+  { emoji: '🧠', msg: 'Thinking through your prospect\'s journey...' },
+  { emoji: '✍️', msg: 'Crafting that perfect CTA...' },
+  { emoji: '🚀', msg: 'Your pipeline is about to get very busy...' },
+];
 
-                card.innerHTML = `
-                    <div class="email-header">
-                        <div>
-                            <div class="email-number">Email ${email.emailNumber} of ${emails.length}</div>
-                            <div class="send-day">Send on Day ${email.sendDay}</div>
-                            <div class="email-purpose">${sanitizeHTML(email.purpose)}</div>
-                        </div>
-                    </div>
+let _loaderInterval = null;
+function startFunLoader(containerId, subMsg, frames) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  stopFunLoader();
+  const pool = frames || LOADER_FRAMES;
+  let i = Math.floor(Math.random() * pool.length);
+  const frame = pool[i];
+  el.innerHTML = `<div class="fun-loader">
+    <div class="loader-emoji" id="loaderEmoji">${frame.emoji}</div>
+    <div class="loader-msg" id="loaderMsg">${frame.msg}</div>
+    <div class="loader-sub">${subMsg || ''}</div>
+  </div>`;
+  _loaderInterval = setInterval(() => {
+    i = (i + 1) % pool.length;
+    const emojiEl = document.getElementById('loaderEmoji');
+    const msgEl = document.getElementById('loaderMsg');
+    if (emojiEl) emojiEl.textContent = pool[i].emoji;
+    if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = pool[i].msg; msgEl.style.opacity = 1; }, 200); }
+  }, 2200);
+}
+function stopFunLoader() {
+  if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
+}
 
-                    <div class="email-subject-label">Subject Line</div>
-                    <input type="text" class="email-subject" value="${sanitizeHTML(email.subject)}" data-idx="${idx}" data-field="subject" onchange="updateEmail(this)">
+function toggleCard(id) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  card.classList.toggle('collapsed');
+}
 
-                    <div class="email-body-label">Email Body</div>
-                    <textarea class="email-body" data-idx="${idx}" data-field="body" onchange="updateEmail(this)">${sanitizeHTML(email.body)}</textarea>
-                    <div class="char-count">${charCount} characters • ${wordCount} words</div>
+function toggleKey(id) { const el = document.getElementById(id); el.type = el.type === 'password' ? 'text' : 'password'; }
+function saveKey(type) {
+  if (type === 'gemini') {
+    const val = document.getElementById('geminiKey').value.trim();
+    if (!val) { showToast('⚠️ Please paste your Gemini API key first.'); return; }
+    if (!val.startsWith('AIza') || val.length < 30) {
+      showToast('⚠️ That doesn\'t look like a valid Gemini key');
+      document.getElementById('geminiKey').focus();
+      return;
+    }
+    localStorage.setItem('gemini_key', val);
+    const btn = document.querySelector('[onclick="saveKey(\'gemini\')"]');
+    if (btn) { btn.textContent = '✓ Saved!'; btn.style.background = '#059669'; setTimeout(() => { btn.textContent = 'Save'; btn.style.background = ''; }, 2500); }
+    showToast('✓ API key saved!');
+    document.getElementById('card-keys-status').textContent = '✓ Saved';
+  }
+}
+function showToast(msg, color) {
+  const t = document.createElement('div');
+  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${color||'#0891B2'};color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;`;
+  t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000);
+}
 
-                    <div class="email-actions">
-                        <button class="action-button" onclick="copyEmail(${idx})">📋 Copy</button>
-                        <button class="action-button" onclick="regenerateEmail(${idx})">↻ Regenerate</button>
-                        ${idx === 0 ? `<button class="action-button send" onclick="openSendModal()">✉️ Send Email 1</button>` : ''}
-                    </div>
-                `;
+function checkApiKey() {
+  const val = localStorage.getItem('gemini_key');
+  if (val) {
+    document.getElementById('geminiKey').value = val;
+    document.getElementById('card-keys-status').textContent = '✓ Saved';
+  }
+}
 
-                timeline.appendChild(card);
-            });
-        }
+window.addEventListener('load', () => {
+  checkApiKey();
+  initCollapsedState();
+  preloadDemoData();
+});
 
-        // Update email in sequence
-        function updateEmail(el) {
-            const idx = parseInt(el.dataset.idx);
-            const field = el.dataset.field;
-            currentSequence[idx][field] = el.value;
-        }
+function initCollapsedState() {
+  if (localStorage.getItem('gemini_key')) {
+    document.getElementById('card-keys').classList.add('collapsed');
+  }
+}
 
-        // Copy single email
-        function copyEmail(idx) {
-            const email = currentSequence[idx];
-            const text = `Subject: ${email.subject}\n\n${email.body}`;
-            navigator.clipboard.writeText(text).then(() => {
-                showMessage('Email copied to clipboard!', 'success');
-            });
-        }
+function preloadDemoData() {
+  const demo = {
+    product: 'AI Email Automation Platform',
+    audience: 'Sales managers at mid-market SaaS',
+    goal: 'cold_outreach',
+    tone: 'professional',
+    numEmails: '5',
+    valueProposition: 'Saves 5 hours/week on email by automating cold outreach sequences'
+  };
+  window._demoData = demo;
+}
 
-        // Regenerate single email
-        async function regenerateEmail(idx) {
-            try {
-                const apiKey = localStorage.getItem('gemini_key');
-                if (!apiKey) {
-                    showMessage('API key required', 'error');
-                    return;
-                }
+function runDemo() {
+  const demo = window._demoData;
+  document.getElementById('product').value = demo.product;
+  document.getElementById('audience').value = demo.audience;
+  document.getElementById('goal').value = demo.goal;
+  document.getElementById('tone').value = demo.tone;
+  document.getElementById('numEmails').value = demo.numEmails;
+  document.getElementById('valueProposition').value = demo.valueProposition;
+  setTimeout(() => generateSequence(), 100);
+}
 
-                const email = currentSequence[idx];
-                const prompt = `Rewrite this email with fresh copy while keeping the same purpose. Keep subject under 50 chars, body under 200 words.
+async function generateSequence() {
+  const product = document.getElementById('product').value.trim();
+  const audience = document.getElementById('audience').value.trim();
+  const goal = document.getElementById('goal').value;
+  const tone = document.getElementById('tone').value;
+  const numEmails = document.getElementById('numEmails').value;
+  const valueProposition = document.getElementById('valueProposition').value.trim();
 
-Current version:
-Subject: ${email.subject}
-Body: ${email.body}
-Purpose: ${email.purpose}
+  if (!product || !audience || !goal || !tone || !numEmails || !valueProposition) {
+    showToast('⚠️ Please fill in all fields');
+    return;
+  }
 
-Return JSON:
+  const apiKey = localStorage.getItem('gemini_key');
+  if (!apiKey) {
+    showToast('❌ Please save your Gemini API key first');
+    return;
+  }
+
+  const outputDiv = document.getElementById('output');
+  outputDiv.innerHTML = '<div class="loading" id="loaderContainer"></div>';
+  startFunLoader('loaderContainer', 'Generating your sequence...');
+
+  try {
+    const { GoogleGenerativeAI } = await import('https://cdn.jsdelivr.net/npm/@google/generative-ai@0.4.1/+esm');
+    const genAI = new GoogleGenerativeAI(apiKey);
+    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
+
+    const prompt = `You are a world-class email copywriter and sales strategist. Create a ${numEmails}-email sequence.
+
+Product/Service: ${product}
+Target Audience: ${audience}
+Sequence Goal: ${goal}
+Tone: ${tone}
+Key Value Proposition: ${valueProposition}
+
+Create a complete email sequence. Return ONLY valid JSON (no markdown, no code blocks, just raw JSON):
 {
-  "subject": "new subject",
-  "body": "new body"
+  "sequenceName": "...",
+  "overview": "1-2 sentence strategy summary",
+  "emails": [
+    {
+      "emailNumber": 1,
+      "sendTiming": "Day 1 — Send immediately",
+      "subject": "...",
+      "previewText": "...",
+      "body": "full email body with paragraphs",
+      "cta": "specific call to action",
+      "purpose": "what this email accomplishes"
+    }
+  ]
 }`;
 
-                const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=' + apiKey, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: prompt }] }],
-                        generationConfig: { temperature: 0.8, maxOutputTokens: 1000 }
-                    })
-                });
+    const result = await model.generateContent(prompt);
+    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || '';
 
-                const data = await response.json();
-                let jsonStr = data.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (jsonStr.includes('```json')) {
-                    jsonStr = jsonStr.split('```json')[1].split('```')[0];
-                } else if (jsonStr.includes('```')) {
-                    jsonStr = jsonStr.split('```')[1].split('```')[0];
-                }
-                jsonStr = jsonStr.trim();
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch {
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        data = JSON.parse(jsonMatch[0]);
+      } else {
+        throw new Error('Could not parse response as JSON');
+      }
+    }
 
-                const updated = JSON.parse(jsonStr);
-                currentSequence[idx].subject = updated.subject;
-                currentSequence[idx].body = updated.body;
+    stopFunLoader();
+    renderSequence(data);
+  } catch (err) {
+    stopFunLoader();
+    console.error('Generation error:', err);
+    showToast('❌ ' + (err.message || 'Error generating sequence'));
+    outputDiv.innerHTML = '<div class="error-msg" style="background:rgba(220,38,38,0.1);border:1px solid rgba(220,38,38,0.3);color:#FCA5A5;padding:12px 16px;border-radius:8px;font-size:13px;">Error: ' + (err.message || 'Unknown error') + '</div>';
+  }
+}
 
-                renderTimeline(currentSequence);
-                showMessage('Email regenerated!', 'success');
-            } catch (error) {
-                console.error('Regen error');
-                showMessage('Failed to regenerate', 'error');
-            }
-        }
+function renderSequence(data) {
+  const outputDiv = document.getElementById('output');
+  let html = '';
 
-        // Copy full sequence
-        function copyFullSequence() {
-            let text = 'EMAIL SEQUENCE\n\n';
-            currentSequence.forEach((email, idx) => {
-                text += `EMAIL ${idx + 1} - Send Day ${email.sendDay}\n`;
-                text += `Purpose: ${email.purpose}\n`;
-                text += `Subject: ${email.subject}\n\n`;
-                text += `${email.body}\n\n`;
-                text += '---\n\n';
-            });
-            navigator.clipboard.writeText(text).then(() => {
-                showMessage('Full sequence copied!', 'success');
-            });
-        }
+  if (data.overview) {
+    html += `<div class="sequence-overview">
+      <div class="overview-title">📋 Strategy Overview</div>
+      <div class="overview-text">${data.overview}</div>
+    </div>`;
+  }
 
-        // Download as text
-        function downloadAsText() {
-            let text = 'EMAIL SEQUENCE\n\n';
-            currentSequence.forEach((email, idx) => {
-                text += `EMAIL ${idx + 1} - Send Day ${email.sendDay}\n`;
-                text += `Purpose: ${email.purpose}\n`;
-                text += `Subject: ${email.subject}\n\n`;
-                text += `${email.body}\n\n`;
-                text += '---\n\n';
-            });
+  if (data.emails && data.emails.length > 0) {
+    html += '<div class="email-sequence">';
+    data.emails.forEach(email => {
+      html += `<div class="email-card">
+        <div class="email-header">
+          <div class="email-num-badge">${email.emailNumber}</div>
+          <div class="email-info">
+            <div class="email-timing">${email.sendTiming || 'Timing TBD'}</div>
+            <div class="email-subject">${escapeHtml(email.subject)}</div>
+            <div class="email-preview">${escapeHtml(email.previewText || '')}</div>
+          </div>
+        </div>
+        <div class="email-body">${escapeHtml(email.body).replace(/\n/g, '<br>')}</div>
+        <div class="email-cta">📌 CTA: ${escapeHtml(email.cta)}</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:12px;font-style:italic;">Purpose: ${escapeHtml(email.purpose)}</div>
+        <div class="email-footer">
+          <button class="btn btn-ghost" onclick="copyToClipboard('Email ${email.emailNumber} Subject: ${email.subject}\\n\\n${email.body}')">📋 Copy Email</button>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
 
-            const blob = new Blob([text], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'email-sequence.txt';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
+    html += `<div style="margin-top:20px;display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-teal" onclick="copyFullSequence()">📋 Copy Full Sequence</button>
+      <button class="btn btn-ghost" onclick="exportSequence()">💾 Export as Text</button>
+    </div>`;
+  }
 
-        // Send modal
-        // Settings modal
-        function openSettingsModal() {
-            const savedKey = localStorage.getItem('gemini_key');
-            if (savedKey) {
-                document.getElementById('settings-api-key').value = '••••••••••••••••';
-            } else {
-                document.getElementById('settings-api-key').value = '';
-            }
-            document.getElementById('settings-modal').classList.add('active');
-            document.getElementById('settings-api-key').focus();
-        }
+  outputDiv.innerHTML = html;
+  window._currentSequence = data;
+}
 
-        function closeSettingsModal() {
-            document.getElementById('settings-modal').classList.remove('active');
-            document.getElementById('settings-api-key').value = '';
-        }
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('✓ Copied to clipboard');
+  }).catch(() => {
+    showToast('❌ Failed to copy');
+  });
+}
 
-        function saveSettings() {
-            const apiKey = document.getElementById('settings-api-key').value.trim();
-            if (!apiKey) {
-                showMessage('API key is required', 'error');
-                return;
-            }
-            localStorage.setItem('gemini_key', apiKey);
-            showMessage('Settings saved! Your API key is stored locally.', 'success');
-            closeSettingsModal();
-        }
+function copyFullSequence() {
+  if (!window._currentSequence || !window._currentSequence.emails) return;
+  let text = window._currentSequence.sequenceName + '\n\n' + window._currentSequence.overview + '\n\n';
+  window._currentSequence.emails.forEach(e => {
+    text += `Email ${e.emailNumber}: ${e.sendTiming}\nSubject: ${e.subject}\n\n${e.body}\n\nCTA: ${e.cta}\n\n---\n\n`;
+  });
+  copyToClipboard(text);
+}
 
-        function openSendModal() {
-            document.getElementById('send-modal').classList.add('active');
-            document.getElementById('recipient-email').focus();
-        }
+function exportSequence() {
+  if (!window._currentSequence) return;
+  const text = JSON.stringify(window._currentSequence, null, 2);
+  const blob = new Blob([text], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'email-sequence.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✓ Sequence exported');
+}
 
-        function closeSendModal() {
-            document.getElementById('send-modal').classList.remove('active');
-            document.getElementById('send-error').innerHTML = '';
-        }
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+</script>
 
-        // Send via Outlook
-        async function sendEmailViaOutlook() {
-            const recipient = document.getElementById('recipient-email').value;
-            if (!recipient) {
-                document.getElementById('send-error').innerHTML = '<div class="error-message">Email address required</div>';
-                return;
-            }
-
-            try {
-                const email = currentSequence[0];
-                const account = await msalInstance.acquireTokenSilent(LOGIN_REQUEST).catch(() =>
-                    msalInstance.acquireTokenPopup(LOGIN_REQUEST)
-                );
-
-                const token = account.accessToken;
-
-                const emailPayload = {
-                    message: {
-                        subject: email.subject,
-                        body: { contentType: 'HTML', content: email.body.replace(/\n/g, '<br>') },
-                        toRecipients: [{ emailAddress: { address: recipient } }]
-                    },
-                    saveToSentItems: true
-                };
-
-                const response = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
-                    method: 'POST',
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(emailPayload)
-                });
-
-                if (response.ok) {
-                    showMessage('Email sent successfully!', 'success');
-                    closeSendModal();
-                    document.getElementById('recipient-email').value = '';
-                } else {
-                    document.getElementById('send-error').innerHTML = '<div class="error-message">Failed to send. Try again.</div>';
-                }
-            } catch (error) {
-                console.error('Send error');
-                document.getElementById('send-error').innerHTML = '<div class="error-message">Authentication failed. Try again.</div>';
-            }
-        }
-
-        // Show message
-        function showMessage(msg, type) {
-            const msgEl = document.getElementById('setup-message');
-            msgEl.innerHTML = `<div class="${type}-message">${sanitizeHTML(msg)}</div>`;
-            setTimeout(() => { msgEl.innerHTML = ''; }, 4000);
-        }
-
-        // Demo mode
-        function runDemo() {
-            document.getElementById('sequence-goal').value = 'demo';
-            document.getElementById('product-service').value = 'Aimersion AI - AI automation platform for businesses';
-            document.getElementById('target-audience').value = 'B2B decision makers who attended a product demo';
-            document.getElementById('tone').value = 'professional';
-            document.getElementById('num-emails').value = '5';
-            document.getElementById('timing-style').value = 'standard';
-
-            currentSequence = [
-                {
-                    emailNumber: 1,
-                    sendDay: 0,
-                    subject: "Thanks for the demo – here's what I'm thinking",
-                    body: "Hi,\n\nThanks for taking the time to see Aimersion AI in action today. I know you're evaluating several automation platforms, so I wanted to share a few takeaways from our conversation.\n\nYour team mentioned the biggest bottleneck is manual data entry across CRM systems. Our AI handles that automatically—typically saving 8-12 hours per week per person.\n\nI'll send over a few case studies from similar B2B companies next follow-up.\n\nIn the meantime, feel free to reach out if you have any questions.\n\nBest,\nJim",
-                    purpose: "Thank you + reinforce key pain point"
-                },
-                {
-                    emailNumber: 2,
-                    sendDay: 3,
-                    subject: "Case studies: How SaaS companies automate workflows",
-                    body: "Hi,\n\nAs promised, attached are 3 case studies showing how companies similar to yours implemented Aimersion:\n\n1. TechFlow Inc. – 40% faster lead qualification\n2. DataCorp – Reduced CRM admin time by 12 hours/week\n3. CloudScale – 95% fewer data entry errors\n\nEach company had the same challenge you mentioned: scattered processes across too many tools.\n\nThey're worth a 5-minute read. Happy to discuss any of them.\n\nCheers,\nJim",
-                    purpose: "Social proof + new angle (results-focused)"
-                },
-                {
-                    emailNumber: 3,
-                    sendDay: 7,
-                    subject: "Two questions before you decide",
-                    body: "Hi,\n\nI've been thinking about your workflow—specifically the CRM and email syncing piece you mentioned.\n\nTwo quick questions:\n\n1. Are you planning to implement this internally, or would you prefer a managed setup from our team?\n2. Is there a specific timeline pressure, or are you evaluating over the next quarter?\n\nThese will help me put together a proposal that actually fits your situation (rather than a generic one).\n\nLooking forward to your thoughts.\n\nBest,\nJim",
-                    purpose: "Qualification + uncover timeline"
-                },
-                {
-                    emailNumber: 4,
-                    sendDay: 10,
-                    subject: "Special pricing – valid until Friday",
-                    body: "Hi,\n\nI spoke with my manager about your deal. Given the scope and timeline you mentioned, we can offer:\n\n- 30% off year 1 implementation\n- Free managed setup (usually $5K)\n- Dedicated onboarding specialist for 60 days\n\nThis pricing is good through Friday. After that, we'd need to re-scope.\n\nLet me know if this changes the conversation. If not, no pressure—we're here whenever you're ready.\n\nBest,\nJim",
-                    purpose: "Create urgency + remove financial objection"
-                },
-                {
-                    emailNumber: 5,
-                    sendDay: 14,
-                    subject: "One last thing (then I'll stop emailing 😊)",
-                    body: "Hi,\n\nI realize I've sent a few emails in the past two weeks, so I'll keep this short.\n\nTwo options:\n\n1. Hop on a 15-min call Friday to discuss the proposal\n2. If now isn't the right time, let's pick a time in April when it makes sense\n\nEither way, no hard feelings. I know decision cycles take time.\n\nJust want to make sure you have everything you need to move forward (or to wait, if that's the call).\n\nBest,\nJim",
-                    purpose: "Soft close + permission to disengage"
-                }
-            ];
-
-            renderTimeline(currentSequence);
-            document.getElementById('loading-skeleton').classList.add('hidden');
-            document.getElementById('timeline-container').classList.remove('hidden');
-            document.getElementById('setup-message').innerHTML = '<div class="success-message">Demo sequence loaded. Click any email to edit.</div>';
-        }
-
-        // Event listeners
-        document.getElementById('generate-btn').addEventListener('click', generateSequence);
-        document.getElementById('demo-btn').addEventListener('click', runDemo);
-        document.getElementById('copy-full-btn').addEventListener('click', copyFullSequence);
-        document.getElementById('download-btn').addEventListener('click', downloadAsText);
-        document.getElementById('send-first-btn').addEventListener('click', openSendModal);
-
-        // Close modal on escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeSendModal();
-                closeSettingsModal();
-            }
-        });
-
-        // Initialize
-        initMsal();
-    </script>
 </body>
 </html>
