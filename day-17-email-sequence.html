@@ -233,6 +233,23 @@ twq("config","tw-r848k-r848k");
     </div>
   </div>
 
+  <div class="card collapsible" id="outlookCard17">
+    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
+      <div class="card-title">📧 Connect Outlook <span style="color:var(--muted);font-weight:400;font-size:11px;margin-left:8px;">— save sequences as drafts</span></div>
+      <button class="card-toggle">▶</button>
+    </div>
+    <div class="card-body">
+      <div class="oauth-box">
+        <div class="oauth-status">
+          <div class="status-dot dot-off" id="outlookDot17"></div>
+          <span id="outlookStatus17" style="font-size:13px;">Not connected</span>
+        </div>
+        <button class="btn btn-teal" id="outlookBtn17" onclick="connectOutlook17()" style="width:100%;justify-content:center;">🔗 Connect Outlook</button>
+      </div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;">Connect to save your entire email sequence directly to Outlook Drafts — ready to send on schedule, one click at a time.</p>
+    </div>
+  </div>
+
   <div class="card collapsible" id="inputCard">
     <div class="card-header" onclick="toggleCard(this.closest('.card'))">
       <div class="card-title">✍️ Sequence Parameters</div>
@@ -464,7 +481,8 @@ Create a complete, ready-to-use email sequence. Return JSON:
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
           <button class="btn btn-teal email-copy-btn" onclick="copyEmail(${idx})" style="flex:1;justify-content:center;">📋 Copy Email ${email.emailNumber}</button>
-          <button class="btn btn-ghost" onclick="openMailto17(${idx})" style="flex:1;justify-content:center;">✉️ Open in Email App</button>
+          <button class="btn btn-ghost" onclick="openMailto17(${idx})" style="flex:1;justify-content:center;">✉️ Email App</button>
+          <button class="btn btn-ghost draft-btn-17" data-draft-idx="${idx}" onclick="saveDraft17(${idx})" style="flex:1;justify-content:center;${msAccount17 ? '' : 'display:none;'}">📤 Save Draft</button>
         </div>
       </div>`;
     });
@@ -480,7 +498,11 @@ Create a complete, ready-to-use email sequence. Return JSON:
       </div>`;
     }
 
-    html += `<div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+    html += `<div id="draftAllBar17" style="margin-top:16px;padding:14px;background:rgba(8,145,178,0.08);border:1px solid rgba(8,145,178,0.25);border-radius:10px;${msAccount17 ? '' : 'display:none;'}">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:10px;">📤 Save entire sequence to Outlook Drafts — ready to send on schedule</div>
+      <button id="draftAllBtn17" class="btn btn-teal" onclick="saveAllDrafts17()" style="width:100%;justify-content:center;padding:12px;">📤 Save All ${sequence.emails.length} Emails as Drafts</button>
+    </div>`;
+    html += `<div style="margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap;">
       <button class="btn btn-teal" onclick="copyAllEmails()">📋 Copy All Emails</button>
       <button class="btn btn-ghost" onclick="downloadSequence()">📥 Download</button>
       <button class="btn btn-amber" onclick="document.getElementById('inputCard').classList.remove('collapsed'); document.getElementById('goal').focus();" style="margin-left: auto;">🔄 Build Another</button>
@@ -622,7 +644,130 @@ Create a complete, ready-to-use email sequence. Return JSON:
     outputArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // ── MSAL / Outlook Drafts ────────────────────────────────────────
+  const AZURE_CLIENT_ID_17 = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+  let msalInstance17 = null, msAccount17 = null;
+
+  async function initMsal17() {
+    if (msalInstance17) return;
+    if (typeof msal === 'undefined') return;
+    msalInstance17 = new msal.PublicClientApplication({
+      auth: { clientId: AZURE_CLIENT_ID_17, authority: 'https://login.microsoftonline.com/common',
+              redirectUri: 'https://aimersion.github.io/ai-automations/auth.html' },
+      cache: { cacheLocation: 'sessionStorage' }
+    });
+    await msalInstance17.initialize();
+    const accounts = msalInstance17.getAllAccounts();
+    if (accounts.length > 0) { msAccount17 = accounts[0]; updateOutlookUI17(); }
+  }
+
+  async function connectOutlook17() {
+    try {
+      if (!msalInstance17) await initMsal17();
+      const resp = await msalInstance17.loginPopup({
+        scopes: ['https://graph.microsoft.com/Mail.ReadWrite', 'https://graph.microsoft.com/Mail.Send', 'https://graph.microsoft.com/User.Read'],
+        prompt: 'select_account'
+      });
+      msAccount17 = resp.account;
+      updateOutlookUI17();
+      showToast('✓ Outlook connected — ' + msAccount17.username);
+    } catch(e) {
+      if (e.errorCode === 'user_cancelled') return;
+      showToast('Connection failed: ' + e.message, 'error');
+    }
+  }
+
+  function updateOutlookUI17() {
+    const connected = !!msAccount17;
+    const btn = document.getElementById('outlookBtn17');
+    const dot = document.getElementById('outlookDot17');
+    const status = document.getElementById('outlookStatus17');
+    if (btn) btn.style.display = connected ? 'none' : '';
+    if (dot) dot.className = 'status-dot ' + (connected ? 'dot-on' : 'dot-off');
+    if (status) status.textContent = connected ? '✓ ' + msAccount17.username : 'Not connected';
+    if (connected) {
+      document.getElementById('outlookCard17')?.classList.add('collapsed');
+      // Show draft buttons if sequence already generated
+      document.querySelectorAll('.draft-btn-17').forEach(b => b.style.display = '');
+      const bar = document.getElementById('draftAllBar17');
+      if (bar && window._lastSequence) bar.style.display = '';
+    }
+  }
+
+  async function getMsToken17(scopes) {
+    if (!msalInstance17 || !msAccount17) return null;
+    const s = scopes || ['https://graph.microsoft.com/Mail.ReadWrite'];
+    try {
+      const r = await msalInstance17.acquireTokenSilent({ scopes: s, account: msAccount17 });
+      return r.accessToken;
+    } catch {
+      try {
+        const r = await msalInstance17.acquireTokenPopup({ scopes: s, account: msAccount17 });
+        return r.accessToken;
+      } catch { return null; }
+    }
+  }
+
+  async function saveDraft17(idx) {
+    if (!msAccount17) { showToast('Connect Outlook first to save drafts', 'info'); return; }
+    if (!window._lastSequence) return;
+    const email = window._lastSequence.emails[idx];
+    const token = await getMsToken17(['https://graph.microsoft.com/Mail.ReadWrite']);
+    if (!token) { showToast('Could not get Outlook token', 'error'); return; }
+    const btn = document.querySelector(`[data-draft-idx="${idx}"]`);
+    if (btn) { btn.textContent = '⏳ Saving...'; btn.disabled = true; }
+    try {
+      const resp = await fetch('https://graph.microsoft.com/v1.0/me/messages', {
+        method: 'POST',
+        headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subject: email.subject,
+          body: { contentType: 'Text', content: `${email.body}\n\n---\nCTA: ${email.cta}\n\nScheduled: ${email.sendDayLabel}` },
+          importance: 'normal'
+        })
+      }).then(r => r.json());
+      if (resp.error) throw new Error(resp.error.message);
+      if (btn) { btn.textContent = '✓ Saved to Drafts'; btn.style.background = '#059669'; }
+      showToast(`Email ${email.emailNumber} saved to Outlook Drafts ✓`);
+    } catch(e) {
+      if (btn) { btn.textContent = '📤 Save Draft'; btn.disabled = false; }
+      showToast('Error saving draft: ' + e.message, 'error');
+    }
+  }
+
+  async function saveAllDrafts17() {
+    if (!msAccount17) { showToast('Connect Outlook first to save drafts', 'info'); return; }
+    if (!window._lastSequence) return;
+    const emails = window._lastSequence.emails;
+    const bar = document.getElementById('draftAllBar17');
+    const btn = document.getElementById('draftAllBtn17');
+    if (btn) { btn.textContent = `⏳ Saving 0 of ${emails.length}...`; btn.disabled = true; }
+    let saved = 0;
+    for (const email of emails) {
+      try {
+        const token = await getMsToken17(['https://graph.microsoft.com/Mail.ReadWrite']);
+        await fetch('https://graph.microsoft.com/v1.0/me/messages', {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject: email.subject,
+            body: { contentType: 'Text', content: `${email.body}\n\n---\nCTA: ${email.cta}\n\nScheduled: ${email.sendDayLabel}` },
+            importance: 'normal'
+          })
+        });
+        saved++;
+        if (btn) btn.textContent = `⏳ Saving ${saved} of ${emails.length}...`;
+        // Mark the individual button too
+        const indBtn = document.querySelector(`[data-draft-idx="${email.emailNumber - 1}"]`);
+        if (indBtn) { indBtn.textContent = '✓ Saved'; indBtn.style.background = '#059669'; }
+      } catch(e) { console.warn('Draft save error:', e); }
+    }
+    if (btn) { btn.textContent = `✓ ${saved} Drafts Saved to Outlook`; btn.style.background = '#059669'; }
+    showToast(`${saved} emails saved to Outlook Drafts ✓`);
+  }
+
   window.addEventListener('load', () => {
+    initMsal17();
     const saved = localStorage.getItem('gemini_key');
     if (saved) {
       document.getElementById('geminiKey').value = saved;

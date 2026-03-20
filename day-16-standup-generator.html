@@ -263,6 +263,23 @@ twq("config","tw-r848k-r848k");
     </div>
   </div>
 
+  <div class="card collapsible" id="outlookCard16">
+    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
+      <div class="card-title">📧 Connect Outlook <span style="color:var(--muted);font-weight:400;font-size:11px;margin-left:8px;">— pulls real emails &amp; calendar</span></div>
+      <button class="card-toggle">▶</button>
+    </div>
+    <div class="card-body">
+      <div class="oauth-box">
+        <div class="oauth-status">
+          <div class="status-dot dot-off" id="outlookDot16"></div>
+          <span id="outlookStatus16" style="font-size:13px;">Not connected</span>
+        </div>
+        <button class="btn btn-teal" id="outlookBtn16" onclick="connectOutlook16()" style="width:100%;justify-content:center;">🔗 Connect Outlook</button>
+      </div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;">When connected, AI reads your actual sent emails, inbox, and calendar events to write a standup based on what you really did — not guesswork.</p>
+    </div>
+  </div>
+
   <div class="card">
     <button id="generateBtn" class="btn btn-amber" onclick="generateStandup()" style="width: 100%; padding: 14px; font-size: 16px; justify-content: center;">✍️ Generate Standup</button>
     <button class="btn btn-ghost" onclick="runDemo()" style="width: 100%; padding: 12px; font-size: 14px; justify-content: center; margin-top: 10px;">▶ Try Demo (No API Key Needed)</button>
@@ -279,23 +296,23 @@ twq("config","tw-r848k-r848k");
 
 <script>
   const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
+  const AZURE_CLIENT_ID_16 = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+  let msalInstance16 = null, msAccount16 = null;
 
   const LOADER_FRAMES = [
-    { emoji: '📬', msg: 'Reading your last 48 hours...' },
+    { emoji: '📬', msg: 'Reading your inbox...' },
+    { emoji: '📤', msg: 'Scanning sent items...' },
     { emoji: '📅', msg: 'Checking your calendar...' },
     { emoji: '🧠', msg: 'Figuring out what you actually did...' },
     { emoji: '✍️', msg: 'Writing your standup...' },
     { emoji: '🎯', msg: 'Making it sound productive...' },
-    { emoji: '📝', msg: 'Adding context about blockers...' },
     { emoji: '✨', msg: 'Polishing for Slack...' },
     { emoji: '🚀', msg: 'Almost ready to paste...' },
   ];
 
   let _loaderInterval = null;
 
-  function toggleCard(el) {
-    el.classList.toggle('collapsed');
-  }
+  function toggleCard(el) { el.classList.toggle('collapsed'); }
 
   function startFunLoader(containerId, subMsg) {
     const el = document.getElementById(containerId);
@@ -332,6 +349,82 @@ twq("config","tw-r848k-r848k");
     setTimeout(() => { t.style.opacity='0'; setTimeout(() => t.remove(), 300); }, 2800);
   }
 
+  // ── MSAL / Outlook ──────────────────────────────────────────────
+  async function initMsal16() {
+    if (msalInstance16) return;
+    if (typeof msal === 'undefined') return;
+    msalInstance16 = new msal.PublicClientApplication({
+      auth: { clientId: AZURE_CLIENT_ID_16, authority: 'https://login.microsoftonline.com/common',
+              redirectUri: 'https://aimersion.github.io/ai-automations/auth.html' },
+      cache: { cacheLocation: 'sessionStorage' }
+    });
+    await msalInstance16.initialize();
+    const accounts = msalInstance16.getAllAccounts();
+    if (accounts.length > 0) { msAccount16 = accounts[0]; updateOutlookUI16(); }
+  }
+
+  async function connectOutlook16() {
+    try {
+      if (!msalInstance16) await initMsal16();
+      const resp = await msalInstance16.loginPopup({
+        scopes: ['https://graph.microsoft.com/Mail.Read', 'https://graph.microsoft.com/Calendars.Read', 'https://graph.microsoft.com/User.Read'],
+        prompt: 'select_account'
+      });
+      msAccount16 = resp.account;
+      updateOutlookUI16();
+      showToast('✓ Outlook connected — ' + msAccount16.username);
+    } catch(e) {
+      if (e.errorCode === 'user_cancelled') return;
+      showToast('Connection failed: ' + e.message, 'error');
+    }
+  }
+
+  function updateOutlookUI16() {
+    const connected = !!msAccount16;
+    const btn = document.getElementById('outlookBtn16');
+    const dot = document.getElementById('outlookDot16');
+    const status = document.getElementById('outlookStatus16');
+    if (btn) btn.style.display = connected ? 'none' : '';
+    if (dot) dot.className = 'status-dot ' + (connected ? 'dot-on' : 'dot-off');
+    if (status) status.textContent = connected ? '✓ ' + msAccount16.username : 'Not connected';
+    if (connected) document.getElementById('outlookCard16')?.classList.add('collapsed');
+    const genBtn = document.getElementById('generateBtn');
+    if (genBtn) genBtn.textContent = connected ? '✍️ Generate from My Inbox' : '✍️ Generate Standup';
+  }
+
+  async function getMsToken16() {
+    if (!msalInstance16 || !msAccount16) return null;
+    const scopes = ['https://graph.microsoft.com/Mail.Read', 'https://graph.microsoft.com/Calendars.Read'];
+    try {
+      const r = await msalInstance16.acquireTokenSilent({ scopes, account: msAccount16 });
+      return r.accessToken;
+    } catch {
+      try {
+        const r = await msalInstance16.acquireTokenPopup({ scopes, account: msAccount16 });
+        return r.accessToken;
+      } catch { return null; }
+    }
+  }
+
+  async function fetchOutlookActivity(hours) {
+    const token = await getMsToken16();
+    if (!token) return null;
+    const since = new Date(Date.now() - hours * 3600000).toISOString();
+    const calStart = new Date(Date.now() - 30 * 3600000).toISOString(); // yesterday
+    const calEnd   = new Date(Date.now() + 20 * 3600000).toISOString(); // few hours ahead
+    const h = { Authorization: 'Bearer ' + token };
+    try {
+      const [sentR, recvR, calR] = await Promise.all([
+        fetch(`https://graph.microsoft.com/v1.0/me/mailFolders/SentItems/messages?$top=20&$filter=sentDateTime ge ${since}&$select=subject,toRecipients,sentDateTime,bodyPreview&$orderby=sentDateTime desc`, { headers: h }),
+        fetch(`https://graph.microsoft.com/v1.0/me/messages?$top=20&$filter=receivedDateTime ge ${since}&$select=subject,from,receivedDateTime,bodyPreview,isRead,importance&$orderby=receivedDateTime desc`, { headers: h }),
+        fetch(`https://graph.microsoft.com/v1.0/me/calendarView?startDateTime=${calStart}&endDateTime=${calEnd}&$select=subject,start,end,attendees&$top=10&$orderby=start/dateTime`, { headers: h })
+      ]);
+      const [sent, recv, cal] = await Promise.all([sentR.json(), recvR.json(), calR.json()]);
+      return { sent: sent.value || [], received: recv.value || [], events: cal.value || [] };
+    } catch(e) { console.warn('Graph fetch error:', e); return null; }
+  }
+
+  // ── Settings ────────────────────────────────────────────────────
   function saveGeminiKey() {
     const key = document.getElementById('geminiKey').value.trim();
     if (!key) { showToast('Enter your Gemini API key first', 'error'); return; }
@@ -356,67 +449,105 @@ twq("config","tw-r848k-r848k");
     const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 8192 }
-      })
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.4, maxOutputTokens: 8192 } })
     }).then(r => r.json());
     if (resp.error) throw new Error(resp.error.message);
     return resp.candidates?.[0]?.content?.parts?.[0]?.text || '';
   }
 
+  // ── Generate ────────────────────────────────────────────────────
   async function generateStandup() {
-    const name = localStorage.getItem('standup_name') || 'Alex';
-    const context = localStorage.getItem('standup_context') || '';
-    const hours = localStorage.getItem('standup_range') || '48';
-
+    const name    = document.getElementById('userName').value.trim() || localStorage.getItem('standup_name') || 'you';
+    const context = document.getElementById('customContext').value.trim() || localStorage.getItem('standup_context') || '';
+    const hours   = parseInt(document.getElementById('timeRange').value || localStorage.getItem('standup_range') || '48');
     const outputArea = document.getElementById('outputArea');
-    startFunLoader('outputArea', 'Generating your standup...');
+
+    startFunLoader('outputArea', msAccount16 ? 'Pulling your Outlook activity...' : 'Generating your standup...');
+
+    let sentContext = '', receivedContext = '', calContext = '', dataNote = '';
+
+    if (msAccount16) {
+      const data = await fetchOutlookActivity(hours);
+      if (data) {
+        const { sent, received, events } = data;
+        dataNote = `📬 ${sent.length} sent • ${received.length} received • 📅 ${events.length} meeting${events.length !== 1 ? 's' : ''} pulled from Outlook`;
+
+        if (sent.length > 0) {
+          sentContext = `EMAILS YOU SENT (last ${hours}h — ${sent.length} total):\n` +
+            sent.slice(0, 15).map(e => {
+              const to = e.toRecipients?.[0]?.emailAddress?.name || e.toRecipients?.[0]?.emailAddress?.address || 'recipient';
+              return `• To ${to}: "${e.subject}" — ${(e.bodyPreview || '').substring(0, 120)}`;
+            }).join('\n');
+        }
+
+        if (received.length > 0) {
+          const notable = received.filter(e => !e.isRead || e.importance === 'high').slice(0, 10);
+          if (notable.length > 0) {
+            receivedContext = `KEY INCOMING EMAILS (unread/important, last ${hours}h):\n` +
+              notable.map(e => {
+                const from = e.from?.emailAddress?.name || e.from?.emailAddress?.address || 'sender';
+                return `• From ${from}: "${e.subject}" — ${(e.bodyPreview || '').substring(0, 120)}`;
+              }).join('\n');
+          }
+        }
+
+        if (events.length > 0) {
+          calContext = `CALENDAR EVENTS (yesterday + today):\n` +
+            events.map(e => {
+              const t = new Date(e.start?.dateTime || e.start?.date);
+              const timeStr = isNaN(t) ? '' : t.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+              const count = e.attendees?.length || 0;
+              return `• ${e.subject}${timeStr ? ' at ' + timeStr : ''}${count > 1 ? ` (${count} attendees)` : ''}`;
+            }).join('\n');
+        }
+      }
+    }
+
+    if (!sentContext && !receivedContext) {
+      sentContext = `No Outlook data connected — infer activity from context or generate a realistic standup for ${name}.`;
+    }
+
+    startFunLoader('outputArea', 'Writing your standup...');
+    if (dataNote) {
+      outputArea.innerHTML = `<div class="info-msg">✓ ${dataNote} — writing your standup...</div>`;
+    }
 
     try {
-      const demoEmails = `Hi Alex, here's an update on the contract review...
-      Great work on the API documentation!
-      Can we sync on the Q2 roadmap?
-      The client approved the proposal!`;
+      const prompt = `You are writing a daily standup update for ${name}. Analyze their actual work activity.
 
-      const demoCalendar = `Tuesday 2pm: Team standup\nWednesday 10am: 1:1 with manager\nThursday 3pm: Design review`;
+${sentContext}
 
-      const prompt = `You are a senior engineer's thoughtful colleague. Analyze this person's work activity and write a perfect daily standup update.
+${receivedContext ? receivedContext + '\n' : ''}
+${calContext ? calContext + '\n' : ''}
+Additional context: ${context || 'none provided'}
 
-EMAILS SENT (last ${hours}h):
-${demoEmails}
+Based on this REAL activity data, write a specific standup update. Reference actual email subjects and meeting names — not generic placeholders. Infer accomplishments from what they sent and meetings they attended. Make it sound like a real person, not a template.
 
-CALENDAR (last ${hours}h):
-${demoCalendar}
-
-Custom context: ${context || 'N/A'}
-
-Return JSON:
+Return JSON only:
 {
-  "yesterday": ["accomplishment 1", "accomplishment 2", "accomplishment 3"],
+  "yesterday": ["specific accomplishment 1 referencing real activity", "accomplishment 2", "accomplishment 3"],
   "today": ["planned task 1", "planned task 2", "planned task 3"],
-  "blockers": ["blocker if any - or empty array"],
-  "highlights": "One sentence about the most important thing happening right now",
-  "mood": "🟢 On track | 🟡 Some uncertainty | 🔴 Blocked",
-  "slackFormat": "Full Slack message ready to paste",
-  "teamsFormat": "Full Teams message format",
-  "emailFormat": "Full email with subject line",
-  "bulletFormat": "Plain bullet list version"
+  "blockers": [],
+  "highlights": "One sentence about the most important thing",
+  "mood": "🟢 On track",
+  "slackFormat": "Full Slack-formatted standup ready to paste",
+  "teamsFormat": "Full Teams-formatted standup",
+  "emailFormat": "Full email standup with Subject: line",
+  "bulletFormat": "Plain bullet-point standup"
 }`;
 
       const result = await callGemini(prompt);
       stopFunLoader();
-
       const jsonMatch = result.match(/\{[\s\S]*\}/);
       const standup = JSON.parse(jsonMatch ? jsonMatch[0] : result);
-
       renderStandup(standup, name, outputArea);
-    } catch (e) {
+    } catch(e) {
       stopFunLoader();
       outputArea.innerHTML = `<div class="error-msg">❌ Error: ${e.message}</div>`;
     }
   }
 
+  // ── Render ───────────────────────────────────────────────────────
   function renderStandup(standup, name, container) {
     let html = `<div class="tab-buttons">
       <button class="tab-btn active" onclick="switchTab(event, 'slack')">💬 Slack</button>
@@ -425,19 +556,16 @@ Return JSON:
       <button class="tab-btn" onclick="switchTab(event, 'plain')">📝 Plain Text</button>
     </div>`;
 
-    // Slack
     html += `<div id="slack" class="tab-content active">
       <button class="btn btn-teal copy-button" onclick="copyFormat('slack')">📋 Copy Slack Format</button>
       <div class="standup-format">${escapeHtml(standup.slackFormat)}</div>
     </div>`;
 
-    // Teams
     html += `<div id="teams" class="tab-content">
       <button class="btn btn-teal copy-button" onclick="copyFormat('teams')">📋 Copy Teams Format</button>
       <div class="standup-format">${escapeHtml(standup.teamsFormat)}</div>
     </div>`;
 
-    // Email
     html += `<div id="email" class="tab-content">
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
         <button class="btn btn-teal copy-button" onclick="copyFormat('email')" style="flex:1;justify-content:center;">📋 Copy Email Format</button>
@@ -446,7 +574,6 @@ Return JSON:
       <div class="standup-format">${escapeHtml(standup.emailFormat)}</div>
     </div>`;
 
-    // Plain Text
     html += `<div id="plain" class="tab-content">
       <button class="btn btn-teal copy-button" onclick="copyFormat('plain')">📋 Copy Plain Text</button>
       <div class="standup-format">${escapeHtml(standup.bulletFormat)}</div>
@@ -454,7 +581,7 @@ Return JSON:
 
     html += `<div style="margin-top: 16px;">
       <button class="btn btn-ghost" onclick="downloadStandup()">📥 Download All Formats</button>
-      <button class="btn btn-amber" onclick="document.getElementById('settingsCard').classList.remove('collapsed'); generateStandup();" style="margin-left: 8px;">🔄 Regenerate</button>
+      <button class="btn btn-amber" onclick="generateStandup();" style="margin-left: 8px;">🔄 Regenerate</button>
     </div>`;
 
     container.innerHTML = html;
@@ -470,7 +597,7 @@ Return JSON:
 
   function escapeHtml(text) {
     const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-    return text.replace(/[&<>"']/g, m => map[m]);
+    return (text || '').replace(/[&<>"']/g, m => map[m]);
   }
 
   function openMailto16() {
@@ -500,7 +627,7 @@ Return JSON:
   }
 
   function runDemo() {
-    const name = 'Alex';
+    const name = document.getElementById('userName').value.trim() || 'Alex';
     const demoStandup = {
       yesterday: [
         "Shipped the new API rate-limiting middleware to staging — all tests passing, zero regressions",
@@ -512,95 +639,21 @@ Return JSON:
         "Start implementation of the new webhook retry logic (ticket #1847)",
         "1:1 with manager at 2pm — bringing notes on Q2 capacity"
       ],
-      blockers: [
-        "Waiting on DevOps to provision the new staging environment for the EU region — needed before end of week"
-      ],
+      blockers: ["Waiting on DevOps to provision the new staging environment for the EU region — needed before end of week"],
       highlights: "Rate-limiting middleware ships to production today — this closes 4 weeks of work and unblocks the enterprise client onboarding.",
       mood: "🟢 On track",
-      slackFormat: `*Daily Standup — Alex* | ${new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})}
-
-*✅ Yesterday*
-• Shipped new API rate-limiting middleware to staging — all tests passing, zero regressions
-• Completed code review on 3 PRs for the Q2 data pipeline refactor
-• Finalized dashboard filter spec with design team
-
-*🎯 Today*
-• Promote rate-limiting middleware to production after morning monitoring window
-• Start webhook retry logic implementation (ticket #1847)
-• 1:1 with manager at 2pm
-
-*🚧 Blockers*
-• Waiting on DevOps to provision EU staging environment — needed before EOW
-
-*⚡ Highlight*
-Rate-limiting middleware ships today — closes 4 weeks of work and unblocks enterprise client onboarding.
-Mood: 🟢 On track`,
-
-      teamsFormat: `**Daily Standup — Alex**
-📅 ${new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})}
-
-**Yesterday**
-✓ Shipped API rate-limiting middleware to staging (all tests pass)
-✓ Reviewed 3 PRs for Q2 data pipeline refactor
-✓ Dashboard filter spec finalized with design
-
-**Today**
-→ Promote rate-limiting to production post-monitoring
-→ Begin webhook retry logic (ticket #1847)
-→ 1:1 with manager at 2pm
-
-**Blockers**
-⚠ Waiting on EU staging environment from DevOps
-
-**Status:** 🟢 On track`,
-
-      emailFormat: `Subject: Standup — Alex — ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric'})}
-
-Hi team,
-
-Here's my update for today:
-
-Yesterday:
-- Shipped API rate-limiting middleware to staging with zero regressions
-- Code reviewed 3 PRs for the Q2 data pipeline refactor
-- Finalized dashboard filter spec with the design team
-
-Today:
-- Promoting rate-limiting middleware to production after morning monitoring
-- Starting webhook retry logic implementation (ticket #1847)
-- 1:1 with manager at 2pm
-
-Blockers:
-- Waiting on DevOps for EU staging environment provisioning — needed by end of week
-
-Today's highlight: Rate-limiting middleware goes live — this closes 4 weeks of work and unblocks enterprise onboarding.
-
-Alex`,
-
-      bulletFormat: `STANDUP — ALEX — ${new Date().toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'})}
-
-YESTERDAY
-• Shipped API rate-limiting middleware to staging (all tests passing)
-• Reviewed 3 PRs — Q2 data pipeline refactor
-• Finalized dashboard filter spec with design team
-
-TODAY
-• Promote rate-limiting to production post-monitoring window
-• Start webhook retry logic (ticket #1847)
-• 1:1 with manager @ 2pm
-
-BLOCKERS
-• Waiting on DevOps: EU staging environment provisioning needed by EOW
-
-STATUS: 🟢 On track`
+      slackFormat: `*Daily Standup — ${name}* | ${new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})}\n\n*✅ Yesterday*\n• Shipped new API rate-limiting middleware to staging — all tests passing\n• Completed code review on 3 PRs for the Q2 data pipeline refactor\n• Finalized dashboard filter spec with design team\n\n*🎯 Today*\n• Promote rate-limiting middleware to production after morning monitoring\n• Start webhook retry logic implementation (ticket #1847)\n• 1:1 with manager at 2pm\n\n*🚧 Blockers*\n• Waiting on DevOps to provision EU staging environment — needed by EOW\n\n*⚡ Highlight*\nRate-limiting middleware ships today — closes 4 weeks of work, unblocks enterprise onboarding.\nMood: 🟢 On track`,
+      teamsFormat: `**Daily Standup — ${name}**\n📅 ${new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})}\n\n**Yesterday**\n✓ Shipped API rate-limiting middleware to staging (all tests pass)\n✓ Reviewed 3 PRs for Q2 data pipeline refactor\n✓ Dashboard filter spec finalized with design\n\n**Today**\n→ Promote rate-limiting to production post-monitoring\n→ Begin webhook retry logic (ticket #1847)\n→ 1:1 with manager at 2pm\n\n**Blockers**\n⚠ Waiting on EU staging environment from DevOps\n\n**Status:** 🟢 On track`,
+      emailFormat: `Subject: Standup — ${name} — ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric'})}\n\nHi team,\n\nYesterday:\n- Shipped API rate-limiting middleware to staging with zero regressions\n- Code reviewed 3 PRs for the Q2 data pipeline refactor\n- Finalized dashboard filter spec with the design team\n\nToday:\n- Promoting rate-limiting middleware to production after morning monitoring\n- Starting webhook retry logic implementation (ticket #1847)\n- 1:1 with manager at 2pm\n\nBlockers:\n- Waiting on DevOps for EU staging environment provisioning — needed by end of week\n\n${name}`,
+      bulletFormat: `STANDUP — ${name.toUpperCase()} — ${new Date().toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'})}\n\nYESTERDAY\n• Shipped API rate-limiting middleware to staging (all tests passing)\n• Reviewed 3 PRs — Q2 data pipeline refactor\n• Finalized dashboard filter spec with design team\n\nTODAY\n• Promote rate-limiting to production post-monitoring window\n• Start webhook retry logic (ticket #1847)\n• 1:1 with manager @ 2pm\n\nBLOCKERS\n• Waiting on DevOps: EU staging environment provisioning needed by EOW\n\nSTATUS: 🟢 On track`
     };
-
     const outputArea = document.getElementById('outputArea');
     renderStandup(demoStandup, name, outputArea);
     outputArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   window.addEventListener('load', () => {
+    initMsal16();
     const saved = localStorage.getItem('gemini_key');
     if (saved) {
       document.getElementById('geminiKey').value = saved;

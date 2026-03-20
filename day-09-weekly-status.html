@@ -1260,11 +1260,13 @@
 
         stopLoader();
 
+        // Strip markdown code fences (```json ... ```) before parsing
+        const cleanContent = content.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
         try {
-          const parsed = JSON.parse(content);
-          displayReport(parsed.report, parsed.subject);
+          const parsed = JSON.parse(cleanContent);
+          displayReport(parsed.report, parsed.subject || 'Weekly Update');
         } catch {
-          displayReport(content, 'Weekly Update');
+          displayReport(cleanContent, 'Weekly Update');
         }
 
         showToast('Report generated! Ready to review and send.', 'success');
@@ -1320,14 +1322,65 @@ The report should:
 - Feel professional and polished`;
     }
 
+    function formatReportToHTML(text) {
+      if (!text) return '<p style="color:var(--muted)">No report content.</p>';
+      const SECTIONS = ['THIS WEEK','KEY ACCOMPLISHMENTS','IN PROGRESS','BLOCKERS','NEXT WEEK','HIGHLIGHTS','LOOKING AHEAD','CHALLENGES','SUMMARY'];
+      const COLORS   = {'THIS WEEK':'#0891B2','KEY ACCOMPLISHMENTS':'#10B981','IN PROGRESS':'#6366F1','BLOCKERS':'#EF4444','NEXT WEEK':'#F59E0B','HIGHLIGHTS':'#10B981','LOOKING AHEAD':'#F59E0B','CHALLENGES':'#EF4444','SUMMARY':'#0891B2'};
+      const lines = text.split('\n');
+      let html = '', buffer = [];
+      function flushBuffer() {
+        const joined = buffer.join('\n').trim();
+        buffer = [];
+        if (!joined) return;
+        // Detect bullet lists vs paragraphs
+        const parts = joined.split(/\n{2,}/);
+        parts.forEach(part => {
+          part = part.trim();
+          if (!part) return;
+          const bulletLines = part.split('\n').map(l => l.trim()).filter(Boolean);
+          const isList = bulletLines.length > 1 && bulletLines.every(l => /^[-•*]/.test(l));
+          if (isList) {
+            html += '<ul style="margin:6px 0 14px 20px;padding:0">';
+            bulletLines.forEach(l => { html += `<li style="margin:4px 0;color:var(--text);line-height:1.6">${l.replace(/^[-•*]\s*/,'')}</li>`; });
+            html += '</ul>';
+          } else {
+            // Split by newlines within the paragraph and render as one block
+            html += `<p style="margin:0 0 14px;color:var(--text);line-height:1.7">${part.replace(/\n/g,' ')}</p>`;
+          }
+        });
+      }
+      lines.forEach(line => {
+        const key = line.trim().toUpperCase().replace(/[:\s]+$/,'');
+        if (SECTIONS.includes(key)) {
+          flushBuffer();
+          const c = COLORS[key] || '#0891B2';
+          html += `<div style="margin:20px 0 10px;padding:6px 12px;background:${c}22;border-left:3px solid ${c};border-radius:4px"><span style="font-weight:700;font-size:.75rem;letter-spacing:.08em;color:${c};text-transform:uppercase">${line.trim().replace(/:$/,'')}</span></div>`;
+        } else {
+          buffer.push(line);
+        }
+      });
+      flushBuffer();
+      // Fallback: if nothing was recognized as a section, just wrap in paras
+      if (!html) {
+        text.split(/\n{2,}/).forEach(p => {
+          const t = p.trim();
+          if (t) html += `<p style="margin:0 0 14px;color:var(--text);line-height:1.7">${t.replace(/\n/g,' ')}</p>`;
+        });
+      }
+      return html || '<p style="color:var(--muted)">Report generated.</p>';
+    }
+
     function displayReport(text, subject) {
-      document.getElementById('reportBody').textContent = text;
+      document.getElementById('reportBody').innerHTML = formatReportToHTML(text);
+      // Store plain text for copy/send
+      document.getElementById('reportBody').dataset.plainText = text;
       document.getElementById('output').classList.add('active');
       document.getElementById('sendBtn').style.display = 'inline-block';
     }
 
     function copyReport() {
-      const text = document.getElementById('reportBody').textContent;
+      const el = document.getElementById('reportBody');
+      const text = el.dataset.plainText || el.textContent;
       navigator.clipboard.writeText(text).then(() => {
         showToast('Report copied to clipboard!', 'success');
       });
@@ -1347,7 +1400,8 @@ The report should:
       }
 
       const subject = 'Weekly Update — ' + new Date().toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' });
-      const body = document.getElementById('reportBody').textContent;
+      const el09 = document.getElementById('reportBody');
+      const body = el09.dataset.plainText || el09.textContent;
 
       const sendBtn = document.getElementById('sendBtn');
       sendBtn.disabled = true;
