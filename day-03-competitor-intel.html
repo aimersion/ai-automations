@@ -1201,6 +1201,13 @@ document.getElementById('demoBtn').addEventListener('click', () => {
   renderCard(DEMO_DATA);
 });
 
+// runDemo() — called by setup banner's "Try Demo" button
+function runDemo() {
+  resetLoader();
+  renderCard(DEMO_DATA);
+  document.getElementById('battleCard')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 document.getElementById('copyBtn').addEventListener('click', () => {
   if (!window._plainText) return;
   navigator.clipboard.writeText(window._plainText).then(() => {

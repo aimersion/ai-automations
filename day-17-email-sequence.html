@@ -343,11 +343,23 @@ twq("config","tw-r848k-r848k");
     if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
   }
 
+  function showToast(msg, type = 'success') {
+    const t = document.createElement('div');
+    t.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:500;font-family:inherit;max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,0.4);transition:opacity .3s;`;
+    t.style.background = type === 'error' ? '#7F1D1D' : type === 'info' ? '#1e3a5f' : '#064e3b';
+    t.style.border = `1px solid ${type === 'error' ? '#DC2626' : type === 'info' ? '#0891B2' : '#059669'}`;
+    t.style.color = '#F0F7FF';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, 3000);
+  }
+
   function saveGeminiKey() {
     const key = document.getElementById('geminiKey').value.trim();
-    if (!key) { alert('Please enter your Gemini API key'); return; }
+    if (!key) { showToast('Enter your Gemini API key first', 'error'); return; }
     localStorage.setItem('gemini_key', key);
-    alert('✓ Key saved securely in your browser');
+    document.getElementById('apiCard').classList.add('collapsed');
+    showToast('API key saved ✓');
   }
 
   async function callGemini(prompt) {
@@ -374,7 +386,7 @@ twq("config","tw-r848k-r848k");
     const emailCount = document.getElementById('emailCount').value;
 
     if (!goal || !audience || !product) {
-      alert('Please fill in all required fields');
+      showToast('Fill in Goal, Audience, and Product to continue', 'error');
       return;
     }
 
@@ -450,7 +462,10 @@ Create a complete, ready-to-use email sequence. Return JSON:
           <div class="email-meta-item"><strong>Word count:</strong> ${email.wordCount}</div>
           <div class="email-meta-item"><strong>Tip:</strong> ${escapeHtml(email.openRateTip)}</div>
         </div>
-        <button class="btn btn-teal email-copy-btn" onclick="copyEmail(${idx})">📋 Copy Email ${email.emailNumber}</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+          <button class="btn btn-teal email-copy-btn" onclick="copyEmail(${idx})" style="flex:1;justify-content:center;">📋 Copy Email ${email.emailNumber}</button>
+          <button class="btn btn-ghost" onclick="openMailto17(${idx})" style="flex:1;justify-content:center;">✉️ Open in Email App</button>
+        </div>
       </div>`;
     });
 
@@ -484,7 +499,15 @@ Create a complete, ready-to-use email sequence. Return JSON:
     if (!window._lastSequence) return;
     const email = window._lastSequence.emails[idx];
     const text = `Subject: ${email.subject}\n\n${email.body}\n\n---\nCTA: ${email.cta}`;
-    navigator.clipboard.writeText(text).then(() => alert('✓ Email copied to clipboard'));
+    navigator.clipboard.writeText(text).then(() => showToast('Email copied to clipboard ✓'));
+  }
+
+  function openMailto17(idx) {
+    if (!window._lastSequence) return;
+    const email = window._lastSequence.emails[idx];
+    const subject = encodeURIComponent(email.subject);
+    const body = encodeURIComponent(`${email.body}\n\n---\nCTA: ${email.cta}`);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
 
   function copyAllEmails() {
@@ -495,7 +518,7 @@ Create a complete, ready-to-use email sequence. Return JSON:
       text += `Subject: ${e.subject}\n\n`;
       text += e.body + '\n\n---\n\n';
     });
-    navigator.clipboard.writeText(text).then(() => alert('✓ All emails copied to clipboard'));
+    navigator.clipboard.writeText(text).then(() => showToast('All ' + window._lastSequence.emails.length + ' emails copied ✓'));
   }
 
   function downloadSequence() {

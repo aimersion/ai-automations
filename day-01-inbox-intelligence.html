@@ -777,7 +777,7 @@ function showToast(msg, color) {
 
 // ─── Google Auth (gmail.readonly + gmail.compose) ──────
 function connectGoogle() {
-  if (!window.google) { alert('Google library not loaded yet. Please wait a moment.'); return; }
+  if (!window.google) { showToast('Google library not loaded yet — please wait a moment', '#EF4444'); return; }
   if (!googleTokenClient) {
     googleTokenClient = google.accounts.oauth2.initTokenClient({
       client_id: GOOGLE_CLIENT_ID,
@@ -787,7 +787,7 @@ function connectGoogle() {
         'https://www.googleapis.com/auth/userinfo.email'
       ].join(' '),
       callback: async (resp) => {
-        if (resp.error) { alert('Google auth error: ' + resp.error); return; }
+        if (resp.error) { showToast('Google auth error: ' + resp.error, '#EF4444'); return; }
         googleToken = resp.access_token;
         sessionStorage.setItem('google_token', googleToken);
         try {
@@ -860,7 +860,7 @@ async function connectMicrosoft() {
   } catch (e) {
     if (e.errorCode === 'user_cancelled') return; // user closed popup — no alert needed
     console.error('Microsoft login error:', e);
-    alert('Microsoft login error: ' + (e.message || e));
+    showToast('Microsoft login error: ' + (e.message || e), '#EF4444');
   }
 }
 async function getMsToken(scopes) {
@@ -1164,6 +1164,26 @@ function renderTriage(data) {
   document.getElementById('output').innerHTML = html;
 }
 
+// ─── Demo Mode ─────────────────────────────────────────
+function runDemo() {
+  currentEmails = []; // no real emails; open links will be hidden
+  renderTriage({
+    digest: "**3 items need your attention today.** You have a time-sensitive proposal approval from Apex Ventures due by EOD, a stalled contract with Meridian that has 4 unanswered follow-ups, and a high-value partnership inquiry from Relay Capital worth a reply today.",
+    summary: { total: 8, action_required: 3, can_wait: 3, low_priority: 2 },
+    emails: [
+      { priority: 1, index: 1, from: "Sarah Chen — Apex Ventures", source: "Outlook", subject: "Re: Q2 Proposal — Need decision by EOD", summary: "Sarah confirmed budget is approved. They need your sign-off on the engagement scope before their internal deadline at 5pm today. Delay risks the deal moving to a competitor.", action: "Reply with approval or counter-proposal before 5pm today", already_replied: false, needs_reply: true },
+      { priority: 1, index: 2, from: "David Park — Meridian Analytics", source: "Gmail", subject: "Contract Review — 4th Follow-up", summary: "David has followed up 4 times on MSA redlines over 9 days. Legal has signed off on their version. Ball is in your court to countersign.", action: "Forward to legal or countersign the MSA today", already_replied: false, needs_reply: true },
+      { priority: 1, index: 3, from: "Michelle Torres — Relay Capital", source: "Outlook", subject: "Partnership Opportunity — Quick Call?", summary: "Michelle is Head of BD at Relay Capital ($2B AUM). She's interested in a strategic co-sell partnership and asked for a 20-minute intro call this week.", action: "Reply to schedule a call — high upside, low time cost", already_replied: false, needs_reply: true },
+      { priority: 2, index: 4, from: "Alex Kim — Product Team", source: "Gmail", subject: "Q3 Roadmap Slides — Review Request", summary: "Alex sent the draft Q3 roadmap deck for review. The all-hands is Thursday — your input shapes what gets prioritized for the next quarter.", action: "Review and send feedback before Thursday morning", already_replied: false, needs_reply: true },
+      { priority: 2, index: 5, from: "Jake Morrison — HubSpot", source: "Outlook", subject: "Your Trial Ends Friday — 20% Off If You Upgrade Now", summary: "HubSpot trial expires in 3 days. Jake is your account rep and offered a 20% discount on annual subscription if you commit before Friday EOD.", action: "Decide on HubSpot — forward to ops or decline", already_replied: false, needs_reply: false },
+      { priority: 2, index: 6, from: "Nora Lee — TeamSpace", source: "Gmail", subject: "New: AI Meeting Notes & Auto-Summary", summary: "TeamSpace launched AI meeting transcription in beta. Could replace your current manual notetaking workflow — worth a 10-minute look.", action: "Try the beta or forward to your ops lead", already_replied: false, needs_reply: false },
+      { priority: 3, index: 7, from: "LinkedIn Notifications", source: "Outlook", subject: "5 people viewed your profile this week", summary: "Weekly LinkedIn summary. No action needed unless you're actively hiring or prospecting.", action: "No action required", already_replied: false, needs_reply: false },
+      { priority: 3, index: 8, from: "Google Workspace", source: "Gmail", subject: "Your Google storage is 78% full", summary: "Storage warning at 78%. Not urgent but worth addressing within the next few weeks.", action: "Clean up Drive/Gmail storage when convenient", already_replied: false, needs_reply: false }
+    ]
+  });
+  document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 // ─── Draft Reply Modal ─────────────────────────────────
 function openDraftModal(emailIdx) {
   const email = currentEmails[emailIdx];
@@ -1259,11 +1279,11 @@ function encodeRFC2822(to, subject, body) {
 
 // ─── Gmail Draft & Send ────────────────────────────────
 async function saveDraftGmail() {
-  if (!googleToken) { alert('Please connect Gmail first.'); return; }
+  if (!googleToken) { showToast('Connect Gmail first', '#EF4444'); return; }
   const to = document.getElementById('modalTo').value.trim();
   const subject = document.getElementById('modalSubject').value.trim();
   const body = document.getElementById('modalText').value.trim();
-  if (!to) { alert('Please enter a recipient email address.'); return; }
+  if (!to) { showToast('Enter a recipient email address', '#EF4444'); return; }
   try {
     const resp = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/drafts', {
       method: 'POST',
@@ -1273,15 +1293,15 @@ async function saveDraftGmail() {
     if (resp.error) throw new Error(resp.error.message);
     showToast('✓ Draft saved to Gmail!', '#059669');
     closeDraftModal();
-  } catch (e) { alert('Error saving Gmail draft: ' + e.message); }
+  } catch (e) { showToast('Error saving Gmail draft: ' + e.message, '#EF4444'); }
 }
 
 async function sendGmail() {
-  if (!googleToken) { alert('Please connect Gmail first.'); return; }
+  if (!googleToken) { showToast('Connect Gmail first', '#EF4444'); return; }
   const to = document.getElementById('modalTo').value.trim();
   const subject = document.getElementById('modalSubject').value.trim();
   const body = document.getElementById('modalText').value.trim();
-  if (!to) { alert('Please enter a recipient email address.'); return; }
+  if (!to) { showToast('Enter a recipient email address', '#EF4444'); return; }
   if (!confirm(`Send this email to ${to}?`)) return;
   try {
     const resp = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
@@ -1292,7 +1312,7 @@ async function sendGmail() {
     if (resp.error) throw new Error(resp.error.message);
     showToast('✓ Email sent via Gmail!', '#059669');
     closeDraftModal();
-  } catch (e) { alert('Error sending Gmail: ' + e.message); }
+  } catch (e) { showToast('Error sending Gmail: ' + e.message, '#EF4444'); }
 }
 
 // ─── Outlook Draft & Send ──────────────────────────────
@@ -1300,9 +1320,9 @@ async function saveDraftOutlook() {
   const to = document.getElementById('modalTo').value.trim();
   const subject = document.getElementById('modalSubject').value.trim();
   const body = document.getElementById('modalText').value.trim();
-  if (!to) { alert('Please enter a recipient email address.'); return; }
+  if (!to) { showToast('Enter a recipient email address', '#EF4444'); return; }
   const token = await getMsToken(['https://graph.microsoft.com/Mail.ReadWrite']);
-  if (!token) { alert('Please connect Outlook first.'); return; }
+  if (!token) { showToast('Connect Outlook first', '#EF4444'); return; }
   try {
     const resp = await fetch('https://graph.microsoft.com/v1.0/me/messages', {
       method: 'POST',
@@ -1313,17 +1333,17 @@ async function saveDraftOutlook() {
     if (resp.error) throw new Error(resp.error.message);
     showToast('✓ Draft saved to Outlook!', '#059669');
     closeDraftModal();
-  } catch (e) { alert('Error saving Outlook draft: ' + e.message); }
+  } catch (e) { showToast('Error saving Outlook draft: ' + e.message, '#EF4444'); }
 }
 
 async function sendOutlook() {
   const to = document.getElementById('modalTo').value.trim();
   const subject = document.getElementById('modalSubject').value.trim();
   const body = document.getElementById('modalText').value.trim();
-  if (!to) { alert('Please enter a recipient email address.'); return; }
+  if (!to) { showToast('Enter a recipient email address', '#EF4444'); return; }
   if (!confirm(`Send this email to ${to}?`)) return;
   const token = await getMsToken(['https://graph.microsoft.com/Mail.Send']);
-  if (!token) { alert('Please connect Outlook first.'); return; }
+  if (!token) { showToast('Connect Outlook first', '#EF4444'); return; }
   try {
     const resp = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
       method: 'POST',
@@ -1334,7 +1354,7 @@ async function sendOutlook() {
     if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || 'Send failed'); }
     showToast('✓ Email sent via Outlook!', '#059669');
     closeDraftModal();
-  } catch (e) { alert('Error sending Outlook: ' + e.message); }
+  } catch (e) { showToast('Error sending Outlook: ' + e.message, '#EF4444'); }
 }
 
 // ─── Sample Output Demo ────────────────────────────────
@@ -1380,7 +1400,7 @@ function showSampleOutput() {
         <div class="email-action">→ ${renderMd(e.action)}</div>
         <div style="display:flex;gap:6px;align-items:center">
           ${e.needs_reply
-            ? `<button class="btn btn-ghost reply-btn-needed" onclick="alert('Connect your email to draft real replies!')" title="AI thinks this needs a reply">✍️ Draft Reply</button>`
+            ? `<button class="btn btn-ghost reply-btn-needed" onclick="showToast('Connect Gmail or Outlook above to draft real replies','#0891B2')" title="AI thinks this needs a reply">✍️ Draft Reply</button>`
             : `<button class="btn btn-ghost reply-btn-skip" style="opacity:0.4" title="No reply likely needed">✍️ Draft anyway</button>`
           }
         </div>

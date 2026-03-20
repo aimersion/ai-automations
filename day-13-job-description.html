@@ -511,6 +511,7 @@
       }
     }
   </style>
+  <script src="https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js"></script>
 </head>
 <body>
   <header>
@@ -551,6 +552,21 @@
             <input type="password" id="gemini-key" placeholder="AIzaSy...">
             <small style="color: var(--muted); margin-top: 0.4rem;">Your key is stored locally in your browser only. Never sent to a server.</small>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Connect Outlook Card -->
+    <div class="card">
+      <div class="collapsible-header" onclick="toggleCollapsible(event, 'outlook-content')">
+        <h2 style="margin-bottom: 0;">📧 Connect Outlook <span style="font-size:0.75rem;font-weight:400;color:var(--muted);margin-left:8px;">optional — to send JDs & emails directly</span></h2>
+        <span class="collapse-icon">▼</span>
+      </div>
+      <div id="outlook-content" class="collapsible-content">
+        <p style="color:var(--muted2);font-size:0.9rem;margin-bottom:1rem;">Connect your Microsoft account to send job descriptions and candidate emails directly from this tool.</p>
+        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+          <button id="connectOutlookBtn13" onclick="connectOutlook13()" style="background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);padding:9px 18px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:600;">🔗 Connect Microsoft / Outlook</button>
+          <span id="outlookStatus13" style="font-size:13px;color:var(--muted);">Not connected</span>
         </div>
       </div>
     </div>
@@ -675,7 +691,9 @@
           <button onclick="copyToClipboard('full-jd-output')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📋 Copy</button>
         </div>
         <div id="full-jd-output" class="output-section"></div>
-        <button onclick="sendViaOutlook()" style="margin-top: 1rem;">📧 Send via Outlook</button>
+        <div style="margin-top:1rem;display:flex;gap:10px;flex-wrap:wrap;">
+          <button onclick="sendViaOutlook()" style="background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;">📧 Send via Outlook</button>
+        </div>
       </div>
 
       <div id="linkedin" class="tab-content">
@@ -692,6 +710,10 @@
           <button onclick="copyToClipboard('email-output')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📋 Copy</button>
         </div>
         <div id="email-output" class="output-section"></div>
+        <div style="margin-top:1rem;display:flex;gap:10px;flex-wrap:wrap;">
+          <button onclick="sendViaOutlook()" style="background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;">📧 Send via Outlook</button>
+          <button onclick="openMailto13()" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.4);color:var(--amber);padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;">✉️ Open in Email App</button>
+        </div>
       </div>
 
       <div id="brief" class="tab-content">
@@ -703,6 +725,25 @@
       </div>
 
       <button onclick="regenerateJD()" style="margin-top: 1.5rem; background: var(--teal);">🔄 Regenerate</button>
+    </div>
+  </div>
+
+  <!-- SEND MODAL -->
+  <div id="sendModal13" style="display:none;position:fixed;inset:0;z-index:9990;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;">
+    <div style="background:var(--surface);border:1px solid var(--border-bright);border-radius:14px;padding:28px;width:100%;max-width:420px;margin:16px;box-shadow:0 24px 60px rgba(0,0,0,0.5);">
+      <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:20px;">📧 Send via Outlook</div>
+      <div class="form-group" style="margin-bottom:14px;">
+        <label style="color:var(--muted2);font-size:13px;margin-bottom:6px;display:block;">To:</label>
+        <input type="email" id="sendTo13" placeholder="candidate@example.com" style="width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--border-bright);color:var(--white);padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
+      </div>
+      <div class="form-group" style="margin-bottom:20px;">
+        <label style="color:var(--muted2);font-size:13px;margin-bottom:6px;display:block;">Subject:</label>
+        <input type="text" id="sendSubject13" placeholder="Subject line" style="width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--border-bright);color:var(--white);padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="doSendOutlook13()" style="flex:1;background:var(--teal);color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;" id="sendBtn13">Send</button>
+        <button onclick="document.getElementById('sendModal13').style.display='none'" style="background:var(--surface2);border:1px solid var(--border);color:var(--muted2);padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;">Cancel</button>
+      </div>
     </div>
   </div>
 
@@ -1168,9 +1209,95 @@ Format each section clearly with section headers. Use professional, engaging lan
       }
     }
 
-    async function sendViaOutlook() {
-      showToast('Outlook integration coming soon. For now, copy and paste into your email.');
+    // ── Outlook / MSAL ───────────────────────────────────────
+    const AZURE_CLIENT_ID_13 = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+    const MS_SCOPES_13 = ['https://graph.microsoft.com/Mail.Send','https://graph.microsoft.com/User.Read'];
+    const MSAL_CFG_13 = { auth: { clientId: AZURE_CLIENT_ID_13, authority: 'https://login.microsoftonline.com/common', redirectUri: 'https://aimersion.github.io/ai-automations/auth.html' }, cache: { cacheLocation: 'sessionStorage' } };
+    let msalInst13 = null, msAcct13 = null;
+
+    async function initMsal13() {
+      if (!window.msal) return;
+      msalInst13 = new msal.PublicClientApplication(MSAL_CFG_13);
+      const accts = msalInst13.getAllAccounts();
+      if (accts.length > 0) { msAcct13 = accts[0]; updateOutlookUI13(); }
     }
+
+    async function connectOutlook13() {
+      try {
+        if (!msalInst13) await initMsal13();
+        const r = await msalInst13.loginPopup({ scopes: MS_SCOPES_13, prompt: 'select_account' });
+        msAcct13 = r.account;
+        updateOutlookUI13();
+        showToast('Outlook connected ✓', 'success');
+      } catch(e) { showToast('Connection failed: ' + e.message, 'error'); }
+    }
+
+    function updateOutlookUI13() {
+      if (!msAcct13) return;
+      const s = document.getElementById('outlookStatus13');
+      const b = document.getElementById('connectOutlookBtn13');
+      if (s) { s.textContent = '✓ ' + msAcct13.username; s.style.color = 'var(--green)'; }
+      if (b) b.textContent = 'Reconnect';
+    }
+
+    async function getMsToken13() {
+      if (!msalInst13 || !msAcct13) return null;
+      try { return (await msalInst13.acquireTokenSilent({ scopes: MS_SCOPES_13, account: msAcct13 })).accessToken; }
+      catch { return (await msalInst13.acquireTokenPopup({ scopes: MS_SCOPES_13, account: msAcct13 })).accessToken; }
+    }
+
+    function sendViaOutlook() {
+      const emailContent = document.getElementById('email-output');
+      const subject = document.getElementById('job-title')?.value || 'Job Opportunity';
+      if (!msAcct13) {
+        showToast('Connect Outlook above to send emails directly', 'error');
+        return;
+      }
+      document.getElementById('sendSubject13').value = subject;
+      document.getElementById('sendTo13').value = '';
+      document.getElementById('sendModal13').style.display = 'flex';
+      setTimeout(() => document.getElementById('sendTo13').focus(), 80);
+    }
+
+    async function doSendOutlook13() {
+      const to = document.getElementById('sendTo13').value.trim();
+      const subject = document.getElementById('sendSubject13').value.trim();
+      if (!to) return showToast('Enter recipient email address', 'error');
+      const token = await getMsToken13();
+      if (!token) return showToast('Not connected to Outlook', 'error');
+      const emailEl = document.getElementById('email-output');
+      const bodyText = emailEl ? (emailEl.innerText || emailEl.textContent) : (document.getElementById('full-jd-output')?.innerText || '');
+      const btn = document.getElementById('sendBtn13');
+      const origText = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Sending...';
+      try {
+        const res = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: { subject, body: { contentType: 'Text', content: bodyText }, toRecipients: [{ emailAddress: { address: to } }] } })
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        document.getElementById('sendModal13').style.display = 'none';
+        showToast(`✓ Sent to ${to}`, 'success');
+      } catch(e) { showToast('Send failed: ' + e.message, 'error'); }
+      finally { btn.disabled = false; btn.textContent = origText; }
+    }
+
+    function openMailto13() {
+      const subject = encodeURIComponent(document.getElementById('job-title')?.value || 'Job Opportunity');
+      const emailEl = document.getElementById('email-output');
+      const body = encodeURIComponent(emailEl ? (emailEl.innerText || emailEl.textContent) : '');
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+
+    // Profile auto-fill: also fill company-name (Day 13-specific ID)
+    window.addEventListener('DOMContentLoaded', () => {
+      initMsal13();
+      try {
+        const p = JSON.parse(localStorage.getItem('aimersion_profile') || '{}');
+        if (p.company) { const el = document.getElementById('company-name'); if (el && !el.value) el.value = p.company; }
+      } catch(e) {}
+    });
   </script>
 
 <!-- AIMERSION PROFILE WIDGET -->

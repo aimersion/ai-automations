@@ -340,14 +340,25 @@ twq("config","tw-r848k-r848k");
     if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
   }
 
+  function showToast(msg, type = 'success') {
+    const colors = { success: '#064e3b', error: '#7f1d1d', info: '#0F1F3D' };
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:${colors[type]||colors.success};color:#fff;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 4px 18px rgba(0,0,0,.4);opacity:0;transition:opacity .25s,transform .25s`;
+    document.body.appendChild(t);
+    requestAnimationFrame(() => { t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+    setTimeout(() => { t.style.opacity='0'; setTimeout(() => t.remove(), 300); }, 2800);
+  }
+
   function saveGeminiKey() {
     const key = document.getElementById('geminiKey').value.trim();
     if (!key) {
-      alert('Please enter your Gemini API key');
+      showToast('Enter your Gemini API key first', 'error');
       return;
     }
     localStorage.setItem('gemini_key', key);
-    alert('✓ Key saved securely in your browser');
+    showToast('API key saved ✓');
+    document.getElementById('apiCard')?.classList.add('collapsed');
   }
 
   async function callGemini(prompt) {
@@ -368,7 +379,7 @@ twq("config","tw-r848k-r848k");
   async function analyzeContract() {
     const contractText = document.getElementById('contractInput').value.trim();
     if (!contractText) {
-      alert('Please paste a contract first');
+      showToast('Paste a contract first', 'error');
       return;
     }
 
@@ -546,7 +557,7 @@ Return a comprehensive JSON analysis (MUST be valid JSON):
     if (!window._lastAnalysis) return;
     const a = window._lastAnalysis;
     const text = `CONTRACT SUMMARY\nType: ${a.contractType}\nOverview: ${a.overview}\nRecommendation: ${a.recommendation}`;
-    navigator.clipboard.writeText(text).then(() => alert('✓ Copied to clipboard'));
+    navigator.clipboard.writeText(text).then(() => showToast('Summary copied ✓'));
   }
 
   function downloadReport() {

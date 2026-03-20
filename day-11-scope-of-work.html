@@ -1187,7 +1187,7 @@
         })
         .catch(error => {
           console.error('Login failed:', error);
-          alert('Failed to connect to Outlook. Please try again.');
+          __showToast('⚠️ Failed to connect to Outlook — please try again');
         });
     }
 
@@ -1205,7 +1205,7 @@
     async function searchInbox() {
       const query = document.getElementById('search-query').value;
       if (!query.trim()) {
-        alert('Please enter a search term');
+        __showToast('⚠️ Enter a search term');
         return;
       }
 
@@ -1225,7 +1225,7 @@
         displayEmailResults(data.value || []);
       } catch (error) {
         console.error('Search error:', error);
-        alert('Failed to search inbox. Please try again.');
+        __showToast('⚠️ Failed to search inbox — please try again');
       }
     }
 
@@ -1285,19 +1285,19 @@
       const geminiKey = document.getElementById('gemini-key').value.trim();
 
       if (!geminiKey) {
-        alert('Please enter your Gemini API key');
+        __showToast('⚠️ Enter your Gemini API key first');
         document.getElementById('gemini-key').focus();
         return false;
       }
 
       if (!clientName) {
-        alert('Please enter the client name');
+        __showToast('⚠️ Enter the client name');
         document.getElementById('client-name').focus();
         return false;
       }
 
       if (!projectName) {
-        alert('Please enter the project name');
+        __showToast('⚠️ Enter the project name');
         document.getElementById('project-name').focus();
         return false;
       }
@@ -1403,7 +1403,7 @@ Make it professional, detailed, and something a consultant would be proud to sen
       } catch (error) {
         console.error('Generation error:', error);
         hideLoading();
-        alert(`Error generating SOW: ${error.message}`);
+        __showToast('⚠️ Error generating SOW: ' + error.message);
       }
     }
 
@@ -1608,7 +1608,7 @@ ${sowData.signatures}
       const subject = document.getElementById('send-subject').value.trim();
 
       if (!to) {
-        alert('Please enter a recipient email address');
+        __showToast('⚠️ Enter a recipient email address');
         return;
       }
 
@@ -1652,7 +1652,7 @@ ${sowData.signatures}
       } catch (error) {
         console.error('Send error:', error);
         hideLoading();
-        alert(`Error sending email: ${error.message}`);
+        __showToast('⚠️ Error sending email: ' + error.message);
       }
     }
 

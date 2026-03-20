@@ -743,6 +743,7 @@
       background: var(--orange-glow);
     }
   </style>
+  <script src="https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js"></script>
 </head>
 <body>
   <header>
@@ -988,6 +989,25 @@
     </div>
   </main>
 
+  <!-- SEND MODAL -->
+  <div id="sendModal14" style="display:none;position:fixed;inset:0;z-index:9990;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;">
+    <div style="background:#152035;border:1px solid #2A4A70;border-radius:14px;padding:28px;width:100%;max-width:420px;margin:16px;box-shadow:0 24px 60px rgba(0,0,0,0.5);">
+      <div style="font-size:16px;font-weight:700;color:#F0F7FF;margin-bottom:20px;">📧 Send via Outlook</div>
+      <div style="margin-bottom:14px;">
+        <label style="color:#8AAFD0;font-size:13px;margin-bottom:6px;display:block;">To:</label>
+        <input type="email" id="sendTo14" placeholder="recipient@example.com" style="width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
+      </div>
+      <div style="margin-bottom:20px;">
+        <label style="color:#8AAFD0;font-size:13px;margin-bottom:6px;display:block;">Subject:</label>
+        <input type="text" id="sendSubject14" placeholder="Subject line" style="width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
+      </div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="doSendOutlook14()" id="sendBtn14" style="flex:1;background:#EA580C;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">Send</button>
+        <button onclick="document.getElementById('sendModal14').style.display='none'" style="background:#152035;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;">Cancel</button>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="container">
       <div class="nav-links">
@@ -1054,8 +1074,42 @@
       showToast('API key saved (stored locally in your browser)', 'success');
     }
 
-    function connectOutlook() {
-      showToast('Outlook integration is available in the professional version', 'error');
+    // ── Outlook / MSAL ─────────────────────────────────────
+    const AZURE_CLIENT_ID_14 = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+    const MS_SCOPES_14 = ['https://graph.microsoft.com/Mail.Send','https://graph.microsoft.com/User.Read'];
+    const MSAL_CFG_14 = { auth: { clientId: AZURE_CLIENT_ID_14, authority: 'https://login.microsoftonline.com/common', redirectUri: 'https://aimersion.github.io/ai-automations/auth.html' }, cache: { cacheLocation: 'sessionStorage' } };
+    let msalInst14 = null, msAcct14 = null;
+
+    async function initMsal14() {
+      if (!window.msal) return;
+      msalInst14 = new msal.PublicClientApplication(MSAL_CFG_14);
+      const accts = msalInst14.getAllAccounts();
+      if (accts.length > 0) { msAcct14 = accts[0]; updateOutlookUI14(); }
+    }
+
+    async function connectOutlook() {
+      try {
+        if (!msalInst14) await initMsal14();
+        const r = await msalInst14.loginPopup({ scopes: MS_SCOPES_14, prompt: 'select_account' });
+        msAcct14 = r.account;
+        outlookConnected = true;
+        updateOutlookUI14();
+        showToast('Outlook connected ✓', 'success');
+      } catch(e) { showToast('Connection failed: ' + e.message, 'error'); }
+    }
+
+    function updateOutlookUI14() {
+      if (!msAcct14) return;
+      const s = document.getElementById('outlookStatus');
+      const b = document.querySelector('[onclick="connectOutlook()"]');
+      if (s) { s.innerHTML = `<span class="status-dot" style="background:#10B981"></span><span style="color:#10B981">✓ ${msAcct14.username}</span>`; }
+      if (b) b.textContent = 'Reconnect';
+    }
+
+    async function getMsToken14() {
+      if (!msalInst14 || !msAcct14) return null;
+      try { return (await msalInst14.acquireTokenSilent({ scopes: MS_SCOPES_14, account: msAcct14 })).accessToken; }
+      catch { return (await msalInst14.acquireTokenPopup({ scopes: MS_SCOPES_14, account: msAcct14 })).accessToken; }
     }
 
     function loadDemoData() {
@@ -1414,8 +1468,58 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
     }
 
     function sendViaOutlook(tab) {
-      showToast('Outlook integration available in professional version', 'error');
+      const name = document.getElementById('employeeName')?.value || 'Employee';
+      const period = document.getElementById('reviewPeriod')?.value || '';
+      let subject = `Performance Review — ${name}${period ? ' · ' + period : ''}`;
+      let body = '';
+      if (tab === 'email') {
+        subject = document.getElementById('emailSubject')?.value || subject;
+        body = document.getElementById('emailBody')?.innerText || document.getElementById('emailBody')?.textContent || '';
+      } else if (tab === 'full') {
+        body = document.getElementById('fullReviewContent')?.innerText || '';
+      } else if (tab === 'points') {
+        body = document.getElementById('talkingPointsContent')?.innerText || '';
+        subject = `Talking Points — ${name} Performance Review`;
+      }
+      if (!msAcct14) {
+        // Fallback: mailto
+        const mailto = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailto;
+        return;
+      }
+      document.getElementById('sendSubject14').value = subject;
+      document.getElementById('sendTo14').value = '';
+      document.getElementById('sendModal14').style.display = 'flex';
+      document.getElementById('sendModal14').dataset.tab = tab;
+      document.getElementById('sendModal14').dataset.body = body;
+      setTimeout(() => document.getElementById('sendTo14').focus(), 80);
     }
+
+    async function doSendOutlook14() {
+      const to = document.getElementById('sendTo14').value.trim();
+      const subject = document.getElementById('sendSubject14').value.trim();
+      if (!to) return showToast('Enter recipient email address', 'error');
+      const token = await getMsToken14();
+      if (!token) return showToast('Not connected to Outlook', 'error');
+      const modal = document.getElementById('sendModal14');
+      const body = modal.dataset.body || '';
+      const btn = document.getElementById('sendBtn14');
+      const origText = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Sending...';
+      try {
+        const res = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: { subject, body: { contentType: 'Text', content: body }, toRecipients: [{ emailAddress: { address: to } }] } })
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        modal.style.display = 'none';
+        showToast(`✓ Sent to ${to}`, 'success');
+      } catch(e) { showToast('Send failed: ' + e.message, 'error'); }
+      finally { btn.disabled = false; btn.textContent = origText; }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => { initMsal14(); });
 
     function showToast(message, type = 'success') {
       const toast = document.createElement('div');

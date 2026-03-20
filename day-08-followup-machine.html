@@ -1369,7 +1369,7 @@
       const token = await getMsToken();
 
       if (!token || !contactQuery) {
-        alert('Please connect Outlook first');
+        showToast('Connect Outlook first');
         return;
       }
 
@@ -1404,7 +1404,7 @@
       const geminiKey = localStorage.getItem('gemini_key');
 
       if (!contactName || !meetingTopic || !meetingNotes || !geminiKey) {
-        alert('Please fill in contact, topic, notes, and Gemini API key');
+        showToast('Fill in contact, topic, notes, and Gemini API key first');
         return;
       }
 
@@ -1464,7 +1464,7 @@ Ensure the JSON is valid and the email is professional, personalized, and action
         displayOutput(result);
       } catch (err) {
         console.error('Generation error:', err);
-        alert(`Error: ${err.message}`);
+        showToast('Error: ' + err.message);
       } finally {
         hideSpinner();
       }
@@ -1585,7 +1585,7 @@ Best regards`
     // Send via Outlook
     async function sendViaOutlook() {
       if (!msAccount || !window.lastFollowUpEmail) {
-        alert('Connect Outlook and generate a follow-up first');
+        showToast('Connect Outlook and generate a follow-up first');
         return;
       }
 
@@ -1623,7 +1623,7 @@ Best regards`
       } catch (err) {
         hideSpinner();
         console.error('Send error:', err);
-        alert('Error sending email: ' + err.message);
+        showToast('Error sending email: ' + err.message);
       }
     }
 

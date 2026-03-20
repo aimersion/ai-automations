@@ -323,6 +323,16 @@ twq("config","tw-r848k-r848k");
 
   let _loaderInterval = null;
 
+  function showToast(msg, type = 'success') {
+    const colors = { success: '#064e3b', error: '#7f1d1d', info: '#0F1F3D' };
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:${colors[type]||colors.success};color:#fff;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 4px 18px rgba(0,0,0,.4);opacity:0;transition:opacity .25s,transform .25s`;
+    document.body.appendChild(t);
+    requestAnimationFrame(() => { t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+    setTimeout(() => { t.style.opacity='0'; setTimeout(() => t.remove(), 300); }, 2800);
+  }
+
   function toggleCard(el) {
     el.classList.toggle('collapsed');
   }
@@ -354,9 +364,10 @@ twq("config","tw-r848k-r848k");
 
   function saveGeminiKey() {
     const key = document.getElementById('geminiKey').value.trim();
-    if (!key) { alert('Please enter your Gemini API key'); return; }
+    if (!key) { showToast('Enter your Gemini API key first', 'error'); return; }
     localStorage.setItem('gemini_key', key);
-    alert('✓ Key saved securely in your browser');
+    showToast('API key saved ✓');
+    document.getElementById('apiCard')?.classList.add('collapsed');
   }
 
   async function callGemini(prompt) {
@@ -384,7 +395,7 @@ twq("config","tw-r848k-r848k");
     const notes = document.getElementById('notes').value.trim();
 
     if (!company || !industry || !yourProduct) {
-      alert('Please fill in Company, Industry, and Your Product fields');
+      showToast('Fill in Company, Industry, and Your Product to continue', 'error');
       return;
     }
 
@@ -577,7 +588,10 @@ Return a comprehensive deal brief in JSON:
           <div class="email-subject">Subject: ${escapeHtml(oe.subject)}</div>
           <div class="email-body">${escapeHtml(oe.body)}</div>
         </div>
-        <button class="btn btn-teal" onclick="copyEmail()" style="width: 100%; justify-content: center;">📋 Copy Email</button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+          <button class="btn btn-teal" onclick="copyEmail()" style="flex:1;justify-content:center;">📋 Copy Email</button>
+          <button class="btn btn-ghost" onclick="openMailto18()" style="flex:1;justify-content:center;">✉️ Open in Email App</button>
+        </div>
       </div>`;
     }
 
@@ -599,7 +613,15 @@ Return a comprehensive deal brief in JSON:
     if (!window._lastBrief || !window._lastBrief.openingEmail) return;
     const oe = window._lastBrief.openingEmail;
     const text = `Subject: ${oe.subject}\n\n${oe.body}`;
-    navigator.clipboard.writeText(text).then(() => alert('✓ Email copied to clipboard'));
+    navigator.clipboard.writeText(text).then(() => showToast('Opening email copied ✓'));
+  }
+
+  function openMailto18() {
+    if (!window._lastBrief || !window._lastBrief.openingEmail) return;
+    const oe = window._lastBrief.openingEmail;
+    const subject = encodeURIComponent(oe.subject);
+    const body = encodeURIComponent(oe.body);
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
   }
 
   function downloadBrief() {

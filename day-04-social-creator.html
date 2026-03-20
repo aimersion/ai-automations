@@ -497,7 +497,7 @@ window.addEventListener('load', () => {
 // ── Generate ───────────────────────────────────────────────────────────────────
 async function generateContent() {
   const topic = document.getElementById('topic').value.trim();
-  if (!topic) { alert('Please enter a topic, idea, or URL.'); return; }
+  if (!topic) { showToast('Enter a topic, idea, or URL first'); return; }
 
   const geminiKey = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
   if (!geminiKey) { openKeyModal(); return; }
