@@ -843,6 +843,137 @@
   </style>
 </head>
 <body>
+  <!-- ═══ UNIVERSAL SETUP BANNER ═══ -->
+  <div id="__setupBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0F1829 0%,#080E1A 100%);border-bottom:1px solid #1E293B;box-shadow:0 4px 32px rgba(0,0,0,0.5);padding:0;overflow:hidden;">
+    <div style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+        <div>
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:#EA580C;text-transform:uppercase;margin-bottom:0.25rem;">Quick Setup</div>
+          <div style="font-weight:800;font-size:1rem;color:#F1F5F9;">Two steps to get started</div>
+        </div>
+        <button onclick="document.getElementById('__setupBanner').style.display='none'" style="background:transparent;border:1px solid #1E293B;color:#94A3B8;padding:0.4rem 0.75rem;border-radius:6px;cursor:pointer;font-size:0.75rem;">✕ dismiss</button>
+      </div>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <!-- Step 1: Gemini key -->
+        <div id="__step1" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;">
+          <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+            <span id="__s1icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">1</span>
+            Free Gemini API Key
+          </div>
+          <div style="display:flex;gap:0.5rem;">
+            <input id="__geminiInput" type="password" placeholder="Paste key (AIza...)" style="flex:1;padding:0.5rem 0.75rem;background:#0F1829;border:1px solid #1E293B;border-radius:6px;color:#F1F5F9;font-size:0.8rem;min-width:0;" oninput="__checkSetup()">
+            <button onclick="__saveGeminiKey()" style="padding:0.5rem 0.75rem;background:#EA580C;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Save</button>
+          </div>
+          <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size:0.7rem;color:#06B6D4;display:inline-block;margin-top:0.4rem;">→ Get free key at aistudio.google.com</a>
+        </div>
+        <!-- Step 2: Outlook -->
+        <div id="__step2" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;opacity:0.55;transition:opacity 0.3s;">
+          <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+            <span id="__s2icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">2</span>
+            Connect Outlook
+          </div>
+          <button id="__outlookBtn" onclick="__connectOutlook()" style="width:100%;padding:0.5rem 0.75rem;background:#06B6D4;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;">
+            📧 Connect Outlook Account
+          </button>
+          <div id="__outlookStatus" style="font-size:0.7rem;color:#94A3B8;margin-top:0.4rem;min-height:1rem;"></div>
+        </div>
+        <!-- Or: Demo -->
+        <div style="display:flex;align-items:center;justify-content:center;padding:0 0.5rem;">
+          <div style="text-align:center;">
+            <div style="font-size:0.65rem;color:#94A3B8;margin-bottom:0.35rem;">or skip setup</div>
+            <button onclick="__runPageDemo()" style="padding:0.5rem 1rem;background:transparent;border:1px solid #1E293B;border-radius:6px;color:#94A3B8;cursor:pointer;font-size:0.75rem;white-space:nowrap;">▶ Try Demo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="__setupSpacer" style="display:none;height:170px;"></div>
+
+  <script>
+  (function(){
+    // ── Universal setup helper ──
+    function __showToast(msg,dur=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#0F1829;border:1px solid #1E293B;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F1F5F9;transition:opacity 0.3s;';document.body.appendChild(t);}t.textContent=msg;t.style.display='block';t.style.opacity='1';clearTimeout(t._tmr);t._tmr=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none';},300);},dur);}
+    window.__showToast = __showToast;
+
+    function __checkSetup(){
+      const hasKey=!!localStorage.getItem('gemini_key');
+      const hasAccount=typeof msalInstance!=='undefined'&&msalInstance&&msalInstance.getAllAccounts&&msalInstance.getAllAccounts().length>0;
+      // Mark step 1
+      const s1=document.getElementById('__step1');
+      const s1icon=document.getElementById('__s1icon');
+      if(hasKey){s1.style.borderColor='#10B981';s1icon.style.background='#10B981';s1icon.style.color='#fff';s1icon.textContent='✓';document.getElementById('__step2').style.opacity='1';}
+      // Mark step 2
+      const s2=document.getElementById('__step2');
+      const s2icon=document.getElementById('__s2icon');
+      if(hasAccount){s2.style.borderColor='#10B981';s2icon.style.background='#10B981';s2icon.style.color='#fff';s2icon.textContent='✓';const acc=msalInstance.getAllAccounts()[0];document.getElementById('__outlookStatus').innerHTML='<span style="color:#10B981">✓ '+acc.username+'</span>';document.getElementById('__outlookBtn').style.display='none';}
+      // Hide banner if both done
+      if(hasKey&&hasAccount){setTimeout(()=>{document.getElementById('__setupBanner').style.display='none';document.getElementById('__setupSpacer').style.display='none';},600);}
+    }
+    window.__checkSetup=__checkSetup;
+
+    function __saveGeminiKey(){
+      const v=document.getElementById('__geminiInput').value.trim();
+      if(!v){__showToast('⚠️ Paste your Gemini API key first');return;}
+      localStorage.setItem('gemini_key',v);
+      // Also set in any existing key input on the page
+      ['geminiKey','gemini-key','apiKey','api-key','geminiApiKey'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=v;});
+      __showToast('✅ Key saved — good across all 20 tools!');
+      __checkSetup();
+    }
+    window.__saveGeminiKey=__saveGeminiKey;
+
+    async function __connectOutlook(){
+      const btn=document.getElementById('__outlookBtn');
+      const status=document.getElementById('__outlookStatus');
+      btn.textContent='⏳ Connecting...';
+      btn.disabled=true;
+      status.textContent='Opening Microsoft login...';
+      try{
+        // Try the page's own login/connect function first
+        const fns=['login','connectMicrosoft','connectOutlook','handleConnect','handleSignIn','loginOutlook'];
+        for(const fn of fns){if(typeof window[fn]==='function'){await window[fn]();break;}}
+        setTimeout(__checkSetup,1000);
+      }catch(e){
+        btn.textContent='📧 Connect Outlook Account';
+        btn.disabled=false;
+        status.textContent='';
+        __showToast('❌ Connection failed — try again');
+      }
+    }
+    window.__connectOutlook=__connectOutlook;
+
+    function __runPageDemo(){
+      document.getElementById('__setupBanner').style.display='none';
+      document.getElementById('__setupSpacer').style.display='none';
+      const fns=['runDemo','loadDemo','loadDemoData','loadDemoContent','showDemo'];
+      for(const fn of fns){if(typeof window[fn]==='function'){window[fn]();return;}}
+      __showToast('ℹ️ No demo available — set up your keys above to get started');
+      document.getElementById('__setupBanner').style.display='block';
+      document.getElementById('__setupSpacer').style.display='block';
+    }
+    window.__runPageDemo=__runPageDemo;
+
+    // Pre-fill key if already saved
+    const savedKey=localStorage.getItem('gemini_key');
+    if(savedKey){document.getElementById('__geminiInput').value=savedKey;}
+
+    // Show banner if setup incomplete — wait for MSAL to init
+    function __maybeShowBanner(){
+      const hasKey=!!localStorage.getItem('gemini_key');
+      const hasAccount=typeof msalInstance!=='undefined'&&msalInstance&&msalInstance.getAllAccounts&&msalInstance.getAllAccounts().length>0;
+      if(!hasKey||!hasAccount){
+        document.getElementById('__setupBanner').style.display='block';
+        document.getElementById('__setupSpacer').style.display='block';
+        __checkSetup();
+      }
+    }
+    // Run after page + MSAL are ready
+    if(document.readyState==='complete'){setTimeout(__maybeShowBanner,800);}
+    else{window.addEventListener('load',function(){setTimeout(__maybeShowBanner,800);});}
+  })();
+  </script>
+  <!-- ═══ END SETUP BANNER ═══ -->
+
 
 <div class="header">
   <a href="index.html">← All Tools</a>
