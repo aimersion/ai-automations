@@ -792,7 +792,7 @@
         responsibilities: 'Define and own the growth roadmap\nLead cross-functional squads of engineers and designers\nDefine success metrics and run A/B experiments\nTranslate customer research into product decisions\nPresent roadmap and results to executive team',
         mustHaveSkills: '5+ years product management\nExperience with B2B SaaS growth\nStrong data analysis skills (SQL a plus)\nTrack record of shipping products on time',
         niceToHave: 'Experience with PLG models\nStartup background',
-        companyDescription: 'Meridian Analytics helps mid-market operations teams turn their data into decisions. We\'re 60 people, growing 40% YoY, and building AI tools that actually get used.',
+        companyDescription: "Meridian Analytics helps mid-market operations teams turn their data into decisions. We're 60 people, growing 40% YoY, and building AI tools that actually get used.",
         cultureKeywords: 'direct, high-trust, fast-moving, outcome-focused',
         tone: 'Bold & Direct',
         salaryRange: '$130,000–$160,000',
@@ -800,7 +800,110 @@
         benefits: 'Full remote, $3,000 annual learning budget, top-tier health coverage'
       };
       setInputs(demoInputs);
-      generateJD();
+      lastInputs = demoInputs;
+      clearError();
+
+      const demoContent = `===
+SENIOR PRODUCT MANAGER — GROWTH
+Meridian Analytics | Austin, TX (Hybrid) | Full-time | Reports to VP of Product
+
+ABOUT THE ROLE
+Meridian Analytics is looking for a Senior PM to own our growth engine. This isn't a "maintain the roadmap" role — it's a "define what winning looks like and make it happen" role. You'll lead cross-functional squads, run experiments that move real numbers, and be the connective tissue between customer insight, engineering velocity, and revenue outcomes.
+
+WHAT YOU'LL DO
+• Define and own the growth product roadmap, prioritizing ruthlessly based on impact
+• Lead squads of 4–7 engineers and designers through discovery, build, and ship
+• Establish success metrics for every initiative and run rigorous A/B experiments
+• Translate customer research into product decisions the whole company backs
+• Present roadmap, results, and learnings to the executive team quarterly
+
+WHAT YOU BRING
+• 5+ years of product management, at least 2 in B2B SaaS growth
+• Strong data instincts — you write SQL and you know what a funnel is leaking
+• Track record of shipping on schedule without sacrificing quality
+• The ability to say no, explain why, and still get everyone aligned
+
+NICE TO HAVE
+• Experience with PLG (product-led growth) models
+• Startup background — you know how to do a lot with a little
+
+ABOUT US
+Meridian Analytics helps mid-market operations teams turn their data into decisions. We're 60 people, growing 40% YoY, and building AI tools that operations teams actually use. Backed and profitable since year two.
+
+COMPENSATION
+$130,000–$160,000 base | 0.1–0.3% equity (4-year vest) | Full remote | $3,000/yr learning budget | Top-tier health, dental & vision
+
+WHY JOIN US
+You'll have real ownership and real impact from day one. We move fast, trust our people, and have no politics standing between you and the work. If you've been waiting for a role where your decisions actually matter — this is it.
+===
+🚀 Senior PM — Growth | Meridian Analytics | Austin, TX (Hybrid)
+
+We help mid-market ops teams turn data into decisions. 60 people. 40% YoY growth. AI tools people actually use.
+
+We're looking for a Senior Product Manager who owns our growth engine — not just maintains it.
+
+You'll define the roadmap, lead cross-functional squads, run experiments, and ship products that drive real revenue. You'll have a front-row seat at a fast-growing company where your decisions move the needle.
+
+What we're looking for:
+✅ 5+ years PM experience in B2B SaaS growth
+✅ Strong data skills (SQL a plus)
+✅ Track record of shipping on time
+✅ Experience presenting to exec teams
+
+What you'll get:
+💰 $130K–$160K base | 0.1–0.3% equity options
+🌍 Full remote | $3K annual learning budget
+🏥 Top-tier health, dental & vision
+
+Bonus: PLG experience or startup background
+
+Apply with your resume + 2 sentences on the best growth lever you've shipped.
+📍 Austin, TX (Hybrid) | Full-time | Reports to VP of Product
+===
+Subject: Saw your background — Senior PM Growth role at Meridian
+
+Hi [Name],
+
+I came across your profile and thought you'd be a strong fit for a Senior PM — Growth role we're building out at Meridian Analytics.
+
+We're a 60-person B2B analytics company growing 40% YoY. We need someone to own our growth product roadmap — meaning you'll lead cross-functional squads, run real experiments, and present outcomes to our exec team quarterly.
+
+Comp is $130K–$160K + meaningful equity + full remote. We're a high-trust, outcome-focused team with no bureaucracy between you and the work.
+
+Would a quick 15-minute call this week make sense? Happy to share more about what we're building.
+
+Best,
+[Your name]
+===
+HIRING BRIEF — SENIOR PRODUCT MANAGER, GROWTH
+Confidential | For Interview Panel Use Only
+
+ROLE OVERVIEW
+We are hiring a Senior PM to own the growth product surface at Meridian Analytics. This is a player-coach role: set strategy AND execute. The right person has shipped meaningful growth outcomes at a B2B SaaS company and can move from data analysis to stakeholder alignment to sprint planning without missing a beat.
+
+WHY THIS ROLE MATTERS
+Growth is our #1 company priority for the next 18 months. Our product is strong — acquisition and retention are the gaps. This PM will directly influence the metrics that determine our Series B readiness.
+
+IDEAL CANDIDATE PROFILE
+• Former senior IC at a B2B SaaS company (50–500 people)
+• Has shipped at least one PLG or growth loop that drove measurable revenue
+• Can cite specific metrics they moved and how
+• Communicates clearly at the exec level
+• Doesn't need hand-holding on prioritization frameworks
+
+RED FLAGS TO SCREEN FOR
+• Vague answers about metrics ("we grew a lot") — always ask for specific numbers
+• Over-reliance on design/engineering to drive product decisions
+• No direct experience with customer research or data analysis
+• Large-company-only background (process-heavy, not execution-oriented)
+
+COMPENSATION & BENEFITS SUMMARY
+Base: $130,000–$160,000 DOE
+Equity: 0.1–0.3% options (4-year vest, 1-year cliff)
+Remote: Fully remote with optional Austin HQ access
+Benefits: Full health/dental/vision, $3,000 annual learning budget, unlimited PTO`;
+
+      parseAndDisplayOutput(demoContent, demoInputs);
     }
 
     async function generateJD() {

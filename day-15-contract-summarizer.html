@@ -260,7 +260,7 @@ twq("config","tw-r848k-r848k");
         <textarea id="contractInput" placeholder="Paste the full contract text here... or load the demo NDA below to see the AI in action." style="font-family: 'Courier New', monospace; font-size: 12px;"></textarea>
       </div>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
-        <button class="btn btn-ghost" onclick="loadDemoNDA()">📄 Load Demo NDA</button>
+        <button class="btn btn-ghost" onclick="runDemo()">▶ Try Demo</button>
         <button class="btn btn-ghost" onclick="clearInput()">🔄 Clear</button>
       </div>
       <div class="info-msg">💡 Tips: Works best with Service Agreements, NDAs, Employment Contracts, MSAs, and SOWs. Paste the entire contract text.</div>
@@ -559,6 +559,53 @@ Return a comprehensive JSON analysis (MUST be valid JSON):
     link.href = url;
     link.download = 'contract-summary.txt';
     link.click();
+  }
+
+  function runDemo() {
+    const demoAnalysis = {
+      contractType: "Mutual Non-Disclosure Agreement (MNDA)",
+      overview: "A standard mutual NDA between Acme Corporation and Tech Solutions Inc., effective January 1, 2024. Both parties exchange confidential technical, business, and financial information for the purpose of evaluating a potential business relationship. The agreement is reasonably balanced with a 3-year term and standard carve-outs for publicly available information.",
+      parties: [
+        { name: "Acme Corporation", role: "Party A — Discloser/Recipient", obligations: "Maintain all received confidential information in strict confidence; limit internal distribution to need-to-know personnel; implement reasonable security measures." },
+        { name: "Tech Solutions Inc.", role: "Party B — Discloser/Recipient", obligations: "Same obligations as Party A under the mutual structure. Must promptly return or certify destruction of confidential information upon termination." }
+      ],
+      keyTerms: {
+        effectiveDate: "January 1, 2024",
+        termLength: "3 years with automatic annual renewal",
+        terminationNotice: "30 days written notice to terminate; 90 days notice to prevent renewal",
+        survivalPeriod: "Confidentiality obligations survive termination for the full stated term",
+        governingLaw: "State of Delaware",
+        disputeResolution: "Not specified — defaults to Delaware courts"
+      },
+      financialObligations: [
+        { party: "Neither Party", amount: "No monetary obligations", when: "N/A", conditions: "This is a confidentiality-only agreement with no payment terms." }
+      ],
+      keyDeadlines: [
+        { date: "Within 10 days of disclosure", event: "Confidential information must be marked or identified as 'CONFIDENTIAL'", consequence: "Information not marked within 10 days may not qualify as confidential under this agreement", urgency: "high" },
+        { date: "90 days before renewal date", event: "Written notice required to prevent automatic annual renewal", consequence: "Failure to provide notice results in automatic 1-year renewal", urgency: "medium" },
+        { date: "Upon termination or request", event: "Return or certify destruction of all Confidential Information", consequence: "Non-compliance could constitute breach of agreement", urgency: "medium" }
+      ],
+      protectiveClauses: [
+        { type: "Limitation of Liability", summary: "Not explicitly included — notable absence", favorableFor: "Neutral", strength: "weak" },
+        { type: "Injunctive Relief", summary: "Discloser entitled to seek injunctive relief for breach without posting bond", favorableFor: "Party A", strength: "strong" },
+        { type: "IP Protection", summary: "No license or IP rights granted under this agreement", favorableFor: "Neutral", strength: "strong" },
+        { type: "Termination", summary: "Either party may terminate with 30 days written notice", favorableFor: "Neutral", strength: "moderate" },
+        { type: "Exclusions from Confidentiality", summary: "Standard carve-outs: public domain, prior knowledge, independent development, legally compelled disclosure", favorableFor: "Neutral", strength: "strong" }
+      ],
+      redFlags: [
+        { severity: "warning", clause: "Section 1 — Marking Requirement", issue: "The 10-day window to mark information as confidential is short and may cause disputes about which information is actually covered. Verbal disclosures are particularly at risk.", recommendation: "Request an extension to 30 days or add language covering all discussions during defined meetings as confidential by default." },
+        { severity: "note", clause: "Dispute Resolution (Missing)", issue: "The agreement specifies Delaware governing law but does not include an explicit dispute resolution mechanism (arbitration vs. litigation). This leaves the process undefined.", recommendation: "Add a clause specifying whether disputes will be resolved via arbitration or litigation, and in which venue." },
+        { severity: "note", clause: "Section 3 — Security Standards", issue: "The agreement requires 'reasonable security measures' but does not define what that standard means. In the event of a breach, this vagueness could complicate liability claims.", recommendation: "Consider adding a minimum security standard clause (e.g., 'at least the same level of care as used to protect your own confidential information, but no less than reasonable care')." }
+      ],
+      missingClauses: ["Limitation of liability / damages cap", "Explicit arbitration clause", "Data breach notification requirement", "Non-solicitation of employees"],
+      recommendation: "negotiate",
+      recommendationReason: "This is a reasonably standard MNDA but has three gaps worth addressing before signing: the 10-day marking window is unusually short and creates legal risk, the absence of a dispute resolution mechanism is a common source of future friction, and there is no limitation of liability clause to protect either party in a breach scenario. These are negotiable improvements that should not be a dealbreaker — recommend requesting a redline before execution."
+    };
+
+    const outputArea = document.getElementById('outputArea');
+    outputArea.innerHTML = '';
+    renderContractAnalysis(demoAnalysis, outputArea);
+    outputArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function loadDemoNDA() {

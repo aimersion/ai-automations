@@ -893,7 +893,7 @@
       <button class="btn-primary" id="writeBtn" onclick="generateReview()">
         <span>📝</span> Write Performance Review
       </button>
-      <button class="btn-secondary" onclick="loadDemoData()">▶ Run Demo</button>
+      <button class="btn-secondary" onclick="runDemo()">▶ Run Demo</button>
     </div>
 
     <!-- Output Section -->
@@ -1274,6 +1274,80 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
         document.getElementById('geminiKey').value = savedKey;
       }
     });
+
+    function runDemo() {
+      // Fill form fields so displayResults() reads them correctly
+      document.getElementById('employeeName').value = 'Jordan';
+      document.getElementById('jobTitle').value = 'Account Manager';
+      document.getElementById('reviewPeriod').value = 'FY 2025';
+      document.getElementById('reviewType').value = 'manager';
+      document.getElementById('ratingJustification').value = 'Consistently outperformed targets and took on additional cross-team responsibilities';
+      selectRating(4);
+
+      const demoData = {
+        fullReview: `PERFORMANCE REVIEW — JORDAN, ACCOUNT MANAGER
+Review Period: FY 2025  |  Rating: 4/5 — Exceeds Expectations
+
+SUMMARY
+Jordan delivered an exceptional year in FY 2025, closing 127% of annual quota while simultaneously leading one of the most complex platform migrations the team has undertaken. Jordan's consistent delivery, proactive ownership, and genuine investment in the team set a new standard for what "Exceeds Expectations" looks like here.
+
+ACCOMPLISHMENTS
+→ Closed 127% of annual quota — highest attainment on the team this year
+→ Led migration of 6 enterprise accounts to new platform with zero churn, zero escalations
+→ Launched a peer mentoring program that onboarded 3 new AMs in Q3, cutting ramp time by 3 weeks
+→ Won the Q3 Customer Satisfaction Award — voted by both clients and peers
+→ Maintained a 94% renewal rate across a book of 28 accounts
+
+KEY STRENGTHS
+Client Communication: Jordan builds trust with clients in a way few AMs do. Clients reach out directly because they know they'll get a straight answer and a real solution — not a runaround or a ticket number.
+
+Ownership: When something goes sideways — a delayed integration, a billing issue, a product gap — Jordan owns it without being asked. This saves the team time and keeps small problems from becoming crises.
+
+Reliability: Jordan meets commitments. If Jordan says something will be done by Thursday, it is done by Thursday. This matters enormously for client trust and internal planning.
+
+GROWTH AREAS
+Territory Strategy: Jordan tends to respond reactively to inbound signals rather than proactively building a territory expansion plan. For FY 2026, the goal is a systematic quarterly territory plan with named white-space accounts and clear prioritization criteria.
+
+Executive Presence: Jordan is excellent in day-to-day client conversations. The next level is navigating C-suite relationships more confidently — leading QBRs at the CXO level rather than defaulting to management support.
+
+GOALS FOR FY 2026
+1. Achieve 120% of annual quota
+2. Develop 2 junior AMs into fully independent performers (defined as <10% manager touchpoints)
+3. Present to the executive team at least twice — internal and client-facing
+4. Complete Sales Leadership Certification by end of Q2
+
+CLOSING
+Jordan is one of the strongest performers on this team and a genuine asset to the company. With the right executive coaching investment and a more strategic approach to territory planning, Jordan has the potential to move into a senior or team lead role within the next 18 months. We are fully committed to that path.`,
+
+        emailSubject: `Performance Review Summary — Jordan, Account Manager (FY 2025)`,
+
+        emailBody: `Hi Jordan,
+
+I wanted to share a summary of your FY 2025 performance review ahead of our conversation next week. Overall, this was an exceptional year and I want you to have time to reflect on it before we talk.
+
+Rating: 4/5 — Exceeds Expectations
+
+You closed 127% of quota, led one of the most complex platform migrations we've done with zero client losses, launched a mentoring program that made a real difference for new team members, and won the Q3 Customer Satisfaction Award. That is an extraordinary body of work.
+
+Your growth areas for FY 2026 are about two things: building a more proactive territory strategy and developing executive presence at the C-suite level. Both are completely achievable, and we're going to support you with executive coaching starting in Q1.
+
+I'm genuinely proud of what you accomplished this year and excited about where you're headed. Looking forward to our conversation.
+
+Best,
+[Your Name]`,
+
+        talkingPoints: `Open by anchoring on impact first: "Before we get into the formal review, I want to say — 127% of quota and zero churn on the platform migration is genuinely exceptional. I want to make sure that lands."
+Highlight 3 specific wins: quota attainment, platform migration, and the mentoring program — because they show different dimensions of strength (individual, technical, team).
+Acknowledge the Q3 Customer Satisfaction Award as peer and client recognition, not just a manager opinion — it carries more weight.
+Frame territory strategy as an unlock, not a critique: "You're already doing the hard part — the client relationships. The next unlock is being more systematic about which doors to knock on proactively."
+Close on the growth path: "Based on this year, you have a real shot at a senior or team lead role in the next 18 months. Here's what that path looks like and what I'm committed to doing to help you get there."`
+      };
+
+      displayResults(demoData);
+      document.getElementById('outputSection').style.display = 'block';
+      document.getElementById('sensitivityNotice').classList.add('visible');
+      window.scrollTo({ top: document.getElementById('outputSection').offsetTop - 100, behavior: 'smooth' });
+    }
   </script>
 </body>
 </html>

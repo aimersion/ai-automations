@@ -265,7 +265,7 @@ twq("config","tw-r848k-r848k");
 
   <div class="card">
     <button id="generateBtn" class="btn btn-amber" onclick="generateStandup()" style="width: 100%; padding: 14px; font-size: 16px; justify-content: center;">✍️ Generate Standup</button>
-    <div class="info-msg" style="margin-top: 14px;">📌 Demo mode: Click generate to see a sample standup with placeholder data (no Outlook connection needed).</div>
+    <button class="btn btn-ghost" onclick="runDemo()" style="width: 100%; padding: 12px; font-size: 14px; justify-content: center; margin-top: 10px;">▶ Try Demo (No API Key Needed)</button>
   </div>
 
   <div class="card">
@@ -476,6 +476,107 @@ Return JSON:
     link.href = url;
     link.download = 'standup-formats.txt';
     link.click();
+  }
+
+  function runDemo() {
+    const name = 'Alex';
+    const demoStandup = {
+      yesterday: [
+        "Shipped the new API rate-limiting middleware to staging — all tests passing, zero regressions",
+        "Completed code review on 3 PRs for the Q2 data pipeline refactor",
+        "Synced with the design team on the updated dashboard filters — spec is finalized"
+      ],
+      today: [
+        "Promote rate-limiting middleware to production after morning monitoring window",
+        "Start implementation of the new webhook retry logic (ticket #1847)",
+        "1:1 with manager at 2pm — bringing notes on Q2 capacity"
+      ],
+      blockers: [
+        "Waiting on DevOps to provision the new staging environment for the EU region — needed before end of week"
+      ],
+      highlights: "Rate-limiting middleware ships to production today — this closes 4 weeks of work and unblocks the enterprise client onboarding.",
+      mood: "🟢 On track",
+      slackFormat: `*Daily Standup — Alex* | ${new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})}
+
+*✅ Yesterday*
+• Shipped new API rate-limiting middleware to staging — all tests passing, zero regressions
+• Completed code review on 3 PRs for the Q2 data pipeline refactor
+• Finalized dashboard filter spec with design team
+
+*🎯 Today*
+• Promote rate-limiting middleware to production after morning monitoring window
+• Start webhook retry logic implementation (ticket #1847)
+• 1:1 with manager at 2pm
+
+*🚧 Blockers*
+• Waiting on DevOps to provision EU staging environment — needed before EOW
+
+*⚡ Highlight*
+Rate-limiting middleware ships today — closes 4 weeks of work and unblocks enterprise client onboarding.
+Mood: 🟢 On track`,
+
+      teamsFormat: `**Daily Standup — Alex**
+📅 ${new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})}
+
+**Yesterday**
+✓ Shipped API rate-limiting middleware to staging (all tests pass)
+✓ Reviewed 3 PRs for Q2 data pipeline refactor
+✓ Dashboard filter spec finalized with design
+
+**Today**
+→ Promote rate-limiting to production post-monitoring
+→ Begin webhook retry logic (ticket #1847)
+→ 1:1 with manager at 2pm
+
+**Blockers**
+⚠ Waiting on EU staging environment from DevOps
+
+**Status:** 🟢 On track`,
+
+      emailFormat: `Subject: Standup — Alex — ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric'})}
+
+Hi team,
+
+Here's my update for today:
+
+Yesterday:
+- Shipped API rate-limiting middleware to staging with zero regressions
+- Code reviewed 3 PRs for the Q2 data pipeline refactor
+- Finalized dashboard filter spec with the design team
+
+Today:
+- Promoting rate-limiting middleware to production after morning monitoring
+- Starting webhook retry logic implementation (ticket #1847)
+- 1:1 with manager at 2pm
+
+Blockers:
+- Waiting on DevOps for EU staging environment provisioning — needed by end of week
+
+Today's highlight: Rate-limiting middleware goes live — this closes 4 weeks of work and unblocks enterprise onboarding.
+
+Alex`,
+
+      bulletFormat: `STANDUP — ALEX — ${new Date().toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'})}
+
+YESTERDAY
+• Shipped API rate-limiting middleware to staging (all tests passing)
+• Reviewed 3 PRs — Q2 data pipeline refactor
+• Finalized dashboard filter spec with design team
+
+TODAY
+• Promote rate-limiting to production post-monitoring window
+• Start webhook retry logic (ticket #1847)
+• 1:1 with manager @ 2pm
+
+BLOCKERS
+• Waiting on DevOps: EU staging environment provisioning needed by EOW
+
+STATUS: 🟢 On track`
+    };
+
+    const outputArea = document.getElementById('outputArea');
+    renderStandup(demoStandup, name, outputArea);
+    outputArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   window.addEventListener('load', () => {
