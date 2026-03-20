@@ -145,34 +145,52 @@ twq("config","tw-r848k-r848k");
   .step-title { font-size:14px; font-weight:700; margin-bottom:3px; color:var(--white); }
   .step-desc { font-size:13px; color:var(--muted); line-height:1.5; }
   .loading { text-align: center; padding: 40px; color: var(--muted); }
-  .fun-loader { display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .fun-loader { display:flex; flex-direction:column; align-items:center; gap:18px; padding: 40px 20px; }
   .loader-emoji { font-size: 3rem; animation: bounce 0.7s ease-in-out infinite alternate; }
-  .loader-msg { font-size: 1rem; color: var(--teal-light); font-weight: 500; min-height: 1.4em; transition: opacity 0.4s; }
+  .loader-msg { font-size: 1rem; color: var(--teal-light); font-weight: 500; min-height: 1.4em; transition: opacity 0.4s; text-align: center; }
+  .loader-sub { font-size: 0.8rem; color: var(--muted); text-align: center; }
   @keyframes bounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-10px) scale(1.1); } }
   .output-area { min-height: 120px; }
   .digest-card { background:linear-gradient(135deg,rgba(8,145,178,0.12),rgba(34,211,238,0.06)); border:1px solid rgba(8,145,178,0.35); border-radius:10px; padding:16px 20px; margin-bottom:18px; display:flex; gap:14px; align-items:flex-start; }
   .digest-icon { font-size:22px; line-height:1; flex-shrink:0; margin-top:1px; }
   .digest-label { font-size:10px; font-weight:800; letter-spacing:2px; color:var(--teal); text-transform:uppercase; margin-bottom:5px; }
   .digest-text { font-size:15px; color:var(--white); line-height:1.65; }
+  .summary-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .summary-stat { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
+  .summary-num { font-size: 28px; font-weight: 800; }
+  .summary-lbl { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
   .section-header { font-size:14px; font-weight:700; color:var(--white); margin-top:24px; margin-bottom:12px; }
   .priority-item { background:var(--navy2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px; }
   .priority-num { display:inline-flex; align-items:center; justify-content:center; width:24px; height:24px; border-radius:50%; background:var(--amber); color:#000; font-weight:800; font-size:12px; margin-right:10px; vertical-align:middle; }
   .priority-action { font-size:14px; font-weight:600; color:var(--white); }
   .priority-why { font-size:12px; color:var(--muted); margin-top:4px; }
   .priority-time { display:inline-block; background:rgba(245,158,11,0.15); color:#FCD34D; padding:2px 6px; border-radius:6px; font-size:11px; font-weight:600; margin-top:6px; }
+  .urgency-badge { display:inline-block; padding:3px 8px; border-radius:6px; font-size:10px; font-weight:700; text-transform:uppercase; margin-right:6px; }
+  .urgency-now { background:rgba(220,38,38,0.2); color:#FCA5A5; }
+  .urgency-today { background:rgba(245,158,11,0.2); color:#FCD34D; }
+  .urgency-week { background:rgba(34,197,94,0.2); color:#86EFAC; }
   .meeting-card { background:var(--navy2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px; }
   .meeting-title { font-size:14px; font-weight:700; color:var(--white); }
   .meeting-time { font-size:12px; color:var(--teal-light); margin-top:4px; }
   .meeting-attendees { font-size:12px; color:var(--muted); margin-top:4px; }
+  .meeting-prep { margin-top:8px; }
+  .prep-list { font-size:12px; color:var(--muted); margin:6px 0 0 18px; }
+  .prep-list li { margin:4px 0; }
   .draft-card { background:var(--navy2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin-bottom:10px; }
   .draft-from { font-size:12px; color:var(--teal); font-weight:600; }
   .draft-subject { font-size:14px; font-weight:700; color:var(--white); margin-top:4px; }
   .draft-context { font-size:12px; color:var(--muted); margin-top:6px; font-style:italic; }
-  .draft-opener { background:var(--navy); border-left:3px solid var(--teal); padding:10px 12px; margin-top:8px; border-radius:6px; font-size:13px; color:var(--white); line-height:1.6; }
-  .draft-actions { display:flex; gap:8px; margin-top:10px; }
+  .draft-preview { background:var(--navy); border-left:3px solid var(--teal); padding:10px 12px; margin-top:8px; border-radius:6px; font-size:13px; color:var(--white); line-height:1.6; }
+  .draft-reply { background:var(--navy); border-left:3px solid var(--green); padding:10px 12px; margin-top:8px; border-radius:6px; font-size:13px; color:var(--white); line-height:1.6; }
+  .draft-actions { display:flex; gap:8px; margin-top:10px; flex-wrap:wrap; }
   .draft-actions .btn { font-size:12px; padding:6px 12px; }
   .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
   .info-msg { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); color: var(--teal-light); padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
+  .goal-list { font-size:13px; color:var(--white); margin:10px 0 0 20px; }
+  .goal-list li { margin:6px 0; }
+  .delegate-list { font-size:13px; color:var(--muted); margin:10px 0 0 20px; }
+  .delegate-list li { margin:6px 0; }
+  #_toast { display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#162840;border:1px solid #2A4A70;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F0F7FF;transition:opacity 0.3s; }
 
   @media (max-width: 640px) {
     header { padding: 11px 16px; }
@@ -194,58 +212,13 @@ twq("config","tw-r848k-r848k");
     .controls select { width: 100%; }
     .oauth-grid { grid-template-columns: 1fr; }
     .oauth-box { padding: 14px; }
+    .summary-bar { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .summary-num { font-size: 22px; }
   }
-
-  #_toast { display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#162840;border:1px solid #2A4A70;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F0F7FF;transition:opacity 0.3s; }
 </style>
 </head>
 
 <body>
-
-<div id="__setupBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0F1829 0%,#080E1A 100%);border-bottom:1px solid #1E293B;box-shadow:0 4px 32px rgba(0,0,0,0.5);padding:0;overflow:hidden;">
-  <div style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
-      <div>
-        <div style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:#EA580C;text-transform:uppercase;margin-bottom:0.25rem;">Quick Setup</div>
-        <div style="font-weight:800;font-size:1rem;color:#F1F5F9;">Two steps to get started</div>
-      </div>
-      <button onclick="document.getElementById('__setupBanner').style.display='none'" style="background:transparent;border:1px solid #1E293B;color:#94A3B8;padding:0.4rem 0.75rem;border-radius:6px;cursor:pointer;font-size:0.75rem;">✕ dismiss</button>
-    </div>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-      <!-- Step 1: Gemini key -->
-      <div id="__step1" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;">
-        <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-          <span id="__s1icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">1</span>
-          Free Gemini API Key
-        </div>
-        <div style="display:flex;gap:0.5rem;">
-          <input id="__geminiInput" type="password" placeholder="Paste key (AIza...)" style="flex:1;padding:0.5rem 0.75rem;background:#0F1829;border:1px solid #1E293B;border-radius:6px;color:#F1F5F9;font-size:0.8rem;min-width:0;" oninput="__checkSetup()">
-          <button onclick="__saveGeminiKey()" style="padding:0.5rem 0.75rem;background:#EA580C;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Save</button>
-        </div>
-        <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size:0.7rem;color:#06B6D4;display:inline-block;margin-top:0.4rem;">→ Get free key at aistudio.google.com</a>
-      </div>
-      <!-- Step 2: Outlook -->
-      <div id="__step2" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;opacity:0.55;transition:opacity 0.3s;">
-        <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-          <span id="__s2icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">2</span>
-          Connect Outlook
-        </div>
-        <button id="__outlookBtn" onclick="connectMicrosoft()" style="width:100%;padding:0.5rem 0.75rem;background:#06B6D4;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;">
-          📧 Connect Outlook Account
-        </button>
-        <div id="__outlookStatus" style="font-size:0.7rem;color:#94A3B8;margin-top:0.4rem;min-height:1rem;"></div>
-      </div>
-      <!-- Or: Demo -->
-      <div style="display:flex;align-items:center;justify-content:center;padding:0 0.5rem;">
-        <div style="text-align:center;">
-          <div style="font-size:0.65rem;color:#94A3B8;margin-bottom:0.35rem;">or skip setup</div>
-          <button onclick="runDemo()" style="padding:0.5rem 1rem;background:transparent;border:1px solid #1E293B;border-radius:6px;color:#94A3B8;cursor:pointer;font-size:0.75rem;white-space:nowrap;">▶ Try Demo</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="__setupSpacer" style="display:none;height:170px;"></div>
 
 <header>
   <div class="logo">⚡ Aimersion · Day 19</div>
@@ -257,7 +230,7 @@ twq("config","tw-r848k-r848k");
 <div class="hero">
   <div class="day-label">Day 19 of 20</div>
   <h1>Your AI <span>Chief of Staff</span></h1>
-  <p class="tagline">Read your Outlook inbox and calendar. Get an executive digest of what matters today. Draft replies for your most important emails.</p>
+  <p class="tagline">Read your Outlook inbox and calendar. Get an executive digest of what matters today. Draft replies for your most important emails in seconds.</p>
 </div>
 
 <div class="main">
@@ -280,7 +253,7 @@ twq("config","tw-r848k-r848k");
       <div class="step-num-circle">3</div>
       <div>
         <div class="step-title">Get Your Brief</div>
-        <div class="step-desc">AI synthesizes inbox + calendar</div>
+        <div class="step-desc">AI synthesizes everything into insights</div>
       </div>
     </div>
   </div>
@@ -288,7 +261,7 @@ twq("config","tw-r848k-r848k");
   <!-- API Key Card -->
   <div class="card collapsible" onclick="toggleCard(event, this)">
     <div class="card-header">
-      <div class="card-title">🔑 API Key (Collapsed)</div>
+      <div class="card-title">🔑 API Key</div>
       <button class="card-toggle">▼</button>
     </div>
     <div class="card-body">
@@ -305,10 +278,10 @@ twq("config","tw-r848k-r848k");
     </div>
   </div>
 
-  <!-- Outlook Status Card -->
+  <!-- Outlook Connection Card -->
   <div class="card collapsible" onclick="toggleCard(event, this)">
     <div class="card-header">
-      <div class="card-title">📧 Outlook Connection (Collapsed)</div>
+      <div class="card-title">📧 Outlook Connection</div>
       <button class="card-toggle">▼</button>
     </div>
     <div class="card-body">
@@ -320,34 +293,65 @@ twq("config","tw-r848k-r848k");
     </div>
   </div>
 
-  <!-- Controls & Brief Button -->
-  <div class="controls">
-    <select id="timeRange">
-      <option value="24">Last 24 hours</option>
-      <option value="48">Last 48 hours</option>
-      <option value="today">Today</option>
-    </select>
-    <button class="btn btn-amber" onclick="briefMeNow()" style="flex: 1;">🎯 Brief Me Now</button>
-    <button class="btn btn-ghost" onclick="location.reload()">🔄 Refresh</button>
+  <!-- Preferences Card -->
+  <div class="card collapsible" onclick="toggleCard(event, this)">
+    <div class="card-header">
+      <div class="card-title">⚙️ Preferences</div>
+      <button class="card-toggle">▼</button>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom: 12px;">
+        <label style="font-size: 12px; color: var(--muted); display: block; margin-bottom: 6px;">Time Range</label>
+        <select id="timeRange" style="width: 100%;">
+          <option value="24">Last 24 hours</option>
+          <option value="48">Last 48 hours</option>
+          <option value="today">Since midnight today</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-size: 12px; color: var(--muted); display: block; margin-bottom: 8px;">Focus Areas</label>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+            <input type="checkbox" id="focusClient" checked> Client/Account matters
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+            <input type="checkbox" id="focusTeam" checked> Team/Internal updates
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+            <input type="checkbox" id="focusDeadline" checked> Deadlines & Time-sensitive
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+            <input type="checkbox" id="focusDecision"> Decisions needed from me
+          </label>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Output Area -->
+  <!-- Main Action & Output -->
+  <div class="controls">
+    <button class="btn btn-amber" onclick="briefMeNow()" style="flex: 1; padding: 14px 24px; font-size: 15px;">📋 Brief Me Now</button>
+    <button class="btn btn-ghost" onclick="runDemo()">▶ Demo</button>
+  </div>
+
   <div class="output-area" id="outputArea"></div>
 </div>
 
 <script>
 const LOADER_FRAMES = [
-  { emoji: '🧠', msg: 'Your AI Chief of Staff is reading your inbox...' },
-  { emoji: '📅', msg: 'Checking your calendar for conflicts...' },
-  { emoji: '🎯', msg: 'Identifying what actually needs you today...' },
-  { emoji: '✍️', msg: 'Drafting reply starters for the important ones...' },
-  { emoji: '⚡', msg: 'Cutting through the noise...' },
-  { emoji: '📊', msg: 'Prioritizing so you don\'t have to...' },
-  { emoji: '🚀', msg: 'Your day is about to get a lot clearer...' },
+  { emoji: '📬', msg: 'Reading your overnight messages...' },
+  { emoji: '📅', msg: 'Checking your calendar...' },
+  { emoji: '🧠', msg: 'Analyzing what actually matters...' },
+  { emoji: '🎯', msg: 'Prioritizing your action items...' },
+  { emoji: '✍️', msg: 'Drafting reply starters...' },
+  { emoji: '📊', msg: 'Building your intelligence report...' },
+  { emoji: '☕', msg: 'Go pour a coffee — this is good...' },
+  { emoji: '🚀', msg: 'Almost done — making it brilliant...' },
 ];
 
 const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
 let msalInstance = null, msAccount = null;
+let _loaderInterval = null;
 
 function showToast(msg, color = 'teal') {
   let toast = document.getElementById('_toast');
@@ -370,6 +374,26 @@ function toggleCard(event, card) {
   if (event.target.closest('.card-toggle')) {
     card.classList.toggle('collapsed');
   }
+}
+
+function startFunLoader(containerId, subMsg, frames) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  stopFunLoader();
+  const pool = frames || LOADER_FRAMES;
+  let i = Math.floor(Math.random() * pool.length);
+  el.innerHTML = `<div class="fun-loader"><div class="loader-emoji" id="loaderEmoji">${pool[i].emoji}</div><div class="loader-msg" id="loaderMsg">${pool[i].msg}</div><div class="loader-sub">${subMsg||''}</div></div>`;
+  _loaderInterval = setInterval(() => {
+    i = (i + 1) % pool.length;
+    const em = document.getElementById('loaderEmoji');
+    const mg = document.getElementById('loaderMsg');
+    if (em) em.textContent = pool[i].emoji;
+    if (mg) { mg.style.opacity=0; setTimeout(()=>{ mg.textContent=pool[i].msg; mg.style.opacity=1; },200); }
+  }, 2200);
+}
+
+function stopFunLoader() {
+  if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
 }
 
 function saveApiKey() {
@@ -463,30 +487,14 @@ function checkSetup() {
   const hasKey = !!localStorage.getItem('gemini_key');
   const hasAccount = msalInstance && msalInstance.getAllAccounts && msalInstance.getAllAccounts().length > 0;
 
-  if (hasKey) {
-    document.getElementById('__s1icon').style.background = '#10B981';
-    document.getElementById('__s1icon').style.color = '#fff';
-    document.getElementById('__s1icon').textContent = '✓';
-    document.getElementById('__step2').style.opacity = '1';
-  }
-
   if (hasAccount) {
-    document.getElementById('__s2icon').style.background = '#10B981';
-    document.getElementById('__s2icon').style.color = '#fff';
-    document.getElementById('__s2icon').textContent = '✓';
-    document.getElementById('__outlookStatus').textContent = '✅ Connected';
+    document.getElementById('outlookDot').classList.remove('dot-off');
+    document.getElementById('outlookDot').classList.add('dot-on');
+    document.getElementById('outlookStatus').textContent = '✅ Connected';
   } else {
-    document.getElementById('__outlookStatus').textContent = '📧 Connect to begin';
-  }
-
-  if (hasKey && hasAccount) {
-    setTimeout(() => {
-      document.getElementById('__setupBanner').style.display = 'none';
-      document.getElementById('__setupSpacer').style.display = 'none';
-    }, 600);
-  } else {
-    document.getElementById('__setupBanner').style.display = 'block';
-    document.getElementById('__setupSpacer').style.display = 'block';
+    document.getElementById('outlookDot').classList.remove('dot-on');
+    document.getElementById('outlookDot').classList.add('dot-off');
+    document.getElementById('outlookStatus').textContent = '📧 Connect to begin';
   }
 }
 
@@ -507,14 +515,7 @@ async function briefMeNow() {
   }
 
   const out = document.getElementById('outputArea');
-  out.innerHTML = '<div class="loading"><div class="fun-loader"><div class="loader-emoji" id="loaderEmoji">🧠</div><div class="loader-msg" id="loaderMsg">Reading inbox...</div></div></div>';
-
-  let loaderIdx = 0;
-  const loaderTimer = setInterval(() => {
-    loaderIdx = (loaderIdx + 1) % LOADER_FRAMES.length;
-    document.getElementById('loaderEmoji').textContent = LOADER_FRAMES[loaderIdx].emoji;
-    document.getElementById('loaderMsg').textContent = LOADER_FRAMES[loaderIdx].msg;
-  }, 1500);
+  startFunLoader('outputArea', '');
 
   try {
     const timeRange = document.getElementById('timeRange').value;
@@ -526,11 +527,13 @@ async function briefMeNow() {
     }
 
     const since = new Date(Date.now() - hours * 3600000).toISOString();
+    const todayISO = new Date().toISOString().split('T')[0];
+    const tomorrowISO = new Date(Date.now() + 86400000).toISOString().split('T')[0];
 
     const [inboxResp, sentResp, calResp] = await Promise.all([
-      fetch('https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=30&$select=id,subject,from,receivedDateTime,bodyPreview,isRead&$orderby=receivedDateTime%20desc&$filter=receivedDateTime%20gt%20' + encodeURIComponent(since), { headers: { 'Authorization': 'Bearer ' + token } }),
-      fetch('https://graph.microsoft.com/v1.0/me/mailFolders/sentitems/messages?$top=20&$select=subject,toRecipients,sentDateTime&$orderby=sentDateTime%20desc&$filter=sentDateTime%20gt%20' + encodeURIComponent(since), { headers: { 'Authorization': 'Bearer ' + token } }),
-      fetch('https://graph.microsoft.com/v1.0/me/calendarview?startDateTime=' + new Date().toISOString() + '&endDateTime=' + new Date(Date.now() + 86400000).toISOString(), { headers: { 'Authorization': 'Bearer ' + token } })
+      fetch('https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$top=30&$select=id,subject,from,receivedDateTime,bodyPreview,isRead,conversationId&$orderby=receivedDateTime%20desc&$filter=receivedDateTime%20gt%20' + encodeURIComponent(since), { headers: { 'Authorization': 'Bearer ' + token } }),
+      fetch('https://graph.microsoft.com/v1.0/me/mailFolders/sentitems/messages?$top=25&$select=subject,toRecipients,sentDateTime,conversationId&$orderby=sentDateTime%20desc&$filter=sentDateTime%20gt%20' + encodeURIComponent(since), { headers: { 'Authorization': 'Bearer ' + token } }),
+      fetch('https://graph.microsoft.com/v1.0/me/calendarview?startDateTime=' + todayISO + 'T00:00:00&endDateTime=' + tomorrowISO + 'T23:59:59&$select=subject,start,end,attendees,bodyPreview&$top=50', { headers: { 'Authorization': 'Bearer ' + token } })
     ]);
 
     const inbox = await inboxResp.json();
@@ -539,9 +542,15 @@ async function briefMeNow() {
 
     const inboxEmails = (inbox.value || []).map(m => `From: ${m.from.emailAddress.name}\nSubject: ${m.subject}\nPreview: ${m.bodyPreview}`).join('\n\n');
     const sentEmails = (sent.value || []).map(m => `To: ${m.toRecipients.map(r => r.emailAddress.name).join(',')}\nSubject: ${m.subject}`).join('\n\n');
-    const calEvents = (cal.value || []).map(e => `${e.subject} - ${e.start.dateTime} to ${e.end.dateTime}`).join('\n');
+    const calEvents = (cal.value || []).map(e => `${e.subject} - ${new Date(e.start.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} to ${new Date(e.end.dateTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`).join('\n');
 
-    const prompt = `You are a world-class executive Chief of Staff. Analyze these inputs and produce an executive briefing.
+    const focusAreas = [];
+    if (document.getElementById('focusClient').checked) focusAreas.push('Client/Account matters');
+    if (document.getElementById('focusTeam').checked) focusAreas.push('Team/Internal updates');
+    if (document.getElementById('focusDeadline').checked) focusAreas.push('Deadlines & Time-sensitive');
+    if (document.getElementById('focusDecision').checked) focusAreas.push('Decisions needed from me');
+
+    const prompt = `You are a world-class executive Chief of Staff. Analyze these inputs and produce a comprehensive morning intelligence brief.
 
 INBOX (last ${hours}h):
 ${inboxEmails || '(empty)'}
@@ -552,24 +561,35 @@ ${sentEmails || '(empty)'}
 CALENDAR (today + tomorrow):
 ${calEvents || '(no events)'}
 
+USER FOCUS AREAS:
+${focusAreas.length > 0 ? focusAreas.join(', ') : 'All areas'}
+
 Return VALID JSON (no markdown, no \`\`\`json wrapper):
 {
-  "executiveDigest": "3-4 sentence narrative overview of the day. What is the most important story?",
-  "priorityActions": [
-    {"priority": 1, "action": "...", "why": "...", "timeRequired": "5 min|30 min|1 hour"},
-    {"priority": 2, "action": "...", "why": "...", "timeRequired": "5 min|30 min|1 hour"}
-  ],
-  "meetingPrep": {
-    "nextMeeting": {"title": "...", "time": "...", "attendees": "...", "prepPoints": ["..."], "suggestedAgenda": "..."},
-    "otherMeetings": [{"title": "...", "time": "...", "quickNote": "..."}]
+  "executiveDigest": "3-4 sentence narrative. Paint a picture of what's happening. Mention key people by name. What requires personal attention vs delegation? End with the single most important thing.",
+  "stats": {
+    "totalEmails": number,
+    "urgentCount": number,
+    "needsReply": number,
+    "meetingsToday": number
   },
-  "draftStarters": [
-    {"from": "...", "subject": "...", "urgency": "high|medium|low", "context": "what they want", "suggestedOpener": "full first paragraph of reply"}
-  ]
-}`;
+  "priorityActions": [
+    {"rank": 1, "icon": "emoji", "action": "...", "context": "...", "timeEstimate": "5 min|15 min|30 min|1 hour", "urgency": "now|today|this week"}
+  ],
+  "meetingPrep": [
+    {"time": "HH:MM AM", "title": "...", "attendees": "...", "prepPoints": ["..."], "goalForMeeting": "..."}
+  ],
+  "replyDrafts": [
+    {"from": "Name", "fromEmail": "email@domain.com", "subject": "...", "originalPreview": "...", "urgency": "urgent|normal|low", "draftReply": "Full reply — 3-5 sentences, direct"}
+  ],
+  "endOfDayGoals": ["..."],
+  "delegateSuggestions": ["... and to whom"]
+}
+
+Include top 7 priority actions. Include all meetings today & tomorrow. Include top 5 reply drafts.`;
 
     const briefText = await callGemini(prompt);
-    clearInterval(loaderTimer);
+    stopFunLoader();
 
     if (!briefText) {
       out.innerHTML = '<div class="error-msg">❌ Failed to generate brief</div>';
@@ -591,6 +611,16 @@ Return VALID JSON (no markdown, no \`\`\`json wrapper):
 
     let html = '';
 
+    // Stats bar
+    if (brief.stats) {
+      html += `<div class="summary-bar">
+        <div class="summary-stat"><span class="summary-num" style="color:var(--white)">${brief.stats.totalEmails || 0}</span><div class="summary-lbl">Total Emails</div></div>
+        <div class="summary-stat"><span class="summary-num" style="color:var(--red)">${brief.stats.urgentCount || 0}</span><div class="summary-lbl">Urgent</div></div>
+        <div class="summary-stat"><span class="summary-num" style="color:var(--amber)">${brief.stats.needsReply || 0}</span><div class="summary-lbl">Need Reply</div></div>
+        <div class="summary-stat"><span class="summary-num" style="color:var(--teal)">${brief.stats.meetingsToday || 0}</span><div class="summary-lbl">Meetings Today</div></div>
+      </div>`;
+    }
+
     // Executive Digest
     if (brief.executiveDigest) {
       html += `<div class="digest-card">
@@ -605,51 +635,79 @@ Return VALID JSON (no markdown, no \`\`\`json wrapper):
     // Priority Actions
     if (brief.priorityActions && brief.priorityActions.length > 0) {
       html += '<div class="section-header">🎯 Priority Actions</div>';
-      brief.priorityActions.forEach((item, i) => {
+      brief.priorityActions.slice(0, 7).forEach((item, i) => {
+        const urgencyClass = item.urgency === 'now' ? 'urgency-now' : (item.urgency === 'today' ? 'urgency-today' : 'urgency-week');
         html += `<div class="priority-item">
-          <div><span class="priority-num">${i + 1}</span> <span class="priority-action">${item.action}</span></div>
-          <div class="priority-why">Why: ${item.why}</div>
-          <span class="priority-time">⏱️ ${item.timeRequired}</span>
+          <div><span class="priority-num">${i + 1}</span> <span class="priority-action">${item.action}</span> <span class="urgency-badge ${urgencyClass}">${item.urgency}</span></div>
+          <div class="priority-why">Context: ${item.context}</div>
+          <span class="priority-time">⏱️ ${item.timeEstimate}</span>
         </div>`;
       });
     }
 
     // Meeting Prep
-    if (brief.meetingPrep) {
-      if (brief.meetingPrep.nextMeeting) {
-        html += '<div class="section-header">📅 Next Meeting</div>';
+    if (brief.meetingPrep && brief.meetingPrep.length > 0) {
+      html += '<div class="section-header">📅 Meeting Prep</div>';
+      brief.meetingPrep.forEach(m => {
         html += `<div class="meeting-card">
-          <div class="meeting-title">${brief.meetingPrep.nextMeeting.title}</div>
-          <div class="meeting-time">🕐 ${brief.meetingPrep.nextMeeting.time}</div>
-          <div class="meeting-attendees">👥 ${brief.meetingPrep.nextMeeting.attendees}</div>
-          <div style="margin-top: 10px; font-size: 12px; color: var(--muted);"><strong>Prep Points:</strong></div>
-          <ul style="margin: 6px 0 0 18px; font-size: 12px; color: var(--muted);">
-            ${(brief.meetingPrep.nextMeeting.prepPoints || []).map(p => `<li>${p}</li>`).join('')}
-          </ul>
+          <div class="meeting-title">${m.title}</div>
+          <div class="meeting-time">🕐 ${m.time}</div>
+          <div class="meeting-attendees">👥 ${m.attendees}</div>
+          <div class="meeting-prep">
+            <div style="font-size: 12px; color: var(--muted); margin-top: 8px; margin-bottom: 4px;"><strong>Prep Points:</strong></div>
+            <ul class="prep-list">
+              ${(m.prepPoints || []).map(p => `<li>${p}</li>`).join('')}
+            </ul>
+          </div>
+          <div style="font-size: 12px; color: var(--teal); margin-top: 8px;"><strong>Goal:</strong> ${m.goalForMeeting}</div>
         </div>`;
-      }
+      });
     }
 
-    // Draft Starters
-    if (brief.draftStarters && brief.draftStarters.length > 0) {
+    // Reply Drafts
+    if (brief.replyDrafts && brief.replyDrafts.length > 0) {
       html += '<div class="section-header">✍️ Draft Reply Starters</div>';
-      brief.draftStarters.forEach((draft, i) => {
+      brief.replyDrafts.slice(0, 5).forEach((draft, i) => {
+        const urgencyBg = draft.urgency === 'urgent' ? 'rgba(220,38,38,0.2)' : (draft.urgency === 'normal' ? 'rgba(245,158,11,0.2)' : 'rgba(34,197,94,0.2)');
         html += `<div class="draft-card">
-          <div class="draft-from">From: ${draft.from}</div>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+            <div class="draft-from">From: ${draft.from}</div>
+            <span style="background: ${urgencyBg}; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase;">${draft.urgency}</span>
+          </div>
           <div class="draft-subject">Subject: ${draft.subject}</div>
-          <div class="draft-context">${draft.context}</div>
-          <div class="draft-opener">"${draft.suggestedOpener}"</div>
+          <div class="draft-context">"${draft.originalPreview}"</div>
+          <div class="draft-reply">${draft.draftReply}</div>
           <div class="draft-actions">
-            <button class="btn btn-teal" onclick="copyToClipboard('${draft.suggestedOpener.replace(/'/g, "\\'")}')">📋 Copy</button>
-            <button class="btn btn-ghost" onclick="expandReply(${i})">→ Expand</button>
+            <button class="btn btn-teal" onclick="copyToClipboard('${draft.draftReply.replace(/'/g, "\\'")}')">📋 Copy Draft</button>
+            <button class="btn btn-ghost" onclick="showToast('Open Outlook to refine and send')">→ Send</button>
           </div>
         </div>`;
       });
     }
 
+    // End of Day Goals
+    if (brief.endOfDayGoals && brief.endOfDayGoals.length > 0) {
+      html += '<div class="section-header">✅ End of Day Goals</div>';
+      html += '<ul class="goal-list">';
+      brief.endOfDayGoals.forEach(goal => {
+        html += `<li>${goal}</li>`;
+      });
+      html += '</ul>';
+    }
+
+    // Delegate Suggestions
+    if (brief.delegateSuggestions && brief.delegateSuggestions.length > 0) {
+      html += '<div class="section-header">👥 Delegate Suggestions</div>';
+      html += '<ul class="delegate-list">';
+      brief.delegateSuggestions.forEach(sug => {
+        html += `<li>${sug}</li>`;
+      });
+      html += '</ul>';
+    }
+
     out.innerHTML = html || '<div class="info-msg">📭 No significant items found for this time period.</div>';
   } catch (e) {
-    clearInterval(loaderTimer);
+    stopFunLoader();
     console.error(e);
     out.innerHTML = '<div class="error-msg">❌ Error: ' + e.message + '</div>';
   }
@@ -661,65 +719,87 @@ function copyToClipboard(text) {
   });
 }
 
-function expandReply(idx) {
-  showToast('💡 Use the reply in your email client to continue writing');
-}
-
 function runDemo() {
   const out = document.getElementById('outputArea');
-  out.innerHTML = '<div class="loading"><div class="fun-loader"><div class="loader-emoji">✨</div><div class="loader-msg">Loading demo briefing...</div></div></div>';
+  startFunLoader('outputArea', 'Loading demo briefing...');
 
   setTimeout(() => {
+    stopFunLoader();
     out.innerHTML = `
+      <div class="summary-bar">
+        <div class="summary-stat"><span class="summary-num" style="color:var(--white)">24</span><div class="summary-lbl">Total Emails</div></div>
+        <div class="summary-stat"><span class="summary-num" style="color:var(--red)">3</span><div class="summary-lbl">Urgent</div></div>
+        <div class="summary-stat"><span class="summary-num" style="color:var(--amber)">5</span><div class="summary-lbl">Need Reply</div></div>
+        <div class="summary-stat"><span class="summary-num" style="color:var(--teal)">4</span><div class="summary-lbl">Meetings Today</div></div>
+      </div>
+
       <div class="digest-card">
         <div class="digest-icon">📊</div>
         <div>
           <div class="digest-label">Executive Digest</div>
-          <div class="digest-text">Your day is shaping up to be tactical and relationship-focused. You have three critical replies needed from major accounts, a product review meeting that will require your input on roadmap priorities, and follow-ups from two partnership discussions. Focus on the Acme renewal thread first—their tone suggests urgency around contract terms.</div>
+          <div class="digest-text">Your day is tactical and relationship-focused. Three critical replies needed from major accounts, a product review meeting requiring roadmap decisions, and follow-ups from two partnership discussions. Focus on the Acme renewal thread first—their tone signals urgency on contract terms.</div>
         </div>
       </div>
 
       <div class="section-header">🎯 Priority Actions</div>
       <div class="priority-item">
-        <div><span class="priority-num">1</span> <span class="priority-action">Reply to Acme re: contract renewal terms</span></div>
-        <div class="priority-why">Why: They need response today; renewal is at risk</div>
+        <div><span class="priority-num">1</span> <span class="priority-action">Reply to Acme re: contract renewal terms</span> <span class="urgency-badge urgency-now">now</span></div>
+        <div class="priority-why">Context: They need response today; renewal is at risk. They pinged twice in 4 hours.</div>
         <span class="priority-time">⏱️ 30 min</span>
       </div>
       <div class="priority-item">
-        <div><span class="priority-num">2</span> <span class="priority-action">Prep for 2pm Product Review</span></div>
-        <div class="priority-why">Why: Roadmap decisions needed; team waiting for direction</div>
+        <div><span class="priority-num">2</span> <span class="priority-action">Prep for 2pm Product Review</span> <span class="urgency-badge urgency-today">today</span></div>
+        <div class="priority-why">Context: Roadmap decisions needed; team waiting for direction on Q2 priorities.</div>
         <span class="priority-time">⏱️ 45 min</span>
       </div>
       <div class="priority-item">
-        <div><span class="priority-num">3</span> <span class="priority-action">Follow up with TechPartner on integration timeline</span></div>
-        <div class="priority-why">Why: They pinged twice; need clarity on your end</div>
+        <div><span class="priority-num">3</span> <span class="priority-action">Follow up with TechPartner integration timeline</span> <span class="urgency-badge urgency-today">today</span></div>
+        <div class="priority-why">Context: They've pinged twice; need clarity on your end regarding API handoff.</div>
         <span class="priority-time">⏱️ 15 min</span>
       </div>
+      <div class="priority-item">
+        <div><span class="priority-num">4</span> <span class="priority-action">Review & approve budget request from Sarah</span> <span class="urgency-badge urgency-today">today</span></div>
+        <div class="priority-why">Context: H2 hiring plan; waiting for sign-off before posting roles.</div>
+        <span class="priority-time">⏱️ 10 min</span>
+      </div>
 
-      <div class="section-header">📅 Next Meeting</div>
+      <div class="section-header">📅 Meeting Prep</div>
       <div class="meeting-card">
         <div class="meeting-title">Product Review & Roadmap Planning</div>
-        <div class="meeting-time">🕐 2:00 PM - 3:30 PM</div>
+        <div class="meeting-time">🕐 2:00 PM</div>
         <div class="meeting-attendees">👥 Sarah (Product), Mike (Eng), Janet (Design)</div>
-        <div style="margin-top: 10px; font-size: 12px; color: var(--muted);"><strong>Prep Points:</strong></div>
-        <ul style="margin: 6px 0 0 18px; font-size: 12px; color: var(--muted);">
-          <li>Review Q2 feature requests from Acme</li>
-          <li>Clarify timeline on auth redesign (Jan release still on track?)</li>
-          <li>Budget decision needed: in-app notifications or email alerts first?</li>
-        </ul>
+        <div class="meeting-prep">
+          <div style="font-size: 12px; color: var(--muted); margin-top: 8px; margin-bottom: 4px;"><strong>Prep Points:</strong></div>
+          <ul class="prep-list">
+            <li>Review Q2 feature requests from Acme</li>
+            <li>Clarify timeline on auth redesign (still Jan release?)</li>
+            <li>Budget decision: in-app notifications vs email alerts first?</li>
+          </ul>
+        </div>
+        <div style="font-size: 12px; color: var(--teal); margin-top: 8px;"><strong>Goal:</strong> Leave with Q2 priorities locked and timeline confirmed.</div>
       </div>
 
       <div class="section-header">✍️ Draft Reply Starters</div>
       <div class="draft-card">
-        <div class="draft-from">From: Sarah Chen (Acme Corp)</div>
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+          <div class="draft-from">From: Sarah Chen (Acme Corp)</div>
+          <span style="background: rgba(220,38,38,0.2); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; text-transform: uppercase;">urgent</span>
+        </div>
         <div class="draft-subject">Subject: RE: Contract Renewal - Pricing & Terms</div>
-        <div class="draft-context">They're asking about volume discounts and want a contract revision by EOW</div>
-        <div class="draft-opener">"Thanks for your email, Sarah. I've reviewed our renewal terms and I think we can work something out that makes sense for both sides. I'd like to propose we schedule a brief call tomorrow morning to discuss the volume tier structure and contract updates—I believe we can hit your timeline for EOW signature."</div>
+        <div class="draft-context">"Hi, following up on contract renewal. They're asking about volume discounts and want revision by EOW."</div>
+        <div class="draft-reply">Thanks for your email, Sarah. I've reviewed our renewal terms and I think we can work something out that makes sense for both sides. I'd like to propose we schedule a brief call tomorrow morning to discuss the volume tier structure and contract updates—I believe we can hit your EOW timeline for signature.</div>
         <div class="draft-actions">
-          <button class="btn btn-teal" onclick="copyToClipboard('Thanks for your email, Sarah. I have reviewed our renewal terms and I think we can work something out that makes sense for both sides.')">📋 Copy</button>
-          <button class="btn btn-ghost" onclick="expandReply(0)">→ Expand</button>
+          <button class="btn btn-teal" onclick="copyToClipboard('Thanks for your email, Sarah. I\\'ve reviewed our renewal terms and I think we can work something out.')">📋 Copy Draft</button>
+          <button class="btn btn-ghost" onclick="showToast('Open Outlook to refine and send')">→ Send</button>
         </div>
       </div>
+
+      <div class="section-header">✅ End of Day Goals</div>
+      <ul class="goal-list">
+        <li>Acme renewal call scheduled</li>
+        <li>Product roadmap for Q2 finalized</li>
+        <li>TechPartner integration timeline clarified</li>
+      </ul>
     `;
   }, 1200);
 }

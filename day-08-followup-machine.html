@@ -495,12 +495,17 @@
     .spinner-emoji {
       font-size: 4rem;
       margin-bottom: 1rem;
-      animation: spin 1s linear infinite;
+      animation: bounce 0.7s ease-in-out infinite alternate;
     }
 
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-10px) scale(1.1); }
     }
 
     .spinner-text {
@@ -1195,10 +1200,12 @@
 
     // Spinner messages
     const spinnerMessages = [
-      { emoji: '🔍', text: 'Scanning your inbox...' },
-      { emoji: '✍️', text: 'Drafting the perfect follow-up...' },
-      { emoji: '📋', text: 'Packaging your action items...' },
-      { emoji: '💾', text: 'Almost done...' }
+      { emoji: '📧', text: 'Reading your email threads...' },
+      { emoji: '🔍', text: 'Finding conversations that need follow-up...' },
+      { emoji: '✍️', text: 'Writing follow-ups that get replies...' },
+      { emoji: '🎯', text: 'Nailing the right tone...' },
+      { emoji: '⚡', text: 'Making you impossible to ignore...' },
+      { emoji: '🚀', text: 'Your follow-ups are almost ready...' }
     ];
     let messageIndex = 0;
 

@@ -1224,10 +1224,11 @@
   let msAccount = null;
   let docType = 'invoice';
   const loadingMessages = [
-    'Calculating your worth...',
-    'Formatting the numbers...',
-    'Making it look expensive...',
-    'Building your invoice...'
+    { emoji: '💰', msg: 'Preparing your invoice...' },
+    { emoji: '🧮', msg: 'Calculating the totals...' },
+    { emoji: '📄', msg: 'Formatting professionally...' },
+    { emoji: '✅', msg: 'Adding payment terms...' },
+    { emoji: '🚀', msg: 'Your invoice is almost ready...' }
   ];
 
   function sanitizeHTML(str) {
@@ -1616,7 +1617,8 @@ Thank you for your business. Questions? Contact ${senderEmail}
       setDueDate();
     }
 
-    const loadMsg = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+    const frame = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+    const loadMsg = frame.emoji + ' ' + frame.msg;
     const btn = event.target;
     const origText = btn.textContent;
     btn.disabled = true;

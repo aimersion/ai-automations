@@ -664,9 +664,22 @@
       100% { transform: rotate(360deg); }
     }
 
+    @keyframes bounce {
+      from { transform: translateY(0) scale(1); }
+      to { transform: translateY(-10px) scale(1.1); }
+    }
+
+    .loading-emoji {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: bounce 0.7s ease-in-out infinite alternate;
+      display: block;
+    }
+
     .loading-message {
       color: var(--muted2);
       font-size: 0.95rem;
+      transition: opacity 0.4s;
     }
 
     /* Navigation Footer */
@@ -1064,7 +1077,7 @@
 
     <!-- Loading State -->
     <div class="loading" id="loading">
-      <div class="spinner"></div>
+      <div class="loading-emoji" id="loading-emoji">📋</div>
       <div class="loading-message" id="loading-msg">Reviewing your project details...</div>
     </div>
 
@@ -1732,16 +1745,24 @@ ${sowData.signatures}
     function showLoading() {
       document.getElementById('loading').classList.add('active');
       const messages = [
-        'Reviewing your project details...',
-        'Structuring the engagement scope...',
-        'Drafting your SOW...',
-        'Adding legal-ish language you actually need...'
+        { emoji: '📋', text: 'Reading your project details...' },
+        { emoji: '🏗️', text: 'Structuring the deliverables...' },
+        { emoji: '⚖️', text: 'Setting clear boundaries...' },
+        { emoji: '💼', text: 'Adding professional terms...' },
+        { emoji: '✅', text: 'Building your protection clauses...' },
+        { emoji: '🚀', text: 'Your SOW is almost ready...' }
       ];
       let i = 0;
+      const emojiEl = document.getElementById('loading-emoji');
+      const msgEl = document.getElementById('loading-msg');
+      if (emojiEl) emojiEl.textContent = messages[0].emoji;
+      if (msgEl) msgEl.textContent = messages[0].text;
       const interval = setInterval(() => {
-        document.getElementById('loading-msg').textContent = messages[i % messages.length];
+        const frame = messages[i % messages.length];
+        if (emojiEl) emojiEl.textContent = frame.emoji;
+        if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = frame.text; msgEl.style.opacity = 1; }, 200); }
         i++;
-      }, 2000);
+      }, 2200);
       document.getElementById('loading').dataset.interval = interval;
     }
 

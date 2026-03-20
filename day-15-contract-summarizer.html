@@ -3,15 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Day 15: Contract Summarizer | 20 AI Tools in 20 Days</title>
+<title>Contract Summarizer — AI Legal Analysis | Aimersion Day 15</title>
 <meta name="description" content="Upload or paste a contract. AI instantly extracts key terms, risks, obligations, deadlines, and red flags in plain English.">
 
 <!-- Open Graph -->
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://aimersion.github.io/ai-automations/day-15-contract-summarizer.html">
+<meta property="og:site_name" content="Aimersion">
 <meta property="og:title" content="Contract Summarizer — AI Legal Analysis (Day 15 of 20)">
 <meta property="og:description" content="Upload or paste a contract. AI extracts key terms, risks, obligations, deadlines, and flags red flags.">
+<meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
 
-<!-- ═══ ANALYTICS & RETARGETING ═══ -->
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@aimersion">
+
+<!-- ═══ ANALYTICS ═══ -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -56,9 +63,9 @@
 a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,"script");
 twq("config","tw-r848k-r848k");
 </script>
-<!-- ═══ END ANALYTICS ═══ -->
 
 <script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';document.head.appendChild(s);})()"></script>
+
 <style>
   :root {
     --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
@@ -87,83 +94,88 @@ twq("config","tw-r848k-r848k");
   .card-header:hover .card-toggle { color:var(--teal-light); }
   .card.collapsed .card-toggle { transform: rotate(-90deg); }
   .card.collapsed .card-body { display: none; }
-  .card-status { font-size:12px; color:var(--green); font-weight:600; opacity:0; transition:opacity 0.2s; margin-left:10px; white-space:nowrap; }
-  .card.collapsed .card-status { opacity:1; }
-  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   input[type="password"], input[type="text"], textarea {
     background: var(--navy); border: 1px solid var(--border); color: var(--white);
     padding: 9px 14px; border-radius: 8px; font-size: 13px; font-family: inherit;
     outline: none; transition: border 0.2s;
   }
   input:focus, textarea:focus { border-color: var(--teal); }
-  textarea { width: 100%; min-height: 140px; resize: vertical; }
+  textarea { width: 100%; min-height: 200px; resize: vertical; line-height: 1.6; }
   .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
   .btn-teal { background: var(--teal); color: #fff; }
+  .btn-amber { background: var(--amber); color: #000; }
   .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
   .btn-green { background: var(--green); color: #fff; }
-  .btn-amber { background: var(--amber); color: #000; }
-  .btn-red { background: var(--red); color: #fff; }
   .btn:hover { opacity: 0.85; }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
   .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
   .step-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; }
-  .step-num-circle { width:26px; height:26px; border-radius:50%; color:#fff; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .step-num-circle { width:26px; height:26px; border-radius:50%; color:#fff; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; background: var(--teal); }
   .step-title { font-size:14px; font-weight:700; margin-bottom:3px; color:var(--white); }
   .step-desc { font-size:13px; color:var(--muted); line-height:1.5; }
-  #runBtn { padding: 12px 32px; font-size: 15px; }
-  .output-area { min-height: 120px; }
-  .loading { text-align: center; padding: 40px; color: var(--muted); }
   .fun-loader { display:flex; flex-direction:column; align-items:center; gap:18px; }
   .loader-emoji { font-size: 3rem; animation: bounce 0.7s ease-in-out infinite alternate; }
   .loader-msg { font-size: 1rem; color: var(--teal-light); font-weight: 500; min-height: 1.4em; transition: opacity 0.4s; }
   .loader-sub { font-size: 0.8rem; color: var(--muted); }
   @keyframes bounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-10px) scale(1.1); } }
+  .output-area { min-height: 120px; }
+  .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 14px; }
+  .info-msg { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); color: var(--teal-light); padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
   .key-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
   .key-hint a { color: var(--teal-light); }
 
-  /* Contract-specific output */
-  .contract-summary { background: linear-gradient(135deg,rgba(5,150,105,0.12),rgba(34,211,238,0.06)); border: 1px solid rgba(5,150,105,0.35); border-radius: 10px; padding: 16px 20px; margin-bottom: 18px; }
-  .summary-section { margin-bottom: 18px; }
-  .section-title { font-size: 13px; font-weight: 700; letter-spacing: 1px; color: var(--teal); text-transform: uppercase; margin-bottom: 10px; }
-  .section-content { color: var(--white); line-height: 1.6; font-size: 14px; }
-  .parties-list { display: grid; gap: 8px; }
-  .party-item { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 13px; }
-  .party-name { font-weight: 700; color: var(--teal-light); }
-  .party-role { font-size: 12px; color: var(--muted); margin-top: 2px; }
-  .terms-list { display: grid; gap: 10px; }
-  .term-item { background: var(--navy2); border-left: 3px solid var(--teal); border-radius: 6px; padding: 12px 14px; }
-  .term-key { font-weight: 700; color: var(--teal-light); margin-bottom: 4px; }
-  .term-value { color: var(--white); font-size: 14px; }
-  .term-notes { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
-  .risk-item { background: var(--navy2); border-left: 3px solid; border-radius: 6px; padding: 12px 14px; margin-bottom: 10px; }
-  .risk-high { border-left-color: var(--red); }
-  .risk-medium { border-left-color: var(--amber); }
-  .risk-low { border-left-color: var(--green); }
-  .risk-severity { font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; display: inline-block; margin-bottom: 6px; }
-  .sev-high { background: rgba(220,38,38,0.2); color: #FCA5A5; }
-  .sev-medium { background: rgba(245,158,11,0.2); color: #FCD34D; }
-  .sev-low { background: rgba(5,150,105,0.2); color: #6EE7B7; }
-  .risk-text { color: var(--white); font-size: 14px; }
-  .risk-clause { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
-  .red-flags { display: grid; gap: 8px; }
-  .flag-item { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); border-radius: 8px; padding: 10px 12px; color: #FCA5A5; font-size: 13px; }
-  .flag-item::before { content: '⚠️ '; margin-right: 6px; }
-  .recommendation-banner { background: linear-gradient(135deg,rgba(16,185,129,0.15),rgba(34,211,238,0.08)); border: 1px solid rgba(16,185,129,0.35); border-radius: 10px; padding: 16px 20px; margin-bottom: 18px; }
-  .recommendation-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: var(--green); text-transform: uppercase; margin-bottom: 8px; }
-  .recommendation-text { color: var(--white); font-size: 14px; line-height: 1.6; }
-  .obligations-list { display: grid; gap: 10px; }
-  .obligation-item { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
-  .obl-party { font-size: 11px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-  .obl-text { color: var(--white); font-size: 14px; }
-  .obl-deadline { font-size: 12px; color: var(--amber); margin-top: 6px; font-weight: 600; }
-  .dates-list { display: grid; gap: 10px; }
-  .date-item { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; }
-  .date-event { font-weight: 700; color: var(--white); flex: 1; }
-  .date-value { font-size: 13px; color: var(--teal-light); font-weight: 600; }
-  .date-critical { color: var(--red); font-weight: 800; }
-
-  .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; }
-  .info-msg { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); color: var(--teal-light); padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
+  .contract-type-badge { display: inline-block; background: var(--teal); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
+  .contract-overview { background: linear-gradient(135deg,rgba(8,145,178,0.15),rgba(34,211,238,0.08)); border: 1px solid rgba(8,145,178,0.35); border-radius: 10px; padding: 18px 20px; margin-bottom: 20px; }
+  .overview-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 8px; }
+  .overview-text { color: var(--white); font-size: 15px; line-height: 1.6; }
+  .parties-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .party-badge { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .party-name { font-size: 13px; font-weight: 700; color: var(--teal-light); }
+  .party-role { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .terms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .term-box { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; }
+  .term-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: var(--teal); text-transform: uppercase; margin-bottom: 6px; }
+  .term-value { font-size: 13px; color: var(--white); font-weight: 600; }
+  .obligations-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  .obligations-table td, .obligations-table th { padding: 12px 14px; border-bottom: 1px solid var(--border); text-align: left; font-size: 13px; }
+  .obligations-table th { background: var(--navy2); color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 11px; }
+  .obligations-table tr:hover { background: rgba(8,145,178,0.08); }
+  .obligations-table .party { color: var(--teal-light); font-weight: 600; }
+  .deadlines-list { display: grid; gap: 12px; margin-bottom: 20px; }
+  .deadline-item { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .deadline-info { flex: 1; }
+  .deadline-date { font-weight: 700; color: var(--teal-light); font-size: 13px; }
+  .deadline-event { color: var(--white); font-size: 14px; margin-bottom: 4px; }
+  .deadline-consequence { font-size: 12px; color: var(--muted); }
+  .urgency-badge { font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 4px 10px; border-radius: 8px; text-transform: uppercase; }
+  .urgency-high { background: rgba(220,38,38,0.2); color: #FCA5A5; }
+  .urgency-medium { background: rgba(245,158,11,0.2); color: #FCD34D; }
+  .urgency-low { background: rgba(5,150,105,0.2); color: #6EE7B7; }
+  .clauses-grid { display: grid; gap: 10px; margin-bottom: 20px; }
+  .clause-pill { display: inline-block; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .clause-favorable-a { background: rgba(5,150,105,0.2); color: #6EE7B7; }
+  .clause-favorable-b { background: rgba(220,38,38,0.2); color: #FCA5A5; }
+  .clause-neutral { background: rgba(8,145,178,0.2); color: var(--teal-light); }
+  .red-flags-accordion { display: grid; gap: 10px; margin-bottom: 20px; }
+  .flag-item { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; cursor: pointer; transition: all 0.2s; }
+  .flag-item:hover { border-color: var(--red); background: rgba(220,38,38,0.08); }
+  .flag-header { display: flex; align-items: center; gap: 12px; justify-content: space-between; }
+  .flag-severity { font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; border-radius: 6px; text-transform: uppercase; }
+  .sev-critical { background: rgba(220,38,38,0.3); color: #FCA5A5; }
+  .sev-warning { background: rgba(245,158,11,0.2); color: #FCD34D; }
+  .sev-note { background: rgba(8,145,178,0.2); color: var(--teal-light); }
+  .flag-title { color: var(--white); font-weight: 600; flex: 1; }
+  .flag-toggle { color: var(--muted); font-size: 18px; transition: transform 0.2s; flex-shrink: 0; }
+  .flag-item.expanded .flag-toggle { transform: rotate(180deg); }
+  .flag-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .flag-item.expanded .flag-details { display: block; }
+  .flag-issue { color: var(--white); font-size: 13px; margin-bottom: 6px; }
+  .flag-recommendation { font-size: 12px; color: var(--green); font-weight: 600; margin-top: 8px; }
+  .recommendation-box { background: linear-gradient(135deg, rgba(5,150,105,0.15), rgba(34,211,238,0.08)); border: 2px solid rgba(5,150,105,0.4); border-radius: 10px; padding: 20px; margin-bottom: 20px; text-align: center; }
+  .recommendation-label { font-size: 12px; font-weight: 800; letter-spacing: 2px; color: var(--green); text-transform: uppercase; margin-bottom: 8px; }
+  .recommendation-text { font-size: 16px; color: var(--white); font-weight: 600; line-height: 1.5; }
+  .button-group { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; justify-content: center; }
+  .button-group .btn { padding: 10px 20px; }
 
   @media (max-width: 640px) {
     header { padding: 11px 16px; }
@@ -179,8 +191,11 @@ twq("config","tw-r848k-r848k");
     .step-title { font-size: 13px; }
     .step-desc { font-size: 12px; }
     input[type="password"], input[type="text"], textarea { font-size: 15px; padding: 11px 14px; }
-    #runBtn { width: 100%; padding: 17px; font-size: 18px; font-weight: 900; border-radius: 14px; }
-    .parties-list, .terms-list, .obligations-list, .dates-list, .red-flags { gap: 6px; }
+    #analyzeBtn { width: 100%; padding: 17px; font-size: 18px; font-weight: 900; border-radius: 14px; }
+    .terms-grid { grid-template-columns: repeat(2, 1fr); }
+    .deadline-item { flex-direction: column; align-items: flex-start; }
+    .button-group { flex-direction: column; }
+    .button-group .btn { width: 100%; justify-content: center; }
   }
 
   .sticky-cta { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; padding: 12px 16px 28px; background: linear-gradient(to top, var(--navy) 65%, transparent); pointer-events: none; }
@@ -195,500 +210,407 @@ twq("config","tw-r848k-r848k");
 </head>
 <body>
 
-<!-- ═══ UNIVERSAL SETUP BANNER ═══ -->
-<div id="__setupBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0F1829 0%,#080E1A 100%);border-bottom:1px solid #1E293B;box-shadow:0 4px 32px rgba(0,0,0,0.5);padding:0;overflow:hidden;">
-  <div style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
-      <div>
-        <div style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:#EA580C;text-transform:uppercase;margin-bottom:0.25rem;">Quick Setup</div>
-        <div style="font-weight:800;font-size:1rem;color:#F1F5F9;">One step to get started</div>
-      </div>
-      <button onclick="document.getElementById('__setupBanner').style.display='none'" style="background:transparent;border:1px solid #1E293B;color:#94A3B8;padding:0.4rem 0.75rem;border-radius:6px;cursor:pointer;font-size:0.75rem;">✕ dismiss</button>
-    </div>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-      <div id="__step1" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;">
-        <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-          <span id="__s1icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">1</span>
-          Free Gemini API Key
-        </div>
-        <div style="display:flex;gap:0.5rem;">
-          <input id="__geminiInput" type="password" placeholder="Paste key (AIza...)" style="flex:1;padding:0.5rem 0.75rem;background:#0F1829;border:1px solid #1E293B;border-radius:6px;color:#F1F5F9;font-size:0.8rem;min-width:0;" oninput="__checkSetup()">
-          <button onclick="__saveGeminiKey()" style="padding:0.5rem 0.75rem;background:#EA580C;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Save</button>
-        </div>
-        <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size:0.7rem;color:#06B6D4;display:inline-block;margin-top:0.4rem;">→ Get free key at aistudio.google.com</a>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:center;padding:0 0.5rem;">
-        <div style="text-align:center;">
-          <div style="font-size:0.65rem;color:#94A3B8;margin-bottom:0.35rem;">or skip setup</div>
-          <button onclick="__runPageDemo()" style="padding:0.5rem 1rem;background:transparent;border:1px solid #1E293B;border-radius:6px;color:#94A3B8;cursor:pointer;font-size:0.75rem;white-space:nowrap;">▶ Try Demo</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="__setupSpacer" style="display:none;height:130px;"></div>
-
-<script>
-(function(){
-  function __showToast(msg,dur=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#0F1829;border:1px solid #1E293B;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F1F5F9;transition:opacity 0.3s;';document.body.appendChild(t);}t.textContent=msg;t.style.display='block';t.style.opacity='1';clearTimeout(t._tmr);t._tmr=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none';},300);},dur);}
-  window.__showToast = __showToast;
-
-  function __checkSetup(){
-    const hasKey=!!localStorage.getItem('gemini_key');
-    const s1=document.getElementById('__step1');
-    const s1icon=document.getElementById('__s1icon');
-    if(hasKey){s1.style.borderColor='#10B981';s1icon.style.background='#10B981';s1icon.style.color='#fff';s1icon.textContent='✓';}
-    if(hasKey){setTimeout(()=>{document.getElementById('__setupBanner').style.display='none';document.getElementById('__setupSpacer').style.display='none';},600);}
-  }
-  window.__checkSetup=__checkSetup;
-
-  function __saveGeminiKey(){
-    const v=document.getElementById('__geminiInput').value.trim();
-    if(!v){__showToast('⚠️ Paste your Gemini API key first');return;}
-    localStorage.setItem('gemini_key',v);
-    ['geminiKey','gemini-key','apiKey','api-key','geminiApiKey'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=v;});
-    __showToast('✅ Key saved — good across all 20 tools!');
-    __checkSetup();
-  }
-  window.__saveGeminiKey=__saveGeminiKey;
-
-  function __runPageDemo(){
-    document.getElementById('__setupBanner').style.display='none';
-    document.getElementById('__setupSpacer').style.display='none';
-    const fns=['runDemo','loadDemo','loadDemoData','loadDemoContent','showDemo'];
-    for(const fn of fns){if(typeof window[fn]==='function'){window[fn]();return;}}
-    __showToast('ℹ️ No demo available — set up your key above to get started');
-    document.getElementById('__setupBanner').style.display='block';
-    document.getElementById('__setupSpacer').style.display='block';
-  }
-  window.__runPageDemo=__runPageDemo;
-
-  const savedKey=localStorage.getItem('gemini_key');
-  if(savedKey){document.getElementById('__geminiInput').value=savedKey;}
-
-  function __maybeShowBanner(){
-    const hasKey=!!localStorage.getItem('gemini_key');
-    if(!hasKey){
-      document.getElementById('__setupBanner').style.display='block';
-      document.getElementById('__setupSpacer').style.display='block';
-      __checkSetup();
-    }
-  }
-  if(document.readyState==='complete'){setTimeout(__maybeShowBanner,800);}
-  else{window.addEventListener('load',function(){setTimeout(__maybeShowBanner,800);});}
-})();
-</script>
-<!-- ═══ END SETUP BANNER ═══ -->
-
 <header>
-  <div class="logo">⚡ Aimersion · Day 15</div>
+  <div class="logo">⚙️ Aimersion</div>
   <div class="nav-links">
-    <a href="index.html">← All Tools</a>
+    <a href="https://github.com/aimersion/ai-automations" target="_blank">GitHub</a>
+    <a href="https://aimersion.ai" target="_blank">Home</a>
   </div>
 </header>
 
 <div class="hero">
-  <div class="day-label">Automation #15 of 20</div>
-  <h1>📋 Contract <span>Summarizer</span></h1>
-  <p class="tagline">Paste or upload a contract. AI extracts key terms, payment terms, obligations, deadlines, risks, and red flags — all in plain English.</p>
+  <div class="day-label">Day 15 of 20</div>
+  <h1>Contract <span>Summarizer</span></h1>
+  <p class="tagline">Paste or upload any contract. AI reads the fine print, extracts key terms, deadlines, risks, and obligations. Get the brief in seconds.</p>
 </div>
 
 <div class="main">
-
   <div class="steps-grid">
     <div class="step-card">
-      <div class="step-num-circle" style="background:var(--teal)">1</div>
+      <div class="step-num-circle" style="background: var(--teal);">1</div>
       <div>
-        <div class="step-title">Get a free API key</div>
-        <div class="step-desc">Paste your Gemini key below. Free at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--teal-light)">AI Studio</a> — no credit card.</div>
+        <div class="step-title">Paste or Upload</div>
+        <div class="step-desc">Paste contract text or upload a file</div>
       </div>
     </div>
     <div class="step-card">
-      <div class="step-num-circle" style="background:var(--teal)">2</div>
+      <div class="step-num-circle" style="background: var(--amber);">2</div>
       <div>
-        <div class="step-title">Paste your contract</div>
-        <div class="step-desc">Copy/paste the contract text below or upload a file. Any format — Word, PDF text, etc.</div>
+        <div class="step-title">AI Analyzes</div>
+        <div class="step-desc">Gemini reads and structures everything</div>
       </div>
     </div>
     <div class="step-card">
-      <div class="step-num-circle" style="background:var(--amber);color:#000">3</div>
+      <div class="step-num-circle" style="background: var(--green);">3</div>
       <div>
-        <div class="step-title">Click Analyze</div>
-        <div class="step-desc">AI extracts terms, risks, obligations, and flags red flags in seconds.</div>
+        <div class="step-title">Get Your Brief</div>
+        <div class="step-desc">Terms, risks, red flags, recommendation</div>
       </div>
     </div>
   </div>
 
-  <div class="card collapsible" id="card-keys">
-    <div class="card-header" onclick="toggleCard('card-keys')">
-      <div class="card-title">🔑 API Keys <span style="font-weight:400;color:#6EE7B7;font-size:.78rem">— free, no credit card</span></div>
-      <span class="card-status" id="card-keys-status"></span>
-      <button class="card-toggle" aria-label="Toggle">▾</button>
+  <div class="card collapsible" id="inputCard">
+    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
+      <div class="card-title">📋 Contract Input</div>
+      <button class="card-toggle">▶</button>
     </div>
     <div class="card-body">
-      <div class="row" style="margin-bottom:10px">
-        <input type="password" id="geminiKey" placeholder="Gemini API key (required) — aistudio.google.com" />
-        <button class="btn btn-ghost" onclick="toggleKey('geminiKey')">Show</button>
-        <button class="btn btn-teal" onclick="saveKey('gemini')">Save</button>
+      <div style="margin-bottom: 14px;">
+        <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">Paste contract text below:</label>
+        <textarea id="contractInput" placeholder="Paste the full contract text here... or load the demo NDA below to see the AI in action." style="font-family: 'Courier New', monospace; font-size: 12px;"></textarea>
       </div>
-      <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px;">
+        <button class="btn btn-ghost" onclick="loadDemoNDA()">📄 Load Demo NDA</button>
+        <button class="btn btn-ghost" onclick="clearInput()">🔄 Clear</button>
+      </div>
+      <div class="info-msg">💡 Tips: Works best with Service Agreements, NDAs, Employment Contracts, MSAs, and SOWs. Paste the entire contract text.</div>
+    </div>
+  </div>
+
+  <div class="card collapsible" id="apiCard">
+    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
+      <div class="card-title">🔑 Gemini API Key</div>
+      <button class="card-toggle">▶</button>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Your API Key:</label>
+        <input type="password" id="geminiKey" placeholder="Enter your Gemini API key..." style="width: 100%; margin-bottom: 8px;">
+        <button class="btn btn-teal" onclick="saveGeminiKey()" style="width: 100%;">💾 Save Key</button>
+      </div>
+      <div class="key-hint">Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. Your key is stored locally only.</div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-title">📄 Input Contract</div>
-    <textarea id="contractText" placeholder="Paste your contract text here. Include as much detail as you need — AI will extract what matters."></textarea>
-    <button class="btn btn-amber" id="runBtn" onclick="analyzeContract()" style="margin-top:12px;padding:12px 32px;font-size:15px">🧠 Analyze Contract</button>
+    <button id="analyzeBtn" class="btn btn-amber" onclick="analyzeContract()" style="width: 100%; padding: 14px; font-size: 16px; justify-content: center;">🔍 Analyze Contract</button>
   </div>
 
-  <div class="card output-area" id="outputCard">
-    <div class="card-title">📊 Analysis Results</div>
-    <div id="output" style="color:var(--muted);font-size:14px">
-      <div style="text-align:center;padding:28px 20px 20px">
-        <div style="font-size:32px;margin-bottom:10px">📋</div>
-        <div style="font-size:15px;font-weight:700;color:var(--white);margin-bottom:6px">Paste a contract above and click Analyze</div>
-        <div style="font-size:13px;color:var(--muted);line-height:1.6;max-width:380px;margin:0 auto 18px">
-          AI reads contracts the way a lawyer would — extracting key terms, obligations, payment terms, deadlines, risks, and red flags you need to know.
-        </div>
-        <button onclick="loadDemoData()" style="background:var(--navy2);border:1px solid var(--border);color:var(--teal-light);font-size:13px;font-weight:600;padding:9px 22px;border-radius:8px;cursor:pointer;font-family:inherit;transition:border-color 0.2s">
-          👀 Preview sample analysis
-        </button>
-      </div>
-    </div>
+  <div class="card">
+    <div id="outputArea" class="output-area"></div>
   </div>
-
 </div>
 
 <div class="sticky-cta">
-  <button id="stickyBtn" onclick="analyzeContract()" disabled>🧠 Analyze Contract</button>
+  <button id="stickyAnalyzeBtn" class="btn btn-amber" onclick="analyzeContract()">🔍 Analyze Contract</button>
 </div>
 
 <script>
-const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
-const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
+  const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
 
-const LOADER_FRAMES = [
-  { emoji: '📋', msg: 'Reading the fine print so you don\'t have to...' },
-  { emoji: '🔍', msg: 'Hunting for sneaky clauses...' },
-  { emoji: '⚠️', msg: 'Flagging things lawyers love to hide...' },
-  { emoji: '💰', msg: 'Counting up what this will actually cost...' },
-  { emoji: '📅', msg: 'Finding the deadlines buried in paragraph 17...' },
-  { emoji: '🚩', msg: 'Raising red flags before you sign...' },
-  { emoji: '🧠', msg: 'Translating legalese into plain English...' },
-  { emoji: '✅', msg: 'Almost done — your lawyer would charge $500 for this...' },
-];
+  const LOADER_FRAMES = [
+    { emoji: '📄', msg: 'Reading the fine print so you don\'t have to...' },
+    { emoji: '⚖️', msg: 'Spotting the clauses that matter...' },
+    { emoji: '🔍', msg: 'Hunting for red flags...' },
+    { emoji: '💼', msg: 'Extracting the key terms...' },
+    { emoji: '🛡️', msg: 'Checking your protections...' },
+    { emoji: '💰', msg: 'Understanding the financial obligations...' },
+    { emoji: '📋', msg: 'Building your executive summary...' },
+    { emoji: '✅', msg: 'Almost ready to brief you...' },
+  ];
 
-let _loaderInterval = null;
-let msalInstance = null;
+  let _loaderInterval = null;
 
-function startFunLoader(containerId, subMsg, frames) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  stopFunLoader();
-  const pool = frames || LOADER_FRAMES;
-  let i = Math.floor(Math.random() * pool.length);
-  const frame = pool[i];
-  el.innerHTML = `<div class="fun-loader">
-    <div class="loader-emoji" id="loaderEmoji">${frame.emoji}</div>
-    <div class="loader-msg" id="loaderMsg">${frame.msg}</div>
-    <div class="loader-sub">${subMsg || ''}</div>
-  </div>`;
-  _loaderInterval = setInterval(() => {
-    i = (i + 1) % pool.length;
-    const emojiEl = document.getElementById('loaderEmoji');
-    const msgEl = document.getElementById('loaderMsg');
-    if (emojiEl) emojiEl.textContent = pool[i].emoji;
-    if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = pool[i].msg; msgEl.style.opacity = 1; }, 200); }
-  }, 2200);
-}
-
-function stopFunLoader() {
-  if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
-}
-
-function toggleCard(id) {
-  const card = document.getElementById(id);
-  if (!card) return;
-  card.classList.toggle('collapsed');
-  updateCardStatuses();
-}
-
-function updateCardStatuses() {
-  const keyStatus = document.getElementById('card-keys-status');
-  if (keyStatus) keyStatus.textContent = localStorage.getItem('gemini_key') ? '✓ Saved' : '';
-}
-
-function initCollapsedState() {
-  updateCardStatuses();
-  if (localStorage.getItem('gemini_key')) {
-    const card = document.getElementById('card-keys');
-    if (card) card.classList.add('collapsed');
+  function toggleCard(el) {
+    el.classList.toggle('collapsed');
   }
-}
 
-function toggleKey(id) { const el=document.getElementById(id); el.type=el.type==='password'?'text':'password'; }
+  function startFunLoader(containerId, subMsg, frames) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    stopFunLoader();
+    const pool = frames || LOADER_FRAMES;
+    let i = Math.floor(Math.random() * pool.length);
+    const frame = pool[i];
+    el.innerHTML = `<div class="fun-loader">
+      <div class="loader-emoji" id="loaderEmoji">${frame.emoji}</div>
+      <div class="loader-msg" id="loaderMsg">${frame.msg}</div>
+      <div class="loader-sub">${subMsg || ''}</div>
+    </div>`;
+    _loaderInterval = setInterval(() => {
+      i = (i + 1) % pool.length;
+      const emojiEl = document.getElementById('loaderEmoji');
+      const msgEl = document.getElementById('loaderMsg');
+      if (emojiEl) emojiEl.textContent = pool[i].emoji;
+      if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = pool[i].msg; msgEl.style.opacity = 1; }, 200); }
+    }, 2200);
+  }
 
-function saveKey(type) {
-  if (type === 'gemini') {
-    const val = document.getElementById('geminiKey').value.trim();
-    if (!val) { showToast('⚠️ Please paste your Gemini API key first.', '#d97706'); return; }
-    if (!val.startsWith('AIza') || val.length < 30) {
-      showToast('⚠️ That doesn\'t look like a valid Gemini key — it should start with "AIza"', '#d97706');
-      document.getElementById('geminiKey').focus();
+  function stopFunLoader() {
+    if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
+  }
+
+  function saveGeminiKey() {
+    const key = document.getElementById('geminiKey').value.trim();
+    if (!key) {
+      alert('Please enter your Gemini API key');
       return;
     }
-    localStorage.setItem('gemini_key', val);
-    const btn = document.querySelector('[onclick="saveKey(\'gemini\')"]');
-    if (btn) { btn.textContent = '✓ Saved!'; btn.style.background = '#059669'; setTimeout(() => { btn.textContent = 'Save'; btn.style.background = ''; }, 2500); }
-    showToast('✓ API key saved — you\'re ready to go!', '#059669');
-    updateCardStatuses();
-    updateStickyBtn();
+    localStorage.setItem('gemini_key', key);
+    alert('✓ Key saved securely in your browser');
   }
-}
 
-function showToast(msg, color) {
-  const t = document.createElement('div');
-  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${color||'#0891B2'};color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;`;
-  t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000);
-}
-
-async function callGemini(prompt) {
-  const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
-  if (!key) throw new Error('No Gemini API key. Please enter and save your key above.');
-  const resp = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`,
-    { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.3, maxOutputTokens: 8192 } })
+  async function callGemini(prompt) {
+    const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey')?.value?.trim();
+    if (!key) throw new Error('No Gemini API key. Please enter and save your key.');
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.3, maxOutputTokens: 8192 }
+      })
     }).then(r => r.json());
-  if (resp.error) throw new Error(resp.error.message);
-  return resp.candidates?.[0]?.content?.parts?.[0]?.text || '';
-}
+    if (resp.error) throw new Error(resp.error.message);
+    return resp.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  }
 
-async function analyzeContract() {
-  const contractText = document.getElementById('contractText').value.trim();
-  const output = document.getElementById('output');
-  const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
+  async function analyzeContract() {
+    const contractText = document.getElementById('contractInput').value.trim();
+    if (!contractText) {
+      alert('Please paste a contract first');
+      return;
+    }
 
-  if (!key) { output.innerHTML = '<div class="error-msg">Please enter and save your Gemini API key above.</div>'; return; }
-  if (!contractText) { output.innerHTML = '<div class="error-msg">Please paste a contract above to analyze.</div>'; return; }
+    const outputArea = document.getElementById('outputArea');
+    startFunLoader('outputArea', 'Analyzing contract...');
 
-  const btn = document.getElementById('runBtn');
-  btn.disabled = true; btn.textContent = '⏳ Analyzing...';
-  output.innerHTML = '<div class="loading" id="loaderArea"></div>';
-  startFunLoader('loaderArea', 'Extracting key terms and risks...');
-
-  try {
-    const prompt = `You are a senior contract attorney. Analyze this contract and provide a comprehensive summary.
+    try {
+      const prompt = `You are a top-tier M&A attorney and contract specialist. Analyze this contract thoroughly.
 
 CONTRACT TEXT:
 ${contractText}
 
-Return a JSON object:
+Return a comprehensive JSON analysis (MUST be valid JSON):
 {
-  "parties": [{"name": "...", "role": "..."}],
-  "summary": "2-3 sentence plain English overview",
-  "keyTerms": [{"term": "...", "value": "...", "notes": "..."}],
-  "paymentTerms": {"amount": "...", "schedule": "...", "penalties": "..."},
-  "importantDates": [{"event": "...", "date": "...", "critical": true|false}],
-  "obligations": [{"party": "...", "obligation": "...", "deadline": "..."}],
-  "risks": [{"severity": "high|medium|low", "risk": "...", "clause": "..."}],
-  "redFlags": ["..."],
-  "recommendation": "brief recommendation on whether to sign as-is, negotiate, or seek legal review"
-}
-Return ONLY valid JSON.`;
+  "contractType": "Service Agreement | NDA | Employment | MSA | SOW | Other",
+  "parties": [{"name": "...", "role": "Client|Vendor|Employee|Employer|etc", "obligations": "brief"}],
+  "overview": "2-3 sentence plain-English summary",
+  "keyTerms": {
+    "effectiveDate": "...",
+    "termLength": "...",
+    "renewalType": "auto|manual|none",
+    "governingLaw": "...",
+    "paymentTerms": "..."
+  },
+  "financialObligations": [
+    {"party": "...", "amount": "...", "when": "...", "conditions": "..."}
+  ],
+  "keyDeadlines": [
+    {"date": "...", "event": "...", "consequence": "...", "urgency": "high|medium|low"}
+  ],
+  "protectiveClauses": [
+    {"type": "Limitation of Liability|Indemnification|IP|Non-compete|Termination|Dispute Resolution|etc", "summary": "...", "favorableFor": "Party A|Party B|Neutral", "strength": "strong|moderate|weak"}
+  ],
+  "redFlags": [
+    {"severity": "critical|warning|note", "clause": "...", "issue": "...", "recommendation": "..."}
+  ],
+  "missingClauses": ["..."],
+  "recommendation": "sign|negotiate|seek legal review|do not sign",
+  "recommendationReason": "2-3 sentences"
+}`;
 
-    const raw = await callGemini(prompt);
-    let data;
-    try { const m = raw.match(/\{[\s\S]*\}/); data = JSON.parse(m ? m[0] : raw); }
-    catch { output.innerHTML = '<div class="error-msg">Could not parse AI response. Try again.</div>'; btn.disabled=false; btn.textContent='🧠 Analyze Contract'; return; }
+      const result = await callGemini(prompt);
+      stopFunLoader();
 
-    renderAnalysis(data);
-  } catch (e) { output.innerHTML = `<div class="error-msg">${e.message}</div>`; }
+      const jsonMatch = result.match(/\{[\s\S]*\}/);
+      const analysis = JSON.parse(jsonMatch ? jsonMatch[0] : result);
 
-  btn.disabled = false; btn.textContent = '🧠 Analyze Contract';
-  updateStickyBtn();
-}
+      renderContractAnalysis(analysis, outputArea);
+    } catch (e) {
+      stopFunLoader();
+      outputArea.innerHTML = `<div class="error-msg">❌ Error: ${e.message}</div>`;
+    }
+  }
 
-function renderAnalysis(data) {
-  let html = '';
+  function renderContractAnalysis(analysis, container) {
+    let html = `<div class="contract-type-badge">${analysis.contractType}</div>`;
 
-  if (data.recommendation) {
-    html += `<div class="recommendation-banner">
-      <div class="recommendation-label">📋 Recommendation</div>
-      <div class="recommendation-text">${data.recommendation}</div>
+    html += `<div class="contract-overview">
+      <div class="overview-label">📝 Overview</div>
+      <div class="overview-text">${analysis.overview}</div>
     </div>`;
-  }
 
-  if (data.summary) {
-    html += `<div class="contract-summary">
-      <div class="section-title">Executive Summary</div>
-      <div class="section-content">${data.summary}</div>
+    if (analysis.parties && analysis.parties.length > 0) {
+      html += `<div class="card-title" style="margin-top: 20px;">Parties</div>
+      <div class="parties-row">`;
+      analysis.parties.forEach(p => {
+        html += `<div class="party-badge">
+          <div class="party-name">${p.name}</div>
+          <div class="party-role">${p.role}</div>
+          <div style="font-size: 12px; color: var(--white); margin-top: 8px;">${p.obligations}</div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (analysis.keyTerms) {
+      html += `<div class="card-title">Key Terms</div>
+      <div class="terms-grid">`;
+      const terms = analysis.keyTerms;
+      for (const [key, value] of Object.entries(terms)) {
+        if (value) {
+          const label = key.replace(/([A-Z])/g, ' $1').trim();
+          html += `<div class="term-box">
+            <div class="term-label">${label}</div>
+            <div class="term-value">${value}</div>
+          </div>`;
+        }
+      }
+      html += `</div>`;
+    }
+
+    if (analysis.financialObligations && analysis.financialObligations.length > 0) {
+      html += `<div class="card-title">Financial Obligations</div>
+      <table class="obligations-table">
+        <tr><th>Party</th><th>Amount</th><th>When</th><th>Conditions</th></tr>`;
+      analysis.financialObligations.forEach(o => {
+        html += `<tr>
+          <td class="party">${o.party}</td>
+          <td>${o.amount}</td>
+          <td>${o.when}</td>
+          <td>${o.conditions}</td>
+        </tr>`;
+      });
+      html += `</table>`;
+    }
+
+    if (analysis.keyDeadlines && analysis.keyDeadlines.length > 0) {
+      html += `<div class="card-title">Key Deadlines & Milestones</div>
+      <div class="deadlines-list">`;
+      analysis.keyDeadlines.forEach(d => {
+        const urgencyClass = d.urgency ? `urgency-${d.urgency}` : 'urgency-low';
+        html += `<div class="deadline-item">
+          <div class="deadline-info">
+            <div class="deadline-event">${d.event}</div>
+            <div class="deadline-date">${d.date}</div>
+            <div class="deadline-consequence">${d.consequence}</div>
+          </div>
+          <span class="urgency-badge ${urgencyClass}">${d.urgency}</span>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (analysis.protectiveClauses && analysis.protectiveClauses.length > 0) {
+      html += `<div class="card-title">Protective Clauses</div>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px;">`;
+      analysis.protectiveClauses.forEach(c => {
+        const favorClass = c.favorableFor === 'Party A' ? 'clause-favorable-a' : (c.favorableFor === 'Party B' ? 'clause-favorable-b' : 'clause-neutral');
+        html += `<span class="clause-pill ${favorClass}">${c.type}</span>`;
+      });
+      html += `</div>`;
+    }
+
+    if (analysis.redFlags && analysis.redFlags.length > 0) {
+      html += `<div class="card-title">🚩 Red Flags</div>
+      <div class="red-flags-accordion">`;
+      analysis.redFlags.forEach((flag, idx) => {
+        const sevClass = flag.severity ? `sev-${flag.severity}` : 'sev-note';
+        html += `<div class="flag-item" onclick="this.classList.toggle('expanded')">
+          <div class="flag-header">
+            <span class="flag-severity ${sevClass}">${flag.severity}</span>
+            <span class="flag-title">${flag.clause}</span>
+            <span class="flag-toggle">▼</span>
+          </div>
+          <div class="flag-details">
+            <div class="flag-issue"><strong>Issue:</strong> ${flag.issue}</div>
+            <div class="flag-recommendation"><strong>✓ Recommendation:</strong> ${flag.recommendation}</div>
+          </div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    if (analysis.missingClauses && analysis.missingClauses.length > 0) {
+      html += `<div class="card-title">⚠️ Missing Clauses</div>
+      <div class="info-msg">Consider negotiating the following: ${analysis.missingClauses.join(', ')}</div>`;
+    }
+
+    html += `<div class="recommendation-box">
+      <div class="recommendation-label">${analysis.recommendation.toUpperCase()}</div>
+      <div class="recommendation-text">${analysis.recommendationReason}</div>
     </div>`;
+
+    html += `<div class="button-group">
+      <button class="btn btn-teal" onclick="copySummary()">📋 Copy Summary</button>
+      <button class="btn btn-ghost" onclick="downloadReport()">📥 Download Report</button>
+      <button class="btn btn-amber" onclick="document.getElementById('inputCard').classList.remove('collapsed'); document.getElementById('contractInput').focus();">📝 Analyze Another</button>
+    </div>`;
+
+    container.innerHTML = html;
+    window._lastAnalysis = analysis;
   }
 
-  if (data.parties && data.parties.length > 0) {
-    html += `<div class="summary-section">
-      <div class="section-title">💼 Parties</div>
-      <div class="parties-list">`;
-    for (const p of data.parties) {
-      html += `<div class="party-item"><div class="party-name">${p.name}</div><div class="party-role">${p.role}</div></div>`;
-    }
-    html += `</div></div>`;
+  function copySummary() {
+    if (!window._lastAnalysis) return;
+    const a = window._lastAnalysis;
+    const text = `CONTRACT SUMMARY\nType: ${a.contractType}\nOverview: ${a.overview}\nRecommendation: ${a.recommendation}`;
+    navigator.clipboard.writeText(text).then(() => alert('✓ Copied to clipboard'));
   }
 
-  if (data.keyTerms && data.keyTerms.length > 0) {
-    html += `<div class="summary-section">
-      <div class="section-title">📌 Key Terms</div>
-      <div class="terms-list">`;
-    for (const t of data.keyTerms) {
-      html += `<div class="term-item">
-        <div class="term-key">${t.term}</div>
-        <div class="term-value">${t.value}</div>
-        ${t.notes ? `<div class="term-notes">${t.notes}</div>` : ''}
-      </div>`;
-    }
-    html += `</div></div>`;
+  function downloadReport() {
+    if (!window._lastAnalysis) return;
+    const a = window._lastAnalysis;
+    const text = `CONTRACT ANALYSIS REPORT\n================================\nType: ${a.contractType}\nOverview: ${a.overview}\nRecommendation: ${a.recommendation.toUpperCase()}\n\nKEY TERMS:\n${JSON.stringify(a.keyTerms, null, 2)}\n\nRED FLAGS:\n${a.redFlags.map(f => `- [${f.severity}] ${f.clause}: ${f.issue}`).join('\n')}`;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'contract-summary.txt';
+    link.click();
   }
 
-  if (data.paymentTerms) {
-    html += `<div class="summary-section">
-      <div class="section-title">💰 Payment Terms</div>
-      <div class="terms-list">`;
-    if (data.paymentTerms.amount) {
-      html += `<div class="term-item"><div class="term-key">Amount</div><div class="term-value">${data.paymentTerms.amount}</div></div>`;
-    }
-    if (data.paymentTerms.schedule) {
-      html += `<div class="term-item"><div class="term-key">Payment Schedule</div><div class="term-value">${data.paymentTerms.schedule}</div></div>`;
-    }
-    if (data.paymentTerms.penalties) {
-      html += `<div class="term-item"><div class="term-key">Penalties/Fees</div><div class="term-value">${data.paymentTerms.penalties}</div></div>`;
-    }
-    html += `</div></div>`;
+  function loadDemoNDA() {
+    const nda = `MUTUAL NON-DISCLOSURE AGREEMENT
+
+This Mutual Non-Disclosure Agreement ("Agreement") is entered into as of January 1, 2024, between Acme Corporation ("Company A") and Tech Solutions Inc. ("Company B").
+
+1. CONFIDENTIAL INFORMATION
+The disclosing party ("Discloser") shall share confidential technical, business, and financial information with the receiving party ("Recipient"). All such information shall be marked as "CONFIDENTIAL" or identified as such within 10 days of disclosure.
+
+2. TERM
+This Agreement shall commence on the date hereof and continue for a period of three (3) years, with automatic renewal for successive one-year periods unless terminated by written notice at least 90 days prior to expiration.
+
+3. OBLIGATIONS OF RECIPIENT
+Recipient shall: (a) maintain all Confidential Information in strict confidence; (b) limit disclosure to employees with a need to know; (c) implement reasonable security measures; (d) not use the information for any purpose other than evaluation of a potential business relationship.
+
+4. EXCLUSIONS FROM CONFIDENTIALITY
+Confidential Information shall not include information that is: (a) publicly available; (b) rightfully received from a third party; (c) independently developed; (d) required to be disclosed by law or court order.
+
+5. RETURN OF INFORMATION
+Upon termination or request, Recipient shall promptly return or certify destruction of all Confidential Information.
+
+6. REMEDIES
+Recipient acknowledges that breach may cause irreparable harm for which monetary damages are inadequate. Discloser shall be entitled to seek injunctive relief without posting bond.
+
+7. NO LICENSE
+Nothing in this Agreement grants any license or right to any intellectual property.
+
+8. TERM & TERMINATION
+Either party may terminate this Agreement with 30 days' written notice. The confidentiality obligations shall survive termination for the stated term.
+
+9. GOVERNING LAW
+This Agreement shall be governed by the laws of Delaware.
+
+10. ENTIRE AGREEMENT
+This constitutes the entire agreement between the parties regarding confidentiality and supersedes all prior negotiations.`;
+    document.getElementById('contractInput').value = nda;
+    document.getElementById('inputCard').classList.remove('collapsed');
   }
 
-  if (data.importantDates && data.importantDates.length > 0) {
-    html += `<div class="summary-section">
-      <div class="section-title">📅 Important Dates & Deadlines</div>
-      <div class="dates-list">`;
-    for (const d of data.importantDates) {
-      const critical = d.critical ? ' date-critical' : '';
-      html += `<div class="date-item">
-        <div class="date-event">${d.event}</div>
-        <div class="date-value${critical}">${d.date}</div>
-      </div>`;
-    }
-    html += `</div></div>`;
+  function clearInput() {
+    document.getElementById('contractInput').value = '';
+    document.getElementById('outputArea').innerHTML = '';
   }
 
-  if (data.obligations && data.obligations.length > 0) {
-    html += `<div class="summary-section">
-      <div class="section-title">✅ Obligations & Responsibilities</div>
-      <div class="obligations-list">`;
-    for (const o of data.obligations) {
-      html += `<div class="obligation-item">
-        <div class="obl-party">${o.party}</div>
-        <div class="obl-text">${o.obligation}</div>
-        ${o.deadline ? `<div class="obl-deadline">Deadline: ${o.deadline}</div>` : ''}
-      </div>`;
+  window.addEventListener('load', () => {
+    const saved = localStorage.getItem('gemini_key');
+    if (saved) {
+      document.getElementById('geminiKey').value = saved;
+      document.getElementById('apiCard').classList.add('collapsed');
     }
-    html += `</div></div>`;
-  }
-
-  if (data.risks && data.risks.length > 0) {
-    html += `<div class="summary-section">
-      <div class="section-title">⚠️ Risks & Concerns</div>
-      <div style="display: grid; gap: 10px;">`;
-    for (const r of data.risks) {
-      const sevClass = r.severity === 'high' ? 'sev-high' : r.severity === 'medium' ? 'sev-medium' : 'sev-low';
-      const riskClass = r.severity === 'high' ? 'risk-high' : r.severity === 'medium' ? 'risk-medium' : 'risk-low';
-      html += `<div class="risk-item ${riskClass}">
-        <span class="risk-severity ${sevClass}">${r.severity}</span>
-        <div class="risk-text">${r.risk}</div>
-        ${r.clause ? `<div class="risk-clause">Clause: ${r.clause}</div>` : ''}
-      </div>`;
-    }
-    html += `</div></div>`;
-  }
-
-  if (data.redFlags && data.redFlags.length > 0) {
-    html += `<div class="summary-section">
-      <div class="section-title">🚩 Red Flags</div>
-      <div class="red-flags">`;
-    for (const f of data.redFlags) {
-      html += `<div class="flag-item">${f}</div>`;
-    }
-    html += `</div></div>`;
-  }
-
-  document.getElementById('output').innerHTML = html;
-}
-
-function loadDemoData() {
-  const demoData = {
-    parties: [
-      { name: "Acme Corporation", role: "Vendor / Service Provider" },
-      { name: "Your Company Inc.", role: "Client / Purchaser" }
-    ],
-    summary: "This is a 3-year Software Licensing and Support agreement where Acme grants Your Company a non-exclusive license to use SaaS software (Annual License Fee: $50,000 + overage fees). Support includes 24/7 email and phone support with SLA of 4 hours for critical issues. Early termination is possible with 90-day notice and a termination fee of 50% of remaining contract value.",
-    keyTerms: [
-      { term: "License Type", value: "Non-exclusive, non-transferable perpetual license", notes: "Cannot be sold or reassigned" },
-      { term: "Term", value: "3 years initial term with auto-renewal unless 90-day notice given", notes: "Automatic renewal could be costly" },
-      { term: "Support Level", value: "24/7 technical support with 4-hour SLA for P1 issues", notes: "SLA only applies during business hours for P2/P3" }
-    ],
-    paymentTerms: {
-      amount: "$50,000 annually for base license + 15% markup on usage above threshold",
-      schedule: "Annual prepayment due on January 1st; monthly invoicing for overages due within 30 days",
-      penalties: "Late payment interest at 1.5% per month (18% APY); failure to pay within 30 days allows vendor to suspend service"
-    },
-    importantDates: [
-      { event: "Contract Execution", date: "January 15, 2024", critical: false },
-      { event: "Initial Term Expiration", date: "January 14, 2027", critical: true },
-      { event: "Non-Renewal Deadline", date: "October 15, 2026 (90 days before expiration)", critical: true },
-      { event: "Annual Reconciliation", date: "January 31st of each year", critical: false }
-    ],
-    obligations: [
-      { party: "Acme", obligation: "Maintain 99.5% uptime; provide daily backups; respond to critical issues within 4 hours", deadline: "Ongoing throughout contract term" },
-      { party: "Your Company", obligation: "Pay invoices within 30 days; maintain compliance with usage limits; notify of data processing changes", deadline: "Monthly" },
-      { party: "Both", obligation: "Maintain confidentiality of trade secrets for 3 years after termination", deadline: "3 years post-term" }
-    ],
-    risks: [
-      { severity: "high", risk: "Automatic renewal clause means contract extends 3 years unless 90-day notice given — easy to miss deadline", clause: "Section 2.3" },
-      { severity: "high", risk: "Termination fee is 50% of remaining contract value — early exit is expensive if business needs change", clause: "Section 4.2" },
-      { severity: "medium", risk: "SLA for response time only applies during business hours, not 24/7 despite 'round-the-clock' claims", clause: "Schedule A" },
-      { severity: "medium", risk: "No limits on usage overages — costs could exceed budget with no caps defined", clause: "Section 5.1" },
-      { severity: "low", risk: "Vendor retains rights to use anonymized data for product improvements", clause: "Section 8.4" }
-    ],
-    redFlags: [
-      "Auto-renewal in 3 years — calendar the non-renewal deadline for October 2026",
-      "Early termination penalty is 50% of remaining contract value — make sure this aligns with business budget",
-      "No usage cap on overage fees — request a monthly budget cap or true-up to avoid surprises",
-      "SLA metrics are weaker than advertised — 4-hour response is only for P1 during business hours",
-      "Vendor can terminate immediately if payment is 30+ days late — set up automatic payment"
-    ],
-    recommendation: "This is a fairly standard enterprise SaaS agreement, but negotiate on three points before signing: (1) Add a usage cap of $10K/month on overage fees to protect your budget. (2) Extend SLA response times to 2 hours for P1 issues 24/7. (3) Add a 120-day non-renewal grace period if business needs change. Otherwise, acceptable to sign with CFO approval given the 3-year commitment and termination fees."
-  };
-
-  renderAnalysis(demoData);
-  stopFunLoader();
-  document.getElementById('__setupBanner').style.display='none';
-  document.getElementById('__setupSpacer').style.display='none';
-}
-
-function updateStickyBtn() {
-  const hasKey = !!localStorage.getItem('gemini_key');
-  const hasText = !!document.getElementById('contractText').value.trim();
-  const btn = document.getElementById('stickyBtn');
-  if (btn) btn.disabled = !(hasKey && hasText);
-}
-
-window.addEventListener('load', () => {
-  const gk = localStorage.getItem('gemini_key');
-  if (gk) document.getElementById('geminiKey').value = gk;
-  initCollapsedState();
-  updateStickyBtn();
-  document.getElementById('contractText').addEventListener('input', updateStickyBtn);
-});
-
+  });
 </script>
 
 </body>

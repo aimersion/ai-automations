@@ -1085,16 +1085,18 @@
         }
 
         // ==================== OUTREACH GENERATION ====================
-        const LOADING_MESSAGES = [
-            'Researching their world...',
-            'Finding the angle that gets replies...',
-            'Writing something they\'ll actually read...',
-            'Crafting your follow-up sequence...',
-            'Personalizing every detail...'
+        const LOADER_FRAMES_D10 = [
+            { emoji: '🎯', msg: 'Researching your prospect...' },
+            { emoji: '✍️', msg: 'Crafting the perfect hook...' },
+            { emoji: '🧠', msg: 'Finding their pain points...' },
+            { emoji: '💌', msg: 'Writing something they\'ll actually open...' },
+            { emoji: '🚀', msg: 'Personalizing every word...' },
+            { emoji: '✨', msg: 'Your outreach is almost ready...' }
         ];
 
         function getRandomLoadingMessage() {
-            return LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)];
+            const frame = LOADER_FRAMES_D10[Math.floor(Math.random() * LOADER_FRAMES_D10.length)];
+            return frame.emoji + ' ' + frame.msg;
         }
 
         async function generateOutreach() {

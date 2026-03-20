@@ -957,6 +957,19 @@
     let outlookConnected = false;
     let selectedContextItems = [];
 
+    const LOADER_FRAMES_D14 = [
+      { emoji: '📊', msg: 'Analyzing performance data...' },
+      { emoji: '🎯', msg: 'Identifying growth opportunities...' },
+      { emoji: '✍️', msg: 'Writing balanced, constructive feedback...' },
+      { emoji: '🌟', msg: 'Recognizing real achievements...' },
+      { emoji: '🚀', msg: 'Your review is almost ready...' }
+    ];
+
+    function getRandomLoaderMsg() {
+      const frame = LOADER_FRAMES_D14[Math.floor(Math.random() * LOADER_FRAMES_D14.length)];
+      return frame.emoji + ' ' + frame.msg;
+    }
+
     function toggleCollapsible(id) {
       const content = document.getElementById(id);
       const icon = document.getElementById(id + 'Icon');
@@ -1039,7 +1052,7 @@
       const btn = document.getElementById('writeBtn');
       const originalText = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '<span class="loading-spinner"></span> Crafting fair and specific feedback...';
+      btn.innerHTML = '<span class="loading-spinner"></span> ' + getRandomLoaderMsg();
 
       try {
         const prompt = buildPrompt();

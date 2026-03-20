@@ -3,34 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Day 18: Deal Room | 20 AI Tools in 20 Days</title>
-<meta name="description" content="AI-powered deal intelligence. Input a prospect company name and deal context. AI builds a comprehensive deal briefing with company intel, decision makers, objection handlers, and an opening email.">
+<title>Deal Room — Sales Intelligence | Aimersion Day 18</title>
+<meta name="description" content="Enter a company name. AI generates a complete deal intelligence brief: stakeholder map, objection handlers, competitive threats, discovery questions.">
 
-<!-- Favicon set -->
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
-<meta name="theme-color" content="#0F1F3D">
-
-<!-- Open Graph -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="Deal Room — AI Sales Intelligence (Day 18 of 20)">
-<meta property="og:description" content="AI-powered deal intelligence. Input a prospect company and deal context. Get company research, decision maker intel, talking points, objection handlers, and an opening email.">
+<meta property="og:url" content="https://aimersion.github.io/ai-automations/day-18-deal-room.html">
+<meta property="og:site_name" content="Aimersion">
+<meta property="og:title" content="Deal Room — Sales Intelligence Brief (Day 18 of 20)">
+<meta property="og:description" content="Enter company + deal context. AI generates complete sales brief: strategy, stakeholders, objection handlers, next actions.">
 <meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
 
-<!-- Twitter / X Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@aimersion">
-<meta name="twitter:title" content="Deal Room — AI Sales Intelligence (Day 18 of 20)">
-<meta name="twitter:description" content="AI-powered deal intelligence. Input a prospect company and deal context. Get company research, decision maker intel, talking points, objection handlers, and an opening email.">
 
-<!-- ═══ ANALYTICS & RETARGETING ═══ -->
-<!-- Google Analytics 4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -39,7 +24,6 @@
   gtag('config', 'G-69LQQBX0C1');
 </script>
 
-<!-- Meta Pixel (Aimersion) -->
 <script>
   !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
   n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
@@ -49,10 +33,8 @@
   fbq('init', '876506382017154');
   fbq('track', 'PageView');
 </script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
 
-<!-- LinkedIn Insight Tag -->
 <script type="text/javascript">
   _linkedin_partner_id = "514319631";
   window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
@@ -68,19 +50,17 @@
     b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
     s.parentNode.insertBefore(b, s);})(window.lintrk);
 </script>
-<noscript><img height="1" width="1" style="display:none;" alt=""
-  src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif" /></noscript>
+<noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif" /></noscript>
 
-<!-- X (Twitter) Pixel -->
 <script>
 !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
 },s.version="1.1",s.queue=[],u=t.createElement(n),u.async=!0,u.src="https://static.ads-twitter.com/uwt.js",
 a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,"script");
 twq("config","tw-r848k-r848k");
 </script>
-<!-- ═══ END ANALYTICS ═══ -->
 
-<script src="https://cdn.jsdelivr.net/npm/@google/generative-ai@0.4.1/dist/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';document.head.appendChild(s);})()"></script>
+
 <style>
   :root {
     --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
@@ -109,80 +89,76 @@ twq("config","tw-r848k-r848k");
   .card-header:hover .card-toggle { color:var(--teal-light); }
   .card.collapsed .card-toggle { transform: rotate(-90deg); }
   .card.collapsed .card-body { display: none; }
-  .card.collapsed { padding-bottom: 20px; }
-  .card-status { font-size:12px; color:var(--green); font-weight:600; opacity:0; transition:opacity 0.2s; margin-left:10px; white-space:nowrap; }
-  .card.collapsed .card-status { opacity:1; }
-  .row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
   input[type="password"], input[type="text"], textarea, select {
     background: var(--navy); border: 1px solid var(--border); color: var(--white);
     padding: 9px 14px; border-radius: 8px; font-size: 13px; font-family: inherit;
     outline: none; transition: border 0.2s;
   }
   input:focus, textarea:focus, select:focus { border-color: var(--teal); }
+  textarea { width: 100%; min-height: 80px; resize: vertical; line-height: 1.6; }
   .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
   .btn-teal { background: var(--teal); color: #fff; }
+  .btn-amber { background: var(--amber); color: #000; }
   .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
   .btn-green { background: var(--green); color: #fff; }
-  .btn-amber { background: var(--amber); color: #000; }
   .btn:hover { opacity: 0.85; }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-  .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; }
-  #runBtn { padding: 12px 32px; font-size: 15px; }
-  .output-area { min-height: 120px; }
-  .loading { text-align: center; padding: 40px; color: var(--muted); }
+  .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+  .step-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; }
+  .step-num-circle { width:26px; height:26px; border-radius:50%; color:#fff; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; background: var(--teal); }
+  .step-title { font-size:14px; font-weight:700; margin-bottom:3px; color:var(--white); }
+  .step-desc { font-size:13px; color:var(--muted); line-height:1.5; }
   .fun-loader { display:flex; flex-direction:column; align-items:center; gap:18px; }
   .loader-emoji { font-size: 3rem; animation: bounce 0.7s ease-in-out infinite alternate; }
   .loader-msg { font-size: 1rem; color: var(--teal-light); font-weight: 500; min-height: 1.4em; transition: opacity 0.4s; }
   .loader-sub { font-size: 0.8rem; color: var(--muted); }
   @keyframes bounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-10px) scale(1.1); } }
-  .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
-  .step-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; }
-  .step-num-circle { width:26px; height:26px; border-radius:50%; color:#fff; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
-  .step-title { font-size:14px; font-weight:700; margin-bottom:3px; color:var(--white); }
-  .step-desc { font-size:13px; color:var(--muted); line-height:1.5; }
+  .output-area { min-height: 120px; }
+  .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 14px; }
+  .info-msg { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); color: var(--teal-light); padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
   .key-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
   .key-hint a { color: var(--teal-light); }
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-label { font-size: 12px; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; }
-  textarea { min-height: 80px; resize: vertical; }
-  .deal-room { display: grid; gap: 16px; }
-  .section-card { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
-  .section-title { font-size: 13px; font-weight: 800; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-  .section-content { display: grid; gap: 10px; }
-  .snapshot-field { border-bottom: 1px solid var(--border); padding-bottom: 10px; }
-  .snapshot-field:last-child { border-bottom: none; padding-bottom: 0; }
-  .field-label { font-size: 11px; color: var(--teal-light); font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
-  .field-value { font-size: 13px; color: var(--white); line-height: 1.5; }
-  .challenge-list { display: flex; flex-direction: column; gap: 6px; }
-  .challenge-item { background: rgba(220,38,38,0.1); border-left: 3px solid var(--red); padding: 8px 12px; border-radius: 4px; font-size: 12px; color: #FCA5A5; }
-  .dm-list { display: flex; flex-direction: column; gap: 10px; }
-  .dm-card { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); border-radius: 6px; padding: 10px; }
-  .dm-title { font-size: 12px; font-weight: 700; color: var(--teal-light); margin-bottom: 3px; }
-  .dm-subtitle { font-size: 11px; color: var(--muted); margin-bottom: 6px; }
-  .dm-text { font-size: 11px; color: var(--white); line-height: 1.5; }
-  .pitch-angle { background: rgba(34,211,238,0.1); border-left: 3px solid var(--teal); padding: 10px 12px; border-radius: 4px; margin-bottom: 8px; }
-  .pitch-angle:last-child { margin-bottom: 0; }
-  .pitch-title { font-size: 12px; font-weight: 700; color: var(--teal-light); margin-bottom: 4px; }
-  .pitch-points { font-size: 11px; color: var(--white); line-height: 1.5; }
-  .objection-item { background: rgba(245,158,11,0.1); border-left: 3px solid var(--amber); padding: 10px 12px; border-radius: 4px; margin-bottom: 8px; }
-  .objection-item:last-child { margin-bottom: 0; }
-  .objection-label { font-size: 11px; font-weight: 700; color: var(--amber); text-transform: uppercase; margin-bottom: 3px; }
-  .objection-text { font-size: 11px; color: var(--white); line-height: 1.5; margin-bottom: 3px; }
-  .competitive-item { background: rgba(5,150,105,0.1); border-left: 3px solid var(--green); padding: 10px 12px; border-radius: 4px; margin-bottom: 8px; }
-  .competitive-item:last-child { margin-bottom: 0; }
-  .comp-label { font-size: 11px; font-weight: 700; color: var(--green); margin-bottom: 2px; }
-  .comp-text { font-size: 11px; color: var(--white); line-height: 1.5; }
-  .email-preview { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 12px; }
-  .email-preview-subject { font-size: 12px; font-weight: 700; color: var(--teal-light); margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
-  .email-preview-body { font-size: 12px; color: var(--white); line-height: 1.65; }
-  .empty-state { text-align: center; padding: 40px 20px; color: var(--muted); }
-  .empty-state-icon { font-size: 3rem; margin-bottom: 12px; }
-  .empty-state-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
-  .empty-state-text { font-size: 13px; line-height: 1.6; max-width: 380px; margin: 0 auto; }
-  .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; }
 
-  /* ── Mobile ─────────────────────────────────────────── */
+  .deal-section { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 16px; }
+  .deal-section-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 12px; }
+  .deal-value-prop { background: linear-gradient(135deg,rgba(8,145,178,0.15),rgba(34,211,238,0.08)); border: 1px solid rgba(8,145,178,0.35); border-radius: 10px; padding: 16px 20px; margin-bottom: 16px; }
+  .vp-primary { font-size: 16px; color: var(--white); font-weight: 600; margin-bottom: 8px; line-height: 1.5; }
+  .stakeholder-grid { display: grid; gap: 12px; }
+  .stakeholder-card { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .stakeholder-title { font-size: 13px; font-weight: 700; color: var(--teal-light); margin-bottom: 6px; }
+  .stakeholder-role { display: inline-block; background: rgba(8,145,178,0.2); color: var(--teal-light); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; }
+  .stakeholder-text { font-size: 12px; color: var(--white); line-height: 1.5; }
+  .objection-list { display: grid; gap: 10px; }
+  .objection-item { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; cursor: pointer; transition: all 0.2s; }
+  .objection-item:hover { border-color: var(--teal); background: rgba(8,145,178,0.1); }
+  .objection-header { display: flex; justify-content: space-between; align-items: center; }
+  .objection-text { color: var(--white); font-weight: 600; font-size: 13px; }
+  .objection-toggle { color: var(--muted); font-size: 16px; transition: transform 0.2s; }
+  .objection-item.expanded .objection-toggle { transform: rotate(180deg); }
+  .objection-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .objection-item.expanded .objection-details { display: block; }
+  .objection-response { color: var(--teal-light); font-size: 12px; margin-bottom: 6px; }
+  .objection-followup { font-size: 12px; color: var(--muted); }
+  .threat-item { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+  .threat-competitor { font-size: 13px; color: #FCA5A5; font-weight: 600; }
+  .threat-counter { font-size: 12px; color: var(--white); margin-top: 6px; }
+  .questions-list { list-style: none; }
+  .questions-list li { padding: 8px 0; color: var(--white); font-size: 13px; padding-left: 20px; position: relative; }
+  .questions-list li:before { content: '?'; position: absolute; left: 0; color: var(--amber); font-weight: 700; }
+  .action-checklist { display: grid; gap: 8px; }
+  .action-item { display: flex; align-items: flex-start; gap: 10px; }
+  .action-checkbox { width: 18px; height: 18px; border: 1px solid var(--border); border-radius: 4px; background: var(--navy); cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .action-checkbox.checked { background: var(--green); border-color: var(--green); }
+  .action-checkbox.checked:after { content: '✓'; color: #fff; font-weight: 800; font-size: 12px; }
+  .action-text { flex: 1; color: var(--white); font-size: 13px; line-height: 1.5; }
+
+  .email-box { background: var(--navy); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 16px; }
+  .email-subject { color: var(--teal-light); font-weight: 700; margin-bottom: 8px; font-size: 13px; }
+  .email-body { color: var(--white); font-size: 12px; line-height: 1.6; white-space: pre-wrap; word-wrap: break-word; }
+
+  .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .input-full { grid-column: 1 / -1; }
+
   @media (max-width: 640px) {
     header { padding: 11px 16px; }
     .logo { font-size: 11px; letter-spacing: 2px; }
@@ -191,596 +167,463 @@ twq("config","tw-r848k-r848k");
     .tagline { font-size: 13px; }
     .main { padding: 0 12px 96px; }
     .card { padding: 14px 14px; margin-bottom: 14px; }
-    .steps-grid { grid-template-columns: 1fr; gap: 0; margin-bottom: 16px;
-      border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
-    .step-card { border-radius: 0; border: none;
-      border-bottom: 1px solid var(--border); padding: 12px 14px; }
+    .steps-grid { grid-template-columns: 1fr; gap: 0; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .step-card { border-radius: 0; border: none; border-bottom: 1px solid var(--border); padding: 12px 14px; }
     .step-card:last-child { border-bottom: none; }
+    .step-title { font-size: 13px; }
+    .step-desc { font-size: 12px; }
     input[type="password"], input[type="text"], textarea, select { font-size: 15px; padding: 11px 14px; }
-    .controls { flex-direction: column; align-items: stretch; gap: 10px; }
-    .controls select { width: 100%; }
-    #runBtn { width: 100%; padding: 17px; font-size: 18px; font-weight: 900;
-      border-radius: 14px; letter-spacing: 0.3px; }
-    .form-grid { grid-template-columns: 1fr; }
-    .section-card { padding: 12px; }
-    .sticky-cta { display: flex; }
+    #generateBtn { width: 100%; padding: 17px; font-size: 18px; font-weight: 900; border-radius: 14px; }
+    .input-grid { grid-template-columns: 1fr; }
   }
 
-  .sticky-cta {
-    display: none;
-    position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
-    padding: 12px 16px 28px;
-    background: linear-gradient(to top, var(--navy) 65%, transparent);
-    pointer-events: none;
-  }
-  .sticky-cta button {
-    pointer-events: all;
-    width: 100%; padding: 17px; font-size: 18px; font-weight: 900;
-    background: var(--amber); color: #000; border: none; border-radius: 14px;
-    cursor: pointer; font-family: inherit; letter-spacing: 0.3px;
-    box-shadow: 0 4px 24px rgba(245,158,11,0.35);
-    transition: opacity 0.2s, transform 0.15s;
-  }
+  .sticky-cta { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; padding: 12px 16px 28px; background: linear-gradient(to top, var(--navy) 65%, transparent); pointer-events: none; }
+  .sticky-cta button { pointer-events: all; width: 100%; padding: 17px; font-size: 18px; font-weight: 900; background: var(--amber); color: #000; border: none; border-radius: 14px; cursor: pointer; font-family: inherit; letter-spacing: 0.3px; box-shadow: 0 4px 24px rgba(245,158,11,0.35); transition: opacity 0.2s, transform 0.15s; }
   .sticky-cta button:active { opacity: 0.85; transform: scale(0.98); }
   .sticky-cta button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  @media (max-width: 640px) {
+    .sticky-cta { display: flex; }
+  }
 </style>
 </head>
 <body>
 
-<!-- ═══ UNIVERSAL SETUP BANNER ═══ -->
-<div id="__setupBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0F1829 0%,#080E1A 100%);border-bottom:1px solid #1E293B;box-shadow:0 4px 32px rgba(0,0,0,0.5);padding:0;overflow:hidden;">
-  <div style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
-      <div>
-        <div style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:#EA580C;text-transform:uppercase;margin-bottom:0.25rem;">Quick Setup</div>
-        <div style="font-weight:800;font-size:1rem;color:#F1F5F9;">One step to get started</div>
-      </div>
-      <button onclick="document.getElementById('__setupBanner').style.display='none'" style="background:transparent;border:1px solid #1E293B;color:#94A3B8;padding:0.4rem 0.75rem;border-radius:6px;cursor:pointer;font-size:0.75rem;">✕ dismiss</button>
-    </div>
-    <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-      <!-- Step 1: Gemini key -->
-      <div id="__step1" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;">
-        <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-          <span id="__s1icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">1</span>
-          Free Gemini API Key
-        </div>
-        <div style="display:flex;gap:0.5rem;">
-          <input id="__geminiInput" type="password" placeholder="Paste key (AIza...)" style="flex:1;padding:0.5rem 0.75rem;background:#0F1829;border:1px solid #1E293B;border-radius:6px;color:#F1F5F9;font-size:0.8rem;min-width:0;" oninput="__checkSetup()">
-          <button onclick="__saveGeminiKey()" style="padding:0.5rem 0.75rem;background:#EA580C;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Save</button>
-        </div>
-        <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size:0.7rem;color:#06B6D4;display:inline-block;margin-top:0.4rem;">→ Get free key at aistudio.google.com</a>
-      </div>
-      <!-- Or: Demo -->
-      <div style="display:flex;align-items:center;justify-content:center;padding:0 0.5rem;">
-        <div style="text-align:center;">
-          <div style="font-size:0.65rem;color:#94A3B8;margin-bottom:0.35rem;">or skip setup</div>
-          <button onclick="__runPageDemo()" style="padding:0.5rem 1rem;background:transparent;border:1px solid #1E293B;border-radius:6px;color:#94A3B8;cursor:pointer;font-size:0.75rem;white-space:nowrap;">▶ Try Demo</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="__setupSpacer" style="display:none;height:130px;"></div>
-
-<script>
-(function(){
-  function __showToast(msg,dur=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#0F1829;border:1px solid #1E293B;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F1F5F9;transition:opacity 0.3s;';document.body.appendChild(t);}t.textContent=msg;t.style.display='block';t.style.opacity='1';clearTimeout(t._tmr);t._tmr=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none';},300);},dur);}
-  window.__showToast = __showToast;
-
-  function __checkSetup(){
-    const hasKey=!!localStorage.getItem('gemini_key');
-    const s1=document.getElementById('__step1');
-    const s1icon=document.getElementById('__s1icon');
-    if(hasKey){s1.style.borderColor='#10B981';s1icon.style.background='#10B981';s1icon.style.color='#fff';s1icon.textContent='✓';}
-    if(hasKey){setTimeout(()=>{document.getElementById('__setupBanner').style.display='none';document.getElementById('__setupSpacer').style.display='none';},600);}
-  }
-  window.__checkSetup=__checkSetup;
-
-  function __saveGeminiKey(){
-    const v=document.getElementById('__geminiInput').value.trim();
-    if(!v){__showToast('⚠️ Paste your Gemini API key first');return;}
-    localStorage.setItem('gemini_key',v);
-    ['geminiKey','gemini-key','apiKey','api-key','geminiApiKey'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=v;});
-    __showToast('✅ Key saved — good across all 20 tools!');
-    __checkSetup();
-  }
-  window.__saveGeminiKey=__saveGeminiKey;
-
-  function __runPageDemo(){
-    document.getElementById('__setupBanner').style.display='none';
-    document.getElementById('__setupSpacer').style.display='none';
-    const fns=['runDemo','loadDemo','loadDemoData','loadDemoContent','showDemo'];
-    for(const fn of fns){if(typeof window[fn]==='function'){window[fn]();return;}}
-    __showToast('ℹ️ No demo available — set up your keys above to get started');
-    document.getElementById('__setupBanner').style.display='block';
-    document.getElementById('__setupSpacer').style.display='block';
-  }
-  window.__runPageDemo=__runPageDemo;
-
-  const savedKey=localStorage.getItem('gemini_key');
-  if(savedKey){document.getElementById('__geminiInput').value=savedKey;}
-
-  function __maybeShowBanner(){
-    const hasKey=!!localStorage.getItem('gemini_key');
-    if(!hasKey){
-      document.getElementById('__setupBanner').style.display='block';
-      document.getElementById('__setupSpacer').style.display='block';
-      __checkSetup();
-    }
-  }
-  if(document.readyState==='complete'){setTimeout(__maybeShowBanner,800);}
-  else{window.addEventListener('load',function(){setTimeout(__maybeShowBanner,800);});}
-})();
-</script>
-<!-- ═══ END SETUP BANNER ═══ -->
-
 <header>
-  <div class="logo">⚡ Aimersion · Day 18</div>
+  <div class="logo">⚙️ Aimersion</div>
   <div class="nav-links">
-    <a href="index.html">← All Tools</a>
+    <a href="https://github.com/aimersion/ai-automations" target="_blank">GitHub</a>
+    <a href="https://aimersion.ai" target="_blank">Home</a>
   </div>
 </header>
 
 <div class="hero">
-  <div class="day-label">Automation #18 of 20</div>
-  <h1>🏢 Deal <span>Room</span></h1>
-  <p class="tagline">Input a prospect company and deal context. AI researches and builds a comprehensive deal briefing with company intel, decision makers, objection handlers, and an opening email.</p>
+  <div class="day-label">Day 18 of 20</div>
+  <h1>Deal <span>Room</span></h1>
+  <p class="tagline">Enter a company name + deal context. AI generates a complete deal intelligence brief: stakeholder map, objection handlers, competitive strategy, discovery questions, opening email.</p>
 </div>
 
 <div class="main">
-
-  <!-- Quick Start Guide -->
   <div class="steps-grid">
     <div class="step-card">
-      <div class="step-num-circle" style="background:var(--teal)">1</div>
+      <div class="step-num-circle" style="background: var(--teal);">1</div>
       <div>
-        <div class="step-title">Get a free API key</div>
-        <div class="step-desc">Paste your Gemini key below. Free at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--teal-light)">AI Studio</a> — no credit card.</div>
+        <div class="step-title">Enter Deal Info</div>
+        <div class="step-desc">Company, industry, contact, deal size</div>
       </div>
     </div>
     <div class="step-card">
-      <div class="step-num-circle" style="background:var(--teal)">2</div>
+      <div class="step-num-circle" style="background: var(--amber);">2</div>
       <div>
-        <div class="step-title">Enter deal details</div>
-        <div class="step-desc">Company name, deal size, your product/service, known contacts, and current deal stage.</div>
+        <div class="step-title">AI Researches</div>
+        <div class="step-desc">Builds your competitive intelligence</div>
       </div>
     </div>
     <div class="step-card">
-      <div class="step-num-circle" style="background:var(--amber);color:#000">3</div>
+      <div class="step-num-circle" style="background: var(--green);">3</div>
       <div>
-        <div class="step-title">Get deal intelligence</div>
-        <div class="step-desc">AI builds a complete deal room with company research, decision makers, talking points, and an opening email.</div>
+        <div class="step-title">Get Deal Ready</div>
+        <div class="step-desc">Strategy, script, next actions</div>
       </div>
     </div>
   </div>
 
-  <!-- API Keys -->
-  <div class="card collapsible" id="card-keys">
-    <div class="card-header" onclick="toggleCard('card-keys')">
-      <div class="card-title">🔑 API Keys <span style="font-weight:400;color:#6EE7B7;font-size:.78rem">— free, no credit card</span></div>
-      <span class="card-status" id="card-keys-status"></span>
-      <button class="card-toggle" aria-label="Toggle">▾</button>
+  <div class="card collapsible" id="apiCard">
+    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
+      <div class="card-title">🔑 Gemini API Key</div>
+      <button class="card-toggle">▶</button>
     </div>
     <div class="card-body">
-      <div class="row" style="margin-bottom:10px">
-        <input type="password" id="geminiKey" placeholder="Gemini API key (required) — aistudio.google.com" />
-        <button class="btn btn-ghost" onclick="toggleKey('geminiKey')">Show</button>
-        <button class="btn btn-teal" onclick="saveKey('gemini')">Save</button>
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Your API Key:</label>
+        <input type="password" id="geminiKey" placeholder="Enter your Gemini API key..." style="width: 100%; margin-bottom: 8px;">
+        <button class="btn btn-teal" onclick="saveGeminiKey()" style="width: 100%;">💾 Save Key</button>
       </div>
-      <div class="key-hint">Get a free Gemini key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a></div>
+      <div class="key-hint">Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. Your key is stored locally only.</div>
     </div>
   </div>
 
-  <!-- Build Your Deal Room -->
-  <div class="card collapsible" id="card-build">
-    <div class="card-header" onclick="toggleCard('card-build')">
-      <div class="card-title">🎯 Build Your Deal Room</div>
-      <button class="card-toggle" aria-label="Toggle">▾</button>
+  <div class="card collapsible" id="inputCard">
+    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
+      <div class="card-title">📋 Deal Information</div>
+      <button class="card-toggle">▶</button>
     </div>
     <div class="card-body">
-      <div class="form-grid">
-        <div class="form-group">
-          <label class="form-label">Prospect Company</label>
-          <input type="text" id="company" placeholder="e.g., Salesforce, Microsoft, TechCorp">
+      <div class="input-grid">
+        <div>
+          <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Company Name</label>
+          <input type="text" id="company" placeholder="e.g., Acme Corp" style="width: 100%;">
         </div>
-        <div class="form-group">
-          <label class="form-label">Deal Size</label>
-          <input type="text" id="dealSize" placeholder="e.g., $250K-$500K ARR, Enterprise">
+        <div>
+          <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Industry</label>
+          <input type="text" id="industry" placeholder="e.g., SaaS, Manufacturing" style="width: 100%;">
         </div>
-        <div class="form-group">
-          <label class="form-label">Our Product/Service</label>
-          <input type="text" id="product" placeholder="What are you selling?">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Known Contacts</label>
-          <input type="text" id="contacts" placeholder="e.g., John Smith (CRO), Sarah Lee (VP Ops)">
-        </div>
-        <div class="form-group" style="grid-column: 1 / -1;">
-          <label class="form-label">Deal Stage</label>
-          <select id="stage">
-            <option value="">Choose...</option>
-            <option value="research">Research — Just learning about them</option>
-            <option value="outreach">Outreach — First contact planned</option>
-            <option value="discovery">Discovery — Had initial conversations</option>
-            <option value="proposal">Proposal — Deal in motion</option>
-            <option value="negotiation">Negotiation — Close to decision</option>
+        <div>
+          <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Deal Size</label>
+          <select id="dealSize" style="width: 100%;">
+            <option value="startup">Startup (&lt;$1M ARR)</option>
+            <option value="smb">SMB ($1M-$10M)</option>
+            <option value="mid-market" selected>Mid-Market ($10M-$100M)</option>
+            <option value="enterprise">&gt;$100M (Enterprise)</option>
           </select>
         </div>
+        <div>
+          <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Deal Stage</label>
+          <select id="dealStage" style="width: 100%;">
+            <option value="prospecting">Prospecting</option>
+            <option value="initial contact" selected>Initial Contact</option>
+            <option value="qualification">Qualification</option>
+            <option value="demo">Demo Scheduled</option>
+            <option value="negotiation">Negotiation</option>
+          </select>
+        </div>
+        <div class="input-full">
+          <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Your Product/Service</label>
+          <input type="text" id="yourProduct" placeholder="What are you selling?" style="width: 100%;">
+        </div>
+        <div class="input-full">
+          <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Primary Contact / Title</label>
+          <input type="text" id="contact" placeholder="e.g., Sarah Chen, VP Engineering" style="width: 100%;">
+        </div>
+        <div class="input-full">
+          <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Additional Context</label>
+          <textarea id="notes" placeholder="Any notes about the deal, relationships, or context..."></textarea>
+        </div>
       </div>
-      <button class="btn btn-amber" id="runBtn" onclick="generateDealRoom()">🧠 Generate Deal Room</button>
     </div>
   </div>
 
-  <!-- Output -->
-  <div class="card output-area" id="outputCard">
-    <div class="card-title">📊 Your Deal Room</div>
-    <div id="output">
-      <div class="empty-state">
-        <div class="empty-state-icon">🏢</div>
-        <div class="empty-state-title">Ready to research?</div>
-        <div class="empty-state-text">Fill in your deal details above and click "Generate Deal Room" to get company intel, decision maker research, talking points, objection handlers, competitive analysis, and a ready-to-send opening email.</div>
-      </div>
-    </div>
+  <div class="card">
+    <button id="generateBtn" class="btn btn-amber" onclick="generateDealRoom()" style="width: 100%; padding: 14px; font-size: 16px; justify-content: center;">🔍 Build Deal Brief</button>
   </div>
 
+  <div class="card">
+    <div id="outputArea" class="output-area"></div>
+  </div>
+</div>
+
+<div class="sticky-cta">
+  <button id="stickyBtn" class="btn btn-amber" onclick="generateDealRoom()">🔍 Build Deal Brief</button>
 </div>
 
 <script>
-const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
+  const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
 
-const LOADER_FRAMES = [
-  { emoji: '🏢', msg: 'Building your deal intelligence file...' },
-  { emoji: '🔍', msg: 'Researching your prospect...' },
-  { emoji: '🎯', msg: 'Crafting your angle of attack...' },
-  { emoji: '🤝', msg: 'Preparing objection handlers...' },
-  { emoji: '💡', msg: 'Finding the pain points they can\'t ignore...' },
-  { emoji: '📊', msg: 'Analyzing the competitive landscape...' },
-  { emoji: '🚀', msg: 'Loading your deal room...' },
-];
+  const LOADER_FRAMES = [
+    { emoji: '🔍', msg: 'Researching the company...' },
+    { emoji: '🎯', msg: 'Finding your angle...' },
+    { emoji: '💼', msg: 'Understanding their business...' },
+    { emoji: '🧠', msg: 'Building your strategy...' },
+    { emoji: '⚔️', msg: 'Preparing for their objections...' },
+    { emoji: '💰', msg: 'Calculating the value story...' },
+    { emoji: '🤝', msg: 'Drafting your opening move...' },
+    { emoji: '🚀', msg: 'Getting you deal-ready...' },
+  ];
 
-let _loaderInterval = null;
-function startFunLoader(containerId, subMsg, frames) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  stopFunLoader();
-  const pool = frames || LOADER_FRAMES;
-  let i = Math.floor(Math.random() * pool.length);
-  const frame = pool[i];
-  el.innerHTML = `<div class="fun-loader">
-    <div class="loader-emoji" id="loaderEmoji">${frame.emoji}</div>
-    <div class="loader-msg" id="loaderMsg">${frame.msg}</div>
-    <div class="loader-sub">${subMsg || ''}</div>
-  </div>`;
-  _loaderInterval = setInterval(() => {
-    i = (i + 1) % pool.length;
-    const emojiEl = document.getElementById('loaderEmoji');
-    const msgEl = document.getElementById('loaderMsg');
-    if (emojiEl) emojiEl.textContent = pool[i].emoji;
-    if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = pool[i].msg; msgEl.style.opacity = 1; }, 200); }
-  }, 2200);
-}
-function stopFunLoader() {
-  if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
-}
+  let _loaderInterval = null;
 
-function toggleCard(id) {
-  const card = document.getElementById(id);
-  if (!card) return;
-  card.classList.toggle('collapsed');
-}
+  function toggleCard(el) {
+    el.classList.toggle('collapsed');
+  }
 
-function toggleKey(id) { const el = document.getElementById(id); el.type = el.type === 'password' ? 'text' : 'password'; }
-function saveKey(type) {
-  if (type === 'gemini') {
-    const val = document.getElementById('geminiKey').value.trim();
-    if (!val) { showToast('⚠️ Please paste your Gemini API key first.'); return; }
-    if (!val.startsWith('AIza') || val.length < 30) {
-      showToast('⚠️ That doesn\'t look like a valid Gemini key');
-      document.getElementById('geminiKey').focus();
+  function startFunLoader(containerId, subMsg) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    stopFunLoader();
+    const pool = LOADER_FRAMES;
+    let i = Math.floor(Math.random() * pool.length);
+    const frame = pool[i];
+    el.innerHTML = `<div class="fun-loader">
+      <div class="loader-emoji" id="loaderEmoji">${frame.emoji}</div>
+      <div class="loader-msg" id="loaderMsg">${frame.msg}</div>
+      <div class="loader-sub">${subMsg || ''}</div>
+    </div>`;
+    _loaderInterval = setInterval(() => {
+      i = (i + 1) % pool.length;
+      const emojiEl = document.getElementById('loaderEmoji');
+      const msgEl = document.getElementById('loaderMsg');
+      if (emojiEl) emojiEl.textContent = pool[i].emoji;
+      if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = pool[i].msg; msgEl.style.opacity = 1; }, 200); }
+    }, 2200);
+  }
+
+  function stopFunLoader() {
+    if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
+  }
+
+  function saveGeminiKey() {
+    const key = document.getElementById('geminiKey').value.trim();
+    if (!key) { alert('Please enter your Gemini API key'); return; }
+    localStorage.setItem('gemini_key', key);
+    alert('✓ Key saved securely in your browser');
+  }
+
+  async function callGemini(prompt) {
+    const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey')?.value?.trim();
+    if (!key) throw new Error('No Gemini API key. Please enter and save your key.');
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.3, maxOutputTokens: 8192 }
+      })
+    }).then(r => r.json());
+    if (resp.error) throw new Error(resp.error.message);
+    return resp.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  }
+
+  async function generateDealRoom() {
+    const company = document.getElementById('company').value.trim();
+    const industry = document.getElementById('industry').value.trim();
+    const dealSize = document.getElementById('dealSize').value;
+    const dealStage = document.getElementById('dealStage').value;
+    const yourProduct = document.getElementById('yourProduct').value.trim();
+    const contact = document.getElementById('contact').value.trim();
+    const notes = document.getElementById('notes').value.trim();
+
+    if (!company || !industry || !yourProduct) {
+      alert('Please fill in Company, Industry, and Your Product fields');
       return;
     }
-    localStorage.setItem('gemini_key', val);
-    const btn = document.querySelector('[onclick="saveKey(\'gemini\')"]');
-    if (btn) { btn.textContent = '✓ Saved!'; btn.style.background = '#059669'; setTimeout(() => { btn.textContent = 'Save'; btn.style.background = ''; }, 2500); }
-    showToast('✓ API key saved!');
-    document.getElementById('card-keys-status').textContent = '✓ Saved';
-  }
-}
-function showToast(msg, color) {
-  const t = document.createElement('div');
-  t.style.cssText = `position:fixed;bottom:24px;right:24px;background:${color||'#0891B2'};color:#fff;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;z-index:9999;`;
-  t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000);
-}
 
-function checkApiKey() {
-  const val = localStorage.getItem('gemini_key');
-  if (val) {
-    document.getElementById('geminiKey').value = val;
-    document.getElementById('card-keys-status').textContent = '✓ Saved';
-  }
-}
+    const outputArea = document.getElementById('outputArea');
+    startFunLoader('outputArea', 'Building your deal brief...');
 
-window.addEventListener('load', () => {
-  checkApiKey();
-  initCollapsedState();
-  preloadDemoData();
-});
+    try {
+      const prompt = `You are a world-class enterprise sales strategist and deal coach. Create a comprehensive deal intelligence brief.
 
-function initCollapsedState() {
-  if (localStorage.getItem('gemini_key')) {
-    document.getElementById('card-keys').classList.add('collapsed');
-  }
-}
-
-function preloadDemoData() {
-  const demo = {
-    company: 'Acme Corp',
-    dealSize: '$150K-$300K ARR',
-    product: 'AI Sales Intelligence Platform',
-    contacts: 'Robert Chen (VP Sales), Jennifer Park (Sales Ops Manager)',
-    stage: 'discovery'
-  };
-  window._demoData = demo;
-}
-
-function runDemo() {
-  const demo = window._demoData;
-  document.getElementById('company').value = demo.company;
-  document.getElementById('dealSize').value = demo.dealSize;
-  document.getElementById('product').value = demo.product;
-  document.getElementById('contacts').value = demo.contacts;
-  document.getElementById('stage').value = demo.stage;
-  setTimeout(() => generateDealRoom(), 100);
-}
-
-async function generateDealRoom() {
-  const company = document.getElementById('company').value.trim();
-  const dealSize = document.getElementById('dealSize').value.trim();
-  const product = document.getElementById('product').value.trim();
-  const contacts = document.getElementById('contacts').value.trim();
-  const stage = document.getElementById('stage').value;
-
-  if (!company || !dealSize || !product || !stage) {
-    showToast('⚠️ Please fill in all required fields');
-    return;
-  }
-
-  const apiKey = localStorage.getItem('gemini_key');
-  if (!apiKey) {
-    showToast('❌ Please save your Gemini API key first');
-    return;
-  }
-
-  const outputDiv = document.getElementById('output');
-  outputDiv.innerHTML = '<div class="loading" id="loaderContainer"></div>';
-  startFunLoader('loaderContainer', 'Researching ' + company + '...');
-
-  try {
-    const { GoogleGenerativeAI } = await import('https://cdn.jsdelivr.net/npm/@google/generative-ai@0.4.1/+esm');
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
-
-    const prompt = `You are a world-class enterprise sales strategist. Build a comprehensive deal room briefing for this prospect.
-
+DEAL CONTEXT:
 Company: ${company}
-Deal Size: ${dealSize}
-Our Product/Service: ${product}
-Known Contacts: ${contacts || 'None yet'}
-Deal Stage: ${stage}
+Industry: ${industry}
+Deal size: ${dealSize}
+Deal stage: ${dealStage}
+Your product/service: ${yourProduct}
+Contact/Title: ${contact}
+Notes: ${notes || 'N/A'}
 
-Return ONLY valid JSON (no markdown, no code blocks, just raw JSON):
+Return a comprehensive deal brief in JSON:
 {
   "companySnapshot": {
-    "description": "1-2 sentence company overview",
-    "industry": "...",
-    "size": "estimated company size",
-    "revenueRange": "estimated annual revenue",
-    "knownChallenges": ["challenge 1", "challenge 2", "challenge 3"]
+    "likely_size": "Enterprise / Mid-Market / SMB",
+    "typical_pain_points": ["pain 1", "pain 2", "pain 3"],
+    "buying_process": "typical for this company type",
+    "budget_cycle": "...",
+    "key_initiatives": ["initiative 1", "2", "3"]
   },
-  "whyNow": "2-3 sentences on why they need your solution now",
-  "decisionMakers": [
-    {
-      "title": "job title",
-      "name": "likely names or titles",
-      "linkedinSearch": "suggested search to find them",
-      "motivation": "what motivates this person",
-      "concerns": "their likely concerns"
-    }
+  "yourAngle": {
+    "primaryValue": "One sentence: why your solution is perfect for them",
+    "valueProps": [{"prop": "...", "evidence": "...", "businessImpact": "..."}],
+    "roi_story": "How to quantify the value"
+  },
+  "stakeholderMap": [
+    {"title": "...", "role": "Champion|Economic Buyer|Technical|Blocker", "motivation": "...", "approach": "..."}
   ],
-  "pitchAngles": [
-    {
-      "angle": "specific angle or frame",
-      "explanation": "how/why this angle works",
-      "talkingPoints": ["point 1", "point 2"]
-    }
-  ],
-  "objections": [
-    {
-      "objection": "likely objection they'll raise",
-      "response": "your best counter-argument",
-      "followUp": "proof point or question to ask next"
-    }
+  "objectionHandlers": [
+    {"objection": "...", "response": "...", "followUp": "..."}
   ],
   "competitiveThreats": [
-    {
-      "competitor": "competitor name or type",
-      "theirStrength": "what they're good at",
-      "ourCounterMove": "how you differentiate"
-    }
+    {"competitor": "...", "theirStrength": "...", "yourCounter": "..."}
+  ],
+  "nextActions": [
+    {"action": "...", "owner": "You|Prospect", "timing": "..."}
   ],
   "openingEmail": {
-    "subject": "compelling subject line",
-    "body": "full opening email (ready to send)"
-  }
+    "subject": "...",
+    "body": "Full personalized cold outreach email"
+  },
+  "discoveryQuestions": ["Question 1?", "Question 2?", "Question 3?", "Question 4?", "Question 5?"]
 }`;
 
-    const result = await model.generateContent(prompt);
-    const text = result.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const result = await callGemini(prompt);
+      stopFunLoader();
 
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      const jsonMatch = text.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        data = JSON.parse(jsonMatch[0]);
-      } else {
-        throw new Error('Could not parse response as JSON');
+      const jsonMatch = result.match(/\{[\s\S]*\}/);
+      const brief = JSON.parse(jsonMatch ? jsonMatch[0] : result);
+
+      renderDealRoom(brief, outputArea);
+    } catch (e) {
+      stopFunLoader();
+      outputArea.innerHTML = `<div class="error-msg">❌ Error: ${e.message}</div>`;
+    }
+  }
+
+  function renderDealRoom(brief, container) {
+    let html = '';
+
+    // Company Snapshot
+    if (brief.companySnapshot) {
+      const cs = brief.companySnapshot;
+      html += `<div class="deal-section">
+        <div class="deal-section-title">📊 Company Snapshot</div>
+        <div style="font-size: 13px; color: var(--white); line-height: 1.7;">
+          <div><strong>Size:</strong> ${escapeHtml(cs.likely_size)}</div>
+          <div><strong>Buying Process:</strong> ${escapeHtml(cs.buying_process)}</div>
+          <div><strong>Budget Cycle:</strong> ${escapeHtml(cs.budget_cycle)}</div>
+          <div style="margin-top: 10px;"><strong>Pain Points:</strong> ${cs.typical_pain_points.map(p => escapeHtml(p)).join(', ')}</div>
+          <div style="margin-top: 10px;"><strong>Key Initiatives:</strong> ${cs.key_initiatives.map(i => escapeHtml(i)).join(', ')}</div>
+        </div>
+      </div>`;
+    }
+
+    // Your Angle
+    if (brief.yourAngle) {
+      const ya = brief.yourAngle;
+      html += `<div class="deal-value-prop">
+        <div class="deal-section-title" style="margin-bottom: 8px;">🎯 Your Angle</div>
+        <div class="vp-primary">${escapeHtml(ya.primaryValue)}</div>
+        <div style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">ROI Story: ${escapeHtml(ya.roi_story)}</div>
+      </div>`;
+      if (ya.valueProps && ya.valueProps.length > 0) {
+        html += `<div class="deal-section" style="margin-bottom: 16px;">
+          <div class="deal-section-title">Value Propositions</div>`;
+        ya.valueProps.forEach(vp => {
+          html += `<div style="margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border);">
+            <div style="color: var(--teal-light); font-weight: 600; font-size: 13px; margin-bottom: 4px;">${escapeHtml(vp.prop)}</div>
+            <div style="font-size: 12px; color: var(--white); margin-bottom: 4px;"><strong>Evidence:</strong> ${escapeHtml(vp.evidence)}</div>
+            <div style="font-size: 12px; color: var(--muted);"><strong>Impact:</strong> ${escapeHtml(vp.businessImpact)}</div>
+          </div>`;
+        });
+        html += `</div>`;
       }
     }
 
-    stopFunLoader();
-    renderDealRoom(data, company);
-  } catch (err) {
-    stopFunLoader();
-    console.error('Generation error:', err);
-    showToast('❌ ' + (err.message || 'Error generating deal room'));
-    outputDiv.innerHTML = '<div class="error-msg">Error: ' + (err.message || 'Unknown error') + '</div>';
-  }
-}
-
-function renderDealRoom(data, company) {
-  const outputDiv = document.getElementById('output');
-  let html = '<div class="deal-room">';
-
-  // Company Snapshot
-  if (data.companySnapshot) {
-    const cs = data.companySnapshot;
-    html += `<div class="section-card">
-      <div class="section-title">🏢 Company Snapshot</div>
-      <div class="section-content">
-        <div class="snapshot-field">
-          <div class="field-label">Overview</div>
-          <div class="field-value">${escapeHtml(cs.description || '')}</div>
-        </div>
-        <div class="snapshot-field">
-          <div class="field-label">Industry</div>
-          <div class="field-value">${escapeHtml(cs.industry || '')}</div>
-        </div>
-        <div class="snapshot-field">
-          <div class="field-label">Company Size</div>
-          <div class="field-value">${escapeHtml(cs.size || '')}</div>
-        </div>
-        <div class="snapshot-field">
-          <div class="field-label">Revenue Range</div>
-          <div class="field-value">${escapeHtml(cs.revenueRange || '')}</div>
+    // Stakeholders
+    if (brief.stakeholderMap && brief.stakeholderMap.length > 0) {
+      html += `<div class="deal-section">
+        <div class="deal-section-title">👥 Stakeholder Map</div>
+        <div class="stakeholder-grid">`;
+      brief.stakeholderMap.forEach(sh => {
+        const roleColor = sh.role === 'Champion' ? 'rgba(5,150,105,0.2)' : (sh.role === 'Blocker' ? 'rgba(220,38,38,0.2)' : 'rgba(8,145,178,0.2)');
+        html += `<div class="stakeholder-card">
+          <div class="stakeholder-title">${escapeHtml(sh.title)}</div>
+          <span class="stakeholder-role">${sh.role}</span>
+          <div class="stakeholder-text"><strong>Motivation:</strong> ${escapeHtml(sh.motivation)}</div>
+          <div class="stakeholder-text" style="margin-top: 6px;"><strong>Approach:</strong> ${escapeHtml(sh.approach)}</div>
         </div>`;
-    if (cs.knownChallenges && cs.knownChallenges.length > 0) {
-      html += `<div class="snapshot-field">
-        <div class="field-label">Known Challenges</div>
-        <div class="challenge-list">`;
-      cs.knownChallenges.forEach(c => {
-        html += `<div class="challenge-item">${escapeHtml(c)}</div>`;
       });
       html += `</div></div>`;
     }
-    html += `</div></div>`;
-  }
 
-  // Why Now
-  if (data.whyNow) {
-    html += `<div class="section-card">
-      <div class="section-title">⏰ Why Now?</div>
-      <div class="field-value" style="margin:0;">${escapeHtml(data.whyNow).replace(/\n/g, '<br>')}</div>
-    </div>`;
-  }
-
-  // Decision Makers
-  if (data.decisionMakers && data.decisionMakers.length > 0) {
-    html += `<div class="section-card">
-      <div class="section-title">👥 Decision Makers to Target</div>
-      <div class="dm-list">`;
-    data.decisionMakers.forEach(dm => {
-      html += `<div class="dm-card">
-        <div class="dm-title">${escapeHtml(dm.title)}</div>
-        <div class="dm-subtitle">Name/Title: ${escapeHtml(dm.name)}</div>
-        <div class="dm-text"><strong>Motivation:</strong> ${escapeHtml(dm.motivation)}</div>
-        <div class="dm-text"><strong>Concerns:</strong> ${escapeHtml(dm.concerns)}</div>
-        <div class="dm-text"><strong>LinkedIn Search:</strong> <a href="https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent(dm.linkedinSearch)}" target="_blank" style="color:var(--teal-light);">${escapeHtml(dm.linkedinSearch)}</a></div>
-      </div>`;
-    });
-    html += `</div></div>`;
-  }
-
-  // Pitch Angles
-  if (data.pitchAngles && data.pitchAngles.length > 0) {
-    html += `<div class="section-card">
-      <div class="section-title">🎯 Pitch Angles</div>
-      <div class="section-content">`;
-    data.pitchAngles.forEach(pa => {
-      html += `<div class="pitch-angle">
-        <div class="pitch-title">${escapeHtml(pa.angle)}</div>
-        <div class="pitch-points" style="margin-bottom:6px;color:var(--muted);font-style:italic;">${escapeHtml(pa.explanation)}</div>
-        <div class="pitch-points">`;
-      (pa.talkingPoints || []).forEach(tp => {
-        html += `<div>• ${escapeHtml(tp)}</div>`;
+    // Objections
+    if (brief.objectionHandlers && brief.objectionHandlers.length > 0) {
+      html += `<div class="deal-section">
+        <div class="deal-section-title">⚔️ Objection Handlers</div>
+        <div class="objection-list">`;
+      brief.objectionHandlers.forEach((obj, idx) => {
+        html += `<div class="objection-item" onclick="this.classList.toggle('expanded')">
+          <div class="objection-header">
+            <div class="objection-text">${escapeHtml(obj.objection)}</div>
+            <div class="objection-toggle">▼</div>
+          </div>
+          <div class="objection-details">
+            <div class="objection-response"><strong>Response:</strong> ${escapeHtml(obj.response)}</div>
+            <div class="objection-followup"><strong>Follow-up:</strong> ${escapeHtml(obj.followUp)}</div>
+          </div>
+        </div>`;
       });
       html += `</div></div>`;
-    });
-    html += `</div></div>`;
-  }
+    }
 
-  // Objections
-  if (data.objections && data.objections.length > 0) {
-    html += `<div class="section-card">
-      <div class="section-title">🛡️ Objection Handlers</div>
-      <div class="section-content">`;
-    data.objections.forEach(obj => {
-      html += `<div class="objection-item">
-        <div class="objection-label">Objection: ${escapeHtml(obj.objection)}</div>
-        <div class="objection-text"><strong>Response:</strong> ${escapeHtml(obj.response)}</div>
-        <div class="objection-text"><strong>Follow-up:</strong> ${escapeHtml(obj.followUp)}</div>
+    // Competitive Threats
+    if (brief.competitiveThreats && brief.competitiveThreats.length > 0) {
+      html += `<div class="deal-section">
+        <div class="deal-section-title">🏆 Competitive Threats</div>`;
+      brief.competitiveThreats.forEach(t => {
+        html += `<div class="threat-item">
+          <div class="threat-competitor">⚠️ ${escapeHtml(t.competitor)}</div>
+          <div style="font-size: 12px; margin-top: 6px;"><strong>Their Strength:</strong> ${escapeHtml(t.theirStrength)}</div>
+          <div class="threat-counter"><strong>✓ Your Counter:</strong> ${escapeHtml(t.yourCounter)}</div>
+        </div>`;
+      });
+      html += `</div>`;
+    }
+
+    // Discovery Questions
+    if (brief.discoveryQuestions && brief.discoveryQuestions.length > 0) {
+      html += `<div class="deal-section">
+        <div class="deal-section-title">🔍 Discovery Questions</div>
+        <ol class="questions-list">`;
+      brief.discoveryQuestions.forEach(q => {
+        html += `<li>${escapeHtml(q)}</li>`;
+      });
+      html += `</ol></div>`;
+    }
+
+    // Next Actions
+    if (brief.nextActions && brief.nextActions.length > 0) {
+      html += `<div class="deal-section">
+        <div class="deal-section-title">✅ Next Actions</div>
+        <div class="action-checklist">`;
+      brief.nextActions.forEach((action, idx) => {
+        html += `<div class="action-item">
+          <div class="action-checkbox" onclick="this.classList.toggle('checked')"></div>
+          <div>
+            <div class="action-text"><strong>${escapeHtml(action.action)}</strong></div>
+            <div style="font-size: 11px; color: var(--muted); margin-top: 2px;">Owner: ${action.owner} • Timing: ${escapeHtml(action.timing)}</div>
+          </div>
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+
+    // Opening Email
+    if (brief.openingEmail) {
+      const oe = brief.openingEmail;
+      html += `<div class="deal-section">
+        <div class="deal-section-title">📧 Opening Email</div>
+        <div class="email-box">
+          <div class="email-subject">Subject: ${escapeHtml(oe.subject)}</div>
+          <div class="email-body">${escapeHtml(oe.body)}</div>
+        </div>
+        <button class="btn btn-teal" onclick="copyEmail()" style="width: 100%; justify-content: center;">📋 Copy Email</button>
       </div>`;
-    });
-    html += `</div></div>`;
-  }
+    }
 
-  // Competitive Threats
-  if (data.competitiveThreats && data.competitiveThreats.length > 0) {
-    html += `<div class="section-card">
-      <div class="section-title">⚔️ Competitive Analysis</div>
-      <div class="section-content">`;
-    data.competitiveThreats.forEach(ct => {
-      html += `<div class="competitive-item">
-        <div class="comp-label">Competitor: ${escapeHtml(ct.competitor)}</div>
-        <div class="comp-text"><strong>Their Strength:</strong> ${escapeHtml(ct.theirStrength)}</div>
-        <div class="comp-text"><strong>Our Counter:</strong> ${escapeHtml(ct.ourCounterMove)}</div>
-      </div>`;
-    });
-    html += `</div></div>`;
-  }
-
-  // Opening Email
-  if (data.openingEmail) {
-    html += `<div class="section-card">
-      <div class="section-title">✉️ Opening Email</div>
-      <div class="email-preview">
-        <div class="email-preview-subject">Subject: ${escapeHtml(data.openingEmail.subject)}</div>
-        <div class="email-preview-body">${escapeHtml(data.openingEmail.body).replace(/\n/g, '<br>')}</div>
-      </div>
-      <button class="btn btn-teal" onclick="copyEmail('${escapeHtml(data.openingEmail.subject).replace(/'/g, "\\'")}', '${escapeHtml(data.openingEmail.body).replace(/'/g, "\\'").replace(/\n/g, "\\n")}')">📋 Copy Email</button>
+    html += `<div style="margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+      <button class="btn btn-ghost" onclick="downloadBrief()">📥 Download Brief</button>
+      <button class="btn btn-amber" onclick="document.getElementById('inputCard').classList.remove('collapsed'); document.getElementById('company').focus();" style="margin-left: auto;">🔄 New Deal</button>
     </div>`;
+
+    container.innerHTML = html;
+    window._lastBrief = brief;
   }
 
-  html += '</div>';
-  outputDiv.innerHTML = html;
-  window._currentDealRoom = data;
-}
+  function escapeHtml(text) {
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return text.replace(/[&<>"']/g, m => map[m]);
+  }
 
-function copyEmail(subject, body) {
-  const text = `Subject: ${subject}\n\n${body}`;
-  navigator.clipboard.writeText(text).then(() => {
-    showToast('✓ Email copied to clipboard');
-  }).catch(() => {
-    showToast('❌ Failed to copy');
+  function copyEmail() {
+    if (!window._lastBrief || !window._lastBrief.openingEmail) return;
+    const oe = window._lastBrief.openingEmail;
+    const text = `Subject: ${oe.subject}\n\n${oe.body}`;
+    navigator.clipboard.writeText(text).then(() => alert('✓ Email copied to clipboard'));
+  }
+
+  function downloadBrief() {
+    if (!window._lastBrief) return;
+    const b = window._lastBrief;
+    let text = 'DEAL INTELLIGENCE BRIEF\n================================\n\n';
+    text += `COMPANY SNAPSHOT\n${JSON.stringify(b.companySnapshot, null, 2)}\n\n`;
+    text += `YOUR ANGLE\n${b.yourAngle.primaryValue}\n\n`;
+    text += `OPENING EMAIL\nSubject: ${b.openingEmail.subject}\n\n${b.openingEmail.body}\n\n`;
+    text += `DISCOVERY QUESTIONS\n${b.discoveryQuestions.map((q, i) => `${i+1}. ${q}`).join('\n')}`;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'deal-brief.txt';
+    link.click();
+  }
+
+  window.addEventListener('load', () => {
+    const saved = localStorage.getItem('gemini_key');
+    if (saved) {
+      document.getElementById('geminiKey').value = saved;
+      document.getElementById('apiCard').classList.add('collapsed');
+    }
   });
-}
-
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
-}
 </script>
 
 </body>
