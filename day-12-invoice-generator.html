@@ -840,6 +840,35 @@
         text-align: center;
       }
     }
+
+    @media print {
+      /* Hide everything except the document preview */
+      body * { visibility: hidden; }
+      #documentPreview, #documentPreview * { visibility: visible; }
+      #documentPreview {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 40px;
+        background: #fff !important;
+        color: #111 !important;
+        font-size: 11pt;
+      }
+      #documentPreview .document-header { border-bottom: 2px solid #111 !important; }
+      #documentPreview .document-company { color: #111 !important; }
+      #documentPreview .document-type { color: #333 !important; }
+      #documentPreview .document-meta-label { color: #555 !important; }
+      #documentPreview .document-meta-value { color: #111 !important; }
+      #documentPreview .document-party-name { color: #111 !important; }
+      #documentPreview .document-party-text { color: #555 !important; }
+      #documentPreview .document-section-title { color: #555 !important; }
+      #documentPreview table th { background: #f0f0f0 !important; color: #111 !important; }
+      #documentPreview table td { color: #111 !important; border-color: #ddd !important; }
+      #documentPreview .document-total-row.grand span { color: #111 !important; }
+      #documentPreview .document-footer { color: #555 !important; border-color: #ddd !important; }
+      @page { margin: 20mm; size: A4 portrait; }
+    }
   </style>
 </head>
 <body>
@@ -1168,6 +1197,7 @@
       <div class="document-view" id="documentPreview"></div>
       <div class="button-group" style="margin-top: 1.5rem;">
         <button class="btn btn-secondary" onclick="copyDocument()">📋 Copy</button>
+        <button class="btn btn-secondary" onclick="window.print()" style="background:rgba(245,158,11,0.15);border-color:rgba(245,158,11,0.4);color:#F59E0B;">🖨️ Print / Save PDF</button>
         <button class="btn btn-success" onclick="openSendModal()" id="sendBtn">✉️ Send via Outlook</button>
       </div>
     </div>
@@ -1790,6 +1820,101 @@ Thank you for your business. Questions? Contact ${senderEmail}
     }
   });
 </script>
+
+
+<!-- AIMERSION PROFILE WIDGET -->
+<div id="ap-widget"><button id="ap-chip" onclick="apOpenModal()">👤 Set Profile</button></div>
+<div id="ap-modal"><div id="ap-modal-box">
+  <div id="ap-modal-header"><span>Your Profile</span><button onclick="apCloseModal()">✕</button></div>
+  <p id="ap-modal-sub">Saved once — auto-fills name, company &amp; role across all 20 tools.</p>
+  <input id="ap-name" type="text" placeholder="Your full name" autocomplete="name">
+  <input id="ap-company" type="text" placeholder="Company name" autocomplete="organization">
+  <input id="ap-role" type="text" placeholder="Your role (e.g. VP of Sales)" autocomplete="organization-title">
+  <div id="ap-modal-btns">
+    <button id="ap-save-btn" onclick="apSave()">💾 Save Profile</button>
+    <button id="ap-cancel-btn" onclick="apCloseModal()">Cancel</button>
+  </div>
+</div></div>
+<style>
+#ap-widget{position:fixed;top:70px;right:16px;z-index:8888;pointer-events:auto;}
+#ap-chip{background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.28);color:#22D3EE;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;letter-spacing:.02em;}
+#ap-chip:hover{background:rgba(8,145,178,0.24);border-color:rgba(8,145,178,0.55);transform:translateY(-1px);}
+#ap-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);align-items:center;justify-content:center;}
+#ap-modal.open{display:flex;}
+#ap-modal-box{background:#162840;border:1px solid #2A4A70;border-radius:14px;padding:32px 32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
+#ap-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+#ap-modal-header span{color:#F0F7FF;font-size:18px;font-weight:700;font-family:inherit;}
+#ap-modal-header button{background:none;border:none;color:#8AAFD0;font-size:20px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
+#ap-modal-header button:hover{color:#F0F7FF;}
+#ap-modal-sub{color:#8AAFD0;font-size:13px;margin:0 0 20px;font-family:inherit;line-height:1.5;}
+#ap-name,#ap-company,#ap-role{display:block;width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .15s;}
+#ap-name:focus,#ap-company:focus,#ap-role:focus{border-color:#0891B2;box-shadow:0 0 0 3px rgba(8,145,178,0.15);}
+#ap-name::placeholder,#ap-company::placeholder,#ap-role::placeholder{color:#8AAFD0;}
+#ap-modal-btns{display:flex;gap:10px;margin-top:8px;}
+#ap-save-btn{flex:1;background:#0891B2;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
+#ap-save-btn:hover{background:#0EA5C9;}
+#ap-cancel-btn{background:#1A2F52;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
+#ap-cancel-btn:hover{border-color:#0891B2;color:#F0F7FF;}
+</style>
+<script>
+(function(){
+  var KEY='aimersion_profile';
+  function gp(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+  function updateChip(){
+    var p=gp(),chip=document.getElementById('ap-chip');
+    if(chip)chip.textContent=p.name?'\u{1F464} '+p.name.split(' ')[0]:'\u{1F464} Set Profile';
+  }
+  function applyProfile(){
+    var p=gp();
+    if(!p.name&&!p.company&&!p.role)return;
+    var fills={
+      yourName:p.name,managerName:p.name,fullName:p.name,senderName:p.name,authorName:p.name,
+      repName:p.name,yourFirstName:p.name.split(' ')[0],
+      companyName:p.company,businessName:p.company,yourCompany:p.company,senderCompany:p.company,
+      userRole:p.role,yourRole:p.role,senderTitle:p.role,roleTitle:p.role
+    };
+    Object.keys(fills).forEach(function(id){
+      var el=document.getElementById(id);
+      if(el&&fills[id]&&!el.value)el.value=fills[id];
+    });
+  }
+  window.apOpenModal=function(){
+    var p=gp();
+    document.getElementById('ap-name').value=p.name||'';
+    document.getElementById('ap-company').value=p.company||'';
+    document.getElementById('ap-role').value=p.role||'';
+    document.getElementById('ap-modal').classList.add('open');
+    setTimeout(function(){document.getElementById('ap-name').focus();},50);
+  };
+  window.apCloseModal=function(){document.getElementById('ap-modal').classList.remove('open');};
+  window.apSave=function(){
+    var p={
+      name:document.getElementById('ap-name').value.trim(),
+      company:document.getElementById('ap-company').value.trim(),
+      role:document.getElementById('ap-role').value.trim()
+    };
+    if(!p.name&&!p.company){return;}
+    localStorage.setItem(KEY,JSON.stringify(p));
+    apCloseModal();updateChip();applyProfile();
+    if(typeof showToast==='function')showToast('Profile saved ✓','success');
+  };
+  document.getElementById('ap-modal').addEventListener('click',function(e){if(e.target===this)apCloseModal();});
+  document.getElementById('ap-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-company').focus();});
+  document.getElementById('ap-company').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-role').focus();});
+  document.getElementById('ap-role').addEventListener('keydown',function(e){if(e.key==='Enter')apSave();});
+  updateChip();
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyProfile);}
+  else{setTimeout(applyProfile,100);}
+  var p=gp();
+  if(!p.name&&!sessionStorage.getItem('ap_nudged')){
+    sessionStorage.setItem('ap_nudged','1');
+    setTimeout(function(){
+      if(typeof showToast==='function')showToast('\u{1F464} Set your profile — auto-fills all 20 tools','info');
+    },2800);
+  }
+})();
+</script>
+<!-- END AIMERSION PROFILE WIDGET -->
 
 </body>
 </html>

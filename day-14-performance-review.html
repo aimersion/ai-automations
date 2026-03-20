@@ -512,23 +512,69 @@
     }
 
     .rating-banner {
-      background: var(--orange-dim);
       border: 2px solid var(--orange);
       border-radius: 12px;
-      padding: 24px;
-      margin-bottom: 32px;
+      padding: 24px 28px;
+      margin-bottom: 28px;
       text-align: center;
     }
-
-    .rating-banner h2 {
-      font-size: 28px;
-      color: var(--orange);
-      margin-bottom: 8px;
+    .rating-score {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      letter-spacing: -.02em;
     }
-
-    .rating-banner p {
+    .rating-label {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .rating-justification {
       color: var(--muted2);
       margin: 0;
+      font-style: italic;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Rich review sections */
+    .rv-section {
+      margin-bottom: 12px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.025);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--rv-color, #0891B2);
+      border-radius: 6px;
+    }
+    .rv-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--rv-color, #0891B2);
+      margin-bottom: 10px;
+    }
+    .rv-icon { font-size: 14px; }
+    .rv-bullet {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--muted2);
+      margin-bottom: 6px;
+      font-size: 13.5px;
+      line-height: 1.65;
+    }
+    .rv-dot { font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .rv-para {
+      color: var(--muted2);
+      margin: 0 0 6px;
+      font-size: 13.5px;
+      line-height: 1.7;
     }
 
     .email-body {
@@ -1184,31 +1230,146 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
       return parsed;
     }
 
+    function esc(s) {
+      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    const REVIEW_SECTION_META = {
+      'SUMMARY': { icon: '📝', color: '#0891B2' },
+      'ACCOMPLISHMENTS': { icon: '🏆', color: '#059669' },
+      'ACHIEVEMENTS': { icon: '🏆', color: '#059669' },
+      'KEY STRENGTHS': { icon: '💪', color: '#059669' },
+      'STRENGTHS': { icon: '💪', color: '#059669' },
+      'AREAS FOR GROWTH': { icon: '📈', color: '#F59E0B' },
+      'AREAS FOR IMPROVEMENT': { icon: '📈', color: '#F59E0B' },
+      'DEVELOPMENT': { icon: '📈', color: '#F59E0B' },
+      'GOALS': { icon: '🎯', color: '#0891B2' },
+      'NEXT STEPS': { icon: '🎯', color: '#0891B2' },
+      'MANAGER NOTES': { icon: '🔒', color: '#8B5CF6' },
+      'CONFIDENTIAL': { icon: '🔒', color: '#8B5CF6' },
+      'OVERALL': { icon: '⭐', color: '#F59E0B' },
+      'RECOMMENDATION': { icon: '✅', color: '#059669' },
+      'PERFORMANCE': { icon: '📊', color: '#0891B2' },
+      'IMPACT': { icon: '💥', color: '#EA580C' },
+      'COLLABORATION': { icon: '🤝', color: '#0891B2' },
+      'COMMUNICATION': { icon: '💬', color: '#0891B2' },
+      'LEADERSHIP': { icon: '🌟', color: '#F59E0B' },
+      'RELIABILITY': { icon: '🔄', color: '#0891B2' },
+    };
+
+    function getReviewSectionMeta(header) {
+      const up = header.toUpperCase();
+      for (const [key, meta] of Object.entries(REVIEW_SECTION_META)) {
+        if (up.includes(key)) return meta;
+      }
+      return { icon: '▸', color: '#8AAFD0' };
+    }
+
+    function formatReviewHTML(text) {
+      if (!text) return '<p style="color:#8AAFD0;font-style:italic;">No content generated.</p>';
+      const lines = text.split('\n');
+      let html = '';
+      let inSection = false;
+      let currentColor = '#8AAFD0';
+
+      lines.forEach(rawLine => {
+        const line = rawLine.trimEnd();
+        const trimmed = line.trim();
+
+        if (!trimmed) {
+          if (inSection) { html += '</div>'; inSection = false; }
+          return;
+        }
+
+        const isHeader = (
+          (/^[A-Z][A-Z\s&\/\-—:]+$/.test(trimmed) && trimmed.length > 3 && trimmed.length < 70) ||
+          (/^[A-Z][A-Za-z\s&\/\-—]+:$/.test(trimmed) && trimmed.length < 60)
+        );
+
+        if (isHeader) {
+          if (inSection) html += '</div>';
+          const label = trimmed.replace(/:$/, '');
+          const meta = getReviewSectionMeta(label);
+          currentColor = meta.color;
+          html += `<div class="rv-section" style="--rv-color:${meta.color}">
+            <div class="rv-header"><span class="rv-icon">${meta.icon}</span><span>${esc(label)}</span></div>`;
+          inSection = true;
+        }
+        // Arrow or bullet
+        else if (/^[→•\-\*]/.test(trimmed) || /^\d+[\.\)]/.test(trimmed)) {
+          const bulletText = trimmed.replace(/^[→•\-\*]\s*/, '').replace(/^\d+[\.\)]\s*/, '');
+          // Handle bolded key: description pattern (e.g. "Client Communication: Jordan builds...")
+          const colonIdx = bulletText.indexOf(': ');
+          if (colonIdx > 0 && colonIdx < 35) {
+            const key = bulletText.substring(0, colonIdx);
+            const desc = bulletText.substring(colonIdx + 2);
+            if (!inSection) { html += '<div class="rv-section" style="--rv-color:#8AAFD0">'; inSection = true; }
+            html += `<div class="rv-bullet"><span class="rv-dot" style="color:${currentColor}">→</span><span><strong style="color:${currentColor}">${esc(key)}:</strong> ${esc(desc)}</span></div>`;
+          } else {
+            if (!inSection) { html += '<div class="rv-section" style="--rv-color:#8AAFD0">'; inSection = true; }
+            html += `<div class="rv-bullet"><span class="rv-dot" style="color:${currentColor}">→</span><span>${esc(bulletText)}</span></div>`;
+          }
+        }
+        // Paragraph — handle "Key: Value" inline headers
+        else {
+          const colonIdx = trimmed.indexOf(': ');
+          if (!inSection) { html += '<div class="rv-section" style="--rv-color:#8AAFD0">'; inSection = true; }
+          if (colonIdx > 0 && colonIdx < 30 && /^[A-Z]/.test(trimmed)) {
+            const key = trimmed.substring(0, colonIdx);
+            const desc = trimmed.substring(colonIdx + 2);
+            html += `<p class="rv-para"><strong style="color:${currentColor}">${esc(key)}:</strong> ${esc(desc)}</p>`;
+          } else {
+            html += `<p class="rv-para">${esc(trimmed)}</p>`;
+          }
+        }
+      });
+
+      if (inSection) html += '</div>';
+      return html;
+    }
+
     function displayResults(data) {
       const employeeName = document.getElementById('employeeName').value;
       const rating = selectedRating;
       const ratingLabels = ['', 'Needs Improvement', 'Developing', 'Meets Expectations', 'Exceeds Expectations', 'Outstanding'];
+      const ratingColors = ['', '#DC2626', '#F59E0B', '#0891B2', '#059669', '#8B5CF6'];
+      const ratingIcons = ['', '⚠️', '📈', '✓', '⭐', '🏆'];
 
-      // Full Review
-      let fullHTML = `<div class="rating-banner">
-        <h2>${rating}/5 — ${ratingLabels[rating]}</h2>
-        <p>${document.getElementById('ratingJustification').value || 'Professional performance review'}</p>
+      // Full Review — rich HTML
+      const rColor = ratingColors[rating] || '#8AAFD0';
+      let fullHTML = `<div class="rating-banner" style="border-color:${rColor};background:linear-gradient(135deg,rgba(${rating>=4?'5,150,105':'245,158,11'},0.12),transparent);">
+        <div class="rating-score" style="color:${rColor}">${ratingIcons[rating]} ${rating}/5</div>
+        <div class="rating-label" style="color:${rColor}">${ratingLabels[rating]}</div>
+        <p class="rating-justification">${esc(document.getElementById('ratingJustification').value || 'Professional performance review')}</p>
       </div>`;
 
-      fullHTML += sanitizeText(data.fullReview || 'No full review generated');
+      fullHTML += formatReviewHTML(data.fullReview || '');
       document.getElementById('fullReviewContent').innerHTML = fullHTML;
 
       // Email
-      document.getElementById('emailSubject').value = sanitizeText(data.emailSubject || `Performance Review: ${employeeName}`);
-      document.getElementById('emailBody').textContent = sanitizeText(data.emailBody || 'No email body generated');
+      document.getElementById('emailSubject').value = data.emailSubject || `Performance Review: ${employeeName}`;
+      document.getElementById('emailBody').textContent = data.emailBody || '';
 
-      // Talking Points
-      let pointsHTML = '<div class="review-section"><ul>';
+      // Talking Points — styled list
       const points = (data.talkingPoints || '').split('\n').filter(p => p.trim());
-      points.forEach(point => {
-        pointsHTML += '<li>' + sanitizeText(point.replace(/^[-•*]\s*/, '')) + '</li>';
+      let pointsHTML = '<div style="display:flex;flex-direction:column;gap:10px;">';
+      points.forEach((point, i) => {
+        const clean = point.replace(/^[-•*→]\s*/, '').replace(/^\d+[\.\)]\s*/, '');
+        const colonIdx = clean.indexOf(': ');
+        let content = '';
+        if (colonIdx > 0 && colonIdx < 40) {
+          const title = clean.substring(0, colonIdx);
+          const desc = clean.substring(colonIdx + 2);
+          content = `<strong style="color:#22D3EE">${esc(title)}:</strong> ${esc(desc)}`;
+        } else {
+          content = esc(clean);
+        }
+        pointsHTML += `<div style="display:flex;gap:12px;padding:12px 14px;background:rgba(8,145,178,0.07);border:1px solid rgba(8,145,178,0.2);border-left:3px solid #0891B2;border-radius:6px;font-size:14px;line-height:1.6;color:#F0F7FF;">
+          <span style="color:#0891B2;font-weight:700;font-size:12px;flex-shrink:0;margin-top:2px;">${String(i+1).padStart(2,'0')}</span>
+          <span>${content}</span>
+        </div>`;
       });
-      pointsHTML += '</ul></div>';
+      pointsHTML += '</div>';
       document.getElementById('talkingPointsContent').innerHTML = pointsHTML;
     }
 
@@ -1222,12 +1383,9 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
       const temp = document.createElement('div');
       temp.textContent = html;
       let safe = temp.innerHTML;
-
-      // Convert common patterns to safe HTML
       safe = safe.replace(/\n\n/g, '</p><p>');
       safe = safe.replace(/^(.+)$/gm, '<p>$1</p>');
       safe = safe.replace(/<p><\/p>/g, '');
-
       return safe;
     }
 
@@ -1349,5 +1507,100 @@ Close on the growth path: "Based on this year, you have a real shot at a senior 
       window.scrollTo({ top: document.getElementById('outputSection').offsetTop - 100, behavior: 'smooth' });
     }
   </script>
+
+<!-- AIMERSION PROFILE WIDGET -->
+<div id="ap-widget"><button id="ap-chip" onclick="apOpenModal()">👤 Set Profile</button></div>
+<div id="ap-modal"><div id="ap-modal-box">
+  <div id="ap-modal-header"><span>Your Profile</span><button onclick="apCloseModal()">✕</button></div>
+  <p id="ap-modal-sub">Saved once — auto-fills name, company &amp; role across all 20 tools.</p>
+  <input id="ap-name" type="text" placeholder="Your full name" autocomplete="name">
+  <input id="ap-company" type="text" placeholder="Company name" autocomplete="organization">
+  <input id="ap-role" type="text" placeholder="Your role (e.g. VP of Sales)" autocomplete="organization-title">
+  <div id="ap-modal-btns">
+    <button id="ap-save-btn" onclick="apSave()">💾 Save Profile</button>
+    <button id="ap-cancel-btn" onclick="apCloseModal()">Cancel</button>
+  </div>
+</div></div>
+<style>
+#ap-widget{position:fixed;top:70px;right:16px;z-index:8888;pointer-events:auto;}
+#ap-chip{background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.28);color:#22D3EE;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;letter-spacing:.02em;}
+#ap-chip:hover{background:rgba(8,145,178,0.24);border-color:rgba(8,145,178,0.55);transform:translateY(-1px);}
+#ap-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);align-items:center;justify-content:center;}
+#ap-modal.open{display:flex;}
+#ap-modal-box{background:#162840;border:1px solid #2A4A70;border-radius:14px;padding:32px 32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
+#ap-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+#ap-modal-header span{color:#F0F7FF;font-size:18px;font-weight:700;font-family:inherit;}
+#ap-modal-header button{background:none;border:none;color:#8AAFD0;font-size:20px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
+#ap-modal-header button:hover{color:#F0F7FF;}
+#ap-modal-sub{color:#8AAFD0;font-size:13px;margin:0 0 20px;font-family:inherit;line-height:1.5;}
+#ap-name,#ap-company,#ap-role{display:block;width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .15s;}
+#ap-name:focus,#ap-company:focus,#ap-role:focus{border-color:#0891B2;box-shadow:0 0 0 3px rgba(8,145,178,0.15);}
+#ap-name::placeholder,#ap-company::placeholder,#ap-role::placeholder{color:#8AAFD0;}
+#ap-modal-btns{display:flex;gap:10px;margin-top:8px;}
+#ap-save-btn{flex:1;background:#0891B2;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
+#ap-save-btn:hover{background:#0EA5C9;}
+#ap-cancel-btn{background:#1A2F52;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
+#ap-cancel-btn:hover{border-color:#0891B2;color:#F0F7FF;}
+</style>
+<script>
+(function(){
+  var KEY='aimersion_profile';
+  function gp(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+  function updateChip(){
+    var p=gp(),chip=document.getElementById('ap-chip');
+    if(chip)chip.textContent=p.name?'\u{1F464} '+p.name.split(' ')[0]:'\u{1F464} Set Profile';
+  }
+  function applyProfile(){
+    var p=gp();
+    if(!p.name&&!p.company&&!p.role)return;
+    var fills={
+      yourName:p.name,managerName:p.name,fullName:p.name,senderName:p.name,authorName:p.name,
+      repName:p.name,yourFirstName:p.name.split(' ')[0],
+      companyName:p.company,businessName:p.company,yourCompany:p.company,senderCompany:p.company,
+      userRole:p.role,yourRole:p.role,senderTitle:p.role,roleTitle:p.role
+    };
+    Object.keys(fills).forEach(function(id){
+      var el=document.getElementById(id);
+      if(el&&fills[id]&&!el.value)el.value=fills[id];
+    });
+  }
+  window.apOpenModal=function(){
+    var p=gp();
+    document.getElementById('ap-name').value=p.name||'';
+    document.getElementById('ap-company').value=p.company||'';
+    document.getElementById('ap-role').value=p.role||'';
+    document.getElementById('ap-modal').classList.add('open');
+    setTimeout(function(){document.getElementById('ap-name').focus();},50);
+  };
+  window.apCloseModal=function(){document.getElementById('ap-modal').classList.remove('open');};
+  window.apSave=function(){
+    var p={
+      name:document.getElementById('ap-name').value.trim(),
+      company:document.getElementById('ap-company').value.trim(),
+      role:document.getElementById('ap-role').value.trim()
+    };
+    if(!p.name&&!p.company){return;}
+    localStorage.setItem(KEY,JSON.stringify(p));
+    apCloseModal();updateChip();applyProfile();
+    if(typeof showToast==='function')showToast('Profile saved ✓','success');
+  };
+  document.getElementById('ap-modal').addEventListener('click',function(e){if(e.target===this)apCloseModal();});
+  document.getElementById('ap-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-company').focus();});
+  document.getElementById('ap-company').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-role').focus();});
+  document.getElementById('ap-role').addEventListener('keydown',function(e){if(e.key==='Enter')apSave();});
+  updateChip();
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyProfile);}
+  else{setTimeout(applyProfile,100);}
+  var p=gp();
+  if(!p.name&&!sessionStorage.getItem('ap_nudged')){
+    sessionStorage.setItem('ap_nudged','1');
+    setTimeout(function(){
+      if(typeof showToast==='function')showToast('\u{1F464} Set your profile — auto-fills all 20 tools','info');
+    },2800);
+  }
+})();
+</script>
+<!-- END AIMERSION PROFILE WIDGET -->
+
 </body>
 </html>
