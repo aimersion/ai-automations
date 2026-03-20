@@ -999,6 +999,12 @@
     async function init() {
       await initMsal();
       updateConnectButton();
+      // Pre-fill page-level API key input from localStorage
+      const savedKey = localStorage.getItem('gemini_key');
+      if (savedKey) {
+        const el = document.getElementById('geminiKey');
+        if (el && !el.value) el.value = savedKey;
+      }
     }
 
     async function initMsal() {

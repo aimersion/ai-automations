@@ -654,7 +654,10 @@ Reply to your welcome email or fill this out at: [your intake form link]`
         <div class="onboard-block" id="tab-email">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
             <div class="onboard-block-title" style="color:var(--orange);margin-bottom:0">📧 Welcome Email</div>
-            <button class="copy-section-btn" onclick="copySection('email')">Copy Email</button>
+            <div style="display:flex;gap:6px;">
+              <button class="copy-section-btn" onclick="copySection('email')">Copy Email</button>
+              <button class="copy-section-btn" onclick="openMailto07()" style="border-color:var(--teal);color:var(--teal);">✉️ Open in Email App</button>
+            </div>
           </div>
           <div class="email-preview">${escapeHtml(sections.email)}</div>
         </div>`;
@@ -689,6 +692,17 @@ Reply to your welcome email or fill this out at: [your intake form link]`
 
     function copySection(key) {
       if (_tabs[key]) navigator.clipboard.writeText(_tabs[key]).then(() => showToast('✓ Copied!', '#059669'));
+    }
+
+    function openMailto07() {
+      if (!_tabs || !_tabs.email) return;
+      const lines = _tabs.email.split('\n');
+      const subjectLine = lines.find(l => /^subject:/i.test(l.trim()));
+      const subject = subjectLine ? subjectLine.replace(/^subject:\s*/i, '').trim() : 'Welcome!';
+      const body = subjectLine
+        ? lines.filter(l => l !== subjectLine).join('\n').replace(/^\n+/, '')
+        : _tabs.email;
+      window.location.href = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     }
 
     // ─── Real API Call ────────────────────────────────────
