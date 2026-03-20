@@ -19,11 +19,28 @@
   <div class="spinner"></div>
   <div>Completing sign-in…</div>
 </div>
-<!-- 
-  This page is the redirect URI for MSAL popup flow.
-  The MSAL library above handles the popup callback automatically —
-  it detects the auth response in the URL hash/params, sends it back
-  to the parent window, and closes this popup. No explicit JS needed.
--->
+<script>
+// Redirect URI page for MSAL 2.x popup flow.
+// initialize() processes the auth hash and sends the token back to
+// the parent window automatically. Do NOT call handleRedirectPromise()
+// here — that's for full-page redirect flow and will break popup flow.
+(async function() {
+  try {
+    const msalInstance = new msal.PublicClientApplication({
+      auth: {
+        clientId: '0bd4af4c-6b02-481f-8c36-b2899333f44d',
+        authority: 'https://login.microsoftonline.com/common',
+        redirectUri: window.location.href.split('?')[0].split('#')[0]
+      },
+      cache: { cacheLocation: 'sessionStorage' }
+    });
+    await msalInstance.initialize();
+    // initialize() handles the popup response automatically —
+    // the popup closes on its own after this completes.
+  } catch(e) {
+    console.warn('auth.html:', e.message);
+  }
+})();
+</script>
 </body>
 </html>
