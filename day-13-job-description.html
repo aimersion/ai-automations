@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com https://connect.facebook.net https://snap.licdn.com https://static.ads-twitter.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src https:;">
+  <title>Job Description Writer — Free AI Tool | Aimersion Day 13</title>
+  <meta name="description" content="Generate a complete, compelling job description in 30 seconds. Role, skills, culture, comp — AI writes the full JD ready to post or send. Free.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimersion.github.io/ai-automations/day-13-job-description.html">
+  <meta property="og:title" content="Job Description Writer — Free AI Tool (Day 13 of 20)">
+  <meta property="og:description" content="Stop writing JDs from scratch. Role, skills, culture — AI writes a complete, compelling job description in 30 seconds. Free.">
+  <meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@aimersion">
+  <meta name="twitter:title" content="Job Description Writer — Free AI Tool (Day 13 of 20)">
+  <meta name="twitter:description" content="Stop writing JDs from scratch. Generate a complete job description in 30 seconds. Free.">
+  <meta name="twitter:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-69LQQBX0C1');</script>
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','876506382017154');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
+  <script type="text/javascript">_linkedin_partner_id="514319631";window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];window._linkedin_data_partner_ids.push(_linkedin_partner_id);</script>
+  <script type="text/javascript">(function(l){if(!l){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[]}var s=document.getElementsByTagName("script")[0];var b=document.createElement("script");b.type="text/javascript";b.async=true;b.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";s.parentNode.insertBefore(b,s);})(window.lintrk);</script>
+  <noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif"/></noscript>
+  <script>!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');twq('config','tw-r848k-r848k');</script>
+
+  <style>
+    :root {
+      --bg: #080E1A;
+      --surface: #0F1829;
+      --surface2: #152035;
+      --border: #1E3050;
+      --border-bright: #2A4A70;
+      --orange: #EA580C;
+      --orange-dim: rgba(234, 88, 12, 0.12);
+      --orange-glow: rgba(234, 88, 12, 0.3);
+      --teal: #06B6D4;
+      --teal-dim: rgba(6, 182, 212, 0.12);
+      --amber: #F59E0B;
+      --amber-dim: rgba(245, 158, 11, 0.12);
+      --green: #10B981;
+      --green-dim: rgba(16, 185, 129, 0.12);
+      --red: #EF4444;
+      --red-dim: rgba(239, 68, 68, 0.12);
+      --white: #F1F5F9;
+      --muted: #64748B;
+      --muted2: #94A3B8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--white);
+      line-height: 1.6;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(8, 14, 26, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    header a {
+      color: var(--teal);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    header a:hover {
+      color: var(--white);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--orange-dim);
+      color: var(--orange);
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      line-height: 1.1;
+    }
+
+    h1 span {
+      color: var(--orange);
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+      color: var(--muted2);
+      margin-bottom: 2rem;
+      max-width: 700px;
+      line-height: 1.7;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--orange);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card h3 {
+      font-size: 1rem;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+      color: var(--white);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+      color: var(--muted2);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select,
+    textarea {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--white);
+      padding: 0.75rem;
+      border-radius: 0.375rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+      background: var(--surface2);
+      box-shadow: 0 0 0 3px var(--orange-dim);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      background: var(--orange);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    button:hover {
+      background: #D94C04;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(234, 88, 12, 0.3);
+    }
+
+    button:disabled {
+      background: var(--muted);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .button-secondary {
+      background: var(--surface2);
+      color: var(--white);
+      border: 1px solid var(--border);
+    }
+
+    .button-secondary:hover {
+      background: var(--border);
+      box-shadow: none;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+
+    .api-key-section {
+      background: var(--orange-dim);
+      border: 1px solid var(--orange);
+      padding: 1rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+    }
+
+    .api-key-section input {
+      background: var(--surface);
+    }
+
+    .collapsible-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .collapse-icon {
+      transition: transform 0.2s;
+    }
+
+    .collapse-icon.open {
+      transform: rotate(180deg);
+    }
+
+    .collapsible-content {
+      display: none;
+      padding-top: 1rem;
+    }
+
+    .collapsible-content.open {
+      display: block;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 1rem 1.5rem;
+      background: none;
+      border: none;
+      color: var(--muted2);
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab:hover {
+      color: var(--white);
+      background: var(--surface2);
+    }
+
+    .tab.active {
+      color: var(--orange);
+      border-bottom-color: var(--orange);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .output-section {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      border-radius: 0.375rem;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      max-height: 600px;
+      overflow-y: auto;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .word-count {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--green);
+      color: var(--white);
+      padding: 1rem 1.5rem;
+      border-radius: 0.375rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      animation: slideIn 0.3s ease-out;
+      z-index: 200;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(100px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .error {
+      background: var(--red-dim);
+      border: 1px solid var(--red);
+      color: var(--white);
+      padding: 1rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    footer a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    footer a:hover {
+      color: var(--white);
+    }
+
+    .empty-footer {
+      visibility: hidden;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+
+      .card {
+        padding: 1rem;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        flex-wrap: wrap;
+      }
+
+      footer {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html">← All Tools</a>
+  </header>
+
+  <div class="container">
+    <div class="badge">DAY 13 OF 20</div>
+    <h1>Job Description <span>Writer</span></h1>
+    <p class="tagline">Every open role gets the same JD written from scratch. Paste the role details once — get a complete, compelling job description ready to post in 30 seconds.</p>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">30 sec</div>
+        <div class="stat-label">Generate Time</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">4</div>
+        <div class="stat-label">Output Formats</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">Free</div>
+        <div class="stat-label">Forever</div>
+      </div>
+    </div>
+
+    <!-- API Key Card -->
+    <div class="card">
+      <div class="collapsible-header" onclick="toggleCollapsible(event, 'api-key-content')">
+        <h2 style="margin-bottom: 0;">🔑 Gemini API Key</h2>
+        <span class="collapse-icon">▼</span>
+      </div>
+      <div id="api-key-content" class="collapsible-content">
+        <p style="color: var(--muted2); font-size: 0.9rem; margin-bottom: 1rem;">Get your free Gemini API key from <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--teal);">aistudio.google.com</a>. It's free for up to 15 requests per minute.</p>
+        <div class="api-key-section">
+          <div class="form-group">
+            <label for="gemini-key">Paste your Gemini API key here</label>
+            <input type="password" id="gemini-key" placeholder="AIzaSy...">
+            <small style="color: var(--muted); margin-top: 0.4rem;">Your key is stored locally in your browser only. Never sent to a server.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Role Details Card -->
+    <div class="card">
+      <h2>Role Details</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="job-title">Job Title *</label>
+          <input type="text" id="job-title" placeholder="e.g. Senior Account Executive">
+        </div>
+        <div class="form-group">
+          <label for="department">Department</label>
+          <input type="text" id="department" placeholder="e.g. Sales, Engineering">
+        </div>
+        <div class="form-group">
+          <label for="company-name">Company Name</label>
+          <input type="text" id="company-name" placeholder="e.g. Ridgeline Tech">
+        </div>
+        <div class="form-group">
+          <label for="employment-type">Employment Type</label>
+          <select id="employment-type">
+            <option value="">Select one</option>
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Contract">Contract</option>
+            <option value="Freelance">Freelance</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" id="location" placeholder="e.g. Austin TX (Hybrid)">
+        </div>
+        <div class="form-group">
+          <label for="reports-to">Reports To</label>
+          <input type="text" id="reports-to" placeholder="e.g. VP of Sales">
+        </div>
+      </div>
+    </div>
+
+    <!-- What They'll Do Card -->
+    <div class="card">
+      <h2>What They'll Do</h2>
+      <div class="form-group">
+        <label for="responsibilities">Key Responsibilities *</label>
+        <textarea id="responsibilities" placeholder="List 4-6 main responsibilities, one per line&#10;e.g.&#10;Define and own the growth roadmap&#10;Lead cross-functional squads&#10;Run A/B experiments"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="must-have-skills">Must-Have Skills *</label>
+        <textarea id="must-have-skills" placeholder="Required skills and experience, one per line&#10;e.g.&#10;5+ years product management&#10;Experience with B2B SaaS&#10;Data analysis skills"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="nice-to-have">Nice-to-Have Skills</label>
+        <textarea id="nice-to-have" placeholder="Preferred but not required, one per line"></textarea>
+      </div>
+    </div>
+
+    <!-- Company & Culture Card -->
+    <div class="card">
+      <h2>Company & Culture</h2>
+      <div class="form-group">
+        <label for="company-description">Company Description *</label>
+        <textarea id="company-description" placeholder="2-3 sentences about what your company does and why it matters"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="culture-keywords">Culture Keywords</label>
+        <input type="text" id="culture-keywords" placeholder="e.g. fast-paced, collaborative, async-first, mission-driven">
+      </div>
+      <div class="form-group">
+        <label for="tone">Tone</label>
+        <select id="tone">
+          <option value="">Select one</option>
+          <option value="Professional & Formal">Professional & Formal</option>
+          <option value="Conversational & Warm">Conversational & Warm</option>
+          <option value="Bold & Direct">Bold & Direct</option>
+          <option value="Creative & Energetic">Creative & Energetic</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Compensation Card -->
+    <div class="card">
+      <h2>Compensation (Optional)</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="salary-range">Salary Range</label>
+          <input type="text" id="salary-range" placeholder="e.g. $80,000–$100,000">
+        </div>
+        <div class="form-group">
+          <label for="equity">Equity</label>
+          <input type="text" id="equity" placeholder="e.g. 0.1–0.5% options">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="benefits">Benefits Highlights</label>
+        <textarea id="benefits" placeholder="e.g. unlimited PTO, full remote, $2k learning budget" style="min-height: 60px;"></textarea>
+      </div>
+    </div>
+
+    <!-- Run Section -->
+    <div class="button-group">
+      <button onclick="generateJD()" style="background: var(--orange); padding: 1rem 2rem; font-size: 1rem;">✍️ Generate Job Description</button>
+      <button onclick="runDemo()" class="button-secondary" style="padding: 1rem 2rem; font-size: 1rem;">▶ Run Demo</button>
+    </div>
+
+    <div id="error-container"></div>
+
+    <!-- Output Section -->
+    <div id="output-container" style="display: none; margin-top: 3rem;">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('full-jd')">Full JD</button>
+        <button class="tab" onclick="switchTab('linkedin')">LinkedIn Version</button>
+        <button class="tab" onclick="switchTab('email')">Email to Candidate</button>
+        <button class="tab" onclick="switchTab('brief')">Internal Brief</button>
+      </div>
+
+      <div id="full-jd" class="tab-content active">
+        <div class="output-header">
+          <div></div>
+          <div class="word-count" id="word-count-full"></div>
+          <button onclick="copyToClipboard('full-jd-output')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📋 Copy</button>
+        </div>
+        <div id="full-jd-output" class="output-section"></div>
+        <button onclick="sendViaOutlook()" style="margin-top: 1rem;">📧 Send via Outlook</button>
+      </div>
+
+      <div id="linkedin" class="tab-content">
+        <div class="output-header">
+          <div></div>
+          <button onclick="copyToClipboard('linkedin-output')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📋 Copy</button>
+        </div>
+        <div id="linkedin-output" class="output-section"></div>
+      </div>
+
+      <div id="email" class="tab-content">
+        <div class="output-header">
+          <div></div>
+          <button onclick="copyToClipboard('email-output')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📋 Copy</button>
+        </div>
+        <div id="email-output" class="output-section"></div>
+      </div>
+
+      <div id="brief" class="tab-content">
+        <div class="output-header">
+          <div></div>
+          <button onclick="copyToClipboard('brief-output')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📋 Copy</button>
+        </div>
+        <div id="brief-output" class="output-section"></div>
+      </div>
+
+      <button onclick="regenerateJD()" style="margin-top: 1.5rem; background: var(--teal);">🔄 Regenerate</button>
+    </div>
+  </div>
+
+  <footer>
+    <a href="day-12-invoice-generator.html">← Day 12: Invoice Generator</a>
+    <a href="day-14-performance-review.html" class="empty-footer">Day 14: Performance Review Writer →</a>
+  </footer>
+
+  <script>
+    function sanitizeHTML(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    const LOADING_MESSAGES = [
+      'Crafting a JD candidates will actually read...',
+      'Making the role sound irresistible...',
+      'Filtering out the buzzwords...',
+      'Writing a JD that actually attracts talent...'
+    ];
+
+    let lastInputs = null;
+
+    function toggleCollapsible(event, contentId) {
+      const content = document.getElementById(contentId);
+      const icon = event.currentTarget.querySelector('.collapse-icon');
+      content.classList.toggle('open');
+      icon.classList.toggle('open');
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById(tabName).classList.add('active');
+    }
+
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Copied to clipboard');
+      });
+    }
+
+    function countWords(text) {
+      return text.trim().split(/\s+/).length;
+    }
+
+    function showLoading() {
+      const randomMsg = LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)];
+      document.getElementById('output-container').style.display = 'block';
+      document.getElementById('full-jd-output').innerHTML = `<div class="loading">${sanitizeHTML(randomMsg)}</div>`;
+      document.getElementById('linkedin-output').innerHTML = `<div class="loading">${sanitizeHTML(randomMsg)}</div>`;
+      document.getElementById('email-output').innerHTML = `<div class="loading">${sanitizeHTML(randomMsg)}</div>`;
+      document.getElementById('brief-output').innerHTML = `<div class="loading">${sanitizeHTML(randomMsg)}</div>`;
+    }
+
+    function showError(message) {
+      const errorDiv = document.getElementById('error-container');
+      errorDiv.innerHTML = `<div class="error">${sanitizeHTML(message)}</div>`;
+    }
+
+    function clearError() {
+      document.getElementById('error-container').innerHTML = '';
+    }
+
+    function getInputs() {
+      return {
+        jobTitle: document.getElementById('job-title').value,
+        department: document.getElementById('department').value,
+        companyName: document.getElementById('company-name').value,
+        employmentType: document.getElementById('employment-type').value,
+        location: document.getElementById('location').value,
+        reportsTo: document.getElementById('reports-to').value,
+        responsibilities: document.getElementById('responsibilities').value,
+        mustHaveSkills: document.getElementById('must-have-skills').value,
+        niceToHave: document.getElementById('nice-to-have').value,
+        companyDescription: document.getElementById('company-description').value,
+        cultureKeywords: document.getElementById('culture-keywords').value,
+        tone: document.getElementById('tone').value,
+        salaryRange: document.getElementById('salary-range').value,
+        equity: document.getElementById('equity').value,
+        benefits: document.getElementById('benefits').value
+      };
+    }
+
+    function setInputs(inputs) {
+      document.getElementById('job-title').value = inputs.jobTitle;
+      document.getElementById('department').value = inputs.department;
+      document.getElementById('company-name').value = inputs.companyName;
+      document.getElementById('employment-type').value = inputs.employmentType;
+      document.getElementById('location').value = inputs.location;
+      document.getElementById('reports-to').value = inputs.reportsTo;
+      document.getElementById('responsibilities').value = inputs.responsibilities;
+      document.getElementById('must-have-skills').value = inputs.mustHaveSkills;
+      document.getElementById('nice-to-have').value = inputs.niceToHave;
+      document.getElementById('company-description').value = inputs.companyDescription;
+      document.getElementById('culture-keywords').value = inputs.cultureKeywords;
+      document.getElementById('tone').value = inputs.tone;
+      document.getElementById('salary-range').value = inputs.salaryRange;
+      document.getElementById('equity').value = inputs.equity;
+      document.getElementById('benefits').value = inputs.benefits;
+    }
+
+    function runDemo() {
+      const demoInputs = {
+        jobTitle: 'Senior Product Manager — Growth',
+        department: 'Sales & Product',
+        companyName: 'Meridian Analytics',
+        employmentType: 'Full-time',
+        location: 'Austin, TX (Hybrid 3 days/week)',
+        reportsTo: 'VP of Product',
+        responsibilities: 'Define and own the growth roadmap\nLead cross-functional squads of engineers and designers\nDefine success metrics and run A/B experiments\nTranslate customer research into product decisions\nPresent roadmap and results to executive team',
+        mustHaveSkills: '5+ years product management\nExperience with B2B SaaS growth\nStrong data analysis skills (SQL a plus)\nTrack record of shipping products on time',
+        niceToHave: 'Experience with PLG models\nStartup background',
+        companyDescription: 'Meridian Analytics helps mid-market operations teams turn their data into decisions. We\'re 60 people, growing 40% YoY, and building AI tools that actually get used.',
+        cultureKeywords: 'direct, high-trust, fast-moving, outcome-focused',
+        tone: 'Bold & Direct',
+        salaryRange: '$130,000–$160,000',
+        equity: '0.1–0.3% options (4yr vest)',
+        benefits: 'Full remote, $3,000 annual learning budget, top-tier health coverage'
+      };
+      setInputs(demoInputs);
+      generateJD();
+    }
+
+    async function generateJD() {
+      clearError();
+      const inputs = getInputs();
+      lastInputs = inputs;
+
+      if (!inputs.jobTitle.trim()) {
+        showError('Please enter a Job Title.');
+        return;
+      }
+
+      if (!inputs.responsibilities.trim()) {
+        showError('Please enter Key Responsibilities.');
+        return;
+      }
+
+      if (!inputs.mustHaveSkills.trim()) {
+        showError('Please enter Must-Have Skills.');
+        return;
+      }
+
+      if (!inputs.companyDescription.trim()) {
+        showError('Please enter Company Description.');
+        return;
+      }
+
+      const apiKey = localStorage.getItem('gemini_key') || document.getElementById('gemini-key').value;
+
+      if (!apiKey || !apiKey.trim()) {
+        showError('Please enter your Gemini API key.');
+        return;
+      }
+
+      if (apiKey.trim()) {
+        localStorage.setItem('gemini_key', apiKey.trim());
+      }
+
+      showLoading();
+
+      const prompt = buildPrompt(inputs);
+
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${encodeURIComponent(apiKey)}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              generationConfig: { temperature: 0.8, maxOutputTokens: 4000 }
+            })
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts && data.candidates[0].content.parts[0]) {
+          const content = data.candidates[0].content.parts[0].text;
+          parseAndDisplayOutput(content, inputs);
+        } else {
+          showError('Unexpected API response.');
+        }
+      } catch (error) {
+        showError(`Error generating JD: ${error.message}`);
+      }
+    }
+
+    function buildPrompt(inputs) {
+      let prompt = `You are an expert recruiter and hiring manager writing compelling job descriptions. Create 4 different versions of a job description based on this information:
+
+Job Title: ${inputs.jobTitle}
+Department: ${inputs.department || 'N/A'}
+Company: ${inputs.companyName || 'N/A'}
+Employment Type: ${inputs.employmentType || 'N/A'}
+Location: ${inputs.location || 'N/A'}
+Reports To: ${inputs.reportsTo || 'N/A'}
+
+Key Responsibilities:
+${inputs.responsibilities}
+
+Must-Have Skills:
+${inputs.mustHaveSkills}
+
+${inputs.niceToHave ? `Nice-to-Have Skills:\n${inputs.niceToHave}\n` : ''}
+Company Description:
+${inputs.companyDescription}
+
+Culture Keywords: ${inputs.cultureKeywords || 'N/A'}
+Tone: ${inputs.tone || 'Professional'}
+
+${inputs.salaryRange ? `Salary Range: ${inputs.salaryRange}` : ''}
+${inputs.equity ? `Equity: ${inputs.equity}` : ''}
+${inputs.benefits ? `Benefits: ${inputs.benefits}` : ''}
+
+Please generate exactly 4 versions separated by "===" dividers:
+
+1. FULL JD (400-600 words): A complete, engaging job description for company websites or job boards. Include sections: About the Role, What You'll Do, What You Bring, Nice to Have, About Us, Compensation, Why Join Us. Make it compelling and specific.
+
+2. LINKEDIN VERSION (max 2000 chars): Condensed version for LinkedIn job posting. Punchy, highlight only the most compelling parts. No excessive formatting.
+
+3. EMAIL TO CANDIDATE (as a professional email body): Subject line at the top, then the email body as a short, personalized outreach email to passive candidates about this role.
+
+4. INTERNAL BRIEF (1-2 pages): A hiring brief for the interview panel. Include: Role Overview, What We're Looking For, Why This Role Matters, Red Flags to Screen For, Ideal Candidate Profile, Compensation & Benefits Summary.
+
+Format each section clearly with section headers. Use professional, engaging language. Vary the tone based on the tone parameter provided.`;
+
+      return prompt;
+    }
+
+    function parseAndDisplayOutput(content, inputs) {
+      const sections = content.split(/===\s*/);
+
+      let fullJD = '';
+      let linkedIn = '';
+      let email = '';
+      let brief = '';
+
+      if (sections.length >= 4) {
+        fullJD = sections[1] ? sections[1].trim() : '';
+        linkedIn = sections[2] ? sections[2].trim() : '';
+        email = sections[3] ? sections[3].trim() : '';
+        brief = sections[4] ? sections[4].trim() : '';
+      } else {
+        fullJD = content;
+        linkedIn = content;
+        email = content;
+        brief = content;
+      }
+
+      document.getElementById('full-jd-output').textContent = fullJD;
+      document.getElementById('linkedin-output').textContent = linkedIn;
+      document.getElementById('email-output').textContent = email;
+      document.getElementById('brief-output').textContent = brief;
+
+      const wordCount = countWords(fullJD);
+      const status = wordCount >= 400 && wordCount <= 600 ? '✓' : '';
+      document.getElementById('word-count-full').textContent = `${status} ${wordCount} words`;
+
+      document.getElementById('output-container').style.display = 'block';
+      showToast('Job description generated!');
+    }
+
+    function regenerateJD() {
+      if (lastInputs) {
+        setInputs(lastInputs);
+        generateJD();
+      }
+    }
+
+    async function sendViaOutlook() {
+      showToast('Outlook integration coming soon. For now, copy and paste into your email.');
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; connect-src https:; script-src 'self' https: 'unsafe-inline';">
+  <title>Day 15: Contract Summarizer | 20 AI Tools in 20 Days</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-69LQQBX0C1');
+  </script>
+
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','876506382017154');fbq('track','PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
+
+  <script type="text/javascript">
+    _linkedin_partner_id = "514319631";
+    window._linkedin = window._linkedin || [];
+    function _linkedin_loader() {
+      var s = document.getElementsByTagName("script")[0];
+      var b = document.createElement("script");
+      b.type = "text/javascript";
+      b.async = true;
+      b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+      s.parentNode.insertBefore(b, s);
+    }
+    if (window.document.readyState == "loading") {
+      window.addEventListener("load", _linkedin_loader);
+    } else {
+      _linkedin_loader();
+    }
+  </script>
+  <noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=514319631&conversionId=&fmt=gif" /></noscript>
+
+  <script>
+    !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');twq('config','tw-r848k-r848k');twq('track','PageView');
+  </script>
+
+  <style>
+    :root {
+      --bg: #080E1A;
+      --surface: #0F1829;
+      --surface2: #162035;
+      --orange: #EA580C;
+      --teal: #06B6D4;
+      --text: #F1F5F9;
+      --muted: #94A3B8;
+      --border: #1E293B;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    nav a {
+      color: var(--teal);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--orange);
+    }
+
+    nav > span {
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    nav > div {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-bottom: 3rem;
+    }
+
+    .day-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .hero .subtitle {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Settings Panel */
+    .settings-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .settings-header {
+      padding: 1rem 1.5rem;
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .settings-header:hover {
+      background: var(--surface2);
+    }
+
+    .settings-header h3 {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .settings-toggle {
+      font-size: 1.2rem;
+      transition: transform 0.2s;
+    }
+
+    .settings-toggle.open {
+      transform: rotate(180deg);
+    }
+
+    .settings-content {
+      display: none;
+      padding: 1.5rem;
+    }
+
+    .settings-content.open {
+      display: block;
+    }
+
+    .settings-row {
+      margin-bottom: 1rem;
+    }
+
+    .settings-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-row label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+
+    .settings-row input[type="password"],
+    .settings-row input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .settings-row input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.1);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.375rem;
+      border: none;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: #000;
+    }
+
+    .btn-primary:hover {
+      background: #d9470a;
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:disabled {
+      background: var(--muted);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--teal);
+      border: 1px solid var(--teal);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(6, 182, 212, 0.1);
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .status {
+      font-size: 0.85rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      background: var(--surface2);
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    .status.connected {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .status.error {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    /* Main Grid */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 1024px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Input Section */
+    .input-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 1rem;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      color: var(--orange);
+      border-bottom-color: var(--orange);
+    }
+
+    .tab:hover {
+      color: var(--text);
+    }
+
+    .tab-content {
+      display: none;
+      padding: 1.5rem;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .textarea {
+      width: 100%;
+      min-height: 300px;
+      padding: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      resize: vertical;
+    }
+
+    .textarea:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.1);
+    }
+
+    .search-field {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .search-field input {
+      flex: 1;
+      padding: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .search-field input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.1);
+    }
+
+    .email-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+    }
+
+    .email-item {
+      padding: 1rem;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .email-item:hover {
+      background: var(--surface2);
+    }
+
+    .email-item.selected {
+      background: rgba(234, 88, 12, 0.1);
+      border-left: 3px solid var(--orange);
+    }
+
+    .email-subject {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .email-from {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .no-emails {
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    /* Output Section */
+    .output-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+    }
+
+    .output-section.hidden {
+      display: none;
+    }
+
+    .risk-badge {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .risk-low {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+    }
+
+    .risk-medium {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--warning);
+    }
+
+    .risk-high {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+    }
+
+    .output-section h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .output-section h3:first-child {
+      margin-top: 0;
+    }
+
+    .summary-text {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 1rem;
+    }
+
+    .key-terms-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .key-terms-table th {
+      text-align: left;
+      padding: 0.75rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .key-terms-table td {
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .key-terms-table tr:nth-child(even) {
+      background: rgba(15, 24, 41, 0.5);
+    }
+
+    .obligations-list {
+      list-style: none;
+      margin-bottom: 1rem;
+    }
+
+    .obligations-list li {
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      background: var(--surface2);
+      border-left: 3px solid var(--teal);
+      border-radius: 0.375rem;
+      font-size: 0.95rem;
+    }
+
+    .red-flags-list {
+      list-style: none;
+      margin-bottom: 1rem;
+    }
+
+    .red-flags-list li {
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 3px solid var(--danger);
+      border-radius: 0.375rem;
+      font-size: 0.95rem;
+      color: var(--text);
+    }
+
+    .action-items-list {
+      list-style: none;
+      counter-reset: item;
+      margin-bottom: 1rem;
+    }
+
+    .action-items-list li {
+      counter-increment: item;
+      padding: 0.75rem;
+      margin-bottom: 0.5rem;
+      background: var(--surface2);
+      border-left: 3px solid var(--success);
+      border-radius: 0.375rem;
+      font-size: 0.95rem;
+      padding-left: 2rem;
+      position: relative;
+    }
+
+    .action-items-list li::before {
+      content: counter(item);
+      position: absolute;
+      left: 0.75rem;
+      top: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.25rem;
+      height: 1.25rem;
+      background: var(--success);
+      color: #000;
+      border-radius: 50%;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    /* Send Summary */
+    .send-summary {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .send-summary h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .send-form {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .send-form input {
+      flex: 1;
+      min-width: 250px;
+      padding: 0.75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      color: var(--text);
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .send-form input:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 2px rgba(6, 182, 212, 0.1);
+    }
+
+    /* Loading & Messages */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 2rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .spinner {
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid var(--border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .message {
+      padding: 1rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .message.error {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--danger);
+      border: 1px solid var(--danger);
+    }
+
+    .message.success {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+
+    .message.info {
+      background: rgba(6, 182, 212, 0.1);
+      color: var(--teal);
+      border: 1px solid var(--teal);
+    }
+
+    /* Demo Button */
+    .demo-button {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 1rem 1.5rem;
+      background: var(--teal);
+      color: var(--bg);
+      border: none;
+      border-radius: 0.375rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+    }
+
+    .demo-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(6, 182, 212, 0.4);
+    }
+
+    @media (max-width: 640px) {
+      .demo-button {
+        bottom: 1rem;
+        right: 1rem;
+        padding: 0.75rem 1rem;
+        font-size: 0.8rem;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      nav > div {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .hero h1 {
+        font-size: 1.75rem;
+      }
+
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .send-form {
+        flex-direction: column;
+      }
+
+      .send-form input {
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">← All Tools</a>
+    <span>Day 15 of 20</span>
+    <div>
+      <a href="day-14-performance-review.html">‹ Day 14</a>
+      <a href="day-16-standup-generator.html">Day 16 ›</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="day-badge">Day 15 of 20</div>
+      <h1>Contract Summarizer</h1>
+      <p class="subtitle">Paste any contract or pull from Outlook → AI extracts key terms, obligations, red flags, and action items → send the summary back via Outlook</p>
+      <div class="tags">
+        <span class="tag">📄 Contracts</span>
+        <span class="tag">⚡ Instant Analysis</span>
+        <span class="tag">🔒 Outlook Integration</span>
+      </div>
+    </div>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel">
+      <div class="settings-header" onclick="toggleSettings()">
+        <h3>⚙️ API Configuration</h3>
+        <span class="settings-toggle" id="settingsToggle">▼</span>
+      </div>
+      <div class="settings-content" id="settingsContent">
+        <div class="settings-row">
+          <label for="geminiKey">Gemini API Key</label>
+          <input type="password" id="geminiKey" placeholder="Paste your Gemini API key here">
+          <div class="status" id="geminiStatus">Not configured</div>
+        </div>
+        <div class="settings-row">
+          <div class="button-group">
+            <button class="btn btn-secondary btn-small" onclick="saveGeminiKey()">Save Gemini Key</button>
+            <button class="btn btn-secondary btn-small" onclick="connectOutlook()">Connect Outlook</button>
+          </div>
+          <div class="status" id="outlookStatus">Not connected</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Input Section -->
+      <div class="input-section">
+        <div class="tabs">
+          <div class="tab active" onclick="switchTab('paste')">Paste Contract</div>
+          <div class="tab" onclick="switchTab('search')">Search Outlook</div>
+        </div>
+
+        <!-- Tab: Paste -->
+        <div class="tab-content active" id="pasteTab">
+          <textarea class="textarea" id="contractText" placeholder="Paste the full contract text here..."></textarea>
+        </div>
+
+        <!-- Tab: Search -->
+        <div class="tab-content" id="searchTab">
+          <div class="search-field">
+            <input type="text" id="searchInput" placeholder="Search Outlook for contracts..." onkeyup="searchOutlook()">
+            <button class="btn btn-secondary btn-small" onclick="searchOutlook()">Search</button>
+          </div>
+          <div class="email-list" id="emailList">
+            <div class="no-emails">No emails found. Search or connect Outlook to get started.</div>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <div style="padding: 1.5rem; border-top: 1px solid var(--border);">
+          <button class="btn btn-primary" onclick="analyzeContract()" id="analyzeBtn" style="width: 100%;">
+            Analyze Contract
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="output-section hidden" id="outputSection">
+        <div id="analysisOutput"></div>
+
+        <!-- Send Summary -->
+        <div class="send-summary">
+          <h3>Send Summary</h3>
+          <div class="send-form">
+            <input type="email" id="sendToEmail" placeholder="Recipient email address">
+            <button class="btn btn-primary btn-small" onclick="sendSummaryEmail()">Send via Outlook</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Demo Button -->
+  <button class="demo-button" onclick="runDemo()">🎬 Run Demo</button>
+
+  <!-- MSAL Library -->
+  <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+
+  <script>
+    // MSAL Configuration
+    const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+    const MSAL_CONFIG = {
+      auth: {
+        clientId: AZURE_CLIENT_ID,
+        authority: 'https://login.microsoftonline.com/common',
+        redirectUri: window.location.origin
+      },
+      cache: {
+        cacheLocation: 'sessionStorage',
+        storeAuthStateInCookie: false
+      }
+    };
+
+    const LOGIN_REQUEST = {
+      scopes: ['Mail.Read', 'Mail.ReadWrite', 'Mail.Send', 'User.Read']
+    };
+
+    let msalInstance = null;
+    let accountInfo = null;
+    let selectedEmail = null;
+
+    // Initialize MSAL
+    function initMsal() {
+      if (!msalInstance) {
+        msalInstance = new msal.PublicClientApplication(MSAL_CONFIG);
+        msalInstance.initialize().then(() => {
+          const accounts = msalInstance.getAllAccounts();
+          if (accounts.length > 0) {
+            accountInfo = accounts[0];
+            updateOutlookStatus(true);
+          }
+        }).catch(err => console.error('MSAL init error:', err));
+      }
+    }
+
+    // Connect Outlook
+    async function connectOutlook() {
+      try {
+        if (!msalInstance) initMsal();
+
+        const response = await msalInstance.acquireTokenPopup(LOGIN_REQUEST);
+        const accounts = msalInstance.getAllAccounts();
+        if (accounts.length > 0) {
+          accountInfo = accounts[0];
+          updateOutlookStatus(true);
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        updateOutlookStatus(false);
+      }
+    }
+
+    // Search Outlook
+    async function searchOutlook() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query || !accountInfo) {
+        document.getElementById('emailList').innerHTML = '<div class="no-emails">Connect Outlook to search emails.</div>';
+        return;
+      }
+
+      try {
+        const tokenResponse = await msalInstance.acquireTokenSilent({
+          account: accountInfo,
+          scopes: LOGIN_REQUEST.scopes
+        }).catch(() => msalInstance.acquireTokenPopup(LOGIN_REQUEST));
+
+        const response = await fetch(
+          `https://graph.microsoft.com/v1.0/me/mailFolders/inbox/messages?$search="from:${query} OR subject:${query}"&$top=10`,
+          {
+            headers: { 'Authorization': `Bearer ${tokenResponse.accessToken}` }
+          }
+        );
+
+        const data = await response.json();
+        displayEmails(data.value || []);
+      } catch (error) {
+        console.error('Search error:', error);
+        document.getElementById('emailList').innerHTML = '<div class="no-emails">Error searching emails.</div>';
+      }
+    }
+
+    function displayEmails(emails) {
+      const list = document.getElementById('emailList');
+      if (emails.length === 0) {
+        list.innerHTML = '<div class="no-emails">No contracts found.</div>';
+        return;
+      }
+
+      list.innerHTML = emails.map((email, idx) => `
+        <div class="email-item" onclick="selectEmail('${sanitizeAttribute(email.id)}', '${sanitizeAttribute(email.bodyPreview)}')">
+          <div class="email-subject">${sanitizeHTML(email.subject)}</div>
+          <div class="email-from">From: ${sanitizeHTML(email.from?.emailAddress?.address || 'Unknown')}</div>
+        </div>
+      `).join('');
+    }
+
+    function selectEmail(emailId, preview) {
+      selectedEmail = preview;
+      document.querySelectorAll('.email-item').forEach(item => item.classList.remove('selected'));
+      event.currentTarget.classList.add('selected');
+      document.getElementById('contractText').value = preview;
+    }
+
+    // Save Gemini Key
+    function saveGeminiKey() {
+      const key = document.getElementById('geminiKey').value.trim();
+      if (!key) {
+        updateGeminiStatus(false, 'Enter an API key');
+        return;
+      }
+      localStorage.setItem('gemini_key', key);
+      document.getElementById('geminiKey').value = '';
+      updateGeminiStatus(true, 'API key saved');
+      setTimeout(() => updateGeminiStatus(true), 3000);
+    }
+
+    // Tab Switching
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      document.getElementById(tab + 'Tab').classList.add('active');
+    }
+
+    // Analyze Contract
+    async function analyzeContract() {
+      const contractText = document.getElementById('contractText').value.trim();
+      if (!contractText) {
+        showMessage('Please paste a contract or search Outlook', 'error');
+        return;
+      }
+
+      const apiKey = localStorage.getItem('gemini_key');
+      if (!apiKey) {
+        showMessage('Configure your Gemini API key first', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('analyzeBtn');
+      btn.disabled = true;
+      btn.textContent = 'Analyzing...';
+
+      const output = document.getElementById('analysisOutput');
+      output.innerHTML = '<div class="loading"><div class="spinner"></div> Analyzing contract...</div>';
+      document.getElementById('outputSection').classList.remove('hidden');
+
+      try {
+        const prompt = `Analyze the following contract and provide:
+
+1. **Executive Summary**: 3-5 sentence overview in plain English
+2. **Key Terms**: Extract and list party names, contract value, start date, end date, notice periods, and governing law
+3. **Obligations & Deadlines**: List specific obligations for each party with due dates
+4. **Red Flags & Risks**: Highlight concerning issues including:
+   - Auto-renewal clauses
+   - Unusual liability caps
+   - Overly broad IP assignment
+   - Exclusivity clauses
+   - Non-compete restrictions
+   - Missing standard clauses
+   - Unreasonable termination conditions
+5. **Overall Risk Level**: Rate as LOW / MEDIUM / HIGH
+6. **Recommended Actions**: Numbered list of things to do before signing
+
+Format the response with clear section headers. Be concise and specific.
+
+CONTRACT TEXT:
+${contractText.substring(0, 50000)}`;
+
+        const response = await fetch(
+          'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=' + apiKey,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }]
+            })
+          }
+        );
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error?.message || 'API error');
+        }
+
+        const data = await response.json();
+        const analysisText = data.contents?.[0]?.parts?.[0]?.text || 'No analysis generated';
+        displayAnalysis(analysisText);
+
+      } catch (error) {
+        console.error('Analysis error:', error);
+        output.innerHTML = `<div class="message error">Error: ${sanitizeHTML(error.message)}</div>`;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Analyze Contract';
+      }
+    }
+
+    function displayAnalysis(analysisText) {
+      const output = document.getElementById('analysisOutput');
+
+      // Parse sections
+      const sections = {
+        summary: extractSection('Executive Summary', analysisText),
+        keyTerms: extractSection('Key Terms', analysisText),
+        obligations: extractSection('Obligations & Deadlines', analysisText),
+        redFlags: extractSection('Red Flags & Risks', analysisText),
+        risk: extractSection('Overall Risk Level', analysisText),
+        actions: extractSection('Recommended Actions', analysisText)
+      };
+
+      // Determine risk level
+      const riskLevel = determineRiskLevel(sections.risk);
+      const riskClass = riskLevel === 'HIGH' ? 'risk-high' : riskLevel === 'MEDIUM' ? 'risk-medium' : 'risk-low';
+
+      // Build HTML
+      let html = `<div class="risk-badge ${riskClass}">Risk Level: ${riskLevel}</div>`;
+
+      if (sections.summary) {
+        html += `<h3>Executive Summary</h3><div class="summary-text">${sanitizeHTML(sections.summary)}</div>`;
+      }
+
+      if (sections.keyTerms) {
+        html += `<h3>Key Terms</h3><div class="summary-text">${sanitizeHTML(sections.keyTerms)}</div>`;
+      }
+
+      if (sections.obligations) {
+        html += `<h3>Obligations & Deadlines</h3><ul class="obligations-list">`;
+        const items = sections.obligations.split('\n').filter(l => l.trim());
+        items.forEach(item => {
+          if (item.trim()) {
+            html += `<li>${sanitizeHTML(item.trim())}</li>`;
+          }
+        });
+        html += `</ul>`;
+      }
+
+      if (sections.redFlags) {
+        html += `<h3>Red Flags & Risks</h3><ul class="red-flags-list">`;
+        const items = sections.redFlags.split('\n').filter(l => l.trim());
+        items.forEach(item => {
+          if (item.trim()) {
+            html += `<li>${sanitizeHTML(item.trim())}</li>`;
+          }
+        });
+        html += `</ul>`;
+      }
+
+      if (sections.actions) {
+        html += `<h3>Recommended Actions</h3><ul class="action-items-list">`;
+        const items = sections.actions.split('\n').filter(l => l.trim());
+        items.forEach(item => {
+          if (item.trim()) {
+            html += `<li>${sanitizeHTML(item.trim())}</li>`;
+          }
+        });
+        html += `</ul>`;
+      }
+
+      output.innerHTML = html;
+    }
+
+    function extractSection(title, text) {
+      const regex = new RegExp(`\\*\\*?${title}\\*\\*?:?\\s*(.+?)(?=\\n\\*\\*|$)`, 'is');
+      const match = text.match(regex);
+      return match ? match[1].trim() : '';
+    }
+
+    function determineRiskLevel(riskText) {
+      if (riskText.includes('HIGH')) return 'HIGH';
+      if (riskText.includes('MEDIUM')) return 'MEDIUM';
+      return 'LOW';
+    }
+
+    // Send Summary Email
+    async function sendSummaryEmail() {
+      const email = document.getElementById('sendToEmail').value.trim();
+      if (!email) {
+        showMessage('Enter a recipient email', 'error');
+        return;
+      }
+
+      if (!accountInfo) {
+        showMessage('Connect Outlook first', 'error');
+        return;
+      }
+
+      const summary = document.getElementById('analysisOutput').innerHTML;
+
+      try {
+        const tokenResponse = await msalInstance.acquireTokenSilent({
+          account: accountInfo,
+          scopes: LOGIN_REQUEST.scopes
+        }).catch(() => msalInstance.acquireTokenPopup(LOGIN_REQUEST));
+
+        const mailBody = {
+          message: {
+            subject: 'Contract Analysis Summary',
+            body: {
+              contentType: 'HTML',
+              content: summary
+            },
+            toRecipients: [{ emailAddress: { address: email } }]
+          }
+        };
+
+        const response = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${tokenResponse.accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(mailBody)
+        });
+
+        if (response.ok) {
+          showMessage('Summary sent successfully!', 'success');
+          document.getElementById('sendToEmail').value = '';
+        } else {
+          showMessage('Failed to send email', 'error');
+        }
+      } catch (error) {
+        console.error('Send error:', error);
+        showMessage('Error sending email', 'error');
+      }
+    }
+
+    // Settings Panel Toggle
+    function toggleSettings() {
+      const content = document.getElementById('settingsContent');
+      const toggle = document.getElementById('settingsToggle');
+      content.classList.toggle('open');
+      toggle.classList.toggle('open');
+    }
+
+    // Update Status Indicators
+    function updateGeminiStatus(success, message = '') {
+      const status = document.getElementById('geminiStatus');
+      if (success) {
+        status.textContent = message || 'API key configured ✓';
+        status.className = 'status';
+      } else {
+        status.textContent = message || 'Not configured';
+        status.className = 'status error';
+      }
+    }
+
+    function updateOutlookStatus(connected) {
+      const status = document.getElementById('outlookStatus');
+      if (connected) {
+        status.textContent = 'Connected to Outlook ✓';
+        status.className = 'status connected';
+      } else {
+        status.textContent = 'Not connected';
+        status.className = 'status';
+      }
+    }
+
+    // Messages
+    function showMessage(text, type) {
+      const output = document.getElementById('analysisOutput');
+      if (!document.getElementById('outputSection').classList.contains('hidden')) {
+        const msg = document.createElement('div');
+        msg.className = `message ${type}`;
+        msg.textContent = text;
+        output.insertBefore(msg, output.firstChild);
+        setTimeout(() => msg.remove(), 3000);
+      }
+    }
+
+    // Demo Mode
+    function runDemo() {
+      const demoContract = `ACME CORP SERVICE AGREEMENT
+
+This Software as a Service (SaaS) Agreement ("Agreement") is entered into as of March 1, 2024, between ACME Corporation ("Provider") and Sample Client Inc. ("Client").
+
+1. TERM AND RENEWAL
+This Agreement shall commence on March 1, 2024 and continue for a period of two (2) years ("Initial Term"). Upon expiration, this Agreement shall automatically renew for successive one-year periods unless either party provides written notice of non-renewal at least fifteen (15) days prior to expiration.
+
+2. FEES AND PAYMENT
+Client agrees to pay Provider a monthly fee of $4,000 (Annual: $48,000) for the Service. Payment is due within 30 days of invoice. Late payments subject to 1.5% monthly interest.
+
+3. INTELLECTUAL PROPERTY
+All intellectual property created under this Agreement, including but not limited to code, documentation, and methodologies, shall be the exclusive property of Provider. Client assigns all rights to any work product to Provider.
+
+4. LIMITATION OF LIABILITY
+EXCEPT FOR BREACHES OF CONFIDENTIALITY OR INFRINGEMENT, NEITHER PARTY SHALL BE LIABLE FOR ANY INDIRECT, INCIDENTAL, OR CONSEQUENTIAL DAMAGES. TOTAL LIABILITY SHALL NOT EXCEED $10,000.
+
+5. EXCLUSIVITY
+Client agrees to use Provider's services exclusively and shall not engage competing services during the term of this Agreement and for two (2) years thereafter.
+
+6. CONFIDENTIALITY
+Both parties agree to maintain strict confidentiality of proprietary information. Breach may result in injunctive relief.
+
+7. INDEMNIFICATION
+Client agrees to indemnify and hold harmless Provider from any claims arising from Client's use of the Service.
+
+8. DATA OWNERSHIP
+Provider may use Client's data for service improvement, analytics, and resale purposes.
+
+9. TERMINATION
+Provider may terminate this Agreement with 5 days written notice for any reason.
+
+10. GOVERNING LAW
+This Agreement shall be governed by Delaware law.`;
+
+      document.getElementById('contractText').value = demoContract;
+      document.getElementById('analyzeBtn').click();
+    }
+
+    // Utility: Sanitize HTML
+    function sanitizeHTML(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function sanitizeAttribute(str) {
+      return str.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    // Initialize
+    window.addEventListener('load', () => {
+      initMsal();
+      const savedKey = localStorage.getItem('gemini_key');
+      if (savedKey) {
+        updateGeminiStatus(true);
+      }
+    });
+  </script>
+</body>
+</html>

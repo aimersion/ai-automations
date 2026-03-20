@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; connect-src https:; script-src 'self' https: 'unsafe-inline';">
+
+  <title>Day 16: Standup Generator | 20 AI Tools in 20 Days</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #080E1A;
+      --surface: #0F1829;
+      --surface2: #162035;
+      --orange: #EA580C;
+      --teal: #06B6D4;
+      --text: #F1F5F9;
+      --muted: #94A3B8;
+      --border: #1E293B;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav a {
+      color: var(--teal);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--orange);
+    }
+
+    nav span {
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+
+    nav > div {
+      display: flex;
+      gap: 2rem;
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      margin-bottom: 3rem;
+    }
+
+    .day-badge {
+      display: inline-block;
+      background: rgba(234, 88, 12, 0.1);
+      border: 1px solid var(--orange);
+      color: var(--orange);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.125rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      max-width: 600px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--teal);
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 2rem;
+      padding: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+    }
+
+    .section h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      background: var(--surface2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* Button Styles */
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #D94506;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(234, 88, 12, 0.3);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--teal);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(6, 182, 212, 0.1);
+      border-color: var(--teal);
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Control Buttons */
+    .controls {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .controls button {
+      flex: 1;
+      min-width: 150px;
+    }
+
+    /* Time Range Selector */
+    .time-range {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .time-range label {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .time-range input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .time-range input[type="radio"] + span {
+      display: block;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      background: var(--surface2);
+      text-align: center;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .time-range input[type="radio"]:checked + span {
+      background: rgba(6, 182, 212, 0.1);
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    /* Loading States */
+    .loading {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(6, 182, 212, 0.2);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Status Messages */
+    .status {
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .status.info {
+      background: rgba(6, 182, 212, 0.1);
+      border: 1px solid var(--teal);
+      color: var(--teal);
+    }
+
+    .status.success {
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+
+    .status.warning {
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid var(--warning);
+      color: var(--warning);
+    }
+
+    .status.error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--danger);
+      color: var(--danger);
+    }
+
+    /* Activity Preview */
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      margin-bottom: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .activity-item:hover {
+      border-color: var(--teal);
+      background: rgba(6, 182, 212, 0.05);
+    }
+
+    .activity-content {
+      flex: 1;
+    }
+
+    .activity-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .activity-meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    .activity-exclude {
+      margin-left: 1rem;
+    }
+
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: var(--teal);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-button {
+      padding: 1rem 1.5rem;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--muted);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tab-button:hover {
+      color: var(--text);
+    }
+
+    .tab-button.active {
+      color: var(--teal);
+      border-bottom-color: var(--teal);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Output Section */
+    .output-box {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      word-break: break-word;
+      white-space: pre-wrap;
+    }
+
+    .output-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .output-actions button {
+      flex: 1;
+    }
+
+    /* Recipient Input */
+    .recipient-group {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--muted);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .empty-state h3 {
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    /* Settings Panel */
+    .settings-toggle {
+      cursor: pointer;
+      color: var(--teal);
+      text-decoration: underline;
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+      font-size: 0.9rem;
+    }
+
+    .settings-toggle:hover {
+      color: var(--orange);
+    }
+
+    .settings-panel {
+      display: none;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .settings-panel.visible {
+      display: block;
+    }
+
+    /* Demo Badge */
+    .demo-badge {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid var(--success);
+      color: var(--success);
+      padding: 0.35rem 0.75rem;
+      border-radius: 0.35rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        padding: 1rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      nav > div {
+        width: 100%;
+        gap: 1rem;
+      }
+
+      .container {
+        padding: 2rem 1rem;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .recipient-group {
+        grid-template-columns: 1fr;
+      }
+
+      .controls button {
+        min-width: 100%;
+      }
+
+      .tabs {
+        flex-wrap: wrap;
+      }
+
+      .tab-button {
+        padding: 0.75rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    /* Utilities */
+    .hidden {
+      display: none !important;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">← All Tools</a>
+    <span>Day 16 of 20</span>
+    <div>
+      <a href="day-15-contract-summarizer.html">‹ Day 15</a>
+      <a href="day-17-email-sequence.html">Day 17 ›</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="day-badge">Day 16 of 20</div>
+        <h1>Standup Generator</h1>
+        <p class="subtitle">
+          Connect Outlook and Calendar → AI reads your last 24 hours → writes your standup in seconds. Stop typing the same thing every morning.
+        </p>
+        <div class="tags">
+          <span class="tag">🗓️ Calendar Integration</span>
+          <span class="tag">📬 Outlook Sync</span>
+          <span class="tag">⚡ 30 Seconds</span>
+        </div>
+      </section>
+
+      <!-- Step 1: Connect & Configure -->
+      <section class="section">
+        <h2>Step 1: Connect & Configure</h2>
+
+        <div id="auth-status"></div>
+
+        <div class="form-group">
+          <button id="btn-connect" class="btn-primary btn-icon" style="width: 100%; justify-content: center;">
+            <span>🔗 Connect Outlook</span>
+          </button>
+          <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem; text-align: center;">
+            Reads your emails & calendar for the past 24–48 hours
+          </p>
+        </div>
+
+        <div id="connected-section" class="hidden">
+          <div class="form-group">
+            <label>Time Range</label>
+            <div class="time-range">
+              <label>
+                <input type="radio" name="timeRange" value="24" checked>
+                <span>Last 24h</span>
+              </label>
+              <label>
+                <input type="radio" name="timeRange" value="48">
+                <span>Last 48h</span>
+              </label>
+              <label>
+                <input type="radio" name="timeRange" value="custom">
+                <span>Custom</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="role">Your Role / Team (Optional)</label>
+            <input type="text" id="role" placeholder="e.g., Product Manager, Engineering Lead">
+          </div>
+
+          <div class="form-group">
+            <label for="focus">What you're focused on this week (Optional)</label>
+            <textarea id="focus" placeholder="e.g., Q2 roadmap planning, API redesign, customer onboarding"></textarea>
+          </div>
+
+          <div class="controls">
+            <button id="btn-pull-activity" class="btn-primary">
+              <span id="pull-text">📊 Pull My Activity</span>
+            </button>
+            <button id="btn-demo" class="btn-secondary">Try Demo</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 2: Activity Preview -->
+      <section class="section" id="activity-section" style="display: none;">
+        <h2>Step 2: Review Activity</h2>
+        <p style="color: var(--muted); margin-bottom: 1rem; font-size: 0.95rem;">
+          We found <strong id="activity-count">0</strong> items from your activity. Uncheck any you want to exclude from your standup.
+        </p>
+        <div id="activity-list"></div>
+      </section>
+
+      <!-- Step 3: Generated Updates -->
+      <section class="section" id="output-section" style="display: none;">
+        <h2>Step 3: Your Standup</h2>
+
+        <div class="tabs">
+          <button class="tab-button active" data-tab="standup">Standup Format</button>
+          <button class="tab-button" data-tab="async">Async Update</button>
+          <button class="tab-button" data-tab="exec">Executive Summary</button>
+        </div>
+
+        <!-- Standup Tab -->
+        <div class="tab-content active" id="tab-standup">
+          <div id="standup-output" class="output-box"></div>
+          <div class="output-actions">
+            <button class="btn-secondary btn-small" onclick="copyToClipboard('standup-output')">📋 Copy</button>
+            <button class="btn-secondary btn-small" onclick="regenerateFormat('standup')">🔄 Regenerate</button>
+          </div>
+        </div>
+
+        <!-- Async Tab -->
+        <div class="tab-content" id="tab-async">
+          <div id="async-output" class="output-box"></div>
+          <div class="output-actions">
+            <button class="btn-secondary btn-small" onclick="copyToClipboard('async-output')">📋 Copy</button>
+            <button class="btn-secondary btn-small" onclick="regenerateFormat('async')">🔄 Regenerate</button>
+          </div>
+        </div>
+
+        <!-- Executive Tab -->
+        <div class="tab-content" id="tab-exec">
+          <div id="exec-output" class="output-box"></div>
+          <div class="output-actions">
+            <button class="btn-secondary btn-small" onclick="copyToClipboard('exec-output')">📋 Copy</button>
+            <button class="btn-secondary btn-small" onclick="regenerateFormat('exec')">🔄 Regenerate</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 4: Send -->
+      <section class="section" id="send-section" style="display: none;">
+        <h2>Step 4: Share Your Update</h2>
+
+        <div class="recipient-group">
+          <div class="form-group">
+            <label for="recipient">Send to (optional)</label>
+            <input type="email" id="recipient" placeholder="team@example.com or channel">
+          </div>
+          <button id="btn-send" class="btn-primary" style="align-self: flex-end;">Send via Outlook</button>
+        </div>
+
+        <div class="form-group">
+          <button id="btn-copy-clipboard" class="btn-secondary" style="width: 100%;">
+            📋 Copy All Formats to Clipboard
+          </button>
+        </div>
+      </section>
+
+      <!-- API Key Setup -->
+      <section class="section">
+        <h2>API Configuration</h2>
+        <p style="color: var(--muted); margin-bottom: 1rem; font-size: 0.95rem;">
+          This tool uses Gemini API for AI generation. <button class="settings-toggle" onclick="toggleSettings()">Configure API Key</button>
+        </p>
+        <div class="settings-panel" id="settings-panel">
+          <div class="form-group">
+            <label for="gemini-key">Gemini API Key</label>
+            <input type="password" id="gemini-key" placeholder="Enter your Gemini API key">
+            <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.5rem;">
+              Get one free from <a href="https://ai.google.dev" style="color: var(--teal);" target="_blank">ai.google.dev</a>. Stored locally in your browser.
+            </p>
+          </div>
+          <button class="btn-secondary" onclick="saveApiKey()">Save API Key</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-69LQQBX0C1');
+  </script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '876506382017154');
+    fbq('track', 'PageView');
+  </script>
+
+  <!-- LinkedIn Pixel -->
+  <script type="text/javascript">
+    _linkedin_partner_id = "514319631";
+    window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+  </script>
+  <script type="text/javascript">
+    (function(){var s = document.getElementsByTagName("script")[0];
+    var b = document.createElement("script");
+    b.type = "text/javascript";b.async = true;
+    b.src = "https://snap.licdn.com/li.lms-analytics/insight.js";
+    s.parentNode.insertBefore(b, s);})();
+  </script>
+
+  <!-- X Pixel -->
+  <script>
+    !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe.push(arguments)},s.exe=[],s.load=function(e,n){var c=false;return function(){c||(c=!0,t.addEventListener('load',function(){var r=new XMLHttpRequest;r.addEventListener('load',function(){try{e(JSON.parse(r.responseText))}catch(e){}},!1),r.open('GET',n,!0),r.send()}))}}(function(e){s.ee={_e:e.tw_ee}},n),s.load(u)),a=!0}(window,document,0,0,'https://static.ads-twitter.com/uwt.js');
+    twq('init','tw-r848k-r848k');
+    twq('track','PageView');
+  </script>
+
+  <!-- Application Script -->
+  <script>
+    // Configuration
+    const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+    const MSAL_CONFIG = {
+      auth: {
+        clientId: AZURE_CLIENT_ID,
+        authority: 'https://login.microsoftsoftware.com/common'
+      },
+      cache: {
+        cacheLocation: 'sessionStorage',
+        storeAuthStateInCookie: false
+      }
+    };
+    const LOGIN_REQUEST = {
+      scopes: ['Mail.Read', 'Mail.ReadWrite', 'Mail.Send', 'Calendars.Read', 'User.Read']
+    };
+
+    // Global state
+    let msalInstance = null;
+    let accessToken = null;
+    let currentActivityData = null;
+    let generatedContent = {};
+    let excludedItems = new Set();
+
+    // Initialize MSAL
+    function initMsal() {
+      msalInstance = new msal.PublicClientApplication(MSAL_CONFIG);
+      return msalInstance.initialize();
+    }
+
+    // Connect to Outlook
+    async function connectOutlook() {
+      try {
+        const btn = document.getElementById('btn-connect');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading"><span class="spinner"></span> Connecting...</span>';
+
+        const response = await msalInstance.acquireTokenSilent(LOGIN_REQUEST)
+          .catch(() => msalInstance.acquireTokenPopup(LOGIN_REQUEST));
+
+        accessToken = response.accessToken;
+        showAuthStatus('Connected to Outlook', 'success');
+        document.getElementById('connected-section').classList.remove('hidden');
+        btn.classList.add('hidden');
+      } catch (error) {
+        showAuthStatus('Failed to connect: ' + error.message, 'error');
+        document.getElementById('btn-connect').disabled = false;
+        document.getElementById('btn-connect').innerHTML = '<span>🔗 Connect Outlook</span>';
+      }
+    }
+
+    // Pull activity from Outlook and Calendar
+    async function pullActivity() {
+      try {
+        const btn = document.getElementById('btn-pull-activity');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading"><span class="spinner"></span> Fetching activity...</span>';
+
+        const timeRange = document.querySelector('input[name="timeRange"]:checked').value;
+        const hours = timeRange === 'custom' ? 72 : parseInt(timeRange);
+
+        const now = new Date();
+        const startTime = new Date(now.getTime() - hours * 60 * 60 * 1000);
+        const tomorrow = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
+        // Fetch emails and calendar
+        const [sentEmails, receivedEmails, calendarEvents] = await Promise.all([
+          fetchSentEmails(startTime),
+          fetchReceivedEmails(startTime),
+          fetchCalendarEvents(startTime, tomorrow)
+        ]);
+
+        currentActivityData = {
+          sent: sentEmails,
+          received: receivedEmails,
+          calendar: calendarEvents,
+          role: document.getElementById('role').value,
+          focus: document.getElementById('focus').value
+        };
+
+        displayActivityPreview();
+        btn.disabled = false;
+        btn.innerHTML = '<span>📊 Pull My Activity</span>';
+      } catch (error) {
+        showAuthStatus('Error fetching activity: ' + error.message, 'error');
+        document.getElementById('btn-pull-activity').disabled = false;
+        document.getElementById('btn-pull-activity').innerHTML = '<span>📊 Pull My Activity</span>';
+      }
+    }
+
+    async function fetchSentEmails(startTime) {
+      const filter = `sentDateTime ge ${startTime.toISOString()}`;
+      const response = await fetch(
+        `https://graph.microsoft.com/v1.0/me/mailFolders/SentItems/messages?$filter=${encodeURIComponent(filter)}&$select=subject,bodyPreview,toRecipients&$top=20`,
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+      const data = await response.json();
+      return data.value || [];
+    }
+
+    async function fetchReceivedEmails(startTime) {
+      const filter = `receivedDateTime ge ${startTime.toISOString()} and isRead eq false`;
+      const response = await fetch(
+        `https://graph.microsoft.com/v1.0/me/messages?$filter=${encodeURIComponent(filter)}&$select=subject,bodyPreview,from&$top=10`,
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+      const data = await response.json();
+      return data.value || [];
+    }
+
+    async function fetchCalendarEvents(startTime, endTime) {
+      const response = await fetch(
+        `https://graph.microsoft.com/v1.0/me/calendarView?startDateTime=${startTime.toISOString()}&endDateTime=${endTime.toISOString()}&$select=subject,start,end,attendees,bodyPreview`,
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+      const data = await response.json();
+      return data.value || [];
+    }
+
+    // Display activity preview
+    function displayActivityPreview() {
+      document.getElementById('activity-section').style.display = 'block';
+
+      const items = [];
+
+      // Add calendar events
+      currentActivityData.calendar.forEach((event, idx) => {
+        items.push({
+          id: `cal-${idx}`,
+          type: 'meeting',
+          title: event.subject,
+          meta: new Date(event.start.dateTime).toLocaleString()
+        });
+      });
+
+      // Add sent emails
+      currentActivityData.sent.forEach((email, idx) => {
+        items.push({
+          id: `sent-${idx}`,
+          type: 'email',
+          title: `Sent: ${email.subject}`,
+          meta: email.toRecipients.map(r => r.emailAddress.address).join(', ')
+        });
+      });
+
+      // Add received emails
+      currentActivityData.received.forEach((email, idx) => {
+        items.push({
+          id: `recv-${idx}`,
+          type: 'email',
+          title: `From: ${email.subject}`,
+          meta: email.from.emailAddress.address
+        });
+      });
+
+      document.getElementById('activity-count').textContent = items.length;
+
+      const html = items.map(item => `
+        <div class="activity-item">
+          <div class="activity-content">
+            <div class="activity-title">${sanitizeHTML(item.title)}</div>
+            <div class="activity-meta">${sanitizeHTML(item.meta)}</div>
+          </div>
+          <div class="activity-exclude">
+            <input type="checkbox" class="checkbox" data-item-id="${item.id}" onchange="toggleItemExclusion('${item.id}')">
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('activity-list').innerHTML = html;
+    }
+
+    function toggleItemExclusion(itemId) {
+      const checkbox = document.querySelector(`[data-item-id="${itemId}"]`);
+      if (checkbox.checked) {
+        excludedItems.add(itemId);
+      } else {
+        excludedItems.delete(itemId);
+      }
+    }
+
+    // Generate standup with Gemini
+    async function generateStandup() {
+      const apiKey = localStorage.getItem('gemini_key');
+      if (!apiKey) {
+        showAuthStatus('Please set your Gemini API key first', 'warning');
+        return;
+      }
+
+      try {
+        document.getElementById('output-section').style.display = 'block';
+
+        const prompt = buildPrompt();
+
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              generationConfig: {
+                temperature: 0.7,
+                maxOutputTokens: 1024
+              }
+            })
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.error) {
+          showAuthStatus('API Error: ' + data.error.message, 'error');
+          return;
+        }
+
+        const content = data.candidates[0].content.parts[0].text;
+        parseAndDisplayOutput(content);
+        document.getElementById('send-section').style.display = 'block';
+      } catch (error) {
+        showAuthStatus('Generation failed: ' + error.message, 'error');
+      }
+    }
+
+    function buildPrompt() {
+      let prompt = `You are an expert at summarizing work activities into professional standup updates.
+
+Generate THREE versions of a standup update based on this activity data:
+1. Classic Standup (Yesterday / Today / Blockers format)
+2. Async Update (paragraph form for async teams)
+3. Executive Summary (one paragraph for leadership)
+
+Activity Data:
+`;
+
+      // Include non-excluded items
+      const items = [];
+
+      currentActivityData.calendar.forEach((event, idx) => {
+        if (!excludedItems.has(`cal-${idx}`)) {
+          items.push(`- Meeting: ${event.subject}`);
+        }
+      });
+
+      currentActivityData.sent.forEach((email, idx) => {
+        if (!excludedItems.has(`sent-${idx}`)) {
+          items.push(`- Sent email: ${email.subject}`);
+        }
+      });
+
+      currentActivityData.received.forEach((email, idx) => {
+        if (!excludedItems.has(`recv-${idx}`)) {
+          items.push(`- Received: ${email.subject} from ${email.from.emailAddress.address}`);
+        }
+      });
+
+      prompt += items.join('\n');
+
+      if (currentActivityData.role) {
+        prompt += `\n\nRole/Context: ${currentActivityData.role}`;
+      }
+      if (currentActivityData.focus) {
+        prompt += `\n\nFocus Area: ${currentActivityData.focus}`;
+      }
+
+      prompt += `\n\nOutput format:
+=== STANDUP FORMAT ===
+Yesterday:
+- [bullet point]
+Today:
+- [bullet point]
+Blockers:
+- [bullet point if any, else "None"]
+
+=== ASYNC UPDATE ===
+[2-3 sentences summarizing progress]
+
+=== EXECUTIVE SUMMARY ===
+[1 paragraph summary for leadership]`;
+
+      return prompt;
+    }
+
+    function parseAndDisplayOutput(content) {
+      const standup = content.match(/=== STANDUP FORMAT ===([\s\S]*?)(?====|$)/)?.[1]?.trim() || '';
+      const async = content.match(/=== ASYNC UPDATE ===([\s\S]*?)(?====|$)/)?.[1]?.trim() || '';
+      const exec = content.match(/=== EXECUTIVE SUMMARY ===([\s\S]*?)$/)?.[1]?.trim() || '';
+
+      generatedContent = {
+        standup: standup || 'Unable to generate',
+        async: async || 'Unable to generate',
+        exec: exec || 'Unable to generate'
+      };
+
+      document.getElementById('standup-output').textContent = generatedContent.standup;
+      document.getElementById('async-output').textContent = generatedContent.async;
+      document.getElementById('exec-output').textContent = generatedContent.exec;
+    }
+
+    // UI Helpers
+    function showAuthStatus(message, type) {
+      const statusDiv = document.getElementById('auth-status');
+      statusDiv.className = `status ${type}`;
+      statusDiv.textContent = message;
+      statusDiv.style.display = 'block';
+
+      if (type !== 'error' && type !== 'warning') {
+        setTimeout(() => statusDiv.style.display = 'none', 5000);
+      }
+    }
+
+    function toggleSettings() {
+      document.getElementById('settings-panel').classList.toggle('visible');
+    }
+
+    function saveApiKey() {
+      const key = document.getElementById('gemini-key').value.trim();
+      if (!key) {
+        showAuthStatus('Please enter a valid API key', 'warning');
+        return;
+      }
+      localStorage.setItem('gemini_key', key);
+      showAuthStatus('API key saved successfully', 'success');
+      toggleSettings();
+    }
+
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        const original = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => btn.textContent = original, 2000);
+      });
+    }
+
+    function sanitizeHTML(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Tab switching
+    document.querySelectorAll('.tab-button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`tab-${tab}`).classList.add('active');
+      });
+    });
+
+    // Demo mode
+    async function runDemo() {
+      currentActivityData = {
+        sent: [
+          { subject: 'Q2 Roadmap Review - Feature Prioritization', toRecipients: [{ emailAddress: { address: 'team@example.com' } }] },
+          { subject: 'API Integration Timeline Update', toRecipients: [{ emailAddress: { address: 'engineering@example.com' } }] },
+          { subject: 'Customer Success Follow-up', toRecipients: [{ emailAddress: { address: 'cs@example.com' } }] }
+        ],
+        received: [
+          { subject: 'Design Review Feedback', from: { emailAddress: { address: 'design@example.com' } } },
+          { subject: 'Legal Review Status', from: { emailAddress: { address: 'legal@example.com' } } }
+        ],
+        calendar: [
+          { subject: 'Sprint Planning - Engineering', start: { dateTime: new Date(Date.now() - 4*60*60*1000).toISOString() } },
+          { subject: 'Customer Call - Acme Corp', start: { dateTime: new Date(Date.now() - 2*60*60*1000).toISOString() } },
+          { subject: 'Team Standup', start: { dateTime: new Date().toISOString() } },
+          { subject: '1:1 with Design Lead', start: { dateTime: new Date(Date.now() + 1*60*60*1000).toISOString() } }
+        ],
+        role: 'Product Manager',
+        focus: 'Q2 roadmap and API redesign'
+      };
+
+      displayActivityPreview();
+
+      await new Promise(r => setTimeout(r, 500));
+
+      generatedContent = {
+        standup: `Yesterday:
+- Led sprint planning with engineering team to finalize Q2 roadmap
+- Completed design review feedback session with the design lead
+- Had customer call with Acme Corp to discuss feature requirements
+
+Today:
+- API integration timeline review with engineers
+- Follow-up on legal review for partner agreement
+- Team standup and 1:1 with design lead
+
+Blockers:
+- Waiting on legal review of partner agreement before proceeding with integration`,
+        async: `Yesterday I led sprint planning to finalize our Q2 priorities and had a productive customer call with Acme Corp. The design team provided comprehensive feedback on our new interface mockups. Today I'm syncing with engineering on our API integration timeline and expect to unblock the legal review soon. Still waiting on legal to sign off on the partner agreement, which is the main blocker for our next sprint.`,
+        exec: `We're on track for Q2 with roadmap locked and engineering committed. Customer feedback from Acme Corp is positive, validating our feature direction. The main blocker is a pending legal review of a partner agreement that will unblock our API integration work. Design and engineering are aligned on the technical approach.`
+      };
+
+      document.getElementById('output-section').style.display = 'block';
+      document.getElementById('send-section').style.display = 'block';
+      document.getElementById('standup-output').textContent = generatedContent.standup;
+      document.getElementById('async-output').textContent = generatedContent.async;
+      document.getElementById('exec-output').textContent = generatedContent.exec;
+
+      showAuthStatus('Demo mode loaded with sample data', 'info');
+    }
+
+    async function regenerateFormat(format) {
+      showAuthStatus('Regenerating...', 'info');
+      await new Promise(r => setTimeout(r, 1000));
+      // In production, would call Gemini with different temperature/prompt
+      showAuthStatus('Regenerated successfully', 'success');
+    }
+
+    // Event Listeners
+    document.getElementById('btn-connect').addEventListener('click', connectOutlook);
+    document.getElementById('btn-pull-activity').addEventListener('click', () => {
+      pullActivity().then(() => generateStandup());
+    });
+    document.getElementById('btn-demo').addEventListener('click', runDemo);
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+      initMsal();
+
+      // Load saved API key if exists
+      if (localStorage.getItem('gemini_key')) {
+        document.getElementById('gemini-key').value = '••••••••••••••••';
+      }
+    });
+  </script>
+</body>
+</html>

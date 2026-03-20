@@ -115,11 +115,11 @@ twq('config','tw-r848k-r848k');
 
   .api-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; }
   .api-card h3 { font-size: 13px; color: var(--teal); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
-  input[type="password"], input[type="text"], input[type="url"], textarea, select {
+  input[type="password"], input[type="text"], textarea, select {
     background: var(--navy); border: 1px solid var(--border); color: var(--white);
     padding: 10px 14px; border-radius: 8px; font-size: 14px; font-family: inherit; outline: none; transition: border 0.2s; width: 100%;
   }
-  input[type="password"]:focus, input[type="text"]:focus, input[type="url"]:focus, textarea:focus, select:focus { border-color: var(--teal); }
+  input[type="password"]:focus, input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--teal); }
   .api-hint { font-size: 12px; color: var(--muted); margin-top: 8px; }
   .api-hint a { color: var(--teal); text-decoration: none; }
 
@@ -353,20 +353,6 @@ twq('config','tw-r848k-r848k');
 
 </div>
 
-<!-- Subscribe strip -->
-<div style="border-top:1px solid #1E3050;padding:32px 24px;text-align:center;background:#080E1A;">
-  <div style="max-width:520px;margin:0 auto;">
-    <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#10B981;margin-bottom:8px;">Free · No spam · Unsubscribe anytime</div>
-    <div style="font-size:18px;font-weight:800;color:#F1F5F9;margin-bottom:6px;">Get notified when the next tool drops</div>
-    <div style="font-size:13px;color:#64748B;margin-bottom:18px;">One email per day. Just the new tool — what it does and a link to use it.</div>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-      <input id="footerEmail" type="email" placeholder="your@email.com" style="flex:1;min-width:200px;max-width:280px;background:#0F1829;border:1px solid #1E3050;border-radius:8px;padding:10px 14px;color:#F1F5F9;font-size:14px;outline:none;" />
-      <button id="footerBtn" onclick="submitFooter()" style="background:#10B981;color:#fff;border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:700;cursor:pointer;">Notify me</button>
-    </div>
-    <div id="footerMsg" style="display:none;margin-top:10px;font-size:13px;padding:8px 14px;border-radius:6px;"></div>
-  </div>
-</div>
-
 <footer>
   <div class="footer-inner">
     Built live as part of <strong>20 Automations in 20 Days</strong> by <a href="https://x.com/jimlynchAI" target="_blank">@jimlynchAI</a>
@@ -376,41 +362,6 @@ twq('config','tw-r848k-r848k');
   </div>
   <div class="footer-series">Enterprise automation for Main Street · Powered by Gemini AI</div>
 </footer>
-
-<script>
-async function submitFooter() {
-  const input = document.getElementById('footerEmail');
-  const btn   = document.getElementById('footerBtn');
-  const msg   = document.getElementById('footerMsg');
-  const email = input.value.trim();
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    msg.style.display = 'block';
-    msg.style.color = '#fca5a5'; msg.style.background = 'rgba(239,68,68,0.08)'; msg.style.border = '1px solid rgba(239,68,68,0.2)';
-    msg.textContent = 'Please enter a valid email address.'; return;
-  }
-  btn.disabled = true; btn.textContent = 'Sending…';
-  try {
-    const res  = await fetch('https://ai-subscribe.aimersion.workers.dev/subscribe', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, source: 'day02-footer', day: '2' }),
-    });
-    const data = await res.json();
-    if (data.ok) {
-      msg.style.display = 'block';
-      msg.style.color = '#6EE7B7'; msg.style.background = 'rgba(16,185,129,0.08)'; msg.style.border = '1px solid rgba(16,185,129,0.2)';
-      msg.textContent = "✓ You're in! Check your inbox.";
-      input.value = ''; btn.textContent = '✓ Done';
-      if (typeof gtag !== 'undefined') gtag('event', 'subscribe', { source: 'day02-footer' });
-      if (typeof fbq !== 'undefined') fbq('track', 'CompleteRegistration', { source: 'day02-footer' });
-    } else { throw new Error(data.error || 'Unknown error'); }
-  } catch(err) {
-    msg.style.display = 'block';
-    msg.style.color = '#fca5a5'; msg.style.background = 'rgba(239,68,68,0.08)'; msg.style.border = '1px solid rgba(239,68,68,0.2)';
-    msg.textContent = err.message || 'Something went wrong — please try again.';
-    btn.disabled = false; btn.textContent = 'Notify me';
-  }
-}
-</script>
 
 <script>
 // ── Scraper proxy (shared with Day 03) ───────────────────────
@@ -753,7 +704,7 @@ Simple, low-friction. 3-4 bullets. End with a single clear call to action.
 Use ## before each section header exactly as shown. Be specific, direct, and ${tone}. Sign off as ${yourName || yourCompany}.`;
 
   try {
-    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`, {
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -773,8 +724,6 @@ Use ## before each section header exactly as shown. Be specific, direct, and ${t
     document.getElementById('output').style.display = 'block';
     document.getElementById('loading').style.display = 'none';
     document.getElementById('outputContent').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    if (typeof gtag !== 'undefined') gtag('event', 'proposal_generated');
-    if (typeof fbq !== 'undefined') fbq('track', 'Lead');
   } catch(err) {
     clearInterval(loaderInterval);
     document.getElementById('loading').style.display = 'none';
@@ -848,31 +797,5 @@ function copyOutput() {
     <div class="key-privacy-note">🔒 Your key stays in your browser only — we never store or see it.</div>
   </div>
 </div>
-<!-- ═══ COOKIE CONSENT BANNER ═══ -->
-<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0F1F3D;border-top:1px solid #2A4A70;padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-  <p style="color:#8AAFD0;font-size:13px;margin:0;line-height:1.5;flex:1;min-width:220px;">
-    We use cookies for analytics and retargeting on Meta, LinkedIn, and X.
-    <a href="/ai-automations/privacy.html" style="color:#22D3EE;text-decoration:underline;">Privacy Policy</a>
-  </p>
-  <div style="display:flex;gap:10px;flex-shrink:0;">
-    <button onclick="declineCookies()" style="background:transparent;color:#8AAFD0;border:1px solid #2A4A70;border-radius:6px;padding:7px 16px;font-size:13px;cursor:pointer;">Decline</button>
-    <button onclick="acceptCookies()" style="background:#0891B2;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;">Accept</button>
-  </div>
-</div>
-<script>
-(function(){
-  var consent = localStorage.getItem("cookieConsent");
-  if (!consent) { document.getElementById("cookie-banner").style.display = "flex"; }
-})();
-function acceptCookies() {
-  localStorage.setItem("cookieConsent", "accepted");
-  document.getElementById("cookie-banner").style.display = "none";
-}
-function declineCookies() {
-  localStorage.setItem("cookieConsent", "declined");
-  document.getElementById("cookie-banner").style.display = "none";
-}
-</scr"+"ipt>
-<!-- ═══ END COOKIE BANNER ═══ -->
 </body>
 </html>

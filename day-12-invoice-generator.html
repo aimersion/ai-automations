@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://unpkg.com https://www.googletagmanager.com https://connect.facebook.net https://snap.licdn.com https://static.ads-twitter.com https://accounts.google.com https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src https:;">
+  <title>Invoice & Quote Generator — Free AI Tool | Aimersion Day 12</title>
+  <meta name="description" content="Generate professional invoices and quotes in 30 seconds. Connect Outlook to pull project context, send directly to clients. Free.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimersion.github.io/ai-automations/day-12-invoice-generator.html">
+  <meta property="og:title" content="Invoice & Quote Generator — Free AI Tool (Day 12 of 20)">
+  <meta property="og:description" content="Generate professional invoices and quotes in 30 seconds. Pull context from Outlook, send directly to clients. Free.">
+  <meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@aimersion">
+  <meta name="twitter:title" content="Invoice & Quote Generator — Free AI Tool (Day 12 of 20)">
+  <meta name="twitter:description" content="Generate professional invoices and quotes in 30 seconds. Free.">
+  <meta name="twitter:image" content="https://aimersion.github.io/ai-automations/og-image.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-69LQQBX0C1');</script>
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','876506382017154');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
+  <script type="text/javascript">_linkedin_partner_id="514319631";window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];window._linkedin_data_partner_ids.push(_linkedin_partner_id);</script>
+  <script type="text/javascript">(function(l){if(!l){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[]}var s=document.getElementsByTagName("script")[0];var b=document.createElement("script");b.type="text/javascript";b.async=true;b.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";s.parentNode.insertBefore(b,s);})(window.lintrk);</script>
+  <noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif"/></noscript>
+  <script>!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');twq('config','tw-r848k-r848k');</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';document.head.appendChild(s);})()"></script>
+
+  <style>
+    :root {
+      --bg: #080E1A;
+      --surface: #0F1829;
+      --surface2: #152035;
+      --border: #1E3050;
+      --border-bright: #2A4A70;
+      --orange: #EA580C;
+      --orange-dim: rgba(234,88,12,0.12);
+      --orange-glow: rgba(234,88,12,0.3);
+      --teal: #06B6D4;
+      --teal-dim: rgba(6,182,212,0.12);
+      --amber: #F59E0B;
+      --amber-dim: rgba(245,158,11,0.12);
+      --green: #10B981;
+      --green-dim: rgba(16,185,129,0.12);
+      --red: #EF4444;
+      --red-dim: rgba(239,68,68,0.12);
+      --white: #F1F5F9;
+      --muted: #64748B;
+      --muted2: #94A3B8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--white);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      background-color: rgba(8, 14, 26, 0.8);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header a {
+      font-size: 0.875rem;
+      color: var(--muted2);
+    }
+
+    .header-badge {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .hero-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-bottom: 0.5rem;
+      line-height: 1.1;
+    }
+
+    .hero-tagline {
+      font-size: 1.125rem;
+      color: var(--muted2);
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--orange);
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    .card {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-header {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .card-header.collapsible:hover {
+      color: var(--orange);
+    }
+
+    .card.collapsed > *:not(.card-header) {
+      display: none;
+    }
+
+    .toggle-icon {
+      width: 20px;
+      height: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+
+    .card.collapsed .toggle-icon {
+      transform: rotate(-90deg);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--muted2);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    input[type="date"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    input[type="date"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px var(--orange-glow);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .toggle-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 0.75rem;
+      background-color: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--muted2);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn.active {
+      background-color: var(--orange);
+      border-color: var(--orange);
+      color: var(--white);
+    }
+
+    .toggle-btn:hover {
+      border-color: var(--border-bright);
+    }
+
+    .line-items {
+      margin-top: 1rem;
+    }
+
+    .line-item {
+      display: grid;
+      grid-template-columns: 3fr 1fr 1.5fr 1.5fr auto;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+      align-items: flex-end;
+    }
+
+    .line-item input {
+      margin: 0;
+    }
+
+    .line-item-total {
+      padding: 0.75rem;
+      background-color: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-weight: 600;
+      color: var(--orange);
+      text-align: right;
+      font-size: 0.875rem;
+    }
+
+    .delete-btn {
+      width: 32px;
+      height: 32px;
+      padding: 0;
+      background-color: var(--red-dim);
+      border: 1px solid var(--red);
+      border-radius: 6px;
+      color: var(--red);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .delete-btn:hover {
+      background-color: var(--red);
+      color: var(--white);
+    }
+
+    .add-item-btn {
+      padding: 0.5rem 1rem;
+      background-color: var(--teal-dim);
+      border: 1px solid var(--teal);
+      border-radius: 6px;
+      color: var(--teal);
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+      margin-top: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .add-item-btn:hover {
+      background-color: var(--teal);
+      color: var(--white);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0;
+      border-top: 1px solid var(--border);
+      font-size: 0.875rem;
+    }
+
+    .summary-row.total {
+      font-weight: 700;
+      font-size: 1.125rem;
+      color: var(--orange);
+      border-top: 2px solid var(--orange);
+      padding: 1rem 0;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      border: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background-color: var(--orange);
+      color: var(--white);
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .btn-primary:hover {
+      background-color: #d94f07;
+      box-shadow: 0 0 20px var(--orange-glow);
+    }
+
+    .btn-secondary {
+      background-color: var(--surface2);
+      color: var(--muted2);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-bright);
+      color: var(--white);
+    }
+
+    .btn-success {
+      background-color: var(--green-dim);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+
+    .btn-success:hover {
+      background-color: var(--green);
+      color: var(--white);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .output-section {
+      display: none;
+    }
+
+    .output-section.active {
+      display: block;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: 0.75rem 1rem;
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      color: var(--orange);
+      border-bottom-color: var(--orange);
+    }
+
+    .document-view {
+      background-color: var(--white);
+      color: #1F2937;
+      padding: 2rem;
+      border-radius: 12px;
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    .document-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--orange);
+      padding-bottom: 1rem;
+    }
+
+    .document-company {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--bg);
+    }
+
+    .document-type {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--orange);
+      margin-top: 0.25rem;
+    }
+
+    .document-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+    }
+
+    .document-meta-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .document-meta-label {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .document-meta-value {
+      color: var(--bg);
+      font-weight: 600;
+    }
+
+    .document-parties {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .document-section-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .document-party-name {
+      font-weight: 700;
+      color: var(--bg);
+      margin-bottom: 0.25rem;
+    }
+
+    .document-party-text {
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .document-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+    }
+
+    .document-table th {
+      background-color: var(--surface2);
+      color: var(--bg);
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .document-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--bg);
+    }
+
+    .document-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .document-table-right {
+      text-align: right;
+    }
+
+    .document-totals {
+      display: flex;
+      justify-content: flex-end;
+      gap: 3rem;
+      margin: 2rem 0;
+    }
+
+    .document-total-col {
+      width: 150px;
+    }
+
+    .document-total-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      font-size: 0.875rem;
+      color: var(--bg);
+    }
+
+    .document-total-row.grand {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--orange);
+      padding: 1rem 0;
+      border-top: 2px solid var(--orange);
+      border-bottom: 2px solid var(--orange);
+    }
+
+    .document-notes {
+      background-color: var(--orange-dim);
+      padding: 1rem;
+      border-radius: 6px;
+      margin: 2rem 0;
+      border-left: 4px solid var(--orange);
+    }
+
+    .document-notes-title {
+      font-weight: 600;
+      color: var(--bg);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.5rem;
+    }
+
+    .document-notes-text {
+      color: var(--bg);
+      font-size: 0.85rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .document-footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    .plaintext-output {
+      background-color: var(--surface2);
+      padding: 1rem;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+      line-height: 1.5;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      padding: 1rem 1.5rem;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+    }
+
+    .toast.success {
+      background-color: var(--green);
+      color: var(--white);
+    }
+
+    .toast.error {
+      background-color: var(--red);
+      color: var(--white);
+    }
+
+    .toast.info {
+      background-color: var(--teal);
+      color: var(--white);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      color: var(--muted2);
+    }
+
+    .footer-link:hover {
+      color: var(--orange);
+    }
+
+    .email-results {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .email-card {
+      padding: 1rem;
+      background-color: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .email-card:hover {
+      border-color: var(--orange);
+      background-color: rgba(234,88,12,0.05);
+    }
+
+    .email-from {
+      font-weight: 600;
+      color: var(--orange);
+      font-size: 0.875rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .email-subject {
+      color: var(--white);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .email-preview {
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.4;
+      max-height: 2.8em;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background-color: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .modal-body {
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .modal-buttons button {
+      flex: 1;
+    }
+
+    .success-banner {
+      background-color: var(--green-dim);
+      border: 1px solid var(--green);
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      color: var(--green);
+      font-weight: 600;
+      display: none;
+    }
+
+    .success-banner.show {
+      display: block;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      background-color: var(--orange);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+      margin-left: 0.5rem;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      .hero h1 {
+        font-size: 1.75rem;
+      }
+
+      .line-item {
+        grid-template-columns: 1fr;
+      }
+
+      .document-parties {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-stats {
+        gap: 1rem;
+      }
+
+      .stat-value {
+        font-size: 1.25rem;
+      }
+
+      .footer {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <a href="index.html">← All Tools</a>
+  <div class="header-badge">DAY 12 OF 20</div>
+  <div style="width: 100px;"></div>
+</div>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-label">DAY 12 OF 20</div>
+    <h1>Invoice & <span style="color:var(--orange)">Quote Generator</span></h1>
+    <p class="hero-tagline">Stop rebuilding invoices from scratch. Pull the project context from your Outlook thread, fill in the numbers, and send a professional invoice or quote in 30 seconds.</p>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-value">30 sec</div>
+        <div class="stat-label">Time to generate</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">✉️</div>
+        <div class="stat-label">Sends via Outlook</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">2 modes</div>
+        <div class="stat-label">Invoice or Quote</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="success-banner" id="successBanner"></div>
+
+  <!-- GEMINI API KEY CARD -->
+  <div class="card collapsed" id="apiKeyCard">
+    <div class="card-header collapsible" onclick="toggleCard(event)">
+      <span>🔑 Gemini API Key</span>
+      <span class="toggle-icon">▼</span>
+    </div>
+    <div class="form-group">
+      <label for="apiKey">Your API Key (stored locally, never sent to our servers)</label>
+      <input type="password" id="apiKey" placeholder="Enter your Gemini API key">
+    </div>
+    <div style="font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem;">
+      Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>
+    </div>
+    <button class="btn btn-secondary" onclick="saveApiKey()" style="width: 100%;">Save & Close</button>
+  </div>
+
+  <!-- OUTLOOK CONNECTION CARD -->
+  <div class="card" id="outlookCard">
+    <div class="card-header">🔗 Connect to Outlook <span id="outlookStatus" style="font-size: 0.875rem; color: var(--muted);">(optional)</span></div>
+    <p style="font-size: 0.875rem; color: var(--muted); margin-bottom: 1rem;">Connect to read your sent emails and search for project context to auto-fill details.</p>
+    <button class="btn btn-secondary" onclick="connectOutlook()" id="connectOutlookBtn" style="width: 100%;">Connect Outlook</button>
+  </div>
+
+  <!-- DOCUMENT TYPE CARD -->
+  <div class="card">
+    <div class="card-header">📄 Document Type</div>
+    <div class="toggle-buttons">
+      <button class="toggle-btn active" onclick="setDocType('invoice')">📊 Invoice</button>
+      <button class="toggle-btn" onclick="setDocType('quote')">💬 Quote</button>
+    </div>
+  </div>
+
+  <!-- DETAILS CARD -->
+  <div class="card">
+    <div class="card-header">📋 Details</div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+      <div class="form-group">
+        <label for="companyName">Your Company Name</label>
+        <input type="text" id="companyName" placeholder="e.g., Ridgeline Creative">
+      </div>
+      <div class="form-group">
+        <label for="senderEmail">Your Email / Sender</label>
+        <input type="email" id="senderEmail" placeholder="billing@yourcompany.com">
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+      <div class="form-group">
+        <label for="clientName">Client Name</label>
+        <input type="text" id="clientName" placeholder="e.g., Apex Ventures" required>
+      </div>
+      <div class="form-group">
+        <label for="clientEmail">Client Email</label>
+        <input type="email" id="clientEmail" placeholder="contact@client.com">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="projectDesc">Project / Description</label>
+      <textarea id="projectDesc" placeholder="What are you invoicing for?"></textarea>
+    </div>
+
+    <!-- LINE ITEMS -->
+    <div class="form-group">
+      <label>Line Items</label>
+      <div class="line-items" id="lineItems">
+        <div class="line-item">
+          <input type="text" placeholder="Description" class="item-desc">
+          <input type="number" placeholder="Qty" min="1" value="1" class="item-qty">
+          <input type="number" placeholder="$0.00" min="0" step="0.01" class="item-price">
+          <div class="line-item-total">$0.00</div>
+          <button type="button" class="delete-btn" onclick="deleteLineItem(this)">×</button>
+        </div>
+        <div class="line-item">
+          <input type="text" placeholder="Description" class="item-desc">
+          <input type="number" placeholder="Qty" min="1" value="1" class="item-qty">
+          <input type="number" placeholder="$0.00" min="0" step="0.01" class="item-price">
+          <div class="line-item-total">$0.00</div>
+          <button type="button" class="delete-btn" onclick="deleteLineItem(this)">×</button>
+        </div>
+        <div class="line-item">
+          <input type="text" placeholder="Description" class="item-desc">
+          <input type="number" placeholder="Qty" min="1" value="1" class="item-qty">
+          <input type="number" placeholder="$0.00" min="0" step="0.01" class="item-price">
+          <div class="line-item-total">$0.00</div>
+          <button type="button" class="delete-btn" onclick="deleteLineItem(this)">×</button>
+        </div>
+      </div>
+      <button type="button" class="add-item-btn" onclick="addLineItem()">+ Add Item</button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+      <div class="form-group">
+        <label for="taxRate">Tax Rate (%)</label>
+        <input type="number" id="taxRate" min="0" max="100" step="0.1" value="0">
+      </div>
+      <div class="form-group">
+        <label for="dueDate">Due Date</label>
+        <input type="date" id="dueDate">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="notes">Notes / Terms</label>
+      <textarea id="notes" placeholder="Payment terms, late fees, bank details, etc."></textarea>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+      <div class="form-group">
+        <label for="docNumber">Invoice / Quote Number</label>
+        <input type="text" id="docNumber" placeholder="INV-2026-001">
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface2); border-radius: 6px;">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="subtotal">$0.00</span>
+      </div>
+      <div class="summary-row">
+        <span id="taxLabel">Tax (0%)</span>
+        <span id="taxAmount">$0.00</span>
+      </div>
+      <div class="summary-row total">
+        <span>TOTAL</span>
+        <span id="total">$0.00</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- INBOX SEARCH CARD (only when Outlook connected) -->
+  <div class="card" id="inboxSearchCard" style="display: none;">
+    <div class="card-header">📧 Search Inbox</div>
+    <p style="font-size: 0.875rem; color: var(--muted); margin-bottom: 1rem;">Search your sent emails for the original project discussion to auto-fill details.</p>
+    <div style="display: flex; gap: 1rem;">
+      <input type="text" id="searchQuery" placeholder="e.g., project name, client name" style="flex: 1;">
+      <button class="btn btn-secondary" onclick="searchInbox()" style="width: auto;">Search</button>
+    </div>
+    <div id="emailResults" class="email-results"></div>
+  </div>
+
+  <!-- ACTION BUTTONS -->
+  <div class="button-group">
+    <button class="btn btn-primary" onclick="generateDocument(false)">
+      <span id="generateText">⚡ Generate Invoice</span>
+    </button>
+    <button class="btn btn-secondary" onclick="runDemo()">▶ Run Demo</button>
+  </div>
+
+  <!-- OUTPUT SECTION -->
+  <div class="output-section active" id="outputSection" style="display: none;">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('document')">Document View</button>
+      <button class="tab-btn" onclick="switchTab('plaintext')">Plain Text</button>
+    </div>
+
+    <div id="documentTab" class="output-section active">
+      <div class="document-view" id="documentPreview"></div>
+      <div class="button-group" style="margin-top: 1.5rem;">
+        <button class="btn btn-secondary" onclick="copyDocument()">📋 Copy</button>
+        <button class="btn btn-success" onclick="openSendModal()" id="sendBtn">✉️ Send via Outlook</button>
+      </div>
+    </div>
+
+    <div id="plaintextTab" class="output-section">
+      <div class="plaintext-output" id="plaintextPreview"></div>
+      <div class="button-group" style="margin-top: 1.5rem;">
+        <button class="btn btn-secondary" onclick="copyPlaintext()">📋 Copy</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- SEND MODAL -->
+<div class="modal" id="sendModal">
+  <div class="modal-content">
+    <div class="modal-title">Send via Outlook</div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="modalTo">To:</label>
+        <input type="email" id="modalTo" placeholder="recipient@example.com">
+      </div>
+      <div class="form-group">
+        <label for="modalSubject">Subject:</label>
+        <input type="text" id="modalSubject" placeholder="Your Invoice / Quote">
+      </div>
+    </div>
+    <div class="modal-buttons">
+      <button class="btn btn-secondary" onclick="closeSendModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="sendViaOutlook()">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <a href="day-11-scope-of-work.html" class="footer-link">← Day 11: Scope of Work</a>
+  <a href="day-13-job-description.html" class="footer-link">Day 13: Job Description Writer →</a>
+</div>
+
+<script>
+  const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+  const MS_SCOPES = ['https://graph.microsoft.com/Mail.Read','https://graph.microsoft.com/Mail.Send','https://graph.microsoft.com/User.Read'];
+  const MSAL_CONFIG = {
+    auth: { clientId: AZURE_CLIENT_ID, authority: 'https://login.microsoftonline.com/common', redirectUri: window.location.href.split('?')[0].split('#')[0] },
+    cache: { cacheLocation: 'sessionStorage', storeAuthStateInCookie: false }
+  };
+
+  const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
+  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=`;
+
+  let msalInstance = null;
+  let msAccount = null;
+  let docType = 'invoice';
+  const loadingMessages = [
+    'Calculating your worth...',
+    'Formatting the numbers...',
+    'Making it look expensive...',
+    'Building your invoice...'
+  ];
+
+  function sanitizeHTML(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  function safeSetHTML(el, html) {
+    const clean = html
+      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/\bon\w+\s*=/gi, 'data-removed=')
+      .replace(/javascript:/gi, 'removed:');
+    el.innerHTML = clean;
+  }
+
+  function formatCurrency(num) {
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(num);
+  }
+
+  function toggleCard(e) {
+    if (!e.currentTarget.classList.contains('collapsible')) return;
+    e.currentTarget.closest('.card').classList.toggle('collapsed');
+  }
+
+  function setDocType(type) {
+    docType = type;
+    document.querySelectorAll('.toggle-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', (i === 0 && type === 'invoice') || (i === 1 && type === 'quote'));
+    });
+    const genText = type === 'invoice' ? '⚡ Generate Invoice' : '⚡ Generate Quote';
+    document.getElementById('generateText').textContent = genText;
+  }
+
+  async function initMsal() {
+    if (msalInstance) return;
+    try {
+      msalInstance = new msal.PublicClientApplication(MSAL_CONFIG);
+      await msalInstance.initialize();
+      const accounts = msalInstance.getAllAccounts();
+      if (accounts.length > 0) {
+        msAccount = accounts[0];
+        updateOutlookUI();
+      }
+    } catch(e) {
+      console.error('MSAL init failed');
+    }
+  }
+
+  async function connectOutlook() {
+    try {
+      if (!msalInstance) await initMsal();
+      const resp = await msalInstance.loginPopup({ scopes: MS_SCOPES, prompt: 'select_account' });
+      msAccount = resp.account;
+      updateOutlookUI();
+    } catch(e) {
+      showToast('Connection failed: ' + e.message, 'error');
+    }
+  }
+
+  function updateOutlookUI() {
+    if (!msAccount) return;
+    document.getElementById('outlookStatus').textContent = '✓ Connected';
+    document.getElementById('outlookStatus').style.color = 'var(--green)';
+    document.getElementById('connectOutlookBtn').textContent = 'Reconnect';
+    document.getElementById('inboxSearchCard').style.display = 'block';
+  }
+
+  async function getMsToken() {
+    if (!msalInstance || !msAccount) return null;
+    try {
+      const r = await msalInstance.acquireTokenSilent({ scopes: MS_SCOPES, account: msAccount });
+      return r.accessToken;
+    } catch {
+      const r = await msalInstance.acquireTokenPopup({ scopes: MS_SCOPES, account: msAccount });
+      return r.accessToken;
+    }
+  }
+
+  async function searchInbox() {
+    const query = document.getElementById('searchQuery').value.trim();
+    if (!query) return showToast('Enter a search query', 'error');
+
+    const token = await getMsToken();
+    if (!token) return showToast('Not connected to Outlook', 'error');
+
+    try {
+      showToast('Searching your inbox...', 'info');
+      const encodedQuery = encodeURIComponent(`from:${msAccount.username} subject:${query}`);
+      const res = await fetch(`https://graph.microsoft.com/v1.0/me/mailFolders/sentitems/messages?$search="${query}"&$top=3`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!res.ok) throw new Error('Search failed');
+      const data = await res.json();
+      const resultsDiv = document.getElementById('emailResults');
+      resultsDiv.innerHTML = '';
+
+      if (!data.value || data.value.length === 0) {
+        resultsDiv.innerHTML = '<p style="color: var(--muted); font-size: 0.875rem;">No emails found.</p>';
+        return;
+      }
+
+      data.value.slice(0, 3).forEach((email, i) => {
+        const preview = (email.bodyPreview || '').substring(0, 100);
+        const card = document.createElement('div');
+        card.className = 'email-card';
+        card.innerHTML = `
+          <div class="email-from">${sanitizeHTML(email.from.emailAddress.name || 'Unknown')}</div>
+          <div class="email-subject">${sanitizeHTML(email.subject)}</div>
+          <div class="email-preview">${sanitizeHTML(preview)}</div>
+        `;
+        card.onclick = () => useEmailData(email);
+        resultsDiv.appendChild(card);
+      });
+    } catch(e) {
+      showToast('Search error: ' + e.message, 'error');
+    }
+  }
+
+  function useEmailData(email) {
+    document.getElementById('projectDesc').value = sanitizeHTML(email.subject || '');
+    showToast('Email data loaded', 'success');
+  }
+
+  function saveApiKey() {
+    const key = document.getElementById('apiKey').value.trim();
+    if (!key) return showToast('Enter an API key', 'error');
+    localStorage.setItem('gemini_key', key);
+    document.getElementById('apiKey').value = '';
+    document.getElementById('apiKeyCard').classList.add('collapsed');
+    showToast('API key saved', 'success');
+  }
+
+  function addLineItem() {
+    const container = document.getElementById('lineItems');
+    const item = document.createElement('div');
+    item.className = 'line-item';
+    item.innerHTML = `
+      <input type="text" placeholder="Description" class="item-desc">
+      <input type="number" placeholder="Qty" min="1" value="1" class="item-qty">
+      <input type="number" placeholder="$0.00" min="0" step="0.01" class="item-price">
+      <div class="line-item-total">$0.00</div>
+      <button type="button" class="delete-btn" onclick="deleteLineItem(this)">×</button>
+    `;
+    item.querySelectorAll('input').forEach(input => input.addEventListener('input', updateTotals));
+    container.appendChild(item);
+    updateTotals();
+  }
+
+  function deleteLineItem(btn) {
+    btn.closest('.line-item').remove();
+    updateTotals();
+  }
+
+  function updateTotals() {
+    const items = document.querySelectorAll('.line-item');
+    let subtotal = 0;
+
+    items.forEach(item => {
+      const qty = parseFloat(item.querySelector('.item-qty').value) || 0;
+      const price = parseFloat(item.querySelector('.item-price').value) || 0;
+      const total = qty * price;
+      item.querySelector('.line-item-total').textContent = formatCurrency(total);
+      subtotal += total;
+    });
+
+    const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+    const tax = subtotal * (taxRate / 100);
+    const grand = subtotal + tax;
+
+    document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+    document.getElementById('taxAmount').textContent = formatCurrency(tax);
+    document.getElementById('taxLabel').textContent = `Tax (${taxRate}%)`;
+    document.getElementById('total').textContent = formatCurrency(grand);
+  }
+
+  document.getElementById('taxRate').addEventListener('input', updateTotals);
+  document.querySelectorAll('.line-item input').forEach(inp => inp.addEventListener('input', updateTotals));
+
+  function generateDocNumber() {
+    const prefix = docType === 'invoice' ? 'INV' : 'QT';
+    const year = new Date().getFullYear();
+    const num = String(Math.floor(Math.random() * 999) + 1).padStart(3, '0');
+    return `${prefix}-${year}-${num}`;
+  }
+
+  function setDueDate() {
+    const today = new Date();
+    const dueDate = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+    document.getElementById('dueDate').valueAsDate = dueDate;
+  }
+
+  function buildDocument() {
+    const items = document.querySelectorAll('.line-item');
+    const lineItems = Array.from(items).map(item => ({
+      desc: item.querySelector('.item-desc').value || '',
+      qty: parseFloat(item.querySelector('.item-qty').value) || 0,
+      price: parseFloat(item.querySelector('.item-price').value) || 0
+    })).filter(i => i.desc && i.qty > 0);
+
+    const subtotal = lineItems.reduce((sum, i) => sum + (i.qty * i.price), 0);
+    const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+    const tax = subtotal * (taxRate / 100);
+    const total = subtotal + tax;
+
+    const company = document.getElementById('companyName').value || 'Your Company';
+    const senderEmail = document.getElementById('senderEmail').value || '';
+    const clientName = document.getElementById('clientName').value || 'Client';
+    const clientEmail = document.getElementById('clientEmail').value || '';
+    const projectDesc = document.getElementById('projectDesc').value || '';
+    const notes = document.getElementById('notes').value || '';
+    const docNumber = document.getElementById('docNumber').value || generateDocNumber();
+    const dueDate = document.getElementById('dueDate').value || '';
+    const today = new Date().toISOString().split('T')[0];
+
+    const typeLabel = docType === 'invoice' ? 'INVOICE' : 'QUOTE';
+
+    let html = `
+      <div class="document-header">
+        <div class="document-company">${sanitizeHTML(company)}</div>
+        <div class="document-type">${typeLabel}</div>
+      </div>
+
+      <div class="document-meta">
+        <div class="document-meta-item">
+          <span class="document-meta-label">${docType === 'invoice' ? 'Invoice' : 'Quote'} #:</span>
+          <span class="document-meta-value">${sanitizeHTML(docNumber)}</span>
+        </div>
+        <div class="document-meta-item">
+          <span class="document-meta-label">Date:</span>
+          <span class="document-meta-value">${today}</span>
+        </div>
+        ${docType === 'invoice' ? `<div class="document-meta-item">
+          <span class="document-meta-label">Due Date:</span>
+          <span class="document-meta-value">${dueDate}</span>
+        </div>` : ''}
+      </div>
+
+      <div class="document-parties">
+        <div>
+          <div class="document-section-title">From</div>
+          <div class="document-party-name">${sanitizeHTML(company)}</div>
+          <div class="document-party-text">${sanitizeHTML(senderEmail)}</div>
+        </div>
+        <div>
+          <div class="document-section-title">To</div>
+          <div class="document-party-name">${sanitizeHTML(clientName)}</div>
+          <div class="document-party-text">${sanitizeHTML(clientEmail)}</div>
+        </div>
+      </div>
+
+      ${projectDesc ? `<div style="margin-bottom: 2rem; padding: 1rem; background-color: var(--orange-dim); border-radius: 6px; color: #1F2937;">
+        <strong>Project:</strong> ${sanitizeHTML(projectDesc)}
+      </div>` : ''}
+
+      <table class="document-table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th style="text-align: center; width: 80px;">Qty</th>
+            <th class="document-table-right" style="width: 120px;">Unit Price</th>
+            <th class="document-table-right" style="width: 120px;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    lineItems.forEach(item => {
+      html += `
+        <tr>
+          <td>${sanitizeHTML(item.desc)}</td>
+          <td style="text-align: center;">${item.qty}</td>
+          <td class="document-table-right">${formatCurrency(item.price)}</td>
+          <td class="document-table-right">${formatCurrency(item.qty * item.price)}</td>
+        </tr>
+      `;
+    });
+
+    html += `
+        </tbody>
+      </table>
+
+      <div class="document-totals">
+        <div class="document-total-col">
+          <div class="document-total-row">
+            <span>Subtotal</span>
+            <span>${formatCurrency(subtotal)}</span>
+          </div>
+          ${taxRate > 0 ? `<div class="document-total-row">
+            <span>Tax (${taxRate}%)</span>
+            <span>${formatCurrency(tax)}</span>
+          </div>` : ''}
+          <div class="document-total-row grand">
+            <span>TOTAL</span>
+            <span>${formatCurrency(total)}</span>
+          </div>
+        </div>
+      </div>
+
+      ${notes ? `<div class="document-notes">
+        <div class="document-notes-title">Terms & Notes</div>
+        <div class="document-notes-text">${sanitizeHTML(notes)}</div>
+      </div>` : ''}
+
+      <div class="document-footer">
+        Thank you for your business. Questions? Contact ${sanitizeHTML(senderEmail)}
+      </div>
+    `;
+
+    return html;
+  }
+
+  function buildPlaintext() {
+    const items = document.querySelectorAll('.line-item');
+    const lineItems = Array.from(items).map(item => ({
+      desc: item.querySelector('.item-desc').value || '',
+      qty: parseFloat(item.querySelector('.item-qty').value) || 0,
+      price: parseFloat(item.querySelector('.item-price').value) || 0
+    })).filter(i => i.desc && i.qty > 0);
+
+    const subtotal = lineItems.reduce((sum, i) => sum + (i.qty * i.price), 0);
+    const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+    const tax = subtotal * (taxRate / 100);
+    const total = subtotal + tax;
+
+    const company = document.getElementById('companyName').value || 'Your Company';
+    const senderEmail = document.getElementById('senderEmail').value || '';
+    const clientName = document.getElementById('clientName').value || 'Client';
+    const clientEmail = document.getElementById('clientEmail').value || '';
+    const projectDesc = document.getElementById('projectDesc').value || '';
+    const notes = document.getElementById('notes').value || '';
+    const docNumber = document.getElementById('docNumber').value || generateDocNumber();
+    const dueDate = document.getElementById('dueDate').value || '';
+    const today = new Date().toISOString().split('T')[0];
+
+    const typeLabel = docType === 'invoice' ? 'INVOICE' : 'QUOTE';
+
+    let text = `
+${company.toUpperCase()}
+${typeLabel}
+
+${typeLabel === 'INVOICE' ? `Invoice #: ${docNumber}` : `Quote #: ${docNumber}`}
+Date: ${today}
+${docType === 'invoice' ? `Due: ${dueDate}` : ''}
+
+FROM:
+${company}
+${senderEmail}
+
+TO:
+${clientName}
+${clientEmail}
+
+${projectDesc ? `PROJECT: ${projectDesc}\n` : ''}
+
+LINE ITEMS:
+${lineItems.map((item, i) => {
+  const total = item.qty * item.price;
+  return `${i + 1}. ${item.desc}
+   Qty: ${item.qty} × $${item.price.toFixed(2)} = ${formatCurrency(total)}`;
+}).join('\n\n')}
+
+SUMMARY:
+Subtotal: ${formatCurrency(subtotal)}
+${taxRate > 0 ? `Tax (${taxRate}%): ${formatCurrency(tax)}` : ''}
+TOTAL: ${formatCurrency(total)}
+
+${notes ? `TERMS & NOTES:\n${notes}` : ''}
+
+Thank you for your business. Questions? Contact ${senderEmail}
+    `.trim();
+
+    return text;
+  }
+
+  async function generateDocument(isDemo = false) {
+    const clientName = document.getElementById('clientName').value.trim();
+    if (!clientName && !isDemo) return showToast('Client name is required', 'error');
+
+    const key = localStorage.getItem('gemini_key');
+    if (!key && !isDemo) return showToast('Add your Gemini API key first', 'error');
+
+    if (!document.getElementById('docNumber').value) {
+      document.getElementById('docNumber').value = generateDocNumber();
+    }
+    if (!document.getElementById('dueDate').value) {
+      setDueDate();
+    }
+
+    const loadMsg = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+    const btn = event.target;
+    const origText = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = `${loadMsg} <span class="loading"></span>`;
+
+    try {
+      // Show output section
+      document.getElementById('outputSection').style.display = 'block';
+      document.getElementById('documentTab').className = 'output-section active';
+      document.getElementById('plaintextTab').className = 'output-section';
+
+      // Build and render document
+      const docHTML = buildDocument();
+      document.getElementById('documentPreview').innerHTML = docHTML;
+
+      const plaintext = buildPlaintext();
+      document.getElementById('plaintextPreview').textContent = plaintext;
+
+      showToast('Document ready!', 'success');
+      window.scrollTo({ top: document.getElementById('outputSection').offsetTop - 100, behavior: 'smooth' });
+    } catch(e) {
+      showToast('Error: ' + e.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = origText;
+    }
+  }
+
+  function runDemo() {
+    // Fill with demo data
+    document.getElementById('companyName').value = 'Ridgeline Creative';
+    document.getElementById('senderEmail').value = 'billing@ridgelinecreative.com';
+    document.getElementById('clientName').value = 'Apex Ventures';
+    document.getElementById('clientEmail').value = 'client@apexventures.com';
+    document.getElementById('projectDesc').value = 'Brand Strategy & Visual Identity Package';
+    document.getElementById('notes').value = 'Payment due within 30 days. Late payments subject to 1.5% monthly fee. Questions? billing@ridgelinecreative.com';
+    document.getElementById('docNumber').value = 'INV-2026-047';
+    document.getElementById('taxRate').value = '0';
+
+    // Fill line items
+    const items = document.querySelectorAll('.line-item');
+    const demoItems = [
+      { desc: 'Brand Strategy Workshop', qty: 1, price: 3500 },
+      { desc: 'Logo & Visual Identity Package', qty: 1, price: 4200 },
+      { desc: 'Brand Guidelines Document', qty: 1, price: 1800 }
+    ];
+
+    demoItems.forEach((demo, i) => {
+      if (items[i]) {
+        items[i].querySelector('.item-desc').value = demo.desc;
+        items[i].querySelector('.item-qty').value = demo.qty;
+        items[i].querySelector('.item-price').value = demo.price;
+      }
+    });
+
+    // Set due date
+    const today = new Date();
+    const dueDate = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+    document.getElementById('dueDate').valueAsDate = dueDate;
+
+    updateTotals();
+    generateDocument(true);
+  }
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.output-section').forEach(s => s.classList.remove('active'));
+
+    event.target.classList.add('active');
+    if (tab === 'document') {
+      document.getElementById('documentTab').classList.add('active');
+    } else {
+      document.getElementById('plaintextTab').classList.add('active');
+    }
+  }
+
+  function copyDocument() {
+    const doc = document.getElementById('documentPreview');
+    const text = doc.innerText || doc.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('Document copied to clipboard', 'success');
+    });
+  }
+
+  function copyPlaintext() {
+    const text = document.getElementById('plaintextPreview').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      showToast('Text copied to clipboard', 'success');
+    });
+  }
+
+  function openSendModal() {
+    const clientEmail = document.getElementById('clientEmail').value;
+    const typeLabel = docType === 'invoice' ? 'Invoice' : 'Quote';
+    const docNumber = document.getElementById('docNumber').value;
+    document.getElementById('modalTo').value = clientEmail;
+    document.getElementById('modalSubject').value = `${typeLabel} #${docNumber}`;
+    document.getElementById('sendModal').classList.add('active');
+  }
+
+  function closeSendModal() {
+    document.getElementById('sendModal').classList.remove('active');
+  }
+
+  async function sendViaOutlook() {
+    const to = document.getElementById('modalTo').value.trim();
+    const subject = document.getElementById('modalSubject').value.trim();
+
+    if (!to || !subject) return showToast('Fill in all fields', 'error');
+
+    const token = await getMsToken();
+    if (!token) return showToast('Not connected to Outlook', 'error');
+
+    const plaintext = document.getElementById('plaintextPreview').textContent;
+
+    try {
+      const btn = event.target;
+      btn.disabled = true;
+      const origText = btn.textContent;
+      btn.textContent = 'Sending...';
+
+      const res = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: {
+            subject: subject,
+            body: { contentType: 'Text', content: plaintext },
+            toRecipients: [{ emailAddress: { address: to } }]
+          }
+        })
+      });
+
+      if (!res.ok) throw new Error('Send failed');
+
+      document.getElementById('successBanner').textContent = `✓ Sent to ${to} via Outlook`;
+      document.getElementById('successBanner').classList.add('show');
+      closeSendModal();
+      showToast('Document sent successfully!', 'success');
+      btn.disabled = false;
+      btn.textContent = origText;
+    } catch(e) {
+      showToast('Send failed: ' + e.message, 'error');
+      btn.disabled = false;
+      btn.textContent = origText;
+    }
+  }
+
+  function showToast(msg, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.textContent = msg;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  // Initialize
+  window.addEventListener('load', () => {
+    initMsal();
+    setDueDate();
+    updateTotals();
+  });
+</script>
+
+</body>
+</html>

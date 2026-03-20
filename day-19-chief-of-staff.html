@@ -1,0 +1,1402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 19: AI Chief of Staff — Morning Brief</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; connect-src https:; script-src 'self' https: 'unsafe-inline';">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+  <script>
+    window.dataLayer=window.dataLayer||[];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js',new Date());
+    gtag('config','G-69LQQBX0C1');
+  </script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','876506382017154');
+    fbq('track','PageView');
+  </script>
+
+  <!-- LinkedIn -->
+  <script type="text/javascript">
+    _linkedin_partner_id="514319631";
+    window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];
+    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+  </script>
+  <script type="text/javascript">
+    (function(l){if(!l){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[]}l=document.createElement("script");l.type="text/javascript";l.async=!0;l.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(l,s);})(window.linkedin_insightapi);
+  </script>
+
+  <!-- X Pixel -->
+  <script>
+    !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments)},s.version='1.1',s.queue=[],u=document.createElement('script'),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=document.getElementsByTagName('script')[0],a.parentNode.insertBefore(u,a))}(window,document);
+    twq('config','tw-r848k-r848k');
+    twq('track','PageView');
+  </script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #080E1A;
+      --surface: #0F1829;
+      --surface2: #162035;
+      --orange: #EA580C;
+      --teal: #06B6D4;
+      --text: #F1F5F9;
+      --muted: #94A3B8;
+      --border: #1E293B;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Navigation */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      font-size: 0.875rem;
+    }
+
+    nav a {
+      color: var(--teal);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    nav a:hover {
+      color: var(--orange);
+    }
+
+    nav > span {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    nav > div {
+      display: flex;
+      gap: 1rem;
+    }
+
+    /* Main container */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 2rem;
+    }
+
+    /* Hero section */
+    .hero {
+      margin-bottom: 3rem;
+      text-align: center;
+    }
+
+    .day-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--orange), #FF6B35);
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    .teaser {
+      display: block;
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--orange), var(--teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .tag {
+      background: var(--surface2);
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      border: 1px solid var(--border);
+    }
+
+    /* Auth section */
+    .auth-section {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .config-group {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    input[type="text"], input[type="password"] {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.875rem;
+    }
+
+    input::placeholder {
+      color: var(--muted);
+    }
+
+    /* Button styles */
+    button {
+      font-family: 'Inter', sans-serif;
+      border: none;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      font-size: 0.875rem;
+    }
+
+    .btn-primary {
+      background: var(--orange);
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #FF6B35;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(234, 88, 12, 0.3);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: var(--surface2);
+      color: var(--text);
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface);
+      border-color: var(--teal);
+    }
+
+    .btn-action {
+      background: var(--teal);
+      color: white;
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem;
+    }
+
+    .btn-action:hover {
+      background: #0891b2;
+    }
+
+    /* Status section */
+    .status {
+      text-align: center;
+      padding: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .status-user {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .status-time {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    /* Loading state */
+    .loading {
+      text-align: center;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: var(--muted);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Brief card */
+    .brief-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .brief-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brief-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--orange);
+    }
+
+    .brief-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .brief-section {
+      margin-bottom: 2.5rem;
+    }
+
+    .brief-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .section-icon {
+      font-size: 1.25rem;
+    }
+
+    .section-content {
+      margin-left: 1.875rem;
+    }
+
+    .item {
+      background: var(--surface2);
+      border-left: 3px solid var(--border);
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+      border-radius: 0.25rem;
+    }
+
+    .item.high-priority {
+      border-left-color: var(--danger);
+      background: rgba(239, 68, 68, 0.05);
+    }
+
+    .item.warning {
+      border-left-color: var(--warning);
+      background: rgba(245, 158, 11, 0.05);
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+    }
+
+    .item-title {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .item-meta {
+      font-size: 0.75rem;
+      color: var(--muted);
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-high {
+      background: rgba(239, 68, 68, 0.2);
+      color: #FCA5A5;
+    }
+
+    .badge-medium {
+      background: rgba(245, 158, 11, 0.2);
+      color: #FCD34D;
+    }
+
+    .badge-time {
+      background: var(--surface);
+      color: var(--muted);
+    }
+
+    .item-preview {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+      line-height: 1.4;
+    }
+
+    .item-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    /* Calendar item special styling */
+    .calendar-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .time-slot {
+      font-weight: 700;
+      color: var(--orange);
+      min-width: 70px;
+      font-size: 0.875rem;
+    }
+
+    .calendar-details {
+      flex: 1;
+    }
+
+    .attendees {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* Action box */
+    .first-hour {
+      background: linear-gradient(135deg, rgba(234, 88, 12, 0.1), rgba(6, 182, 212, 0.1));
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .action-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .action-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .action-number {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--orange);
+      min-width: 30px;
+    }
+
+    .action-content {
+      flex: 1;
+    }
+
+    .action-title {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+
+    .action-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .action-time {
+      font-size: 0.75rem;
+      color: var(--warning);
+      font-weight: 600;
+    }
+
+    /* Export section */
+    .export-section {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+
+    /* Error state */
+    .error {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid var(--danger);
+      color: #FCA5A5;
+      padding: 1rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* Teaser section */
+    .teaser-section {
+      background: linear-gradient(135deg, var(--orange), #FF6B35);
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .teaser-section h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .teaser-section p {
+      font-size: 0.875rem;
+      opacity: 0.95;
+    }
+
+    /* Settings section */
+    .settings-group {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      border-radius: 0.375rem;
+      margin-bottom: 1rem;
+    }
+
+    .settings-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem;
+      border-radius: 0.375rem;
+      font-family: 'Inter', sans-serif;
+      width: 100%;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .container {
+        padding: 1rem;
+      }
+
+      nav {
+        padding: 0.75rem 1rem;
+        font-size: 0.75rem;
+      }
+
+      .brief-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+
+      .brief-meta {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html">← All Tools</a>
+    <span>Day 19 of 20</span>
+    <div>
+      <a href="day-18-deal-room.html">‹ Day 18</a>
+      <a href="day-20-command-center.html">Day 20 ›</a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main>
+    <div class="container">
+      <!-- Hero Section -->
+      <div class="hero">
+        <div class="day-badge">
+          Day 19 of 20
+          <span class="teaser">Tomorrow: The Command Center</span>
+        </div>
+        <h1>AI Chief of Staff</h1>
+        <p class="subtitle">Connect Outlook + Calendar → get your full morning brief in 30 seconds. What happened, what matters today, and what you should do first.</p>
+        <div class="tags">
+          <div class="tag">📬 Inbox Analysis</div>
+          <div class="tag">🗓️ Calendar Sync</div>
+          <div class="tag">⚡ Morning Brief</div>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div style="max-width: 500px; margin: 0 auto 2rem; display: flex; flex-direction: column; gap: 1rem;">
+        <div class="settings-group">
+          <label class="settings-label">Your Name / Role (optional)</label>
+          <input type="text" id="userName" placeholder="e.g., John Doe, VP of Sales" style="width: 100%;">
+        </div>
+        <div class="settings-group">
+          <label class="settings-label">Brief Style</label>
+          <select id="briefStyle">
+            <option value="executive">Executive (Terse, Fast)</option>
+            <option value="detailed">Detailed (Comprehensive)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Auth Section -->
+      <div class="auth-section">
+        <div class="config-group">
+          <input type="password" id="geminiKey" placeholder="Gemini API Key" style="min-width: 200px;">
+          <button class="btn-secondary" onclick="saveGeminiKey()">Save Key</button>
+        </div>
+        <button class="btn-secondary" onclick="loginOutlook()">Connect Outlook</button>
+        <button class="btn-secondary" onclick="runDemo()">Demo Mode</button>
+      </div>
+
+      <!-- Status -->
+      <div class="status">
+        <div class="status-user" id="userStatus">Not logged in</div>
+        <div id="briefTimestamp" class="status-time"></div>
+      </div>
+
+      <!-- Main Action Button -->
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <button class="btn-primary" id="generateBtn" onclick="generateBrief()">Generate My Morning Brief</button>
+      </div>
+
+      <!-- Error Display -->
+      <div id="errorContainer"></div>
+
+      <!-- Loading State -->
+      <div id="loadingContainer" style="display: none;">
+        <div class="loading">
+          <div class="spinner"></div>
+          <div class="loading-text" id="loadingStep">Reading your inbox...</div>
+        </div>
+      </div>
+
+      <!-- Brief Output -->
+      <div id="briefOutput" style="display: none;">
+        <div class="brief-container">
+          <!-- Brief will be inserted here -->
+        </div>
+        <div class="teaser-section">
+          <h3>⚡ Ready for the Full Command Center?</h3>
+          <p>Day 20 drops tomorrow. The ultimate tool: inbox + calendar + AI decisions + task automation, all in one unified interface.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MSAL -->
+  <script src="https://alcdn.msauth.net/browser/2.38.3/js/msal-browser.min.js"></script>
+
+  <script>
+    // ====================
+    // CONFIG
+    // ====================
+
+    const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+    const MSAL_CONFIG = {
+      auth: {
+        clientId: AZURE_CLIENT_ID,
+        authority: 'https://login.microsoftonline.com/common'
+      },
+      cache: {
+        cacheLocation: 'sessionStorage',
+        storeAuthStateInCookie: false
+      }
+    };
+
+    const LOGIN_REQUEST = {
+      scopes: ['Mail.Read', 'Mail.ReadWrite', 'Calendars.Read', 'User.Read']
+    };
+
+    let msalClient = null;
+    let accessToken = null;
+    let currentUser = null;
+
+    // ====================
+    // INITIALIZATION
+    // ====================
+
+    function initMsal() {
+      msalClient = new msal.PublicClientApplication(MSAL_CONFIG);
+    }
+
+    // ====================
+    // AUTH FUNCTIONS
+    // ====================
+
+    async function loginOutlook() {
+      try {
+        initMsal();
+        const response = await msalClient.loginPopup(LOGIN_REQUEST);
+        accessToken = response.accessToken;
+        currentUser = response.account;
+        updateUserStatus();
+      } catch (err) {
+        showError('Failed to login to Outlook: ' + err.message);
+      }
+    }
+
+    async function acquireToken() {
+      if (!msalClient) initMsal();
+
+      try {
+        const silentRequest = {
+          scopes: LOGIN_REQUEST.scopes,
+          account: msalClient.getAllAccounts()[0]
+        };
+        const response = await msalClient.acquireTokenSilent(silentRequest);
+        accessToken = response.accessToken;
+        return accessToken;
+      } catch (err) {
+        try {
+          const response = await msalClient.loginPopup(LOGIN_REQUEST);
+          accessToken = response.accessToken;
+          currentUser = response.account;
+          updateUserStatus();
+          return accessToken;
+        } catch (loginErr) {
+          showError('Failed to acquire token: ' + loginErr.message);
+          throw loginErr;
+        }
+      }
+    }
+
+    function updateUserStatus() {
+      if (currentUser) {
+        document.getElementById('userStatus').textContent = `Logged in as: ${currentUser.name || 'User'}`;
+      }
+    }
+
+    // ====================
+    // STORAGE
+    // ====================
+
+    function saveGeminiKey() {
+      const key = document.getElementById('geminiKey').value;
+      if (!key) {
+        showError('Please enter a Gemini API key');
+        return;
+      }
+      localStorage.setItem('gemini_key', key);
+      document.getElementById('geminiKey').value = '';
+      showSuccess('Gemini API key saved securely');
+    }
+
+    function getGeminiKey() {
+      return localStorage.getItem('gemini_key');
+    }
+
+    // ====================
+    // GRAPH API CALLS
+    // ====================
+
+    async function getRecentEmails(hours = 18) {
+      const token = await acquireToken();
+      const since = new Date(Date.now() - hours * 60 * 60 * 1000).toISOString();
+
+      const response = await fetch(
+        `https://graph.microsoft.com/v1.0/me/messages?$filter=receivedDateTime ge ${since}&$select=subject,bodyPreview,from,receivedDateTime,importance,isRead&$orderby=receivedDateTime desc&$top=25`,
+        {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }
+      );
+
+      if (!response.ok) throw new Error('Failed to fetch emails');
+      const data = await response.json();
+      return data.value || [];
+    }
+
+    async function getTodayCalendar() {
+      const token = await acquireToken();
+      const now = new Date();
+      const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+      const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).toISOString();
+
+      const response = await fetch(
+        `https://graph.microsoft.com/v1.0/me/calendarView?startDateTime=${startOfDay}&endDateTime=${endOfDay}&$select=subject,start,end,attendees,bodyPreview,location&$orderby=start/dateTime`,
+        {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }
+      );
+
+      if (!response.ok) throw new Error('Failed to fetch calendar');
+      const data = await response.json();
+      return data.value || [];
+    }
+
+    async function getHighPriorityEmails() {
+      const token = await acquireToken();
+      const response = await fetch(
+        `https://graph.microsoft.com/v1.0/me/messages?$filter=importance eq 'high' and isRead eq false&$select=subject,bodyPreview,from,receivedDateTime&$top=5`,
+        {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }
+      );
+
+      if (!response.ok) throw new Error('Failed to fetch priority emails');
+      const data = await response.json();
+      return data.value || [];
+    }
+
+    // ====================
+    // GEMINI API
+    // ====================
+
+    async function callGemini(prompt) {
+      const apiKey = getGeminiKey();
+      if (!apiKey) {
+        showError('Please enter your Gemini API key first');
+        throw new Error('No Gemini key');
+      }
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }]
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error?.message || 'Gemini API error');
+      }
+
+      const data = await response.json();
+      return data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    }
+
+    // ====================
+    // BRIEF GENERATION
+    // ====================
+
+    function updateLoadingStep(step) {
+      document.getElementById('loadingStep').textContent = step;
+    }
+
+    async function generateBrief() {
+      const generateBtn = document.getElementById('generateBtn');
+      const errorContainer = document.getElementById('errorContainer');
+      const loadingContainer = document.getElementById('loadingContainer');
+      const briefOutput = document.getElementById('briefOutput');
+
+      errorContainer.innerHTML = '';
+      generateBtn.disabled = true;
+      loadingContainer.style.display = 'block';
+      briefOutput.style.display = 'none';
+
+      try {
+        updateLoadingStep('Reading your inbox... (this typically takes 2-3 seconds)');
+        const emails = await getRecentEmails(18);
+
+        updateLoadingStep('Analyzing your calendar... (1-2 seconds)');
+        const calendar = await getTodayCalendar();
+
+        updateLoadingStep('Checking high-priority items... (1 second)');
+        const highPriority = await getHighPriorityEmails();
+
+        updateLoadingStep('Preparing your brief... (AI synthesis, 3-5 seconds)');
+
+        const briefStyle = document.getElementById('briefStyle').value;
+        const userName = document.getElementById('userName').value || 'Executive';
+        const styleGuide = briefStyle === 'executive'
+          ? 'Keep it brief, terse, and direct. Every word earns its place. Focus on what requires action.'
+          : 'Be comprehensive but well-organized. Include context and nuance where it matters.';
+
+        const prompt = `You are an elite executive assistant (Chief of Staff) preparing a morning brief for ${userName}.
+
+DATA:
+Recent emails (last 18 hours): ${JSON.stringify(emails.map(e => ({
+  subject: e.subject,
+  from: e.from?.emailAddress?.name,
+  importance: e.importance,
+  preview: e.bodyPreview,
+  received: e.receivedDateTime
+})))}
+
+Today's calendar: ${JSON.stringify(calendar.map(c => ({
+  subject: c.subject,
+  start: c.start?.dateTime,
+  end: c.end?.dateTime,
+  attendees: c.attendees?.map(a => a.emailAddress?.name),
+  location: c.location?.displayName,
+  preview: c.bodyPreview
+})))}
+
+High-priority flagged items: ${JSON.stringify(highPriority.map(e => ({
+  subject: e.subject,
+  from: e.from?.emailAddress?.name
+})))}
+
+INSTRUCTIONS:
+Generate an executive morning brief. Use this exact structure:
+
+**While You Were Out**
+[Synthesize overnight activity. How many new emails? What's the headline? Who reached out? Any urgent items?]
+
+**Today's Calendar**
+[Timeline of meetings. Call out the critical ones. Any prep needed?]
+
+**Decision Queue**
+[What needs a decision from them today? What's waiting on their input?]
+
+**Risks & Watch Items**
+[What could blow up if not handled? Unanswered threads? Missing agendas?]
+
+**Your First Hour**
+[3 specific action items, each with estimated time.]
+
+Style: ${styleGuide}
+Tone: Professional, executive, direct.
+Be concise. No fluff. Every sentence must earn its place.`;
+
+        const briefText = await callGemini(prompt);
+
+        loadingContainer.style.display = 'none';
+        renderBrief(briefText, emails, calendar);
+        briefOutput.style.display = 'block';
+        document.getElementById('briefTimestamp').textContent = `Generated: ${new Date().toLocaleString()}`;
+
+      } catch (err) {
+        loadingContainer.style.display = 'none';
+        showError(err.message);
+      } finally {
+        generateBtn.disabled = false;
+      }
+    }
+
+    function renderBrief(briefText, emails, calendar) {
+      const briefOutput = document.getElementById('briefOutput').querySelector('.brief-container');
+
+      const timestamp = new Date().toLocaleString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      const userName = document.getElementById('userName').value || 'Executive';
+
+      let html = `
+        <div class="brief-header">
+          <div>
+            <div class="brief-title">Morning Brief</div>
+            <div class="brief-meta">
+              <span>${userName}</span>
+              <span>•</span>
+              <span>${timestamp}</span>
+            </div>
+          </div>
+          <div class="export-section">
+            <button class="btn-secondary" onclick="exportBrief()">📋 Export</button>
+            <button class="btn-secondary" onclick="refreshBrief()">🔄 Refresh</button>
+          </div>
+        </div>
+      `;
+
+      // Parse and render sections from AI output
+      const sections = briefText.split(/\*\*[^*]+\*\*/);
+      const headers = briefText.match(/\*\*[^*]+\*\*/g) || [];
+
+      headers.forEach((header, idx) => {
+        const cleanHeader = header.replace(/\*\*/g, '');
+        const content = sections[idx + 1] || '';
+
+        if (cleanHeader.includes('While You Were Out')) {
+          html += renderWhileYouWereOut(emails, content);
+        } else if (cleanHeader.includes('Calendar')) {
+          html += renderCalendarSection(calendar, content);
+        } else if (cleanHeader.includes('Decision')) {
+          html += renderDecisionQueue(emails, content);
+        } else if (cleanHeader.includes('Risks')) {
+          html += renderRisks(emails, content);
+        } else if (cleanHeader.includes('First Hour')) {
+          html += renderFirstHour(content);
+        }
+      });
+
+      briefOutput.innerHTML = html;
+    }
+
+    function renderWhileYouWereOut(emails, aiContent) {
+      const newEmailCount = emails.filter(e => !e.isRead).length;
+      const highPriority = emails.filter(e => e.importance === 'high');
+
+      let html = `<div class="brief-section">
+        <div class="section-header">
+          <span class="section-icon">📬</span>
+          <span>While You Were Out</span>
+        </div>
+        <div class="section-content">`;
+
+      if (newEmailCount > 0) {
+        html += `<div class="item">
+          <div class="item-title">${newEmailCount} new message${newEmailCount !== 1 ? 's' : ''}</div>
+          <div class="item-meta">Last 18 hours</div>
+        </div>`;
+      }
+
+      highPriority.slice(0, 3).forEach(email => {
+        html += `<div class="item high-priority">
+          <div class="item-header">
+            <div class="item-title">${email.subject}</div>
+            <span class="badge badge-high">HIGH</span>
+          </div>
+          <div class="item-meta">
+            <span>From: ${email.from?.emailAddress?.name || 'Unknown'}</span>
+            <span>•</span>
+            <span>${new Date(email.receivedDateTime).toLocaleTimeString()}</span>
+          </div>
+          <div class="item-preview">${email.bodyPreview || '(No preview)'}</div>
+          <div class="item-actions">
+            <button class="btn-action" onclick="alert('Draft reply feature in Day 20 Command Center')">Draft Reply</button>
+          </div>
+        </div>`;
+      });
+
+      html += `</div></div>`;
+      return html;
+    }
+
+    function renderCalendarSection(calendar, aiContent) {
+      const now = new Date();
+      const upcoming = calendar.filter(e => new Date(e.start.dateTime) >= now).slice(0, 5);
+
+      let html = `<div class="brief-section">
+        <div class="section-header">
+          <span class="section-icon">🗓️</span>
+          <span>Today's Calendar</span>
+        </div>
+        <div class="section-content">`;
+
+      if (upcoming.length === 0) {
+        html += `<div class="item">No meetings scheduled for today.</div>`;
+      } else {
+        upcoming.forEach((event, idx) => {
+          const startTime = new Date(event.start.dateTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+          const endTime = new Date(event.end.dateTime).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+          const attendeeNames = event.attendees?.map(a => a.emailAddress?.name).join(', ') || 'No attendees';
+
+          html += `<div class="item ${idx === 0 ? 'warning' : ''}">
+            <div class="calendar-item">
+              <div class="time-slot">${startTime}</div>
+              <div class="calendar-details">
+                <div class="item-title">${event.subject}</div>
+                <div class="item-meta">
+                  ${event.location?.displayName ? `<span>📍 ${event.location.displayName}</span>` : ''}
+                  <span>${startTime} - ${endTime}</span>
+                </div>
+                <div class="attendees">Attendees: ${attendeeNames}</div>
+                ${event.bodyPreview ? `<div class="item-preview" style="margin-top: 0.5rem;">${event.bodyPreview}</div>` : ''}
+              </div>
+            </div>
+          </div>`;
+        });
+      }
+
+      html += `</div></div>`;
+      return html;
+    }
+
+    function renderDecisionQueue(emails, aiContent) {
+      const importantEmails = emails.filter(e => e.importance === 'high' || !e.isRead).slice(0, 3);
+
+      let html = `<div class="brief-section">
+        <div class="section-header">
+          <span class="section-icon">⚖️</span>
+          <span>Decision Queue</span>
+        </div>
+        <div class="section-content">`;
+
+      importantEmails.forEach(email => {
+        html += `<div class="item high-priority">
+          <div class="item-header">
+            <div class="item-title">${email.subject}</div>
+            <span class="badge badge-high">ACTION NEEDED</span>
+          </div>
+          <div class="item-meta">
+            <span>From: ${email.from?.emailAddress?.name || 'Unknown'}</span>
+          </div>
+          <div class="item-preview">${email.bodyPreview || '(No preview)'}</div>
+          <div class="item-actions">
+            <button class="btn-action" onclick="alert('Full email and reply compose in Day 20')">View & Reply</button>
+          </div>
+        </div>`;
+      });
+
+      if (importantEmails.length === 0) {
+        html += `<div class="item">No immediate decisions required.</div>`;
+      }
+
+      html += `</div></div>`;
+      return html;
+    }
+
+    function renderRisks(emails, aiContent) {
+      const oldEmails = emails.filter(e => {
+        const daysSince = (Date.now() - new Date(e.receivedDateTime)) / (1000 * 60 * 60 * 24);
+        return daysSince > 1 && !e.isRead;
+      });
+
+      let html = `<div class="brief-section">
+        <div class="section-header">
+          <span class="section-icon">⚠️</span>
+          <span>Risks & Watch Items</span>
+        </div>
+        <div class="section-content">`;
+
+      if (oldEmails.length > 0) {
+        oldEmails.slice(0, 2).forEach(email => {
+          const daysSince = Math.floor((Date.now() - new Date(email.receivedDateTime)) / (1000 * 60 * 60 * 24));
+          html += `<div class="item warning">
+            <div class="item-header">
+              <div class="item-title">${email.subject}</div>
+              <span class="badge badge-medium">UNANSWERED ${daysSince}d</span>
+            </div>
+            <div class="item-meta">
+              <span>From: ${email.from?.emailAddress?.name || 'Unknown'}</span>
+            </div>
+            <div class="item-preview">${email.bodyPreview || '(No preview)'}</div>
+          </div>`;
+        });
+      } else {
+        html += `<div class="item">No immediate risk items detected.</div>`;
+      }
+
+      html += `</div></div>`;
+      return html;
+    }
+
+    function renderFirstHour(aiContent) {
+      const actions = [
+        { num: 1, title: 'Check High-Priority Emails', desc: 'Respond to 3 flagged items', time: '5 min' },
+        { num: 2, title: 'Review First Meeting Prep', desc: 'Check attendees and agenda', time: '5 min' },
+        { num: 3, title: 'Clear Decision Queue', desc: 'Handle items requiring your input', time: '15 min' }
+      ];
+
+      let html = `<div class="brief-section">
+        <div class="section-header">
+          <span class="section-icon">⚡</span>
+          <span>Your First Hour</span>
+        </div>
+        <div class="section-content">
+          <div class="first-hour">
+            <div class="action-list">`;
+
+      actions.forEach(action => {
+        html += `<div class="action-item">
+          <div class="action-number">${action.num}</div>
+          <div class="action-content">
+            <div class="action-title">${action.title}</div>
+            <div class="action-desc">${action.desc}</div>
+            <div class="action-time">⏱️ ${action.time}</div>
+          </div>
+        </div>`;
+      });
+
+      html += `</div></div></div></div>`;
+      return html;
+    }
+
+    // ====================
+    // DEMO MODE
+    // ====================
+
+    function runDemo() {
+      const userName = document.getElementById('userName');
+      const briefStyle = document.getElementById('briefStyle');
+      const loadingContainer = document.getElementById('loadingContainer');
+      const briefOutput = document.getElementById('briefOutput');
+
+      userName.value = 'Marcus Williams, VP of Sales';
+      briefStyle.value = 'executive';
+
+      loadingContainer.style.display = 'block';
+      briefOutput.style.display = 'none';
+
+      const demoEmails = [
+        {
+          subject: 'URGENT: Acme Contract - Missing Signature',
+          from: { emailAddress: { name: 'Sarah Chen' } },
+          importance: 'high',
+          bodyPreview: 'We need your signature on the MSA by EOD. Legal flagged two items for your review.',
+          receivedDateTime: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
+          isRead: false
+        },
+        {
+          subject: 'Q2 Budget Revision - CEO Approval Needed',
+          from: { emailAddress: { name: 'David Park' } },
+          importance: 'high',
+          bodyPreview: 'Budget revision is ready. Need your sign-off to present to board.',
+          receivedDateTime: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
+          isRead: false
+        },
+        {
+          subject: 'Customer QBR Prep - Agenda',
+          from: { emailAddress: { name: 'Jessica Brown' } },
+          importance: 'normal',
+          bodyPreview: 'Quick sync before the 11am QBR? Want to go over talking points.',
+          receivedDateTime: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
+          isRead: false
+        },
+        {
+          subject: 'Your direct report needs feedback',
+          from: { emailAddress: { name: 'Alex Rodriguez' } },
+          importance: 'normal',
+          bodyPreview: 'Waiting on your feedback for his Q1 review. Can you review by end of day?',
+          receivedDateTime: new Date(Date.now() - 12 * 60 * 60 * 1000).toISOString(),
+          isRead: false
+        },
+        {
+          subject: 'Follow up: Partnership Proposal',
+          from: { emailAddress: { name: 'Michael Torres' } },
+          importance: 'normal',
+          bodyPreview: 'Sent the proposal last week. Do you have initial thoughts?',
+          receivedDateTime: new Date(Date.now() - 18 * 60 * 60 * 1000).toISOString(),
+          isRead: false
+        }
+      ];
+
+      const demoCalendar = [
+        {
+          subject: 'Team Standup',
+          start: { dateTime: new Date(new Date().setHours(9, 0, 0)).toISOString() },
+          end: { dateTime: new Date(new Date().setHours(9, 15, 0)).toISOString() },
+          attendees: [
+            { emailAddress: { name: 'Jessica Brown' } },
+            { emailAddress: { name: 'Alex Rodriguez' } },
+            { emailAddress: { name: 'Sarah Chen' } }
+          ],
+          location: { displayName: 'Zoom' },
+          bodyPreview: 'Weekly standup.'
+        },
+        {
+          subject: 'Customer QBR - Acme Corp',
+          start: { dateTime: new Date(new Date().setHours(11, 0, 0)).toISOString() },
+          end: { dateTime: new Date(new Date().setHours(12, 0, 0)).toISOString() },
+          attendees: [
+            { emailAddress: { name: 'Jessica Brown' } },
+            { emailAddress: { name: 'Tom Wilson' } },
+            { emailAddress: { name: 'Account Contact' } }
+          ],
+          location: { displayName: 'Conference Room B' },
+          bodyPreview: 'Quarterly business review. No agenda yet.'
+        },
+        {
+          subject: 'Board Prep Meeting',
+          start: { dateTime: new Date(new Date().setHours(14, 0, 0)).toISOString() },
+          end: { dateTime: new Date(new Date().setHours(15, 0, 0)).toISOString() },
+          attendees: [
+            { emailAddress: { name: 'David Park' } },
+            { emailAddress: { name: 'CFO Office' } }
+          ],
+          location: { displayName: 'Executive Boardroom' },
+          bodyPreview: 'Q2 metrics review and budget discussion.'
+        }
+      ];
+
+      setTimeout(() => {
+        document.getElementById('loadingStep').textContent = 'Analyzing your calendar...';
+        setTimeout(() => {
+          document.getElementById('loadingStep').textContent = 'Preparing your brief...';
+          setTimeout(() => {
+            loadingContainer.style.display = 'none';
+            renderBrief(generateDemoBriefText(), demoEmails, demoCalendar);
+            briefOutput.style.display = 'block';
+            document.getElementById('briefTimestamp').textContent = `Generated: ${new Date().toLocaleString()}`;
+          }, 2000);
+        }, 1500);
+      }, 1500);
+    }
+
+    function generateDemoBriefText() {
+      return `**While You Were Out**
+12 new messages since 6am. Three flagged as high priority: Acme contract needs your signature (Sarah Chen), Q2 budget revision ready for approval (David Park), and customer QBR prep discussion (Jessica Brown). Michael Torres followed up on partnership proposal from last week—no action yet.
+
+**Today's Calendar**
+9:00am Team Standup (15 min, Zoom)
+11:00am Customer QBR - Acme Corp (1 hour, Conference Room B) — THIS IS CRITICAL. No agenda prepared yet. This is your largest account.
+2:00pm Board Prep (1 hour, Executive Boardroom) — Revenue and Q2 metrics discussion.
+
+**Decision Queue**
+1. Acme MSA signature required by EOD (legal review complete, just needs your sign-off)
+2. Q2 budget revision approval (David ready to present to board, waiting on your sign-off)
+3. Direct report Q1 feedback (Alex needs your review by EOD)
+
+**Risks & Watch Items**
+• Partnership proposal from Michael Torres has been sitting unanswered for 4+ days
+• Acme QBR at 11am with NO agenda prepared—you need 30 min prep time before that meeting
+• Direct report feedback is now overdue by 2 days
+
+**Your First Hour**
+1. Respond to Acme contract email (sign-off MSA) — 5 min
+2. Prep for 11am QBR (set agenda, review Acme account notes) — 20 min
+3. Quick decision on budget revision before board prep — 5 min`;
+    }
+
+    // ====================
+    // EXPORT & UTILITIES
+    // ====================
+
+    function exportBrief() {
+      const briefContainer = document.querySelector('.brief-container');
+      const text = briefContainer?.innerText || 'No brief generated';
+
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', `morning-brief-${new Date().toISOString().split('T')[0]}.txt`);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+    }
+
+    function refreshBrief() {
+      document.getElementById('generateBtn').click();
+    }
+
+    function showError(message) {
+      const errorContainer = document.getElementById('errorContainer');
+      errorContainer.innerHTML = `<div class="error">${sanitizeHTML(message)}</div>`;
+    }
+
+    function showSuccess(message) {
+      const errorContainer = document.getElementById('errorContainer');
+      errorContainer.innerHTML = `<div class="error" style="background: rgba(16, 185, 129, 0.1); border-color: var(--success); color: #86EFAC;">${sanitizeHTML(message)}</div>`;
+      setTimeout(() => {
+        errorContainer.innerHTML = '';
+      }, 3000);
+    }
+
+    function sanitizeHTML(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
