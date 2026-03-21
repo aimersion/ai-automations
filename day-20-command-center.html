@@ -410,6 +410,11 @@ twq("config","tw-r848k-r848k");
       <div style="margin-bottom: 12px;">
         <button class="btn btn-teal" onclick="connectMicrosoft()" id="connectBtn">📧 Connect Outlook</button>
         <div id="connectStatus" style="font-size: 12px; color: var(--muted); margin-top: 6px;"></div>
+        <div id="outlookConnectedChip" style="display:none;align-items:center;gap:8px;padding:8px 12px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:8px;font-size:13px;">
+          <span style="color:#10B981;font-weight:700;">✓ Outlook Connected</span>
+          <span id="outlookConnectedEmail" style="color:var(--muted);"></span>
+          <button onclick="connectMicrosoft()" style="margin-left:auto;background:none;border:1px solid var(--border);color:var(--muted);padding:2px 8px;border-radius:4px;font-size:11px;cursor:pointer;">Switch Account</button>
+        </div>
       </div>
     </div>
   </div>
@@ -725,6 +730,31 @@ async function initMsal() {
   }
 }
 
+function updateSetupCard() {
+  const accounts = (typeof msalInstance !== 'undefined' && msalInstance && msalInstance.getAllAccounts)
+    ? msalInstance.getAllAccounts() : [];
+  const connected = accounts.length > 0;
+  const btn = document.getElementById('connectBtn');
+  const chip = document.getElementById('outlookConnectedChip');
+  const emailEl = document.getElementById('outlookConnectedEmail');
+  const statusEl = document.getElementById('card-setup-status');
+  const card = document.getElementById('card-setup');
+  if (connected) {
+    const email = accounts[0].username || '';
+    if (btn) btn.style.display = 'none';
+    if (chip) { chip.style.display = 'flex'; }
+    if (emailEl) emailEl.textContent = email;
+    if (statusEl) statusEl.textContent = '✓ ' + email;
+    // Auto-collapse the card — it's done, out of the way
+    if (card && !card.classList.contains('collapsed')) card.classList.add('collapsed');
+  } else {
+    if (btn) btn.style.display = '';
+    if (chip) chip.style.display = 'none';
+    if (statusEl) statusEl.textContent = '';
+    if (card && card.classList.contains('collapsed')) card.classList.remove('collapsed');
+  }
+}
+
 async function connectMicrosoft() {
   try {
     if (!msalInstance) await initMsal();
@@ -736,6 +766,7 @@ async function connectMicrosoft() {
     });
     msAccount = resp.account;
     __checkSetup();
+    updateSetupCard();
     showToast('✅ Outlook connected');
   } catch(e) {
     if (e.errorCode === 'user_cancelled') return;
@@ -1422,6 +1453,7 @@ function renderEngagementMetrics() {
   window.addEventListener('DOMContentLoaded', () => {
     initMsal().then(() => {
       __checkSetup();
+      updateSetupCard();
     }).catch(e => console.error('MSAL init error:', e));
   });
 })();
