@@ -177,7 +177,39 @@ twq("config","tw-r848k-r848k");
   @media (max-width: 640px) {
     .sticky-cta { display: flex; }
   }
-</style>
+
+    /* ── Standardized input styling ── */
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="url"], input[type="number"], input[type="search"],
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+    textarea, select {
+      background: #0D1B2E !important;
+      border: 1px solid #1E3A5F !important;
+      border-radius: 8px !important;
+      color: #E2E8F0 !important;
+      font-family: inherit !important;
+      font-size: 14px !important;
+      padding: 10px 14px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: border-color 0.2s !important;
+      outline: none !important;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+    input[type="url"]:focus, input[type="number"]:focus, input[type="search"]:focus,
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]):focus,
+    textarea:focus, select:focus {
+      border-color: #0EA5E9 !important;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15) !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #64748B !important;
+    }
+    select option {
+      background: #0D1B2E;
+      color: #E2E8F0;
+    }
+  </style>
 </head>
 <body>
 

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>20 Free AI Tools — One Drops Every Day | Aimersion</title>
   <meta name="description"
-    content="A new free AI productivity tool drops every day for 20 days. No installs. No account needed. Just paste your Gemini API key and go.">
+    content="A new free AI productivity tool drops every day for 20 days. Connects to your real Outlook inbox. No installs. No account needed. Just click and go.">
 
   <!-- Favicon set -->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -23,7 +23,7 @@
   <meta property="og:site_name" content="Aimersion">
   <meta property="og:title" content="20 Free AI Tools — One Drops Every Day">
   <meta property="og:description"
-    content="A new free AI productivity tool drops every day for 20 days. No installs. No account needed.">
+    content="A new free AI productivity tool drops every day for 20 days. Outlook-connected. No installs. No account needed.">
   <meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -31,10 +31,10 @@
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@jimlynchAI">
+  <meta name="twitter:site" content="@aimersion">
   <meta name="twitter:title" content="20 Free AI Tools — One Drops Every Day">
   <meta name="twitter:description"
-    content="A new free AI productivity tool drops every day for 20 days. No installs. No account needed.">
+    content="A new free AI productivity tool drops every day for 20 days. Outlook-connected. No installs. No account needed.">
   <meta name="twitter:image" content="https://aimersion.github.io/ai-automations/og-image.png">
   <meta name="twitter:image:alt" content="20 Free AI Tools — Aimersion">
 
@@ -86,7 +86,6 @@
   </script>
   <noscript><img height="1" width="1" style="display:none;" alt=""
       src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif" /></noscript>
-
   <!-- X (Twitter) Pixel -->
   <script>
     !function (e, t, n, s, u, a) {
@@ -102,7 +101,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet">
-
   <style>
     :root {
       --bg: #080E1A;
@@ -111,13 +109,11 @@
       --border: #1E3050;
       --border-bright: #2A4A70;
       --teal: #06B6D4;
-      --teal-dim: rgba(6, 182, 212, 0.12);
+      --teal-dim: rgba(6, 182, 212, 0.15);
       --teal-glow: rgba(6, 182, 212, 0.3);
       --green: #10B981;
       --green-dim: rgba(16, 185, 129, 0.15);
       --green-glow: rgba(16, 185, 129, 0.4);
-      --orange: #EA580C;
-      --orange-dim: rgba(234, 88, 12, 0.15);
       --amber: #F59E0B;
       --amber-dim: rgba(245, 158, 11, 0.15);
       --white: #F1F5F9;
@@ -125,8 +121,16 @@
       --muted2: #94A3B8;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background: var(--bg);
       color: var(--white);
@@ -140,9 +144,9 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(8, 14, 26, 0.9);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: rgba(8, 14, 26, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       padding: 14px 32px;
       display: flex;
@@ -159,7 +163,11 @@
       text-decoration: none;
     }
 
-    .header-right { display: flex; align-items: center; gap: 12px; }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
     .share-btn {
       display: inline-flex;
@@ -176,24 +184,29 @@
       text-decoration: none;
       transition: border-color 0.2s, background 0.2s;
     }
-    .share-btn:hover { border-color: var(--teal); background: var(--teal-dim); }
+
+    .share-btn:hover {
+      border-color: var(--teal);
+      background: var(--teal-dim);
+    }
 
     /* ── Hero ── */
     .hero {
       text-align: center;
-      padding: 80px 24px 56px;
+      padding: 80px 24px 48px;
       position: relative;
       overflow: hidden;
     }
+
     .hero::before {
       content: '';
       position: absolute;
       top: -60px;
       left: 50%;
       transform: translateX(-50%);
-      width: 700px;
-      height: 450px;
-      background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.1) 0%, transparent 70%);
+      width: 600px;
+      height: 400px;
+      background: radial-gradient(ellipse at center, rgba(6, 182, 212, 0.12) 0%, transparent 70%);
       pointer-events: none;
     }
 
@@ -207,28 +220,36 @@
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 2px;
-      padding: 6px 18px;
+      padding: 6px 16px;
       border-radius: 20px;
       text-transform: uppercase;
       margin-bottom: 24px;
     }
+
     .live-dot {
-      width: 7px; height: 7px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--green);
       animation: pulse 2s infinite;
     }
+
     @keyframes pulse {
-      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--green-glow); }
-      50% { opacity: 0.8; box-shadow: 0 0 0 6px transparent; }
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+
+      0%,
+      100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 var(--green-glow);
+      }
+
+      50% {
+        opacity: 0.8;
+        box-shadow: 0 0 0 6px transparent;
+      }
     }
 
     h1 {
-      font-size: clamp(36px, 6vw, 66px);
+      font-size: clamp(38px, 6vw, 68px);
       font-weight: 900;
       line-height: 1.05;
       letter-spacing: -1.5px;
@@ -237,26 +258,33 @@
       margin-left: auto;
       margin-right: auto;
     }
-    h1 .accent { color: var(--teal); }
-    h1 .accent2 { color: var(--amber); }
+
+    h1 .accent {
+      color: var(--teal);
+    }
+
+    h1 .accent2 {
+      color: var(--amber);
+    }
 
     .hero-sub {
       font-size: 17px;
       color: var(--muted2);
       line-height: 1.7;
-      max-width: 520px;
+      max-width: 560px;
       margin: 0 auto 40px;
     }
 
-    /* ── Progress ── */
+    /* ── Progress Bar ── */
     .progress-wrap {
-      max-width: 540px;
-      margin: 0 auto 16px;
+      max-width: 560px;
+      margin: 0 auto 40px;
       background: var(--surface2);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px 22px;
+      border-radius: 12px;
+      padding: 16px 20px;
     }
+
     .progress-label {
       display: flex;
       justify-content: space-between;
@@ -268,124 +296,183 @@
       letter-spacing: 1px;
       text-transform: uppercase;
     }
-    .progress-label span { color: var(--teal); }
+
+    .progress-label span {
+      color: var(--teal);
+    }
+
     .progress-bar {
       height: 6px;
       background: var(--border);
       border-radius: 4px;
       overflow: hidden;
     }
+
     .progress-fill {
       height: 100%;
       border-radius: 4px;
       background: linear-gradient(90deg, var(--teal), var(--green));
+      width: 15%;
+      /* 3/20 */
       box-shadow: 0 0 8px var(--teal-glow);
-      transition: width 1s ease;
     }
+
     .progress-dots {
       display: flex;
       gap: 5px;
       flex-wrap: wrap;
       margin-top: 12px;
     }
-    .pdot { width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0; }
-    .pdot-live { background: var(--green); box-shadow: 0 0 6px var(--green-glow); }
-    .pdot-locked { background: var(--border); }
 
-    /* ── Section wrapper ── */
-    .section {
-      max-width: 1060px;
-      margin: 0 auto;
-      padding: 0 24px;
+    .pdot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
     }
 
-    /* ── Section heading ── */
-    .section-eyebrow {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .pdot-live {
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green-glow);
     }
-    .section-eyebrow::after {
-      content: '';
-      flex: 1;
-      height: 1px;
+
+    .pdot-locked {
       background: var(--border);
     }
 
-    /* ── Featured Card (Day 07 hero) ── */
-    .featured-wrap { margin-bottom: 20px; }
+    /* ── Notify strip ── */
+    .notify-strip {
+      max-width: 560px;
+      margin: 0 auto 56px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .notify-strip p {
+      font-size: 13px;
+      color: var(--muted2);
+    }
+
+    .notify-strip a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--teal);
+      color: #000;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 7px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .notify-strip a:hover {
+      opacity: 0.85;
+    }
+
+    /* ── Featured Card ── */
+    .featured-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 56px;
+    }
 
     .featured-card {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0;
       background: var(--surface);
-      border: 1px solid rgba(16, 185, 129, 0.4);
+      border: 1px solid rgba(16, 185, 129, 0.35);
       border-radius: 20px;
       overflow: hidden;
       text-decoration: none;
       color: inherit;
-      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.08), 0 8px 48px rgba(16, 185, 129, 0.12);
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.08), 0 8px 40px rgba(16, 185, 129, 0.1);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
-      position: relative;
     }
+
     .featured-card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.25), 0 20px 60px rgba(16, 185, 129, 0.2);
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2), 0 16px 50px rgba(16, 185, 129, 0.18);
     }
 
     .featured-left {
-      padding: 40px 36px;
+      padding: 36px 32px;
       display: flex;
       flex-direction: column;
+      gap: 0;
       border-right: 1px solid var(--border);
     }
+
     .featured-day-tag {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 2.5px;
       color: var(--green);
       text-transform: uppercase;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
+
     .featured-day-tag::before {
       content: '';
       display: inline-block;
-      width: 7px; height: 7px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: var(--green);
       box-shadow: 0 0 6px var(--green-glow);
       animation: blink 1.4s ease-in-out infinite;
     }
-    .featured-icon { font-size: 44px; margin-bottom: 16px; }
-    .featured-title { font-size: 30px; font-weight: 900; margin-bottom: 14px; line-height: 1.08; }
+
+    .featured-icon {
+      font-size: 40px;
+      margin-bottom: 14px;
+    }
+
+    .featured-title {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+
     .featured-desc {
       font-size: 15px;
       color: var(--muted2);
-      line-height: 1.7;
+      line-height: 1.65;
       margin-bottom: 24px;
       flex: 1;
     }
-    .featured-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px; }
+
+    .featured-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 28px;
+    }
+
     .tag {
       background: rgba(6, 182, 212, 0.08);
       border: 1px solid rgba(6, 182, 212, 0.2);
       color: rgba(6, 182, 212, 0.85);
       font-size: 10px;
       font-weight: 600;
-      padding: 3px 10px;
+      padding: 3px 9px;
       border-radius: 10px;
       letter-spacing: 0.3px;
     }
+
     .featured-cta {
       display: inline-flex;
       align-items: center;
@@ -394,21 +481,25 @@
       color: #fff;
       font-size: 15px;
       font-weight: 800;
-      padding: 14px 26px;
+      padding: 13px 24px;
       border-radius: 10px;
       align-self: flex-start;
       transition: opacity 0.2s;
     }
-    .featured-card:hover .featured-cta { opacity: 0.88; }
+
+    .featured-card:hover .featured-cta {
+      opacity: 0.9;
+    }
 
     .featured-right {
-      padding: 32px 28px;
+      padding: 28px 24px;
       background: linear-gradient(160deg, var(--surface) 0%, rgba(16, 185, 129, 0.04) 100%);
       display: flex;
       flex-direction: column;
       gap: 10px;
       justify-content: center;
     }
+
     .preview-label {
       font-size: 10px;
       font-weight: 700;
@@ -417,12 +508,22 @@
       color: var(--muted);
       margin-bottom: 4px;
     }
+
     .preview-email {
       background: var(--surface2);
       border-radius: 10px;
-      padding: 13px 15px;
+      padding: 12px 14px;
       border-left: 3px solid transparent;
     }
+
+    .preview-email.p1 {
+      border-left-color: #F87171;
+    }
+
+    .preview-email.p2 {
+      border-left-color: #FCD34D;
+    }
+
     .preview-badge {
       font-size: 9px;
       font-weight: 800;
@@ -433,154 +534,157 @@
       margin-bottom: 6px;
       display: inline-block;
     }
-    .preview-subject { font-size: 13px; font-weight: 600; margin-bottom: 3px; line-height: 1.3; }
-    .preview-from { font-size: 11px; color: var(--muted); }
+
+    .badge-urgent {
+      background: rgba(248, 113, 113, 0.15);
+      color: #F87171;
+    }
+
+    .badge-review {
+      background: rgba(252, 211, 77, 0.12);
+      color: #FCD34D;
+    }
+
+    .preview-subject {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+
+    .preview-from {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
     .preview-more {
       text-align: center;
       font-size: 12px;
       color: var(--muted);
-      padding: 9px;
+      padding: 8px;
       border: 1px dashed var(--border);
       border-radius: 8px;
     }
 
-    /* ── Tool Grid Cards ── */
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 72px;
-    }
-
-    .tool-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px 26px;
-      text-decoration: none;
-      color: inherit;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
-      position: relative;
-      overflow: hidden;
-    }
-    .tool-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--teal), transparent);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-    .tool-card:hover {
-      border-color: var(--teal);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 32px rgba(6, 182, 212, 0.12);
-    }
-    .tool-card:hover::before { opacity: 1; }
-
-    .tool-card-day {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-    .tool-card-icon { font-size: 32px; margin-bottom: 14px; }
-    .tool-card-title { font-size: 18px; font-weight: 800; margin-bottom: 10px; line-height: 1.2; }
-    .tool-card-desc {
-      font-size: 13px;
-      color: var(--muted2);
-      line-height: 1.65;
-      margin-bottom: 18px;
-      flex: 1;
-    }
-    .tool-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; }
-    .tool-tag {
-      background: rgba(6, 182, 212, 0.07);
-      border: 1px solid rgba(6, 182, 212, 0.18);
-      color: rgba(6, 182, 212, 0.75);
-      font-size: 9px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 8px;
-      letter-spacing: 0.3px;
-    }
-    .tool-card-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--teal);
-      margin-top: auto;
-    }
-    .tool-card:hover .tool-card-cta { gap: 8px; }
-    .tool-card-cta-arrow { transition: transform 0.2s; }
-    .tool-card:hover .tool-card-cta-arrow { transform: translateX(4px); }
-
     /* ── Next Up / Follow Strip ── */
+    .next-up-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 72px;
+    }
+
     .next-up-card {
       background: var(--surface2);
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 32px 36px;
+      border-radius: 16px;
+      padding: 28px 32px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 28px;
+      gap: 24px;
       flex-wrap: wrap;
-      margin-bottom: 72px;
     }
+
+    .next-up-left {}
+
     .next-up-eyebrow {
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
       color: var(--amber);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
-    .next-up-title { font-size: 24px; font-weight: 800; }
-    .next-up-sub { font-size: 14px; color: var(--muted2); margin-top: 6px; }
-    .follow-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .next-up-title {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .next-up-sub {
+      font-size: 13px;
+      color: var(--muted2);
+      margin-top: 4px;
+    }
+
+    .follow-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
     .follow-btn {
       display: inline-flex;
       align-items: center;
       gap: 7px;
       font-size: 13px;
       font-weight: 700;
-      padding: 11px 20px;
-      border-radius: 10px;
+      padding: 10px 18px;
+      border-radius: 9px;
       text-decoration: none;
       transition: opacity 0.2s;
       white-space: nowrap;
     }
-    .follow-btn-x { background: #fff; color: #000; }
-    .follow-btn-li { background: #0A66C2; color: #fff; }
-    .follow-btn:hover { opacity: 0.85; }
+
+    .follow-btn-x {
+      background: #fff;
+      color: #000;
+    }
+
+    .follow-btn-li {
+      background: #0A66C2;
+      color: #fff;
+    }
+
+    .follow-btn:hover {
+      opacity: 0.85;
+    }
 
     /* ── How It Works ── */
     .how-section {
+      max-width: 900px;
+      margin: 0 auto 80px;
+      padding: 0 24px;
       text-align: center;
-      margin-bottom: 80px;
     }
-    .how-section h2 { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
-    .how-section > p { font-size: 15px; color: var(--muted2); margin-bottom: 40px; line-height: 1.6; }
-    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    .how-section h2 {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .how-section p {
+      font-size: 15px;
+      color: var(--muted2);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .step {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 28px 22px;
+      border-radius: 12px;
+      padding: 24px 20px;
       text-align: left;
     }
+
     .step-num {
-      width: 32px; height: 32px;
-      border-radius: 9px;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
       background: var(--teal-dim);
       color: var(--teal);
       font-size: 13px;
@@ -588,12 +692,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
-    .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
-    .step p { font-size: 13px; color: var(--muted2); line-height: 1.65; }
-    .step a { color: var(--teal); text-decoration: none; }
-    .step a:hover { text-decoration: underline; }
+
+    .step h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 13px;
+      color: var(--muted2);
+      line-height: 1.6;
+    }
+
+    .step a {
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .step a:hover {
+      text-decoration: underline;
+    }
 
     /* ── Footer ── */
     footer {
@@ -605,9 +726,23 @@
       flex-wrap: wrap;
       gap: 16px;
     }
-    footer p { font-size: 13px; color: var(--muted); }
-    footer a { color: var(--teal); text-decoration: none; }
-    .footer-share { display: flex; align-items: center; gap: 10px; }
+
+    footer p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    footer a {
+      color: var(--teal);
+      text-decoration: none;
+    }
+
+    .footer-share {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
     .fsb {
       display: inline-flex;
       align-items: center;
@@ -621,36 +756,213 @@
       text-decoration: none;
       transition: border-color 0.2s, color 0.2s;
     }
-    .fsb:hover { border-color: var(--teal); color: var(--teal); }
 
-    /* ── Responsive ── */
-    @media (max-width: 900px) {
-      .tools-grid { grid-template-columns: repeat(2, 1fr); }
+    .fsb:hover {
+      border-color: var(--teal);
+      color: var(--teal);
     }
 
+    /* ── Past Tools Grid ── */
+    .past-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px 48px;
+    }
+
+    .past-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .past-section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .past-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+    }
+
+    .past-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .past-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-2px);
+    }
+
+    .past-card-icon {
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+
+    .past-card-body {
+      min-width: 0;
+    }
+
+    .past-card-day {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .past-card-name {
+      font-size: 15px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .past-card-arrow {
+      margin-left: auto;
+      font-size: 16px;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .past-card:hover .past-card-arrow {
+      color: var(--teal);
+    }
+
+    /* ── Responsive ── */
     @media (max-width: 700px) {
-      header { padding: 11px 16px; }
-      .logo { font-size: 12px; }
-      .share-btn { padding: 7px 12px; font-size: 12px; }
-      .hero { padding: 48px 16px 32px; }
-      h1 { font-size: clamp(28px, 9vw, 48px); letter-spacing: -1px; }
-      .hero-sub { font-size: 15px; margin-bottom: 28px; }
-      .progress-wrap { padding: 14px 16px; }
-      .section { padding: 0 14px; }
-      .featured-card { grid-template-columns: 1fr; border-radius: 16px; }
-      .featured-left { padding: 26px 22px 20px; border-right: none; border-bottom: 1px solid var(--border); }
-      .featured-right { padding: 18px 22px 24px; }
-      .featured-title { font-size: 24px; }
-      .featured-cta { width: 100%; justify-content: center; padding: 15px 24px; border-radius: 12px; }
-      .tools-grid { grid-template-columns: 1fr; }
-      .next-up-card { flex-direction: column; align-items: flex-start; padding: 24px 20px; gap: 18px; }
-      .next-up-title { font-size: 20px; }
-      .follow-buttons { width: 100%; }
-      .follow-btn { flex: 1; justify-content: center; }
-      .steps { grid-template-columns: 1fr; }
-      .how-section h2 { font-size: 22px; }
-      footer { padding: 20px 16px; flex-direction: column; align-items: center; text-align: center; gap: 12px; }
-      .footer-share { justify-content: center; flex-wrap: wrap; }
+      header {
+        padding: 11px 16px;
+      }
+
+      .logo {
+        font-size: 12px;
+      }
+
+      .share-btn {
+        padding: 7px 12px;
+        font-size: 12px;
+      }
+
+      .hero {
+        padding: 48px 16px 28px;
+      }
+
+      h1 {
+        font-size: clamp(30px, 9vw, 52px);
+        letter-spacing: -1px;
+      }
+
+      .hero-sub {
+        font-size: 15px;
+        margin-bottom: 28px;
+      }
+
+      .progress-wrap {
+        margin-bottom: 28px;
+        padding: 14px 16px;
+      }
+
+      .featured-section,
+      .next-up-section,
+      .how-section {
+        padding: 0 14px 36px;
+      }
+
+      .featured-card {
+        grid-template-columns: 1fr;
+        border-radius: 16px;
+      }
+
+      .featured-left {
+        padding: 24px 20px 20px;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .featured-right {
+        padding: 18px 20px 22px;
+      }
+
+      .featured-title {
+        font-size: 24px;
+      }
+
+      .featured-desc {
+        font-size: 14px;
+        margin-bottom: 20px;
+      }
+
+      .featured-cta {
+        width: 100%;
+        justify-content: center;
+        font-size: 16px;
+        padding: 15px 24px;
+        border-radius: 12px;
+      }
+
+      .next-up-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 22px 20px;
+      }
+
+      .next-up-title {
+        font-size: 19px;
+      }
+
+      .follow-buttons {
+        width: 100%;
+      }
+
+      .follow-btn {
+        flex: 1;
+        justify-content: center;
+        padding: 11px 14px;
+        font-size: 14px;
+      }
+
+      .how-section h2 {
+        font-size: 20px;
+      }
+
+      .how-section p {
+        font-size: 14px;
+      }
+
+      footer {
+        padding: 20px 16px;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 12px;
+      }
+
+      .footer-share {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
     }
   </style>
 </head>
@@ -659,10 +971,10 @@
 
   <!-- ── Header ── -->
   <header>
-    <a href="https://aimersion.github.io/ai-automations/index.html" class="logo">⚡ Aimersion AI</a>
+    <a href="/" class="logo">⚡ Aimersion AI</a>
     <div class="header-right">
       <a class="share-btn"
-        href="https://twitter.com/intent/tweet?text=All%2020%20free%20AI%20tools%20are%20live%20%E2%80%94%20Day%2020%3A%20The%20Command%20Center%20just%20dropped%20%F0%9F%94%A5%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/"
+        href="https://twitter.com/intent/tweet?text=5%20of%2020%20free%20AI%20tools%20live%20%E2%80%94%20Day%2005%3A%20Pipeline%20Prioritizer%20just%20dropped%20%F0%9F%94%A5%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/"
         target="_blank" rel="noopener">
         𝕏 Share
       </a>
@@ -675,12 +987,15 @@
       <span class="live-dot"></span>
       All 20 Tools Are Live
     </div>
-    <h1>20 free AI tools.<br><span class="accent">All live.</span><br><span class="accent2">All free.</span></h1>
-    <p class="hero-sub">No installs. No account to create. Paste a free Gemini API key once — every tool works instantly.</p>
+    <h1>A new free AI tool<br><span class="accent">drops every day</span><br><span class="accent2">for 20 days.</span>
+    </h1>
+    <p class="hero-sub">Connects to your real Outlook inbox. No installs. No account to create. Just click and go.
+    </p>
 
+    <!-- Progress -->
     <div class="progress-wrap">
       <div class="progress-label">
-        <span>Progress: 20 of 20 tools live</span>
+        <span>All 20 tools live</span>
         <span>100%</span>
       </div>
       <div class="progress-bar">
@@ -688,356 +1003,223 @@
       </div>
       <div class="progress-dots" id="progressDots"></div>
     </div>
+
+  </div>
+
+  <!-- ── Featured Tool ── -->
+  <div class="featured-section">
+    <a href="day-20-command-center.html" class="featured-card">
+      <div class="featured-left">
+        <div class="featured-day-tag">All 20 Tools — Live Now</div>
+        <div class="featured-icon">🎛️</div>
+        <h2 class="featured-title">AI Command Center</h2>
+        <p class="featured-desc">Your complete AI productivity hub. Email triage, meeting prep, proposal drafts, standup generation, deal tracking — all 20 automations in one dashboard. Connect Outlook once, run everything.</p>
+        <div class="featured-tags">
+          <span class="tag">Gemini AI</span>
+          <span class="tag">Outlook</span>
+          <span class="tag">Free</span>
+          <span class="tag">All-in-one</span>
+        </div>
+        <div class="featured-cta">Open Command Center →</div>
+      </div>
+      <div class="featured-right">
+        <div class="preview-label">Sample output</div>
+        <div class="preview-email" style="border-left: 3px solid #F87171; margin-bottom: 2px;">
+          <div class="preview-badge" style="background: rgba(248,113,113,0.12); color: #F87171;">#1 · Call Today</div>
+          <div class="preview-subject">[Your Top Deal] — $4,800/mo</div>
+          <div class="preview-from">Contract review stage · Legal reviewing · Close expected soon</div>
+        </div>
+        <div class="preview-email" style="border-left: 3px solid var(--amber); margin-bottom: 2px;">
+          <div class="preview-badge" style="background: rgba(245,158,11,0.12); color: var(--amber);">#3 · At Risk</div>
+          <div class="preview-subject">[Stalled Prospect] — $2,200/mo</div>
+          <div class="preview-from" style="font-size:12px; color: var(--muted2); margin-top:3px; line-height:1.5;">Too
+            long since demo — send a value-add email today, not a "just checking in"</div>
+        </div>
+        <div class="preview-more">4 deals ranked · talk tracks included · 30 seconds</div>
+      </div>
+    </a>
   </div>
 
   <!-- ── All Tools ── -->
-  <div class="section" style="padding-bottom: 24px;">
-
-    <!-- FEATURED: Day 20 — The Command Center -->
-    <div class="featured-wrap" style="margin-bottom: 16px;">
-      <div class="section-eyebrow">The Capstone — Day 20</div>
-      <a href="day-20-command-center.html" class="featured-card">
-        <div class="featured-left">
-          <div class="featured-day-tag">Day 20 of 20 — The Final Tool</div>
-          <div class="featured-icon">🚀</div>
-          <h2 class="featured-title">AI Command Center</h2>
-          <p class="featured-desc">One Outlook connection. Five intelligent modules. Inbox triage, morning brief, AI email compose, deal tracker, and sequence launcher — all running from one screen. This is the whole series in one tab.</p>
-          <div class="featured-tags">
-            <span class="tag">Command Center</span>
-            <span class="tag">Outlook</span>
-            <span class="tag">All-in-One</span>
-            <span class="tag">Dashboard</span>
-            <span class="tag">Free</span>
-          </div>
-          <div class="featured-cta">Open Command Center →</div>
+  <div class="past-section">
+    <div class="past-section-label">All 20 Tools</div>
+    <div class="past-grid">
+      <a href="day-20-command-center.html" class="past-card">
+        <div class="past-card-icon">🎛️</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 20</div>
+          <div class="past-card-name">AI Command Center</div>
         </div>
-        <div class="featured-right">
-          <div class="preview-label">5 live modules</div>
-          <div class="preview-email" style="border-left: 3px solid var(--teal); margin-bottom: 6px;">
-            <div class="preview-badge" style="background: var(--teal-dim); color: var(--teal);">📬 Inbox Intel</div>
-            <div class="preview-subject">AI-triaged email queue · Urgent / Respond / FYI</div>
-            <div class="preview-from">Draft + send replies without leaving the dashboard</div>
-          </div>
-          <div class="preview-email" style="border-left: 3px solid var(--green); margin-bottom: 6px;">
-            <div class="preview-badge" style="background: var(--green-dim); color: var(--green);">☀️ Morning Brief</div>
-            <div class="preview-subject">Today's calendar · what matters · first-hour plan</div>
-            <div class="preview-from">Your Chief of Staff, built in</div>
-          </div>
-          <div class="preview-email" style="border-left: 3px solid var(--orange); margin-bottom: 6px;">
-            <div class="preview-badge" style="background: var(--orange-dim); color: var(--orange);">⚡ Quick Compose</div>
-            <div class="preview-subject">Type what you want to say → AI writes + sends it</div>
-            <div class="preview-from">Plus: Deal Tracker · Sequence Launcher</div>
-          </div>
-          <div class="preview-more">The whole series. One screen. Free forever.</div>
-        </div>
+        <div class="past-card-arrow">→</div>
       </a>
-    </div>
-
-    <!-- ALL TOOLS: Rich grid cards -->
-    <div class="section-eyebrow" style="margin-top: 40px;">All 20 Tools</div>
-    <div class="tools-grid">
-
-      <!-- Day 19 -->
-      <a href="day-19-chief-of-staff.html" class="tool-card">
-        <div class="tool-card-day">Day 19</div>
-        <div class="tool-card-icon">🧠</div>
-        <div class="tool-card-title">AI Chief of Staff</div>
-        <p class="tool-card-desc">Connect Outlook + Calendar → get your full morning brief in 30 seconds. What happened overnight, what's on your plate today, and exactly what to do first.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Calendar</span>
-          <span class="tool-tag">Morning Brief</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-19-chief-of-staff.html" class="past-card">
+        <div class="past-card-icon">📋</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 19</div>
+          <div class="past-card-name">Chief of Staff</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 18 -->
-      <a href="day-18-deal-room.html" class="tool-card">
-        <div class="tool-card-day">Day 18</div>
-        <div class="tool-card-icon">🏆</div>
-        <div class="tool-card-title">Deal Room Builder</div>
-        <p class="tool-card-desc">Enter your deal details → get a full strategy document with stakeholder map, tailored value props, objection handling guide, and a champion email ready to send.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Sales</span>
-          <span class="tool-tag">Strategy</span>
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-18-deal-room.html" class="past-card">
+        <div class="past-card-icon">🤝</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 18</div>
+          <div class="past-card-name">Deal Room</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 17 -->
-      <a href="day-17-email-sequence.html" class="tool-card">
-        <div class="tool-card-day">Day 17</div>
-        <div class="tool-card-icon">📧</div>
-        <div class="tool-card-title">Email Sequence Builder</div>
-        <p class="tool-card-desc">Describe your goal → get a complete 5-email sequence with subject lines, copy, and timing. Edit every email inline. Send Email 1 right now via Outlook.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Email</span>
-          <span class="tool-tag">Sequences</span>
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-17-email-sequence.html" class="past-card">
+        <div class="past-card-icon">📧</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 17</div>
+          <div class="past-card-name">Email Sequence Builder</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 16 -->
-      <a href="day-16-standup-generator.html" class="tool-card">
-        <div class="tool-card-day">Day 16</div>
-        <div class="tool-card-icon">🗓️</div>
-        <div class="tool-card-title">Standup Generator</div>
-        <p class="tool-card-desc">Connect Outlook and Calendar → AI reads your last 24 hours and writes your standup in seconds. Classic format, async update, or exec summary — your choice.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Calendar</span>
-          <span class="tool-tag">Productivity</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-16-standup-generator.html" class="past-card">
+        <div class="past-card-icon">☀️</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 16</div>
+          <div class="past-card-name">Standup Generator</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 15 -->
-      <a href="day-15-contract-summarizer.html" class="tool-card">
-        <div class="tool-card-day">Day 15</div>
-        <div class="tool-card-icon">📋</div>
-        <div class="tool-card-title">Contract Summarizer</div>
-        <p class="tool-card-desc">Paste any contract or pull it from Outlook → AI extracts key terms, obligations, red flags, and action items. Know what you're signing in 30 seconds.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Contracts</span>
-          <span class="tool-tag">Legal</span>
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-15-contract-summarizer.html" class="past-card">
+        <div class="past-card-icon">📜</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 15</div>
+          <div class="past-card-name">Contract Summarizer</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 14 -->
-      <a href="day-14-performance-review.html" class="tool-card">
-        <div class="tool-card-day">Day 14</div>
-        <div class="tool-card-icon">⭐</div>
-        <div class="tool-card-title">Performance Review Writer</div>
-        <p class="tool-card-desc">Rate your employee on 5 dimensions, paste accomplishments and growth areas → AI writes a complete, balanced performance review with summary email and talking points.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">HR</span>
-          <span class="tool-tag">Management</span>
-          <span class="tool-tag">Reviews</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-14-performance-review.html" class="past-card">
+        <div class="past-card-icon">⭐</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 14</div>
+          <div class="past-card-name">Performance Review</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 13 -->
-      <a href="day-13-job-description.html" class="tool-card">
-        <div class="tool-card-day">Day 13</div>
-        <div class="tool-card-icon">💼</div>
-        <div class="tool-card-title">Job Description Writer</div>
-        <p class="tool-card-desc">Enter the role details → get a full JD, LinkedIn-optimized version, candidate outreach email, and internal hiring brief — all in one click.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">HR</span>
-          <span class="tool-tag">Recruiting</span>
-          <span class="tool-tag">Hiring</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-13-job-description.html" class="past-card">
+        <div class="past-card-icon">💼</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 13</div>
+          <div class="past-card-name">Job Description Writer</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 12 -->
-      <a href="day-12-invoice-generator.html" class="tool-card">
-        <div class="tool-card-day">Day 12</div>
-        <div class="tool-card-icon">💰</div>
-        <div class="tool-card-title">Invoice & Quote Generator</div>
-        <p class="tool-card-desc">Add line items, toggle between Invoice and Quote mode, get a polished document view with auto-calculated totals. Send to clients directly via Outlook in seconds.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Invoicing</span>
-          <span class="tool-tag">Finance</span>
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-12-invoice-generator.html" class="past-card">
+        <div class="past-card-icon">🧾</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 12</div>
+          <div class="past-card-name">Invoice Generator</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 11 -->
-      <a href="day-11-scope-of-work.html" class="tool-card">
-        <div class="tool-card-day">Day 11</div>
-        <div class="tool-card-icon">📄</div>
-        <div class="tool-card-title">Scope of Work Generator</div>
-        <p class="tool-card-desc">Pull context from your proposal emails, fill in the project details, and generate a complete professional SOW ready to send to the client via Outlook.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Consulting</span>
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Documents</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-11-scope-of-work.html" class="past-card">
+        <div class="past-card-icon">📐</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 11</div>
+          <div class="past-card-name">Scope of Work Builder</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 10 -->
-      <a href="day-10-cold-outreach.html" class="tool-card">
-        <div class="tool-card-day">Day 10</div>
-        <div class="tool-card-icon">🎯</div>
-        <div class="tool-card-title">Cold Outreach Personalizer</div>
-        <p class="tool-card-desc">Paste a company name and what you do — AI researches their world and generates a personalized cold email, LinkedIn DM, and 3-touch follow-up sequence.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Sales</span>
-          <span class="tool-tag">Outreach</span>
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-10-cold-outreach.html" class="past-card">
+        <div class="past-card-icon">📨</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 10</div>
+          <div class="past-card-name">Cold Outreach Personalizer</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 09 -->
-      <a href="day-09-weekly-status.html" class="tool-card">
-        <div class="tool-card-day">Day 09</div>
-        <div class="tool-card-icon">📊</div>
-        <div class="tool-card-title">Weekly Status Report</div>
-        <p class="tool-card-desc">Connect Outlook and your Microsoft Calendar — AI reads your sent emails and meetings from the past week and writes your status report for you.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Calendar</span>
-          <span class="tool-tag">Reporting</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-09-weekly-status.html" class="past-card">
+        <div class="past-card-icon">📊</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 09</div>
+          <div class="past-card-name">Weekly Status Report</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 08 -->
-      <a href="day-08-followup-machine.html" class="tool-card">
-        <div class="tool-card-day">Day 08</div>
-        <div class="tool-card-icon">📨</div>
-        <div class="tool-card-title">Follow-Up Machine</div>
-        <p class="tool-card-desc">Meeting just ended? Connect Outlook, add your notes, and send a polished follow-up email with action items and a CRM note — in 60 seconds.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">Email</span>
-          <span class="tool-tag">Productivity</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-08-followup-machine.html" class="past-card">
+        <div class="past-card-icon">🔔</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 08</div>
+          <div class="past-card-name">Follow-up Machine</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 07 -->
-      <a href="day-07-client-onboarding.html" class="tool-card">
-        <div class="tool-card-day">Day 07</div>
-        <div class="tool-card-icon">🎉</div>
-        <div class="tool-card-title">Client Onboarding Generator</div>
-        <p class="tool-card-desc">New client just signed? Paste the basics and get a complete onboarding kit in 30 seconds — welcome email, kickoff agenda, first-week checklist, and intake questionnaire.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Onboarding</span>
-          <span class="tool-tag">Client Success</span>
-          <span class="tool-tag">Documents</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-07-client-onboarding.html" class="past-card">
+        <div class="past-card-icon">🤝</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 07</div>
+          <div class="past-card-name">Client Onboarding</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 06 -->
-      <a href="day-06-meeting-prep.html" class="tool-card">
-        <div class="tool-card-day">Day 06</div>
-        <div class="tool-card-icon">🎯</div>
-        <div class="tool-card-title">Meeting Prep Assistant</div>
-        <p class="tool-card-desc">Walk into every meeting fully prepared. Paste who you're meeting and why — AI builds your agenda, tailored talking points, smart questions to ask, and risk flags in 30 seconds.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Meetings</span>
-          <span class="tool-tag">Productivity</span>
-          <span class="tool-tag">Strategy</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-06-meeting-prep.html" class="past-card">
+        <div class="past-card-icon">📅</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 06</div>
+          <div class="past-card-name">Meeting Prep Assistant</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 05 -->
-      <a href="day-05-pipeline-prioritizer.html" class="tool-card">
-        <div class="tool-card-day">Day 05</div>
-        <div class="tool-card-icon">📊</div>
-        <div class="tool-card-title">Pipeline Prioritizer</div>
-        <p class="tool-card-desc">Paste your open deals and AI ranks them by close probability, deal health, and urgency. Know exactly which prospects to call this week — and what to say.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Sales</span>
-          <span class="tool-tag">CRM</span>
-          <span class="tool-tag">Pipeline</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-05-pipeline-prioritizer.html" class="past-card">
+        <div class="past-card-icon">📈</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 05</div>
+          <div class="past-card-name">Pipeline Prioritizer</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 04 -->
-      <a href="day-04-social-content-machine.html" class="tool-card">
-        <div class="tool-card-day">Day 04</div>
-        <div class="tool-card-icon">📱</div>
-        <div class="tool-card-title">Social Content Machine</div>
-        <p class="tool-card-desc">One idea in. Five ready-to-post pieces out. X thread, LinkedIn post, Instagram caption, email teaser, and YouTube hook — all written and formatted in one click.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Social Media</span>
-          <span class="tool-tag">Content</span>
-          <span class="tool-tag">Repurposing</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-04-social-creator.html" class="past-card">
+        <div class="past-card-icon">📱</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 04</div>
+          <div class="past-card-name">Social Content Machine</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 03 -->
-      <a href="day-03-competitor-intel.html" class="tool-card">
-        <div class="tool-card-day">Day 03</div>
-        <div class="tool-card-icon">🔍</div>
-        <div class="tool-card-title">Competitor Intel Brief</div>
-        <p class="tool-card-desc">Drop a competitor's name and website. AI pulls a full brief — their positioning, likely objections, weaknesses, and exactly how to beat them in your next sales conversation.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Competitive Intel</span>
-          <span class="tool-tag">Research</span>
-          <span class="tool-tag">Strategy</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-03-competitor-intel.html" class="past-card">
+        <div class="past-card-icon">🎯</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 03</div>
+          <div class="past-card-name">Competitor Intel Brief</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 02 -->
-      <a href="day-02-proposal-generator.html" class="tool-card">
-        <div class="tool-card-day">Day 02</div>
-        <div class="tool-card-icon">📝</div>
-        <div class="tool-card-title">Proposal Generator</div>
-        <p class="tool-card-desc">Paste a prospect's pain points and your service — AI writes a complete, polished, client-ready proposal in seconds. Sections, pricing language, and a clear call to action included.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Sales</span>
-          <span class="tool-tag">Proposals</span>
-          <span class="tool-tag">AI Writing</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-02-proposal-generator.html" class="past-card">
+        <div class="past-card-icon">📝</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 02</div>
+          <div class="past-card-name">Proposal Generator</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
-      <!-- Day 01 -->
-      <a href="day-01-inbox-intelligence.html" class="tool-card">
-        <div class="tool-card-day">Day 01</div>
-        <div class="tool-card-icon">📬</div>
-        <div class="tool-card-title">Inbox Intelligence</div>
-        <p class="tool-card-desc">AI reads your Gmail or Outlook and surfaces what actually needs your attention. Priority flags, reply drafts, and a clean action list — so you can process 50 emails in 5 minutes.</p>
-        <div class="tool-card-tags">
-          <span class="tool-tag">Gmail</span>
-          <span class="tool-tag">Outlook</span>
-          <span class="tool-tag">AI Triage</span>
-          <span class="tool-tag">Free</span>
+      <a href="day-01-inbox-intelligence.html" class="past-card">
+        <div class="past-card-icon">📬</div>
+        <div class="past-card-body">
+          <div class="past-card-day">Day 01</div>
+          <div class="past-card-name">Inbox Intelligence</div>
         </div>
-        <div class="tool-card-cta">Try it free <span class="tool-card-cta-arrow">→</span></div>
+        <div class="past-card-arrow">→</div>
       </a>
-
     </div>
   </div>
 
-  <!-- ── Follow / Share ── -->
-  <div class="section">
+  <!-- ── Follow Section ── -->
+  <div class="next-up-section">
     <div class="next-up-card">
-      <div>
-        <div class="next-up-eyebrow">20 / 20 Complete</div>
-        <div class="next-up-title">All 20 tools are live and free</div>
-        <div class="next-up-sub">Share with anyone who wants to actually use AI every day — not just talk about it.</div>
+      <div class="next-up-left">
+        <div class="next-up-eyebrow">All 20 tools live 🎉</div>
+        <div class="next-up-title">Follow for what comes next</div>
+        <div class="next-up-sub">New AI productivity tools, workflows, and tutorials — follow along to stay ahead.</div>
       </div>
       <div class="follow-buttons">
         <a class="follow-btn follow-btn-x" href="https://twitter.com/jimlynchAI" target="_blank" rel="noopener">
           𝕏 Follow @jimlynchAI
         </a>
-        <a class="follow-btn follow-btn-li" href="https://linkedin.com/in/jimlynch" target="_blank" rel="noopener">
+        <a class="follow-btn follow-btn-li" href="https://linkedin.com/in/en-82QXy5B" target="_blank" rel="noopener">
           in Follow on LinkedIn
         </a>
       </div>
@@ -1045,24 +1227,27 @@
   </div>
 
   <!-- ── How It Works ── -->
-  <div class="section how-section">
+  <div class="how-section">
     <h2>How it works</h2>
-    <p>Three steps. No setup. No installs. Works in any browser on any device.</p>
+    <p>Three steps. No setup. No installs. Works in any browser.</p>
     <div class="steps">
       <div class="step">
         <div class="step-num">1</div>
         <h3>Get a free API key</h3>
-        <p>Grab a free Gemini key from <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. No credit card. Takes 60 seconds. Paste it once and it's saved for every tool.</p>
+        <p>Grab a free Gemini key from <a href="https://aistudio.google.com/apikey" target="_blank">Google AI
+            Studio</a>. No credit card. Takes 60 seconds. Paste it once and it's saved for every tool.</p>
       </div>
       <div class="step">
         <div class="step-num">2</div>
-        <h3>Fill in the blanks</h3>
-        <p>Each tool has a simple form — paste in your context, your clients, your goals. No manual prompting needed. The AI knows what to ask and what to build.</p>
+        <h3>Connect your email</h3>
+        <p>Sign in with Outlook — the same way you'd connect any app like Zapier or HubSpot. One click, no
+          passwords shared.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
-        <h3>Get something useful</h3>
-        <p>In seconds you have a real output — a document, a ranked list, a drafted email — ready to copy, send, or customize. Completely free and <a href="https://github.com/aimersion/ai-automations" target="_blank">open source on GitHub</a>.</p>
+        <h3>Let AI do the work</h3>
+        <p>Each tool reads your real data and gives you something useful in seconds. Completely free and <a
+            href="https://github.com/aimersion/ai-automations" target="_blank">open source on GitHub</a>.</p>
       </div>
     </div>
   </div>
@@ -1074,7 +1259,7 @@
         href="privacy.html">Privacy Policy</a></p>
     <div class="footer-share">
       <a class="fsb"
-        href="https://twitter.com/intent/tweet?text=All%2020%20free%20AI%20tools%20are%20live%20%E2%80%94%20the%20Command%20Center%20just%20dropped%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/"
+        href="https://twitter.com/intent/tweet?text=5%20of%2020%20free%20AI%20tools%20live%20%E2%80%94%20Pipeline%20Prioritizer%20just%20dropped%20%F0%9F%94%A5%20by%20%40jimlynchAI&url=https://aimersion.github.io/ai-automations/"
         target="_blank" rel="noopener">𝕏 Share on X</a>
       <a class="fsb"
         href="https://www.linkedin.com/sharing/share-offsite/?url=https://aimersion.github.io/ai-automations/"
@@ -1087,11 +1272,13 @@
     const dots = document.getElementById('progressDots');
     for (let i = 1; i <= 20; i++) {
       const d = document.createElement('div');
-      d.className = 'pdot pdot-live';
+      d.className = 'pdot pdot-live'; // all 20 now live
       d.title = 'Day ' + i;
       dots.appendChild(d);
     }
   </script>
 
 </body>
+
 </html>
+<!-- Last pushed: Mon Mar  9 10:54:48 CDT 2026 -->

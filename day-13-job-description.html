@@ -350,55 +350,13 @@
       border: 1px solid var(--border);
       padding: 1.5rem;
       border-radius: 0.375rem;
+      white-space: pre-wrap;
       word-wrap: break-word;
       font-size: 0.95rem;
       line-height: 1.6;
       max-height: 600px;
       overflow-y: auto;
       font-family: 'Inter', sans-serif;
-    }
-
-    /* Rich formatted JD sections */
-    .jd-section {
-      margin-bottom: 1.25rem;
-      padding: 1rem 1.25rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--orange);
-      border-radius: 6px;
-    }
-    .jd-section-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 0.75rem;
-    }
-    .jd-section-icon { font-size: 1rem; }
-    .jd-para {
-      color: var(--white);
-      margin: 0 0 0.5rem;
-      font-size: 0.9rem;
-      line-height: 1.7;
-    }
-    .jd-bullet {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      color: var(--white);
-      margin-bottom: 0.4rem;
-      font-size: 0.9rem;
-      line-height: 1.6;
-    }
-    .jd-bullet-dot {
-      color: var(--teal);
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 1px;
     }
 
     .output-header {
@@ -510,8 +468,39 @@
         flex-direction: column;
       }
     }
+  
+    /* ── Standardized input styling ── */
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="url"], input[type="number"], input[type="search"],
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+    textarea, select {
+      background: #0D1B2E !important;
+      border: 1px solid #1E3A5F !important;
+      border-radius: 8px !important;
+      color: #E2E8F0 !important;
+      font-family: inherit !important;
+      font-size: 14px !important;
+      padding: 10px 14px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: border-color 0.2s !important;
+      outline: none !important;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+    input[type="url"]:focus, input[type="number"]:focus, input[type="search"]:focus,
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]):focus,
+    textarea:focus, select:focus {
+      border-color: #0EA5E9 !important;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15) !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #64748B !important;
+    }
+    select option {
+      background: #0D1B2E;
+      color: #E2E8F0;
+    }
   </style>
-  <script src="https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js"></script>
 </head>
 <body>
   <header>
@@ -552,21 +541,6 @@
             <input type="password" id="gemini-key" placeholder="AIzaSy...">
             <small style="color: var(--muted); margin-top: 0.4rem;">Your key is stored locally in your browser only. Never sent to a server.</small>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Connect Outlook Card -->
-    <div class="card">
-      <div class="collapsible-header" onclick="toggleCollapsible(event, 'outlook-content')">
-        <h2 style="margin-bottom: 0;">📧 Connect Outlook <span style="font-size:0.75rem;font-weight:400;color:var(--muted);margin-left:8px;">optional — to send JDs & emails directly</span></h2>
-        <span class="collapse-icon">▼</span>
-      </div>
-      <div id="outlook-content" class="collapsible-content">
-        <p style="color:var(--muted2);font-size:0.9rem;margin-bottom:1rem;">Connect your Microsoft account to send job descriptions and candidate emails directly from this tool.</p>
-        <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
-          <button id="connectOutlookBtn13" onclick="connectOutlook13()" style="background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);padding:9px 18px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:600;">🔗 Connect Microsoft / Outlook</button>
-          <span id="outlookStatus13" style="font-size:13px;color:var(--muted);">Not connected</span>
         </div>
       </div>
     </div>
@@ -691,9 +665,7 @@
           <button onclick="copyToClipboard('full-jd-output')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📋 Copy</button>
         </div>
         <div id="full-jd-output" class="output-section"></div>
-        <div style="margin-top:1rem;display:flex;gap:10px;flex-wrap:wrap;">
-          <button onclick="sendViaOutlook()" style="background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;">📧 Send via Outlook</button>
-        </div>
+        <button onclick="sendViaOutlook()" style="margin-top: 1rem;">📧 Send via Outlook</button>
       </div>
 
       <div id="linkedin" class="tab-content">
@@ -710,10 +682,6 @@
           <button onclick="copyToClipboard('email-output')" style="padding: 0.5rem 1rem; font-size: 0.9rem;">📋 Copy</button>
         </div>
         <div id="email-output" class="output-section"></div>
-        <div style="margin-top:1rem;display:flex;gap:10px;flex-wrap:wrap;">
-          <button onclick="sendViaOutlook()" style="background:var(--teal-dim);border:1px solid var(--teal);color:var(--teal);padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;">📧 Send via Outlook</button>
-          <button onclick="openMailto13()" style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.4);color:var(--amber);padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;">✉️ Open in Email App</button>
-        </div>
       </div>
 
       <div id="brief" class="tab-content">
@@ -725,25 +693,6 @@
       </div>
 
       <button onclick="regenerateJD()" style="margin-top: 1.5rem; background: var(--teal);">🔄 Regenerate</button>
-    </div>
-  </div>
-
-  <!-- SEND MODAL -->
-  <div id="sendModal13" style="display:none;position:fixed;inset:0;z-index:9990;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;">
-    <div style="background:var(--surface);border:1px solid var(--border-bright);border-radius:14px;padding:28px;width:100%;max-width:420px;margin:16px;box-shadow:0 24px 60px rgba(0,0,0,0.5);">
-      <div style="font-size:16px;font-weight:700;color:var(--white);margin-bottom:20px;">📧 Send via Outlook</div>
-      <div class="form-group" style="margin-bottom:14px;">
-        <label style="color:var(--muted2);font-size:13px;margin-bottom:6px;display:block;">To:</label>
-        <input type="email" id="sendTo13" placeholder="candidate@example.com" style="width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--border-bright);color:var(--white);padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
-      </div>
-      <div class="form-group" style="margin-bottom:20px;">
-        <label style="color:var(--muted2);font-size:13px;margin-bottom:6px;display:block;">Subject:</label>
-        <input type="text" id="sendSubject13" placeholder="Subject line" style="width:100%;box-sizing:border-box;background:var(--bg);border:1px solid var(--border-bright);color:var(--white);padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
-      </div>
-      <div style="display:flex;gap:10px;">
-        <button onclick="doSendOutlook13()" style="flex:1;background:var(--teal);color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;" id="sendBtn13">Send</button>
-        <button onclick="document.getElementById('sendModal13').style.display='none'" style="background:var(--surface2);border:1px solid var(--border);color:var(--muted2);padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;">Cancel</button>
-      </div>
     </div>
   </div>
 
@@ -875,7 +824,7 @@
         responsibilities: 'Define and own the growth roadmap\nLead cross-functional squads of engineers and designers\nDefine success metrics and run A/B experiments\nTranslate customer research into product decisions\nPresent roadmap and results to executive team',
         mustHaveSkills: '5+ years product management\nExperience with B2B SaaS growth\nStrong data analysis skills (SQL a plus)\nTrack record of shipping products on time',
         niceToHave: 'Experience with PLG models\nStartup background',
-        companyDescription: "Meridian Analytics helps mid-market operations teams turn their data into decisions. We're 60 people, growing 40% YoY, and building AI tools that actually get used.",
+        companyDescription: 'Meridian Analytics helps mid-market operations teams turn their data into decisions. We\'re 60 people, growing 40% YoY, and building AI tools that actually get used.',
         cultureKeywords: 'direct, high-trust, fast-moving, outcome-focused',
         tone: 'Bold & Direct',
         salaryRange: '$130,000–$160,000',
@@ -883,110 +832,7 @@
         benefits: 'Full remote, $3,000 annual learning budget, top-tier health coverage'
       };
       setInputs(demoInputs);
-      lastInputs = demoInputs;
-      clearError();
-
-      const demoContent = `===
-SENIOR PRODUCT MANAGER — GROWTH
-Meridian Analytics | Austin, TX (Hybrid) | Full-time | Reports to VP of Product
-
-ABOUT THE ROLE
-Meridian Analytics is looking for a Senior PM to own our growth engine. This isn't a "maintain the roadmap" role — it's a "define what winning looks like and make it happen" role. You'll lead cross-functional squads, run experiments that move real numbers, and be the connective tissue between customer insight, engineering velocity, and revenue outcomes.
-
-WHAT YOU'LL DO
-• Define and own the growth product roadmap, prioritizing ruthlessly based on impact
-• Lead squads of 4–7 engineers and designers through discovery, build, and ship
-• Establish success metrics for every initiative and run rigorous A/B experiments
-• Translate customer research into product decisions the whole company backs
-• Present roadmap, results, and learnings to the executive team quarterly
-
-WHAT YOU BRING
-• 5+ years of product management, at least 2 in B2B SaaS growth
-• Strong data instincts — you write SQL and you know what a funnel is leaking
-• Track record of shipping on schedule without sacrificing quality
-• The ability to say no, explain why, and still get everyone aligned
-
-NICE TO HAVE
-• Experience with PLG (product-led growth) models
-• Startup background — you know how to do a lot with a little
-
-ABOUT US
-Meridian Analytics helps mid-market operations teams turn their data into decisions. We're 60 people, growing 40% YoY, and building AI tools that operations teams actually use. Backed and profitable since year two.
-
-COMPENSATION
-$130,000–$160,000 base | 0.1–0.3% equity (4-year vest) | Full remote | $3,000/yr learning budget | Top-tier health, dental & vision
-
-WHY JOIN US
-You'll have real ownership and real impact from day one. We move fast, trust our people, and have no politics standing between you and the work. If you've been waiting for a role where your decisions actually matter — this is it.
-===
-🚀 Senior PM — Growth | Meridian Analytics | Austin, TX (Hybrid)
-
-We help mid-market ops teams turn data into decisions. 60 people. 40% YoY growth. AI tools people actually use.
-
-We're looking for a Senior Product Manager who owns our growth engine — not just maintains it.
-
-You'll define the roadmap, lead cross-functional squads, run experiments, and ship products that drive real revenue. You'll have a front-row seat at a fast-growing company where your decisions move the needle.
-
-What we're looking for:
-✅ 5+ years PM experience in B2B SaaS growth
-✅ Strong data skills (SQL a plus)
-✅ Track record of shipping on time
-✅ Experience presenting to exec teams
-
-What you'll get:
-💰 $130K–$160K base | 0.1–0.3% equity options
-🌍 Full remote | $3K annual learning budget
-🏥 Top-tier health, dental & vision
-
-Bonus: PLG experience or startup background
-
-Apply with your resume + 2 sentences on the best growth lever you've shipped.
-📍 Austin, TX (Hybrid) | Full-time | Reports to VP of Product
-===
-Subject: Saw your background — Senior PM Growth role at Meridian
-
-Hi [Name],
-
-I came across your profile and thought you'd be a strong fit for a Senior PM — Growth role we're building out at Meridian Analytics.
-
-We're a 60-person B2B analytics company growing 40% YoY. We need someone to own our growth product roadmap — meaning you'll lead cross-functional squads, run real experiments, and present outcomes to our exec team quarterly.
-
-Comp is $130K–$160K + meaningful equity + full remote. We're a high-trust, outcome-focused team with no bureaucracy between you and the work.
-
-Would a quick 15-minute call this week make sense? Happy to share more about what we're building.
-
-Best,
-[Your name]
-===
-HIRING BRIEF — SENIOR PRODUCT MANAGER, GROWTH
-Confidential | For Interview Panel Use Only
-
-ROLE OVERVIEW
-We are hiring a Senior PM to own the growth product surface at Meridian Analytics. This is a player-coach role: set strategy AND execute. The right person has shipped meaningful growth outcomes at a B2B SaaS company and can move from data analysis to stakeholder alignment to sprint planning without missing a beat.
-
-WHY THIS ROLE MATTERS
-Growth is our #1 company priority for the next 18 months. Our product is strong — acquisition and retention are the gaps. This PM will directly influence the metrics that determine our Series B readiness.
-
-IDEAL CANDIDATE PROFILE
-• Former senior IC at a B2B SaaS company (50–500 people)
-• Has shipped at least one PLG or growth loop that drove measurable revenue
-• Can cite specific metrics they moved and how
-• Communicates clearly at the exec level
-• Doesn't need hand-holding on prioritization frameworks
-
-RED FLAGS TO SCREEN FOR
-• Vague answers about metrics ("we grew a lot") — always ask for specific numbers
-• Over-reliance on design/engineering to drive product decisions
-• No direct experience with customer research or data analysis
-• Large-company-only background (process-heavy, not execution-oriented)
-
-COMPENSATION & BENEFITS SUMMARY
-Base: $130,000–$160,000 DOE
-Equity: 0.1–0.3% options (4-year vest, 1-year cliff)
-Remote: Fully remote with optional Austin HQ access
-Benefits: Full health/dental/vision, $3,000 annual learning budget, unlimited PTO`;
-
-      parseAndDisplayOutput(demoContent, demoInputs);
+      generateJD();
     }
 
     async function generateJD() {
@@ -1102,73 +948,6 @@ Format each section clearly with section headers. Use professional, engaging lan
       return prompt;
     }
 
-    function formatTextToHTML(text) {
-      if (!text) return '';
-      const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-      const lines = text.split('\n');
-      let html = '';
-      let inSection = false;
-
-      const SECTION_ICONS = {
-        'ABOUT': '🏢', 'COMPANY': '🏢', 'ROLE': '💼', 'POSITION': '💼',
-        'RESPONSIBILITIES': '📋', 'WHAT YOU': '📋', 'KEY RESPONSIB': '📋',
-        'REQUIREMENTS': '✅', 'QUALIFICATIONS': '✅', 'MUST-HAVE': '✅', 'REQUIRED': '✅',
-        'NICE TO HAVE': '⭐', 'BONUS': '⭐', 'PREFERRED': '⭐',
-        'COMPENSATION': '💰', 'COMP': '💰', 'SALARY': '💰', 'BENEFITS': '💰',
-        'CULTURE': '🌟', 'VALUES': '🌟', 'WHO WE ARE': '🌟',
-        'HOW TO APPLY': '📮', 'APPLY': '📮', 'NEXT STEPS': '📮',
-        'RED FLAG': '🚩', 'SCREEN': '🔍', 'INTERVIEW': '🔍',
-        'SUMMARY': '📝', 'OVERVIEW': '📝', 'ABOUT THIS ROLE': '📝',
-        'IDEAL CANDIDATE': '🎯', 'WHO YOU ARE': '🎯',
-        'WHY THIS ROLE': '🔥', 'WHY JOIN': '🔥', 'WHY': '🔥'
-      };
-
-      function getSectionIcon(header) {
-        const up = header.toUpperCase();
-        for (const [key, icon] of Object.entries(SECTION_ICONS)) {
-          if (up.includes(key)) return icon;
-        }
-        return '▸';
-      }
-
-      lines.forEach(rawLine => {
-        const line = rawLine.trimEnd();
-        const trimmed = line.trim();
-
-        if (!trimmed) {
-          if (inSection) { html += '</div>'; inSection = false; }
-          return;
-        }
-
-        // Section header: ALL CAPS or Title Case ending with colon, or standalone caps-heavy line
-        const isHeader = (
-          (/^[A-Z][A-Z\s&\/\-—:]+$/.test(trimmed) && trimmed.length > 3 && trimmed.length < 80) ||
-          (/^[A-Z][A-Za-z\s&\/\-—]+:$/.test(trimmed) && trimmed.length < 60)
-        );
-
-        if (isHeader) {
-          if (inSection) html += '</div>';
-          const icon = getSectionIcon(trimmed.replace(/:$/, ''));
-          html += `<div class="jd-section"><div class="jd-section-header"><span class="jd-section-icon">${icon}</span>${esc(trimmed.replace(/:$/, ''))}</div>`;
-          inSection = true;
-        }
-        // Bullet: →, •, -, *, numbered
-        else if (/^[→•\-\*]/.test(trimmed) || /^\d+[\.\)]/.test(trimmed)) {
-          const bulletText = trimmed.replace(/^[→•\-\*]\s*/, '').replace(/^\d+[\.\)]\s*/, '');
-          if (!inSection) { html += '<div class="jd-section">'; inSection = true; }
-          html += `<div class="jd-bullet"><span class="jd-bullet-dot">→</span>${esc(bulletText)}</div>`;
-        }
-        // Regular paragraph
-        else {
-          if (!inSection) { html += '<div class="jd-section">'; inSection = true; }
-          html += `<p class="jd-para">${esc(trimmed)}</p>`;
-        }
-      });
-
-      if (inSection) html += '</div>';
-      return html;
-    }
-
     function parseAndDisplayOutput(content, inputs) {
       const sections = content.split(/===\s*/);
 
@@ -1189,10 +968,10 @@ Format each section clearly with section headers. Use professional, engaging lan
         brief = content;
       }
 
-      document.getElementById('full-jd-output').innerHTML = formatTextToHTML(fullJD);
-      document.getElementById('linkedin-output').innerHTML = formatTextToHTML(linkedIn);
-      document.getElementById('email-output').innerHTML = formatTextToHTML(email);
-      document.getElementById('brief-output').innerHTML = formatTextToHTML(brief);
+      document.getElementById('full-jd-output').textContent = fullJD;
+      document.getElementById('linkedin-output').textContent = linkedIn;
+      document.getElementById('email-output').textContent = email;
+      document.getElementById('brief-output').textContent = brief;
 
       const wordCount = countWords(fullJD);
       const status = wordCount >= 400 && wordCount <= 600 ? '✓' : '';
@@ -1209,190 +988,40 @@ Format each section clearly with section headers. Use professional, engaging lan
       }
     }
 
-    // ── Outlook / MSAL ───────────────────────────────────────
-    const AZURE_CLIENT_ID_13 = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
-    const MS_SCOPES_13 = ['https://graph.microsoft.com/Mail.Send','https://graph.microsoft.com/User.Read'];
-    const MSAL_CFG_13 = { auth: { clientId: AZURE_CLIENT_ID_13, authority: 'https://login.microsoftonline.com/common', redirectUri: 'https://aimersion.github.io/ai-automations/auth.html' }, cache: { cacheLocation: 'sessionStorage' } };
-    let msalInst13 = null, msAcct13 = null;
-
-    async function initMsal13() {
-      if (!window.msal) return;
-      msalInst13 = new msal.PublicClientApplication(MSAL_CFG_13);
-      const accts = msalInst13.getAllAccounts();
-      if (accts.length > 0) { msAcct13 = accts[0]; updateOutlookUI13(); }
+    async function sendViaOutlook() {
+      showToast('Outlook integration coming soon. For now, copy and paste into your email.');
     }
-
-    async function connectOutlook13() {
-      try {
-        if (!msalInst13) await initMsal13();
-        const r = await msalInst13.loginPopup({ scopes: MS_SCOPES_13, prompt: 'select_account' });
-        msAcct13 = r.account;
-        updateOutlookUI13();
-        showToast('Outlook connected ✓', 'success');
-      } catch(e) { showToast('Connection failed: ' + e.message, 'error'); }
-    }
-
-    function updateOutlookUI13() {
-      if (!msAcct13) return;
-      const s = document.getElementById('outlookStatus13');
-      const b = document.getElementById('connectOutlookBtn13');
-      if (s) { s.textContent = '✓ ' + msAcct13.username; s.style.color = 'var(--green)'; }
-      if (b) b.textContent = 'Reconnect';
-    }
-
-    async function getMsToken13() {
-      if (!msalInst13 || !msAcct13) return null;
-      try { return (await msalInst13.acquireTokenSilent({ scopes: MS_SCOPES_13, account: msAcct13 })).accessToken; }
-      catch { return (await msalInst13.acquireTokenPopup({ scopes: MS_SCOPES_13, account: msAcct13 })).accessToken; }
-    }
-
-    function sendViaOutlook() {
-      const emailContent = document.getElementById('email-output');
-      const subject = document.getElementById('job-title')?.value || 'Job Opportunity';
-      if (!msAcct13) {
-        showToast('Connect Outlook above to send emails directly', 'error');
-        return;
+  
+  // Auto-load and auto-collapse Gemini key if already saved
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedKey = localStorage.getItem('gemini_key');
+    if (savedKey) {
+      ['apiKey', 'geminiKey', 'gemini-key', 'apiKeyInput', 'geminiKeyInput'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.value) el.value = savedKey;
+      });
+      // Auto-collapse the key card
+      const card = document.querySelector('.api-card, #apiCard, #apiKeyCard, #geminiCard, [id*="key-card"], [id*="keyCard"]');
+      if (card) {
+        const body = card.querySelector('.card-body, .card-content, input[type="password"]')?.closest('.card-body, .card-content');
+        if (body) body.style.display = 'none';
+        const toggle = card.querySelector('.card-toggle, .toggle-icon');
+        if (toggle) toggle.textContent = '▶';
       }
-      document.getElementById('sendSubject13').value = subject;
-      document.getElementById('sendTo13').value = '';
-      document.getElementById('sendModal13').style.display = 'flex';
-      setTimeout(() => document.getElementById('sendTo13').focus(), 80);
     }
-
-    async function doSendOutlook13() {
-      const to = document.getElementById('sendTo13').value.trim();
-      const subject = document.getElementById('sendSubject13').value.trim();
-      if (!to) return showToast('Enter recipient email address', 'error');
-      const token = await getMsToken13();
-      if (!token) return showToast('Not connected to Outlook', 'error');
-      const emailEl = document.getElementById('email-output');
-      const bodyText = emailEl ? (emailEl.innerText || emailEl.textContent) : (document.getElementById('full-jd-output')?.innerText || '');
-      const btn = document.getElementById('sendBtn13');
-      const origText = btn.textContent;
-      btn.disabled = true; btn.textContent = 'Sending...';
-      try {
-        const res = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: { subject, body: { contentType: 'Text', content: bodyText }, toRecipients: [{ emailAddress: { address: to } }] } })
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        document.getElementById('sendModal13').style.display = 'none';
-        showToast(`✓ Sent to ${to}`, 'success');
-      } catch(e) { showToast('Send failed: ' + e.message, 'error'); }
-      finally { btn.disabled = false; btn.textContent = origText; }
-    }
-
-    function openMailto13() {
-      const subject = encodeURIComponent(document.getElementById('job-title')?.value || 'Job Opportunity');
-      const emailEl = document.getElementById('email-output');
-      const body = encodeURIComponent(emailEl ? (emailEl.innerText || emailEl.textContent) : '');
-      window.location.href = `mailto:?subject=${subject}&body=${body}`;
-    }
-
-    // Profile auto-fill: also fill company-name (Day 13-specific ID)
-    window.addEventListener('DOMContentLoaded', () => {
-      initMsal13();
-      try {
-        const p = JSON.parse(localStorage.getItem('aimersion_profile') || '{}');
-        if (p.company) { const el = document.getElementById('company-name'); if (el && !el.value) el.value = p.company; }
-      } catch(e) {}
-    });
-  </script>
-
-<!-- AIMERSION PROFILE WIDGET -->
-<div id="ap-widget"><button id="ap-chip" onclick="apOpenModal()">👤 Set Profile</button></div>
-<div id="ap-modal"><div id="ap-modal-box">
-  <div id="ap-modal-header"><span>Your Profile</span><button onclick="apCloseModal()">✕</button></div>
-  <p id="ap-modal-sub">Saved once — auto-fills name, company &amp; role across all 20 tools.</p>
-  <input id="ap-name" type="text" placeholder="Your full name" autocomplete="name">
-  <input id="ap-company" type="text" placeholder="Company name" autocomplete="organization">
-  <input id="ap-role" type="text" placeholder="Your role (e.g. VP of Sales)" autocomplete="organization-title">
-  <div id="ap-modal-btns">
-    <button id="ap-save-btn" onclick="apSave()">💾 Save Profile</button>
-    <button id="ap-cancel-btn" onclick="apCloseModal()">Cancel</button>
-  </div>
-</div></div>
-<style>
-#ap-widget{position:fixed;top:70px;right:16px;z-index:8888;pointer-events:auto;}
-#ap-chip{background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.28);color:#22D3EE;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;letter-spacing:.02em;}
-#ap-chip:hover{background:rgba(8,145,178,0.24);border-color:rgba(8,145,178,0.55);transform:translateY(-1px);}
-#ap-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);align-items:center;justify-content:center;}
-#ap-modal.open{display:flex;}
-#ap-modal-box{background:#162840;border:1px solid #2A4A70;border-radius:14px;padding:32px 32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
-#ap-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-#ap-modal-header span{color:#F0F7FF;font-size:18px;font-weight:700;font-family:inherit;}
-#ap-modal-header button{background:none;border:none;color:#8AAFD0;font-size:20px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
-#ap-modal-header button:hover{color:#F0F7FF;}
-#ap-modal-sub{color:#8AAFD0;font-size:13px;margin:0 0 20px;font-family:inherit;line-height:1.5;}
-#ap-name,#ap-company,#ap-role{display:block;width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .15s;}
-#ap-name:focus,#ap-company:focus,#ap-role:focus{border-color:#0891B2;box-shadow:0 0 0 3px rgba(8,145,178,0.15);}
-#ap-name::placeholder,#ap-company::placeholder,#ap-role::placeholder{color:#8AAFD0;}
-#ap-modal-btns{display:flex;gap:10px;margin-top:8px;}
-#ap-save-btn{flex:1;background:#0891B2;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
-#ap-save-btn:hover{background:#0EA5C9;}
-#ap-cancel-btn{background:#1A2F52;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
-#ap-cancel-btn:hover{border-color:#0891B2;color:#F0F7FF;}
-</style>
-<script>
-(function(){
-  var KEY='aimersion_profile';
-  function gp(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
-  function updateChip(){
-    var p=gp(),chip=document.getElementById('ap-chip');
-    if(chip)chip.textContent=p.name?'\u{1F464} '+p.name.split(' ')[0]:'\u{1F464} Set Profile';
-  }
-  function applyProfile(){
-    var p=gp();
-    if(!p.name&&!p.company&&!p.role)return;
-    var fills={
-      yourName:p.name,managerName:p.name,fullName:p.name,senderName:p.name,authorName:p.name,
-      repName:p.name,yourFirstName:p.name.split(' ')[0],
-      companyName:p.company,businessName:p.company,yourCompany:p.company,senderCompany:p.company,
-      userRole:p.role,yourRole:p.role,senderTitle:p.role,roleTitle:p.role
-    };
-    Object.keys(fills).forEach(function(id){
-      var el=document.getElementById(id);
-      if(el&&fills[id]&&!el.value)el.value=fills[id];
-    });
-  }
-  window.apOpenModal=function(){
-    var p=gp();
-    document.getElementById('ap-name').value=p.name||'';
-    document.getElementById('ap-company').value=p.company||'';
-    document.getElementById('ap-role').value=p.role||'';
-    document.getElementById('ap-modal').classList.add('open');
-    setTimeout(function(){document.getElementById('ap-name').focus();},50);
-  };
-  window.apCloseModal=function(){document.getElementById('ap-modal').classList.remove('open');};
-  window.apSave=function(){
-    var p={
-      name:document.getElementById('ap-name').value.trim(),
-      company:document.getElementById('ap-company').value.trim(),
-      role:document.getElementById('ap-role').value.trim()
-    };
-    if(!p.name&&!p.company){return;}
-    localStorage.setItem(KEY,JSON.stringify(p));
-    apCloseModal();updateChip();applyProfile();
-    if(typeof showToast==='function')showToast('Profile saved ✓','success');
-  };
-  document.getElementById('ap-modal').addEventListener('click',function(e){if(e.target===this)apCloseModal();});
-  document.getElementById('ap-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-company').focus();});
-  document.getElementById('ap-company').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-role').focus();});
-  document.getElementById('ap-role').addEventListener('keydown',function(e){if(e.key==='Enter')apSave();});
-  updateChip();
-  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyProfile);}
-  else{setTimeout(applyProfile,100);}
-  var p=gp();
-  if(!p.name&&!sessionStorage.getItem('ap_nudged')){
-    sessionStorage.setItem('ap_nudged','1');
-    setTimeout(function(){
-      if(typeof showToast==='function')showToast('\u{1F464} Set your profile — auto-fills all 20 tools','info');
-    },2800);
-  }
-})();
+  });
 </script>
-<!-- END AIMERSION PROFILE WIDGET -->
 
+  <!-- NAV FOOTER -->
+  <footer style="text-align:center;padding:28px 20px 40px;color:var(--muted,#64748b);font-size:13px;border-top:1px solid var(--border,#1e3a5f);margin-top:32px">
+    <div style="display:flex;justify-content:space-between;align-items:center;max-width:600px;margin:0 auto 14px">
+      <a href="day-12-invoice-generator.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">← Day 12</a>
+      <a href="https://aimersion.github.io/ai-automations/index.html" style="color:var(--muted,#64748b);text-decoration:none;font-size:12px">☰ All 20 Tools</a>
+      <a href="day-14-performance-review.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">Day 14 →</a>
+    </div>
+    <div style="font-size:11px;color:var(--muted,#64748b)">
+      <a href="privacy.html" style="color:var(--muted,#64748b);text-decoration:none">Privacy</a>
+    </div>
+  </footer>
 </body>
 </html>

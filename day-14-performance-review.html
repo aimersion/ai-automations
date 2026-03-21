@@ -512,69 +512,23 @@
     }
 
     .rating-banner {
+      background: var(--orange-dim);
       border: 2px solid var(--orange);
       border-radius: 12px;
-      padding: 24px 28px;
-      margin-bottom: 28px;
+      padding: 24px;
+      margin-bottom: 32px;
       text-align: center;
     }
-    .rating-score {
-      font-size: 36px;
-      font-weight: 800;
-      margin-bottom: 4px;
-      letter-spacing: -.02em;
-    }
-    .rating-label {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-    }
-    .rating-justification {
-      color: var(--muted2);
-      margin: 0;
-      font-style: italic;
-      font-size: 14px;
-      line-height: 1.5;
+
+    .rating-banner h2 {
+      font-size: 28px;
+      color: var(--orange);
+      margin-bottom: 8px;
     }
 
-    /* Rich review sections */
-    .rv-section {
-      margin-bottom: 12px;
-      padding: 14px 16px;
-      background: rgba(255,255,255,0.025);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--rv-color, #0891B2);
-      border-radius: 6px;
-    }
-    .rv-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--rv-color, #0891B2);
-      margin-bottom: 10px;
-    }
-    .rv-icon { font-size: 14px; }
-    .rv-bullet {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
+    .rating-banner p {
       color: var(--muted2);
-      margin-bottom: 6px;
-      font-size: 13.5px;
-      line-height: 1.65;
-    }
-    .rv-dot { font-weight: 700; flex-shrink: 0; margin-top: 2px; }
-    .rv-para {
-      color: var(--muted2);
-      margin: 0 0 6px;
-      font-size: 13.5px;
-      line-height: 1.7;
+      margin: 0;
     }
 
     .email-body {
@@ -742,8 +696,39 @@
       border-color: var(--orange);
       background: var(--orange-glow);
     }
+  
+    /* ── Standardized input styling ── */
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="url"], input[type="number"], input[type="search"],
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+    textarea, select {
+      background: #0D1B2E !important;
+      border: 1px solid #1E3A5F !important;
+      border-radius: 8px !important;
+      color: #E2E8F0 !important;
+      font-family: inherit !important;
+      font-size: 14px !important;
+      padding: 10px 14px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: border-color 0.2s !important;
+      outline: none !important;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+    input[type="url"]:focus, input[type="number"]:focus, input[type="search"]:focus,
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]):focus,
+    textarea:focus, select:focus {
+      border-color: #0EA5E9 !important;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15) !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #64748B !important;
+    }
+    select option {
+      background: #0D1B2E;
+      color: #E2E8F0;
+    }
   </style>
-  <script src="https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js"></script>
 </head>
 <body>
   <header>
@@ -940,7 +925,7 @@
       <button class="btn-primary" id="writeBtn" onclick="generateReview()">
         <span>📝</span> Write Performance Review
       </button>
-      <button class="btn-secondary" onclick="runDemo()">▶ Run Demo</button>
+      <button class="btn-secondary" onclick="loadDemoData()">▶ Run Demo</button>
     </div>
 
     <!-- Output Section -->
@@ -988,25 +973,6 @@
       </div>
     </div>
   </main>
-
-  <!-- SEND MODAL -->
-  <div id="sendModal14" style="display:none;position:fixed;inset:0;z-index:9990;background:rgba(0,0,0,0.75);align-items:center;justify-content:center;">
-    <div style="background:#152035;border:1px solid #2A4A70;border-radius:14px;padding:28px;width:100%;max-width:420px;margin:16px;box-shadow:0 24px 60px rgba(0,0,0,0.5);">
-      <div style="font-size:16px;font-weight:700;color:#F0F7FF;margin-bottom:20px;">📧 Send via Outlook</div>
-      <div style="margin-bottom:14px;">
-        <label style="color:#8AAFD0;font-size:13px;margin-bottom:6px;display:block;">To:</label>
-        <input type="email" id="sendTo14" placeholder="recipient@example.com" style="width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
-      </div>
-      <div style="margin-bottom:20px;">
-        <label style="color:#8AAFD0;font-size:13px;margin-bottom:6px;display:block;">Subject:</label>
-        <input type="text" id="sendSubject14" placeholder="Subject line" style="width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;outline:none;">
-      </div>
-      <div style="display:flex;gap:10px;">
-        <button onclick="doSendOutlook14()" id="sendBtn14" style="flex:1;background:#EA580C;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">Send</button>
-        <button onclick="document.getElementById('sendModal14').style.display='none'" style="background:#152035;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;">Cancel</button>
-      </div>
-    </div>
-  </div>
 
   <footer>
     <div class="container">
@@ -1074,42 +1040,8 @@
       showToast('API key saved (stored locally in your browser)', 'success');
     }
 
-    // ── Outlook / MSAL ─────────────────────────────────────
-    const AZURE_CLIENT_ID_14 = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
-    const MS_SCOPES_14 = ['https://graph.microsoft.com/Mail.Send','https://graph.microsoft.com/User.Read'];
-    const MSAL_CFG_14 = { auth: { clientId: AZURE_CLIENT_ID_14, authority: 'https://login.microsoftonline.com/common', redirectUri: 'https://aimersion.github.io/ai-automations/auth.html' }, cache: { cacheLocation: 'sessionStorage' } };
-    let msalInst14 = null, msAcct14 = null;
-
-    async function initMsal14() {
-      if (!window.msal) return;
-      msalInst14 = new msal.PublicClientApplication(MSAL_CFG_14);
-      const accts = msalInst14.getAllAccounts();
-      if (accts.length > 0) { msAcct14 = accts[0]; updateOutlookUI14(); }
-    }
-
-    async function connectOutlook() {
-      try {
-        if (!msalInst14) await initMsal14();
-        const r = await msalInst14.loginPopup({ scopes: MS_SCOPES_14, prompt: 'select_account' });
-        msAcct14 = r.account;
-        outlookConnected = true;
-        updateOutlookUI14();
-        showToast('Outlook connected ✓', 'success');
-      } catch(e) { showToast('Connection failed: ' + e.message, 'error'); }
-    }
-
-    function updateOutlookUI14() {
-      if (!msAcct14) return;
-      const s = document.getElementById('outlookStatus');
-      const b = document.querySelector('[onclick="connectOutlook()"]');
-      if (s) { s.innerHTML = `<span class="status-dot" style="background:#10B981"></span><span style="color:#10B981">✓ ${msAcct14.username}</span>`; }
-      if (b) b.textContent = 'Reconnect';
-    }
-
-    async function getMsToken14() {
-      if (!msalInst14 || !msAcct14) return null;
-      try { return (await msalInst14.acquireTokenSilent({ scopes: MS_SCOPES_14, account: msAcct14 })).accessToken; }
-      catch { return (await msalInst14.acquireTokenPopup({ scopes: MS_SCOPES_14, account: msAcct14 })).accessToken; }
+    function connectOutlook() {
+      showToast('Outlook integration is available in the professional version', 'error');
     }
 
     function loadDemoData() {
@@ -1284,146 +1216,31 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
       return parsed;
     }
 
-    function esc(s) {
-      return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    }
-
-    const REVIEW_SECTION_META = {
-      'SUMMARY': { icon: '📝', color: '#0891B2' },
-      'ACCOMPLISHMENTS': { icon: '🏆', color: '#059669' },
-      'ACHIEVEMENTS': { icon: '🏆', color: '#059669' },
-      'KEY STRENGTHS': { icon: '💪', color: '#059669' },
-      'STRENGTHS': { icon: '💪', color: '#059669' },
-      'AREAS FOR GROWTH': { icon: '📈', color: '#F59E0B' },
-      'AREAS FOR IMPROVEMENT': { icon: '📈', color: '#F59E0B' },
-      'DEVELOPMENT': { icon: '📈', color: '#F59E0B' },
-      'GOALS': { icon: '🎯', color: '#0891B2' },
-      'NEXT STEPS': { icon: '🎯', color: '#0891B2' },
-      'MANAGER NOTES': { icon: '🔒', color: '#8B5CF6' },
-      'CONFIDENTIAL': { icon: '🔒', color: '#8B5CF6' },
-      'OVERALL': { icon: '⭐', color: '#F59E0B' },
-      'RECOMMENDATION': { icon: '✅', color: '#059669' },
-      'PERFORMANCE': { icon: '📊', color: '#0891B2' },
-      'IMPACT': { icon: '💥', color: '#EA580C' },
-      'COLLABORATION': { icon: '🤝', color: '#0891B2' },
-      'COMMUNICATION': { icon: '💬', color: '#0891B2' },
-      'LEADERSHIP': { icon: '🌟', color: '#F59E0B' },
-      'RELIABILITY': { icon: '🔄', color: '#0891B2' },
-    };
-
-    function getReviewSectionMeta(header) {
-      const up = header.toUpperCase();
-      for (const [key, meta] of Object.entries(REVIEW_SECTION_META)) {
-        if (up.includes(key)) return meta;
-      }
-      return { icon: '▸', color: '#8AAFD0' };
-    }
-
-    function formatReviewHTML(text) {
-      if (!text) return '<p style="color:#8AAFD0;font-style:italic;">No content generated.</p>';
-      const lines = text.split('\n');
-      let html = '';
-      let inSection = false;
-      let currentColor = '#8AAFD0';
-
-      lines.forEach(rawLine => {
-        const line = rawLine.trimEnd();
-        const trimmed = line.trim();
-
-        if (!trimmed) {
-          if (inSection) { html += '</div>'; inSection = false; }
-          return;
-        }
-
-        const isHeader = (
-          (/^[A-Z][A-Z\s&\/\-—:]+$/.test(trimmed) && trimmed.length > 3 && trimmed.length < 70) ||
-          (/^[A-Z][A-Za-z\s&\/\-—]+:$/.test(trimmed) && trimmed.length < 60)
-        );
-
-        if (isHeader) {
-          if (inSection) html += '</div>';
-          const label = trimmed.replace(/:$/, '');
-          const meta = getReviewSectionMeta(label);
-          currentColor = meta.color;
-          html += `<div class="rv-section" style="--rv-color:${meta.color}">
-            <div class="rv-header"><span class="rv-icon">${meta.icon}</span><span>${esc(label)}</span></div>`;
-          inSection = true;
-        }
-        // Arrow or bullet
-        else if (/^[→•\-\*]/.test(trimmed) || /^\d+[\.\)]/.test(trimmed)) {
-          const bulletText = trimmed.replace(/^[→•\-\*]\s*/, '').replace(/^\d+[\.\)]\s*/, '');
-          // Handle bolded key: description pattern (e.g. "Client Communication: Jordan builds...")
-          const colonIdx = bulletText.indexOf(': ');
-          if (colonIdx > 0 && colonIdx < 35) {
-            const key = bulletText.substring(0, colonIdx);
-            const desc = bulletText.substring(colonIdx + 2);
-            if (!inSection) { html += '<div class="rv-section" style="--rv-color:#8AAFD0">'; inSection = true; }
-            html += `<div class="rv-bullet"><span class="rv-dot" style="color:${currentColor}">→</span><span><strong style="color:${currentColor}">${esc(key)}:</strong> ${esc(desc)}</span></div>`;
-          } else {
-            if (!inSection) { html += '<div class="rv-section" style="--rv-color:#8AAFD0">'; inSection = true; }
-            html += `<div class="rv-bullet"><span class="rv-dot" style="color:${currentColor}">→</span><span>${esc(bulletText)}</span></div>`;
-          }
-        }
-        // Paragraph — handle "Key: Value" inline headers
-        else {
-          const colonIdx = trimmed.indexOf(': ');
-          if (!inSection) { html += '<div class="rv-section" style="--rv-color:#8AAFD0">'; inSection = true; }
-          if (colonIdx > 0 && colonIdx < 30 && /^[A-Z]/.test(trimmed)) {
-            const key = trimmed.substring(0, colonIdx);
-            const desc = trimmed.substring(colonIdx + 2);
-            html += `<p class="rv-para"><strong style="color:${currentColor}">${esc(key)}:</strong> ${esc(desc)}</p>`;
-          } else {
-            html += `<p class="rv-para">${esc(trimmed)}</p>`;
-          }
-        }
-      });
-
-      if (inSection) html += '</div>';
-      return html;
-    }
-
     function displayResults(data) {
       const employeeName = document.getElementById('employeeName').value;
       const rating = selectedRating;
       const ratingLabels = ['', 'Needs Improvement', 'Developing', 'Meets Expectations', 'Exceeds Expectations', 'Outstanding'];
-      const ratingColors = ['', '#DC2626', '#F59E0B', '#0891B2', '#059669', '#8B5CF6'];
-      const ratingIcons = ['', '⚠️', '📈', '✓', '⭐', '🏆'];
 
-      // Full Review — rich HTML
-      const rColor = ratingColors[rating] || '#8AAFD0';
-      let fullHTML = `<div class="rating-banner" style="border-color:${rColor};background:linear-gradient(135deg,rgba(${rating>=4?'5,150,105':'245,158,11'},0.12),transparent);">
-        <div class="rating-score" style="color:${rColor}">${ratingIcons[rating]} ${rating}/5</div>
-        <div class="rating-label" style="color:${rColor}">${ratingLabels[rating]}</div>
-        <p class="rating-justification">${esc(document.getElementById('ratingJustification').value || 'Professional performance review')}</p>
+      // Full Review
+      let fullHTML = `<div class="rating-banner">
+        <h2>${rating}/5 — ${ratingLabels[rating]}</h2>
+        <p>${document.getElementById('ratingJustification').value || 'Professional performance review'}</p>
       </div>`;
 
-      fullHTML += formatReviewHTML(data.fullReview || '');
+      fullHTML += sanitizeText(data.fullReview || 'No full review generated');
       document.getElementById('fullReviewContent').innerHTML = fullHTML;
 
       // Email
-      document.getElementById('emailSubject').value = data.emailSubject || `Performance Review: ${employeeName}`;
-      document.getElementById('emailBody').textContent = data.emailBody || '';
+      document.getElementById('emailSubject').value = sanitizeText(data.emailSubject || `Performance Review: ${employeeName}`);
+      document.getElementById('emailBody').textContent = sanitizeText(data.emailBody || 'No email body generated');
 
-      // Talking Points — styled list
+      // Talking Points
+      let pointsHTML = '<div class="review-section"><ul>';
       const points = (data.talkingPoints || '').split('\n').filter(p => p.trim());
-      let pointsHTML = '<div style="display:flex;flex-direction:column;gap:10px;">';
-      points.forEach((point, i) => {
-        const clean = point.replace(/^[-•*→]\s*/, '').replace(/^\d+[\.\)]\s*/, '');
-        const colonIdx = clean.indexOf(': ');
-        let content = '';
-        if (colonIdx > 0 && colonIdx < 40) {
-          const title = clean.substring(0, colonIdx);
-          const desc = clean.substring(colonIdx + 2);
-          content = `<strong style="color:#22D3EE">${esc(title)}:</strong> ${esc(desc)}`;
-        } else {
-          content = esc(clean);
-        }
-        pointsHTML += `<div style="display:flex;gap:12px;padding:12px 14px;background:rgba(8,145,178,0.07);border:1px solid rgba(8,145,178,0.2);border-left:3px solid #0891B2;border-radius:6px;font-size:14px;line-height:1.6;color:#F0F7FF;">
-          <span style="color:#0891B2;font-weight:700;font-size:12px;flex-shrink:0;margin-top:2px;">${String(i+1).padStart(2,'0')}</span>
-          <span>${content}</span>
-        </div>`;
+      points.forEach(point => {
+        pointsHTML += '<li>' + sanitizeText(point.replace(/^[-•*]\s*/, '')) + '</li>';
       });
-      pointsHTML += '</div>';
+      pointsHTML += '</ul></div>';
       document.getElementById('talkingPointsContent').innerHTML = pointsHTML;
     }
 
@@ -1437,9 +1254,12 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
       const temp = document.createElement('div');
       temp.textContent = html;
       let safe = temp.innerHTML;
+
+      // Convert common patterns to safe HTML
       safe = safe.replace(/\n\n/g, '</p><p>');
       safe = safe.replace(/^(.+)$/gm, '<p>$1</p>');
       safe = safe.replace(/<p><\/p>/g, '');
+
       return safe;
     }
 
@@ -1468,58 +1288,8 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
     }
 
     function sendViaOutlook(tab) {
-      const name = document.getElementById('employeeName')?.value || 'Employee';
-      const period = document.getElementById('reviewPeriod')?.value || '';
-      let subject = `Performance Review — ${name}${period ? ' · ' + period : ''}`;
-      let body = '';
-      if (tab === 'email') {
-        subject = document.getElementById('emailSubject')?.value || subject;
-        body = document.getElementById('emailBody')?.innerText || document.getElementById('emailBody')?.textContent || '';
-      } else if (tab === 'full') {
-        body = document.getElementById('fullReviewContent')?.innerText || '';
-      } else if (tab === 'points') {
-        body = document.getElementById('talkingPointsContent')?.innerText || '';
-        subject = `Talking Points — ${name} Performance Review`;
-      }
-      if (!msAcct14) {
-        // Fallback: mailto
-        const mailto = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.location.href = mailto;
-        return;
-      }
-      document.getElementById('sendSubject14').value = subject;
-      document.getElementById('sendTo14').value = '';
-      document.getElementById('sendModal14').style.display = 'flex';
-      document.getElementById('sendModal14').dataset.tab = tab;
-      document.getElementById('sendModal14').dataset.body = body;
-      setTimeout(() => document.getElementById('sendTo14').focus(), 80);
+      showToast('Outlook integration available in professional version', 'error');
     }
-
-    async function doSendOutlook14() {
-      const to = document.getElementById('sendTo14').value.trim();
-      const subject = document.getElementById('sendSubject14').value.trim();
-      if (!to) return showToast('Enter recipient email address', 'error');
-      const token = await getMsToken14();
-      if (!token) return showToast('Not connected to Outlook', 'error');
-      const modal = document.getElementById('sendModal14');
-      const body = modal.dataset.body || '';
-      const btn = document.getElementById('sendBtn14');
-      const origText = btn.textContent;
-      btn.disabled = true; btn.textContent = 'Sending...';
-      try {
-        const res = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
-          method: 'POST',
-          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: { subject, body: { contentType: 'Text', content: body }, toRecipients: [{ emailAddress: { address: to } }] } })
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        modal.style.display = 'none';
-        showToast(`✓ Sent to ${to}`, 'success');
-      } catch(e) { showToast('Send failed: ' + e.message, 'error'); }
-      finally { btn.disabled = false; btn.textContent = origText; }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => { initMsal14(); });
 
     function showToast(message, type = 'success') {
       const toast = document.createElement('div');
@@ -1536,175 +1306,37 @@ Format your response as JSON with three keys: "fullReview", "emailSubject", "ema
         document.getElementById('geminiKey').value = savedKey;
       }
     });
-
-    function runDemo() {
-      // Fill form fields so displayResults() reads them correctly
-      document.getElementById('employeeName').value = 'Jordan';
-      document.getElementById('jobTitle').value = 'Account Manager';
-      document.getElementById('reviewPeriod').value = 'FY 2025';
-      document.getElementById('reviewType').value = 'manager';
-      document.getElementById('ratingJustification').value = 'Consistently outperformed targets and took on additional cross-team responsibilities';
-      selectRating(4);
-
-      const demoData = {
-        fullReview: `PERFORMANCE REVIEW — JORDAN, ACCOUNT MANAGER
-Review Period: FY 2025  |  Rating: 4/5 — Exceeds Expectations
-
-SUMMARY
-Jordan delivered an exceptional year in FY 2025, closing 127% of annual quota while simultaneously leading one of the most complex platform migrations the team has undertaken. Jordan's consistent delivery, proactive ownership, and genuine investment in the team set a new standard for what "Exceeds Expectations" looks like here.
-
-ACCOMPLISHMENTS
-→ Closed 127% of annual quota — highest attainment on the team this year
-→ Led migration of 6 enterprise accounts to new platform with zero churn, zero escalations
-→ Launched a peer mentoring program that onboarded 3 new AMs in Q3, cutting ramp time by 3 weeks
-→ Won the Q3 Customer Satisfaction Award — voted by both clients and peers
-→ Maintained a 94% renewal rate across a book of 28 accounts
-
-KEY STRENGTHS
-Client Communication: Jordan builds trust with clients in a way few AMs do. Clients reach out directly because they know they'll get a straight answer and a real solution — not a runaround or a ticket number.
-
-Ownership: When something goes sideways — a delayed integration, a billing issue, a product gap — Jordan owns it without being asked. This saves the team time and keeps small problems from becoming crises.
-
-Reliability: Jordan meets commitments. If Jordan says something will be done by Thursday, it is done by Thursday. This matters enormously for client trust and internal planning.
-
-GROWTH AREAS
-Territory Strategy: Jordan tends to respond reactively to inbound signals rather than proactively building a territory expansion plan. For FY 2026, the goal is a systematic quarterly territory plan with named white-space accounts and clear prioritization criteria.
-
-Executive Presence: Jordan is excellent in day-to-day client conversations. The next level is navigating C-suite relationships more confidently — leading QBRs at the CXO level rather than defaulting to management support.
-
-GOALS FOR FY 2026
-1. Achieve 120% of annual quota
-2. Develop 2 junior AMs into fully independent performers (defined as <10% manager touchpoints)
-3. Present to the executive team at least twice — internal and client-facing
-4. Complete Sales Leadership Certification by end of Q2
-
-CLOSING
-Jordan is one of the strongest performers on this team and a genuine asset to the company. With the right executive coaching investment and a more strategic approach to territory planning, Jordan has the potential to move into a senior or team lead role within the next 18 months. We are fully committed to that path.`,
-
-        emailSubject: `Performance Review Summary — Jordan, Account Manager (FY 2025)`,
-
-        emailBody: `Hi Jordan,
-
-I wanted to share a summary of your FY 2025 performance review ahead of our conversation next week. Overall, this was an exceptional year and I want you to have time to reflect on it before we talk.
-
-Rating: 4/5 — Exceeds Expectations
-
-You closed 127% of quota, led one of the most complex platform migrations we've done with zero client losses, launched a mentoring program that made a real difference for new team members, and won the Q3 Customer Satisfaction Award. That is an extraordinary body of work.
-
-Your growth areas for FY 2026 are about two things: building a more proactive territory strategy and developing executive presence at the C-suite level. Both are completely achievable, and we're going to support you with executive coaching starting in Q1.
-
-I'm genuinely proud of what you accomplished this year and excited about where you're headed. Looking forward to our conversation.
-
-Best,
-[Your Name]`,
-
-        talkingPoints: `Open by anchoring on impact first: "Before we get into the formal review, I want to say — 127% of quota and zero churn on the platform migration is genuinely exceptional. I want to make sure that lands."
-Highlight 3 specific wins: quota attainment, platform migration, and the mentoring program — because they show different dimensions of strength (individual, technical, team).
-Acknowledge the Q3 Customer Satisfaction Award as peer and client recognition, not just a manager opinion — it carries more weight.
-Frame territory strategy as an unlock, not a critique: "You're already doing the hard part — the client relationships. The next unlock is being more systematic about which doors to knock on proactively."
-Close on the growth path: "Based on this year, you have a real shot at a senior or team lead role in the next 18 months. Here's what that path looks like and what I'm committed to doing to help you get there."`
-      };
-
-      displayResults(demoData);
-      document.getElementById('outputSection').style.display = 'block';
-      document.getElementById('sensitivityNotice').classList.add('visible');
-      window.scrollTo({ top: document.getElementById('outputSection').offsetTop - 100, behavior: 'smooth' });
+  
+  // Auto-load and auto-collapse Gemini key if already saved
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedKey = localStorage.getItem('gemini_key');
+    if (savedKey) {
+      ['apiKey', 'geminiKey', 'gemini-key', 'apiKeyInput', 'geminiKeyInput'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el && !el.value) el.value = savedKey;
+      });
+      // Auto-collapse the key card
+      const card = document.querySelector('.api-card, #apiCard, #apiKeyCard, #geminiCard, [id*="key-card"], [id*="keyCard"]');
+      if (card) {
+        const body = card.querySelector('.card-body, .card-content, input[type="password"]')?.closest('.card-body, .card-content');
+        if (body) body.style.display = 'none';
+        const toggle = card.querySelector('.card-toggle, .toggle-icon');
+        if (toggle) toggle.textContent = '▶';
+      }
     }
-  </script>
-
-<!-- AIMERSION PROFILE WIDGET -->
-<div id="ap-widget"><button id="ap-chip" onclick="apOpenModal()">👤 Set Profile</button></div>
-<div id="ap-modal"><div id="ap-modal-box">
-  <div id="ap-modal-header"><span>Your Profile</span><button onclick="apCloseModal()">✕</button></div>
-  <p id="ap-modal-sub">Saved once — auto-fills name, company &amp; role across all 20 tools.</p>
-  <input id="ap-name" type="text" placeholder="Your full name" autocomplete="name">
-  <input id="ap-company" type="text" placeholder="Company name" autocomplete="organization">
-  <input id="ap-role" type="text" placeholder="Your role (e.g. VP of Sales)" autocomplete="organization-title">
-  <div id="ap-modal-btns">
-    <button id="ap-save-btn" onclick="apSave()">💾 Save Profile</button>
-    <button id="ap-cancel-btn" onclick="apCloseModal()">Cancel</button>
-  </div>
-</div></div>
-<style>
-#ap-widget{position:fixed;top:70px;right:16px;z-index:8888;pointer-events:auto;}
-#ap-chip{background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.28);color:#22D3EE;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;letter-spacing:.02em;}
-#ap-chip:hover{background:rgba(8,145,178,0.24);border-color:rgba(8,145,178,0.55);transform:translateY(-1px);}
-#ap-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);align-items:center;justify-content:center;}
-#ap-modal.open{display:flex;}
-#ap-modal-box{background:#162840;border:1px solid #2A4A70;border-radius:14px;padding:32px 32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
-#ap-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-#ap-modal-header span{color:#F0F7FF;font-size:18px;font-weight:700;font-family:inherit;}
-#ap-modal-header button{background:none;border:none;color:#8AAFD0;font-size:20px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
-#ap-modal-header button:hover{color:#F0F7FF;}
-#ap-modal-sub{color:#8AAFD0;font-size:13px;margin:0 0 20px;font-family:inherit;line-height:1.5;}
-#ap-name,#ap-company,#ap-role{display:block;width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .15s;}
-#ap-name:focus,#ap-company:focus,#ap-role:focus{border-color:#0891B2;box-shadow:0 0 0 3px rgba(8,145,178,0.15);}
-#ap-name::placeholder,#ap-company::placeholder,#ap-role::placeholder{color:#8AAFD0;}
-#ap-modal-btns{display:flex;gap:10px;margin-top:8px;}
-#ap-save-btn{flex:1;background:#0891B2;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
-#ap-save-btn:hover{background:#0EA5C9;}
-#ap-cancel-btn{background:#1A2F52;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
-#ap-cancel-btn:hover{border-color:#0891B2;color:#F0F7FF;}
-</style>
-<script>
-(function(){
-  var KEY='aimersion_profile';
-  function gp(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
-  function updateChip(){
-    var p=gp(),chip=document.getElementById('ap-chip');
-    if(chip)chip.textContent=p.name?'\u{1F464} '+p.name.split(' ')[0]:'\u{1F464} Set Profile';
-  }
-  function applyProfile(){
-    var p=gp();
-    if(!p.name&&!p.company&&!p.role)return;
-    var fills={
-      yourName:p.name,managerName:p.name,fullName:p.name,senderName:p.name,authorName:p.name,
-      repName:p.name,yourFirstName:p.name.split(' ')[0],
-      companyName:p.company,businessName:p.company,yourCompany:p.company,senderCompany:p.company,
-      userRole:p.role,yourRole:p.role,senderTitle:p.role,roleTitle:p.role
-    };
-    Object.keys(fills).forEach(function(id){
-      var el=document.getElementById(id);
-      if(el&&fills[id]&&!el.value)el.value=fills[id];
-    });
-  }
-  window.apOpenModal=function(){
-    var p=gp();
-    document.getElementById('ap-name').value=p.name||'';
-    document.getElementById('ap-company').value=p.company||'';
-    document.getElementById('ap-role').value=p.role||'';
-    document.getElementById('ap-modal').classList.add('open');
-    setTimeout(function(){document.getElementById('ap-name').focus();},50);
-  };
-  window.apCloseModal=function(){document.getElementById('ap-modal').classList.remove('open');};
-  window.apSave=function(){
-    var p={
-      name:document.getElementById('ap-name').value.trim(),
-      company:document.getElementById('ap-company').value.trim(),
-      role:document.getElementById('ap-role').value.trim()
-    };
-    if(!p.name&&!p.company){return;}
-    localStorage.setItem(KEY,JSON.stringify(p));
-    apCloseModal();updateChip();applyProfile();
-    if(typeof showToast==='function')showToast('Profile saved ✓','success');
-  };
-  document.getElementById('ap-modal').addEventListener('click',function(e){if(e.target===this)apCloseModal();});
-  document.getElementById('ap-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-company').focus();});
-  document.getElementById('ap-company').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-role').focus();});
-  document.getElementById('ap-role').addEventListener('keydown',function(e){if(e.key==='Enter')apSave();});
-  updateChip();
-  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyProfile);}
-  else{setTimeout(applyProfile,100);}
-  var p=gp();
-  if(!p.name&&!sessionStorage.getItem('ap_nudged')){
-    sessionStorage.setItem('ap_nudged','1');
-    setTimeout(function(){
-      if(typeof showToast==='function')showToast('\u{1F464} Set your profile — auto-fills all 20 tools','info');
-    },2800);
-  }
-})();
+  });
 </script>
-<!-- END AIMERSION PROFILE WIDGET -->
 
+  <!-- NAV FOOTER -->
+  <footer style="text-align:center;padding:28px 20px 40px;color:var(--muted,#64748b);font-size:13px;border-top:1px solid var(--border,#1e3a5f);margin-top:32px">
+    <div style="display:flex;justify-content:space-between;align-items:center;max-width:600px;margin:0 auto 14px">
+      <a href="day-13-job-description.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">← Day 13</a>
+      <a href="https://aimersion.github.io/ai-automations/index.html" style="color:var(--muted,#64748b);text-decoration:none;font-size:12px">☰ All 20 Tools</a>
+      <a href="day-15-contract-summarizer.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">Day 15 →</a>
+    </div>
+    <div style="font-size:11px;color:var(--muted,#64748b)">
+      <a href="privacy.html" style="color:var(--muted,#64748b);text-decoration:none">Privacy</a>
+    </div>
+  </footer>
 </body>
 </html>

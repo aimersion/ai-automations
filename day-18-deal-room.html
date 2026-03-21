@@ -185,15 +185,47 @@ twq("config","tw-r848k-r848k");
   @media (max-width: 640px) {
     .sticky-cta { display: flex; }
   }
-</style>
+
+    /* ── Standardized input styling ── */
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="url"], input[type="number"], input[type="search"],
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+    textarea, select {
+      background: #0D1B2E !important;
+      border: 1px solid #1E3A5F !important;
+      border-radius: 8px !important;
+      color: #E2E8F0 !important;
+      font-family: inherit !important;
+      font-size: 14px !important;
+      padding: 10px 14px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: border-color 0.2s !important;
+      outline: none !important;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+    input[type="url"]:focus, input[type="number"]:focus, input[type="search"]:focus,
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]):focus,
+    textarea:focus, select:focus {
+      border-color: #0EA5E9 !important;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15) !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #64748B !important;
+    }
+    select option {
+      background: #0D1B2E;
+      color: #E2E8F0;
+    }
+  </style>
 </head>
 <body>
 
 <header>
   <a href="https://aimersion.github.io/ai-automations/index.html" class="logo">⚙️ Aimersion</a>
   <div class="nav-links">
-    <a href="index.html">← All Tools</a>
     <a href="https://github.com/aimersion/ai-automations" target="_blank">GitHub</a>
+    <a href="https://aimersion.ai" target="_blank">Home</a>
   </div>
 </header>
 
@@ -229,18 +261,19 @@ twq("config","tw-r848k-r848k");
   </div>
 
   <div class="card collapsible" id="apiCard">
-    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
-      <div class="card-title">🔑 Gemini API Key</div>
-      <button class="card-toggle">▶</button>
+  <!-- Gemini API Key — compact, auto-collapses when key is saved -->
+  <div class="card collapsible" id="apiCard">
+    <div class="card-header" onclick="toggleApiCard()">
+      <div class="card-title">🔑 Gemini API Key <span id="apiCardStatus" style="font-size:11px;font-weight:400;margin-left:8px;color:#6EE7B7"></span></div>
+      <button class="card-toggle" id="apiCardToggle" aria-label="Toggle">▾</button>
     </div>
-    <div class="card-body">
-      <div style="margin-bottom: 12px;">
-        <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Your API Key:</label>
-        <input type="password" id="geminiKey" placeholder="Enter your Gemini API key..." style="width: 100%; margin-bottom: 8px;">
-        <button class="btn btn-teal" onclick="saveGeminiKey()" style="width: 100%;">💾 Save Key</button>
-      </div>
-      <div class="key-hint">Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. Your key is stored locally only.</div>
+    <div class="card-body" id="apiCardBody">
+      <p style="font-size:13px;color:#94A3B8;margin:0 0 10px">Free key at <a href="https://aistudio.google.com/apikey" target="_blank" style="color:#38BDF8">aistudio.google.com</a> — takes 60 seconds, no credit card.</p>
+      <input type="password" id="apiKey" placeholder="Paste your Gemini API key here" style="margin-bottom:8px">
+      <button class="btn btn-teal" onclick="saveApiKey()" style="font-size:12px;padding:6px 16px">Save Key</button>
     </div>
+  </div>
+
   </div>
 
   <div class="card collapsible" id="inputCard">
@@ -295,7 +328,6 @@ twq("config","tw-r848k-r848k");
 
   <div class="card">
     <button id="generateBtn" class="btn btn-amber" onclick="generateDealRoom()" style="width: 100%; padding: 14px; font-size: 16px; justify-content: center;">🔍 Build Deal Brief</button>
-    <button class="btn btn-ghost" onclick="runDemo()" style="width: 100%; padding: 12px; font-size: 14px; justify-content: center; margin-top: 10px;">▶ Try Demo (No API Key Needed)</button>
   </div>
 
   <div class="card">
@@ -322,16 +354,6 @@ twq("config","tw-r848k-r848k");
   ];
 
   let _loaderInterval = null;
-
-  function showToast(msg, type = 'success') {
-    const colors = { success: '#064e3b', error: '#7f1d1d', info: '#0F1F3D' };
-    const t = document.createElement('div');
-    t.textContent = msg;
-    t.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:${colors[type]||colors.success};color:#fff;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 4px 18px rgba(0,0,0,.4);opacity:0;transition:opacity .25s,transform .25s`;
-    document.body.appendChild(t);
-    requestAnimationFrame(() => { t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
-    setTimeout(() => { t.style.opacity='0'; setTimeout(() => t.remove(), 300); }, 2800);
-  }
 
   function toggleCard(el) {
     el.classList.toggle('collapsed');
@@ -364,10 +386,9 @@ twq("config","tw-r848k-r848k");
 
   function saveGeminiKey() {
     const key = document.getElementById('geminiKey').value.trim();
-    if (!key) { showToast('Enter your Gemini API key first', 'error'); return; }
+    if (!key) { alert('Please enter your Gemini API key'); return; }
     localStorage.setItem('gemini_key', key);
-    showToast('API key saved ✓');
-    document.getElementById('apiCard')?.classList.add('collapsed');
+    alert('✓ Key saved securely in your browser');
   }
 
   async function callGemini(prompt) {
@@ -395,7 +416,7 @@ twq("config","tw-r848k-r848k");
     const notes = document.getElementById('notes').value.trim();
 
     if (!company || !industry || !yourProduct) {
-      showToast('Fill in Company, Industry, and Your Product to continue', 'error');
+      alert('Please fill in Company, Industry, and Your Product fields');
       return;
     }
 
@@ -588,10 +609,7 @@ Return a comprehensive deal brief in JSON:
           <div class="email-subject">Subject: ${escapeHtml(oe.subject)}</div>
           <div class="email-body">${escapeHtml(oe.body)}</div>
         </div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
-          <button class="btn btn-teal" onclick="copyEmail()" style="flex:1;justify-content:center;">📋 Copy Email</button>
-          <button class="btn btn-ghost" onclick="openMailto18()" style="flex:1;justify-content:center;">✉️ Open in Email App</button>
-        </div>
+        <button class="btn btn-teal" onclick="copyEmail()" style="width: 100%; justify-content: center;">📋 Copy Email</button>
       </div>`;
     }
 
@@ -613,15 +631,7 @@ Return a comprehensive deal brief in JSON:
     if (!window._lastBrief || !window._lastBrief.openingEmail) return;
     const oe = window._lastBrief.openingEmail;
     const text = `Subject: ${oe.subject}\n\n${oe.body}`;
-    navigator.clipboard.writeText(text).then(() => showToast('Opening email copied ✓'));
-  }
-
-  function openMailto18() {
-    if (!window._lastBrief || !window._lastBrief.openingEmail) return;
-    const oe = window._lastBrief.openingEmail;
-    const subject = encodeURIComponent(oe.subject);
-    const body = encodeURIComponent(oe.body);
-    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    navigator.clipboard.writeText(text).then(() => alert('✓ Email copied to clipboard'));
   }
 
   function downloadBrief() {
@@ -640,134 +650,6 @@ Return a comprehensive deal brief in JSON:
     link.click();
   }
 
-  function runDemo() {
-    const demoBrief = {
-      companySnapshot: {
-        likely_size: "Mid-Market — 200-800 employees, $50M-$500M revenue",
-        typical_pain_points: [
-          "Manual reporting across disconnected systems (ERP, CRM, spreadsheets) consuming 10-15hrs/week of management time",
-          "No real-time visibility into operational KPIs — leadership relies on weekly email summaries",
-          "Data team is a bottleneck — business teams wait days for dashboards that stakeholders change immediately anyway"
-        ],
-        buying_process: "Typically 3-5 month sales cycle. Business unit leader (VP Ops/CFO) sponsors, IT/Security reviews, Finance approves. Committee decision at $50K+ contracts.",
-        budget_cycle: "Annual planning in Q4 — best time to position is September/October. Mid-year budget requests possible for pain-driven buys.",
-        key_initiatives: [
-          "Digital transformation / operational modernization",
-          "Data-driven decision-making mandate from board or new executive",
-          "Preparing for Series B or PE investment — needs clean operational metrics"
-        ]
-      },
-      yourAngle: {
-        primaryValue: "Meridian replaces the weekly reporting ritual with a live operations dashboard that any VP can update themselves — no data team ticket required.",
-        valueProps: [
-          {
-            prop: "Self-service reporting that actually gets used",
-            evidence: "87% of Meridian dashboards are used weekly by non-technical stakeholders vs. 34% industry average for BI tools",
-            businessImpact: "Eliminates 8-12 hours/week of reporting work; reduces 'where are the numbers?' interruptions to the data team by 70%"
-          },
-          {
-            prop: "One afternoon setup, not a 6-month implementation",
-            evidence: "Average time-to-first-dashboard is 4.2 hours. 94% of customers have executive-ready reports within 48 hours.",
-            businessImpact: "No IT project, no consultant, no delay. Operations leader owns the timeline."
-          },
-          {
-            prop: "Built for operations, not just finance",
-            evidence: "Pre-built connectors for 40+ ops systems (ERP, WMS, HRIS, CRM). Templates for supply chain, workforce, and revenue operations.",
-            businessImpact: "Time to insight cut from weeks to hours for the systems operations teams actually use"
-          }
-        ],
-        roi_story: "For a 300-person ops org: if the VP and 3 directors each spend 3 hours/week on manual reporting at an average fully-loaded cost of $120/hr, that's $74,880/year in direct labor cost — before accounting for the decisions made on stale data. Meridian typically pays back in under 60 days."
-      },
-      stakeholderMap: [
-        {
-          title: "VP of Operations",
-          role: "Champion",
-          motivation: "Wants to reduce fire-fighting and run a more data-driven team. Frustrated by the gap between what the board wants to see and what she can actually pull.",
-          approach: "Lead with outcomes, not features. Show her a dashboard that looks like her weekly report — but live. Ask about her biggest reporting headache and demo the solution for exactly that problem."
-        },
-        {
-          title: "Chief Financial Officer",
-          role: "Economic Buyer",
-          motivation: "Cares about ROI, implementation risk, and whether this displaces anything already purchased. Skeptical of 'transformation' promises.",
-          approach: "Bring the ROI calculation to the first CFO conversation. Anchor on payback period (<60 days) and the cost of the status quo (reporting labor + bad decisions). Address 'we already have Tableau' head-on."
-        },
-        {
-          title: "Director of IT / Data Engineering",
-          role: "Technical",
-          motivation: "Worried about security, integration complexity, and being held accountable for another tool the business abandons in 6 months.",
-          approach: "Emphasize SOC 2 Type II compliance and read-only data connectors. Offer a 30-minute technical call early — not after the deal is shaped. Let IT set the integration timeline."
-        },
-        {
-          title: "Current BI Tool Owner (Internal)",
-          role: "Blocker",
-          motivation: "Has built dashboards in the existing BI tool and may feel threatened. May slow-walk the evaluation or advocate for 'enhancing what we have'.",
-          approach: "Don't dismiss existing tool — position Meridian as complementary for operational use cases vs. strategic analytics. Involve them in scoping what moves to Meridian vs. what stays."
-        }
-      ],
-      objectionHandlers: [
-        {
-          objection: "We already have Tableau / Power BI",
-          response: "That's actually one of the most common situations we see. Tableau and Power BI are great for strategic analytics — finance dashboards, board reports, historical analysis. Meridian is built for the 80% of operational questions that never make it into a BI ticket because they're too urgent or too ad-hoc. Most of our customers run both. We have a native Tableau connector if you want to blend the two.",
-          followUp: "What percentage of your team's data questions are getting answered by your current BI setup today?"
-        },
-        {
-          objection: "Our data team can build this",
-          response: "They probably can — and if you have bandwidth, that's a real option. The tradeoff is usually time: a custom dashboard takes 2-4 weeks to scope, build, and iterate, then requires maintenance every time the underlying data changes. Meridian gives operations leaders the ability to iterate themselves — so the data team can focus on the harder problems. What's the current backlog looking like for your data team?",
-          followUp: "What's the last dashboard your data team built that required the most back-and-forth before it was actually usable?"
-        },
-        {
-          objection: "We don't have budget right now",
-          response: "That's fair — we hear that a lot. A few things worth knowing: our contracts start at $2,400/year, which often fits in departmental opex budgets without a finance approval. We also have a 14-day free trial with real data — some customers use it to build the ROI case for their Q4 planning conversation. Would it be worth running the trial now so you have something concrete to bring to budget planning?",
-          followUp: "When does your Q4 budget planning process start, and who owns that conversation?"
-        },
-        {
-          objection: "What does implementation actually look like?",
-          response: "Most customers are fully live within one business day. You connect your data sources (read-only, no IT ticket for most connectors), choose from pre-built templates for your use case, and customize from there. We assign a dedicated onboarding specialist for the first 30 days at no extra cost. Average time to first executive-ready dashboard is 4.2 hours.",
-          followUp: "Which systems would you want connected first? We can scope that in about 15 minutes."
-        }
-      ],
-      competitiveThreats: [
-        {
-          competitor: "Tableau / Salesforce Analytics",
-          theirStrength: "Deeply entrenched in enterprise analytics, massive ecosystem, strong executive relationships, and IT familiarity.",
-          yourCounter: "Tableau is built for analysts — Meridian is built for operators. Average Tableau dashboard takes 3-4 weeks to deploy; Meridian is live in hours. Position as complementary, not competitive. Lead with the operational use cases Tableau doesn't cover well."
-        },
-        {
-          competitor: "Microsoft Power BI",
-          theirStrength: "Often 'free' for Microsoft customers through existing O365/Azure licensing, familiar to IT, and backed by Microsoft's enterprise relationships.",
-          yourCounter: "Free doesn't mean zero cost — Power BI requires a data engineer to build and maintain reports. Meridian's self-service model eliminates that dependency. Also: Power BI deployments for operations teams have an average time-to-value of 8+ weeks vs. Meridian's 4 hours."
-        },
-        {
-          competitor: "Internal build (data team)",
-          theirStrength: "100% customized, no additional vendor, and the perception of 'we own it'.",
-          yourCounter: "In-house builds cost 3-5x more over 3 years when you factor in maintenance, turnover, and iteration time. Meridian frees the data team for higher-value work. We can help calculate the build vs. buy comparison if that would be useful."
-        }
-      ],
-      discoveryQuestions: [
-        "Walk me through how your leadership team gets their operational metrics today — what's the typical path from 'I need to know X' to actually having the answer?",
-        "How many hours per week does your team spend on reporting and dashboarding that you wish you could get back?",
-        "If you could have one operational question answered in real-time that currently takes days to answer, what would it be?",
-        "Who else on your team feels the data visibility gap most acutely — and what does it cost them?",
-        "What does 'success in year one' look like for an operations intelligence project — what would you need to see to call it a win?"
-      ],
-      nextActions: [
-        { action: "Send personalized cold email with the ROI calculator attached", owner: "You", timing: "Today" },
-        { action: "Schedule 20-minute discovery call with VP of Operations", owner: "You", timing: "This week" },
-        { action: "Prepare a live demo using a dataset similar to their industry", owner: "You", timing: "Before discovery call" },
-        { action: "Review Meridian's website and case studies", owner: "Prospect", timing: "Before discovery call" },
-        { action: "Identify budget owner and confirm Q4 planning timeline", owner: "You", timing: "During discovery call" }
-      ],
-      openingEmail: {
-        subject: "How ops teams like yours are cutting reporting time in half",
-        body: "Hi [Name],\n\nI work with VP-level ops leaders at mid-market companies, and I keep seeing the same pattern: the data exists, the intent is there, but 8-12 hours a week are disappearing into manual reporting that's already stale by the time it lands in leadership's inbox.\n\nMeridian Analytics solves exactly that. We replace the weekly reporting ritual with a live operations dashboard that your team can update and iterate — no data team ticket required. Most customers are fully live within one business day.\n\nI'd love to show you a 20-minute demo. No deck, no pitch — just a live walkthrough with data that looks like yours.\n\nIs there 20 minutes this week or next that works?\n\nBest,\n[Your name]"
-      }
-    };
-
-    const outputArea = document.getElementById('outputArea');
-    renderDealRoom(demoBrief, outputArea);
-    outputArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
   window.addEventListener('load', () => {
     const saved = localStorage.getItem('gemini_key');
     if (saved) {
@@ -778,106 +660,16 @@ Return a comprehensive deal brief in JSON:
 </script>
 
 
-
-<!-- NAV FOOTER -->
-<footer style="border-top:1px solid var(--border);padding:24px 32px;margin-top:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px">
-  <a href="day-17-email-sequence.html" style="color:var(--muted);text-decoration:none">← Day 17: Email Sequence Builder</a>
-  <a href="index.html" style="color:var(--muted);text-decoration:none">All 20 Tools</a>
-  <a href="day-19-chief-of-staff.html" style="color:var(--muted);text-decoration:none">Day 19: Chief of Staff →</a>
-</footer>
-<!-- AIMERSION PROFILE WIDGET -->
-<div id="ap-widget"><button id="ap-chip" onclick="apOpenModal()">👤 Set Profile</button></div>
-<div id="ap-modal"><div id="ap-modal-box">
-  <div id="ap-modal-header"><span>Your Profile</span><button onclick="apCloseModal()">✕</button></div>
-  <p id="ap-modal-sub">Saved once — auto-fills name, company &amp; role across all 20 tools.</p>
-  <input id="ap-name" type="text" placeholder="Your full name" autocomplete="name">
-  <input id="ap-company" type="text" placeholder="Company name" autocomplete="organization">
-  <input id="ap-role" type="text" placeholder="Your role (e.g. VP of Sales)" autocomplete="organization-title">
-  <div id="ap-modal-btns">
-    <button id="ap-save-btn" onclick="apSave()">💾 Save Profile</button>
-    <button id="ap-cancel-btn" onclick="apCloseModal()">Cancel</button>
-  </div>
-</div></div>
-<style>
-#ap-widget{position:fixed;top:70px;right:16px;z-index:8888;pointer-events:auto;}
-#ap-chip{background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.28);color:#22D3EE;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;letter-spacing:.02em;}
-#ap-chip:hover{background:rgba(8,145,178,0.24);border-color:rgba(8,145,178,0.55);transform:translateY(-1px);}
-#ap-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);align-items:center;justify-content:center;}
-#ap-modal.open{display:flex;}
-#ap-modal-box{background:#162840;border:1px solid #2A4A70;border-radius:14px;padding:32px 32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
-#ap-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-#ap-modal-header span{color:#F0F7FF;font-size:18px;font-weight:700;font-family:inherit;}
-#ap-modal-header button{background:none;border:none;color:#8AAFD0;font-size:20px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
-#ap-modal-header button:hover{color:#F0F7FF;}
-#ap-modal-sub{color:#8AAFD0;font-size:13px;margin:0 0 20px;font-family:inherit;line-height:1.5;}
-#ap-name,#ap-company,#ap-role{display:block;width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .15s;}
-#ap-name:focus,#ap-company:focus,#ap-role:focus{border-color:#0891B2;box-shadow:0 0 0 3px rgba(8,145,178,0.15);}
-#ap-name::placeholder,#ap-company::placeholder,#ap-role::placeholder{color:#8AAFD0;}
-#ap-modal-btns{display:flex;gap:10px;margin-top:8px;}
-#ap-save-btn{flex:1;background:#0891B2;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
-#ap-save-btn:hover{background:#0EA5C9;}
-#ap-cancel-btn{background:#1A2F52;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
-#ap-cancel-btn:hover{border-color:#0891B2;color:#F0F7FF;}
-</style>
-<script>
-(function(){
-  var KEY='aimersion_profile';
-  function gp(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
-  function updateChip(){
-    var p=gp(),chip=document.getElementById('ap-chip');
-    if(chip)chip.textContent=p.name?'\u{1F464} '+p.name.split(' ')[0]:'\u{1F464} Set Profile';
-  }
-  function applyProfile(){
-    var p=gp();
-    if(!p.name&&!p.company&&!p.role)return;
-    var fills={
-      yourName:p.name,managerName:p.name,fullName:p.name,senderName:p.name,authorName:p.name,
-      repName:p.name,yourFirstName:p.name.split(' ')[0],
-      companyName:p.company,businessName:p.company,yourCompany:p.company,senderCompany:p.company,
-      userRole:p.role,yourRole:p.role,senderTitle:p.role,roleTitle:p.role
-    };
-    Object.keys(fills).forEach(function(id){
-      var el=document.getElementById(id);
-      if(el&&fills[id]&&!el.value)el.value=fills[id];
-    });
-  }
-  window.apOpenModal=function(){
-    var p=gp();
-    document.getElementById('ap-name').value=p.name||'';
-    document.getElementById('ap-company').value=p.company||'';
-    document.getElementById('ap-role').value=p.role||'';
-    document.getElementById('ap-modal').classList.add('open');
-    setTimeout(function(){document.getElementById('ap-name').focus();},50);
-  };
-  window.apCloseModal=function(){document.getElementById('ap-modal').classList.remove('open');};
-  window.apSave=function(){
-    var p={
-      name:document.getElementById('ap-name').value.trim(),
-      company:document.getElementById('ap-company').value.trim(),
-      role:document.getElementById('ap-role').value.trim()
-    };
-    if(!p.name&&!p.company){return;}
-    localStorage.setItem(KEY,JSON.stringify(p));
-    apCloseModal();updateChip();applyProfile();
-    if(typeof showToast==='function')showToast('Profile saved ✓','success');
-  };
-  document.getElementById('ap-modal').addEventListener('click',function(e){if(e.target===this)apCloseModal();});
-  document.getElementById('ap-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-company').focus();});
-  document.getElementById('ap-company').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-role').focus();});
-  document.getElementById('ap-role').addEventListener('keydown',function(e){if(e.key==='Enter')apSave();});
-  updateChip();
-  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyProfile);}
-  else{setTimeout(applyProfile,100);}
-  var p=gp();
-  if(!p.name&&!sessionStorage.getItem('ap_nudged')){
-    sessionStorage.setItem('ap_nudged','1');
-    setTimeout(function(){
-      if(typeof showToast==='function')showToast('\u{1F464} Set your profile — auto-fills all 20 tools','info');
-    },2800);
-  }
-})();
-</script>
-<!-- END AIMERSION PROFILE WIDGET -->
-
+  <!-- NAV FOOTER -->
+  <footer style="text-align:center;padding:28px 20px 40px;color:var(--muted,#64748b);font-size:13px;border-top:1px solid var(--border,#1e3a5f);margin-top:32px">
+    <div style="display:flex;justify-content:space-between;align-items:center;max-width:600px;margin:0 auto 14px">
+      <a href="day-17-email-sequence.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">← Day 17</a>
+      <a href="https://aimersion.github.io/ai-automations/index.html" style="color:var(--muted,#64748b);text-decoration:none;font-size:12px">☰ All 20 Tools</a>
+      <a href="day-19-chief-of-staff.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">Day 19 →</a>
+    </div>
+    <div style="font-size:11px;color:var(--muted,#64748b)">
+      <a href="privacy.html" style="color:var(--muted,#64748b);text-decoration:none">Privacy</a>
+    </div>
+  </footer>
 </body>
 </html>

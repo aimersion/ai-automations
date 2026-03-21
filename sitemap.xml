@@ -1,33 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://aimersion.github.io/ai-automations/</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://aimersion.github.io/ai-automations/day-01-inbox-intelligence.html</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aimersion.github.io/ai-automations/day-02-proposal-generator.html</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aimersion.github.io/ai-automations/day-03-competitor-intel.html</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://aimersion.github.io/ai-automations/privacy.html</loc>
-    <lastmod>2026-03-06</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/index.html</loc>
+  <priority>1.0</priority>
+  <changefreq>daily</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-01-inbox-intelligence.html</loc>
+  <priority>1.0</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-02-proposal-generator.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-03-competitor-intel.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-04-social-creator.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-05-pipeline-prioritizer.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-06-meeting-prep.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-07-client-onboarding.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-08-followup-machine.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-09-weekly-status.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-10-cold-outreach.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-11-scope-of-work.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-12-invoice-generator.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-13-job-description.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-14-performance-review.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-15-contract-summarizer.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-16-standup-generator.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-17-email-sequence.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-18-deal-room.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-19-chief-of-staff.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/day-20-command-center.html</loc>
+  <priority>0.9</priority>
+  <changefreq>weekly</changefreq>
+</url>
+<url>
+  <loc>https://aimersion.github.io/ai-automations/privacy.html</loc>
+  <priority>0.5</priority>
+  <changefreq>monthly</changefreq>
+</url>
 </urlset>

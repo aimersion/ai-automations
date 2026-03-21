@@ -785,6 +785,38 @@
         padding: 1.5rem;
       }
     }
+  
+    /* ── Standardized input styling ── */
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="url"], input[type="number"], input[type="search"],
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+    textarea, select {
+      background: #0D1B2E !important;
+      border: 1px solid #1E3A5F !important;
+      border-radius: 8px !important;
+      color: #E2E8F0 !important;
+      font-family: inherit !important;
+      font-size: 14px !important;
+      padding: 10px 14px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: border-color 0.2s !important;
+      outline: none !important;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+    input[type="url"]:focus, input[type="number"]:focus, input[type="search"]:focus,
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]):focus,
+    textarea:focus, select:focus {
+      border-color: #0EA5E9 !important;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15) !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #64748B !important;
+    }
+    select option {
+      background: #0D1B2E;
+      color: #E2E8F0;
+    }
   </style>
 </head>
 <body>
@@ -948,18 +980,6 @@
       </div>
     </div>
 
-    <!-- Gemini API Key Card -->
-    <div class="card">
-      <div class="card-title collapsible" onclick="toggleCollapse(event)">
-        🔑 Gemini API Key
-        <span class="collapse-icon">▼</span>
-      </div>
-      <div class="card-content">
-        <div class="form-group">
-          <label for="gemini-key">API Key <span class="required">*</span></label>
-          <input type="password" id="gemini-key" placeholder="Enter your Google Gemini API key">
-          <div class="helper-text">Get your free API key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--orange); text-decoration: none;">ai.google.dev/tutorials/python_quickstart</a></div>
-        </div>
       </div>
     </div>
 
@@ -1148,7 +1168,7 @@
           <a href="https://www.facebook.com/sharer/sharer.php?u=https://aimersion.ai/tools/day-11" target="_blank" class="share-btn">f Facebook</a>
         </div>
       </div>
-      <a href="day-12-invoice-generator.html" class="nav-link">Day 12: Invoice Generator →</a>
+      <a href="day-12-todo.html" class="nav-link">Day 12: TBD →</a>
     </div>
   </div>
 
@@ -1187,7 +1207,7 @@
         })
         .catch(error => {
           console.error('Login failed:', error);
-          __showToast('⚠️ Failed to connect to Outlook — please try again');
+          alert('Failed to connect to Outlook. Please try again.');
         });
     }
 
@@ -1205,7 +1225,7 @@
     async function searchInbox() {
       const query = document.getElementById('search-query').value;
       if (!query.trim()) {
-        __showToast('⚠️ Enter a search term');
+        alert('Please enter a search term');
         return;
       }
 
@@ -1225,7 +1245,7 @@
         displayEmailResults(data.value || []);
       } catch (error) {
         console.error('Search error:', error);
-        __showToast('⚠️ Failed to search inbox — please try again');
+        alert('Failed to search inbox. Please try again.');
       }
     }
 
@@ -1285,19 +1305,19 @@
       const geminiKey = document.getElementById('gemini-key').value.trim();
 
       if (!geminiKey) {
-        __showToast('⚠️ Enter your Gemini API key first');
+        alert('Please enter your Gemini API key');
         document.getElementById('gemini-key').focus();
         return false;
       }
 
       if (!clientName) {
-        __showToast('⚠️ Enter the client name');
+        alert('Please enter the client name');
         document.getElementById('client-name').focus();
         return false;
       }
 
       if (!projectName) {
-        __showToast('⚠️ Enter the project name');
+        alert('Please enter the project name');
         document.getElementById('project-name').focus();
         return false;
       }
@@ -1403,7 +1423,7 @@ Make it professional, detailed, and something a consultant would be proud to sen
       } catch (error) {
         console.error('Generation error:', error);
         hideLoading();
-        __showToast('⚠️ Error generating SOW: ' + error.message);
+        alert(`Error generating SOW: ${error.message}`);
       }
     }
 
@@ -1608,7 +1628,7 @@ ${sowData.signatures}
       const subject = document.getElementById('send-subject').value.trim();
 
       if (!to) {
-        __showToast('⚠️ Enter a recipient email address');
+        alert('Please enter a recipient email address');
         return;
       }
 
@@ -1652,7 +1672,7 @@ ${sowData.signatures}
       } catch (error) {
         console.error('Send error:', error);
         hideLoading();
-        __showToast('⚠️ Error sending email: ' + error.message);
+        alert(`Error sending email: ${error.message}`);
       }
     }
 
@@ -1781,99 +1801,16 @@ ${sowData.signatures}
     }
   </script>
 
-<!-- AIMERSION PROFILE WIDGET -->
-<div id="ap-widget"><button id="ap-chip" onclick="apOpenModal()">👤 Set Profile</button></div>
-<div id="ap-modal"><div id="ap-modal-box">
-  <div id="ap-modal-header"><span>Your Profile</span><button onclick="apCloseModal()">✕</button></div>
-  <p id="ap-modal-sub">Saved once — auto-fills name, company &amp; role across all 20 tools.</p>
-  <input id="ap-name" type="text" placeholder="Your full name" autocomplete="name">
-  <input id="ap-company" type="text" placeholder="Company name" autocomplete="organization">
-  <input id="ap-role" type="text" placeholder="Your role (e.g. VP of Sales)" autocomplete="organization-title">
-  <div id="ap-modal-btns">
-    <button id="ap-save-btn" onclick="apSave()">💾 Save Profile</button>
-    <button id="ap-cancel-btn" onclick="apCloseModal()">Cancel</button>
-  </div>
-</div></div>
-<style>
-#ap-widget{position:fixed;top:70px;right:16px;z-index:8888;pointer-events:auto;}
-#ap-chip{background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.28);color:#22D3EE;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;letter-spacing:.02em;}
-#ap-chip:hover{background:rgba(8,145,178,0.24);border-color:rgba(8,145,178,0.55);transform:translateY(-1px);}
-#ap-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);align-items:center;justify-content:center;}
-#ap-modal.open{display:flex;}
-#ap-modal-box{background:#162840;border:1px solid #2A4A70;border-radius:14px;padding:32px 32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
-#ap-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-#ap-modal-header span{color:#F0F7FF;font-size:18px;font-weight:700;font-family:inherit;}
-#ap-modal-header button{background:none;border:none;color:#8AAFD0;font-size:20px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
-#ap-modal-header button:hover{color:#F0F7FF;}
-#ap-modal-sub{color:#8AAFD0;font-size:13px;margin:0 0 20px;font-family:inherit;line-height:1.5;}
-#ap-name,#ap-company,#ap-role{display:block;width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .15s;}
-#ap-name:focus,#ap-company:focus,#ap-role:focus{border-color:#0891B2;box-shadow:0 0 0 3px rgba(8,145,178,0.15);}
-#ap-name::placeholder,#ap-company::placeholder,#ap-role::placeholder{color:#8AAFD0;}
-#ap-modal-btns{display:flex;gap:10px;margin-top:8px;}
-#ap-save-btn{flex:1;background:#0891B2;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
-#ap-save-btn:hover{background:#0EA5C9;}
-#ap-cancel-btn{background:#1A2F52;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
-#ap-cancel-btn:hover{border-color:#0891B2;color:#F0F7FF;}
-</style>
-<script>
-(function(){
-  var KEY='aimersion_profile';
-  function gp(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
-  function updateChip(){
-    var p=gp(),chip=document.getElementById('ap-chip');
-    if(chip)chip.textContent=p.name?'\u{1F464} '+p.name.split(' ')[0]:'\u{1F464} Set Profile';
-  }
-  function applyProfile(){
-    var p=gp();
-    if(!p.name&&!p.company&&!p.role)return;
-    var fills={
-      yourName:p.name,managerName:p.name,fullName:p.name,senderName:p.name,authorName:p.name,
-      repName:p.name,yourFirstName:p.name.split(' ')[0],
-      companyName:p.company,businessName:p.company,yourCompany:p.company,senderCompany:p.company,
-      userRole:p.role,yourRole:p.role,senderTitle:p.role,roleTitle:p.role
-    };
-    Object.keys(fills).forEach(function(id){
-      var el=document.getElementById(id);
-      if(el&&fills[id]&&!el.value)el.value=fills[id];
-    });
-  }
-  window.apOpenModal=function(){
-    var p=gp();
-    document.getElementById('ap-name').value=p.name||'';
-    document.getElementById('ap-company').value=p.company||'';
-    document.getElementById('ap-role').value=p.role||'';
-    document.getElementById('ap-modal').classList.add('open');
-    setTimeout(function(){document.getElementById('ap-name').focus();},50);
-  };
-  window.apCloseModal=function(){document.getElementById('ap-modal').classList.remove('open');};
-  window.apSave=function(){
-    var p={
-      name:document.getElementById('ap-name').value.trim(),
-      company:document.getElementById('ap-company').value.trim(),
-      role:document.getElementById('ap-role').value.trim()
-    };
-    if(!p.name&&!p.company){return;}
-    localStorage.setItem(KEY,JSON.stringify(p));
-    apCloseModal();updateChip();applyProfile();
-    if(typeof showToast==='function')showToast('Profile saved ✓','success');
-  };
-  document.getElementById('ap-modal').addEventListener('click',function(e){if(e.target===this)apCloseModal();});
-  document.getElementById('ap-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-company').focus();});
-  document.getElementById('ap-company').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-role').focus();});
-  document.getElementById('ap-role').addEventListener('keydown',function(e){if(e.key==='Enter')apSave();});
-  updateChip();
-  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyProfile);}
-  else{setTimeout(applyProfile,100);}
-  var p=gp();
-  if(!p.name&&!sessionStorage.getItem('ap_nudged')){
-    sessionStorage.setItem('ap_nudged','1');
-    setTimeout(function(){
-      if(typeof showToast==='function')showToast('\u{1F464} Set your profile — auto-fills all 20 tools','info');
-    },2800);
-  }
-})();
-</script>
-<!-- END AIMERSION PROFILE WIDGET -->
-
+  <!-- NAV FOOTER -->
+  <footer style="text-align:center;padding:28px 20px 40px;color:var(--muted,#64748b);font-size:13px;border-top:1px solid var(--border,#1e3a5f);margin-top:32px">
+    <div style="display:flex;justify-content:space-between;align-items:center;max-width:600px;margin:0 auto 14px">
+      <a href="day-10-cold-outreach.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">← Day 10</a>
+      <a href="https://aimersion.github.io/ai-automations/index.html" style="color:var(--muted,#64748b);text-decoration:none;font-size:12px">☰ All 20 Tools</a>
+      <a href="day-12-invoice-generator.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">Day 12 →</a>
+    </div>
+    <div style="font-size:11px;color:var(--muted,#64748b)">
+      <a href="privacy.html" style="color:var(--muted,#64748b);text-decoration:none">Privacy</a>
+    </div>
+  </footer>
 </body>
 </html>

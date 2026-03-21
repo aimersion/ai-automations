@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Inbox Intelligence — Free AI Email Triage | Aimersion Day 1</title>
-<meta name="description" content="AI triages your Gmail and Outlook inbox by priority — urgent, review, or FYI. Draft and send replies without leaving the page. Free. No installs.">
+<meta name="description" content="AI triages your Outlook inbox by priority — urgent, review, or FYI. Draft and send replies without leaving the page. Free. No installs.">
 
 <!-- Favicon set -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -20,7 +20,7 @@
 <meta property="og:url" content="https://aimersion.github.io/ai-automations/day-01-inbox-intelligence.html">
 <meta property="og:site_name" content="Aimersion">
 <meta property="og:title" content="Inbox Intelligence — Free AI Email Triage (Day 1 of 20)">
-<meta property="og:description" content="AI triages your Gmail and Outlook inbox by priority. Draft replies in your voice. Free — no installs, no account needed.">
+<meta property="og:description" content="AI triages your Outlook inbox by priority. Draft replies in your voice. Free — no installs, no account needed.">
 <meta property="og:image" content="https://aimersion.github.io/ai-automations/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -30,7 +30,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@aimersion">
 <meta name="twitter:title" content="Inbox Intelligence — Free AI Email Triage (Day 1 of 20)">
-<meta name="twitter:description" content="AI triages your Gmail and Outlook inbox by priority. Draft replies in your voice. Free — no installs, no account needed.">
+<meta name="twitter:description" content="AI triages your Outlook inbox by priority. Draft replies in your voice. Free — no installs, no account needed.">
 <meta name="twitter:image" content="https://aimersion.github.io/ai-automations/og-image.png">
 <meta name="twitter:image:alt" content="Inbox Intelligence — AI email triage by Aimersion">
 
@@ -84,7 +84,6 @@ twq("config","tw-r848k-r848k");
 </script>
 <!-- ═══ END ANALYTICS ═══ -->
 
-<script src="https://accounts.google.com/gsi/client" async></script>
 <script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';document.head.appendChild(s);})()"></script>
 <style>
   :root {
@@ -95,7 +94,7 @@ twq("config","tw-r848k-r848k");
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
   header { border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
-  .logo { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; text-decoration: none; cursor: pointer; }
   .nav-links { display: flex; gap: 16px; }
   .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; }
   .nav-links a:hover { color: var(--teal-light); }
@@ -201,8 +200,12 @@ twq("config","tw-r848k-r848k");
   .digest-icon { font-size:22px; line-height:1; flex-shrink:0; margin-top:1px; }
   .digest-label { font-size:10px; font-weight:800; letter-spacing:2px; color:var(--teal); text-transform:uppercase; margin-bottom:5px; }
   .digest-text { font-size:15px; color:var(--white); line-height:1.65; }
-  .modal-context { background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); margin-bottom:14px; line-height:1.5; }
+  .modal-context { background:var(--navy2); border:1px solid var(--border); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--muted); margin-bottom:10px; line-height:1.5; }
   .modal-context strong { color:var(--white); }
+  .original-email-toggle { font-size:11px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--teal); cursor:pointer; background:none; border:none; padding:0 0 10px 0; display:flex; align-items:center; gap:6px; font-family:inherit; }
+  .original-email-toggle:hover { color:var(--teal-light); }
+  .original-email-body { display:none; background:#fff; border:1px solid var(--border); border-radius:8px; overflow:hidden; margin-bottom:12px; }
+  .original-email-body iframe { width:100%; min-height:180px; max-height:260px; border:none; display:block; }
   .modal-textarea { width:100%; min-height:220px; background:var(--navy); border:1px solid var(--border); color:var(--white); padding:14px; border-radius:8px; font-family:inherit; font-size:13px; line-height:1.7; resize:vertical; outline:none; }
   .modal-textarea:focus { border-color:var(--teal); }
   .modal-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
@@ -307,140 +310,41 @@ twq("config","tw-r848k-r848k");
   .key-privacy { background:rgba(5,150,105,0.1); border:1px solid rgba(5,150,105,0.25); border-radius:8px; padding:9px 14px; font-size:12px; color:#6EE7B7; margin-top:12px; display:flex; align-items:center; gap:8px; }
   .need-key-btn { font-size:11px; color:var(--teal-light); background:none; border:1px solid var(--border); border-radius:6px; padding:3px 10px; cursor:pointer; font-family:inherit; white-space:nowrap; }
   .need-key-btn:hover { border-color:var(--teal); color:var(--teal-light); }
-</style>
+
+    /* ── Standardized input styling ── */
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="url"], input[type="number"], input[type="search"],
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+    textarea, select {
+      background: #0D1B2E !important;
+      border: 1px solid #1E3A5F !important;
+      border-radius: 8px !important;
+      color: #E2E8F0 !important;
+      font-family: inherit !important;
+      font-size: 14px !important;
+      padding: 10px 14px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: border-color 0.2s !important;
+      outline: none !important;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+    input[type="url"]:focus, input[type="number"]:focus, input[type="search"]:focus,
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]):focus,
+    textarea:focus, select:focus {
+      border-color: #0EA5E9 !important;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15) !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #64748B !important;
+    }
+    select option {
+      background: #0D1B2E;
+      color: #E2E8F0;
+    }
+  </style>
 </head>
 <body>
-  <!-- ═══ UNIVERSAL SETUP BANNER ═══ -->
-  <div id="__setupBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0F1829 0%,#080E1A 100%);border-bottom:1px solid #1E293B;box-shadow:0 4px 32px rgba(0,0,0,0.5);padding:0;overflow:hidden;">
-    <div style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
-        <div>
-          <div style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:#EA580C;text-transform:uppercase;margin-bottom:0.25rem;">Quick Setup</div>
-          <div style="font-weight:800;font-size:1rem;color:#F1F5F9;">Two steps to get started</div>
-        </div>
-        <button onclick="document.getElementById('__setupBanner').style.display='none'" style="background:transparent;border:1px solid #1E293B;color:#94A3B8;padding:0.4rem 0.75rem;border-radius:6px;cursor:pointer;font-size:0.75rem;">✕ dismiss</button>
-      </div>
-      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-        <!-- Step 1: Gemini key -->
-        <div id="__step1" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;">
-          <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-            <span id="__s1icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">1</span>
-            Free Gemini API Key
-          </div>
-          <div style="display:flex;gap:0.5rem;">
-            <input id="__geminiInput" type="password" placeholder="Paste key (AIza...)" style="flex:1;padding:0.5rem 0.75rem;background:#0F1829;border:1px solid #1E293B;border-radius:6px;color:#F1F5F9;font-size:0.8rem;min-width:0;" oninput="__checkSetup()">
-            <button onclick="__saveGeminiKey()" style="padding:0.5rem 0.75rem;background:#EA580C;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Save</button>
-          </div>
-          <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size:0.7rem;color:#06B6D4;display:inline-block;margin-top:0.4rem;">→ Get free key at aistudio.google.com</a>
-        </div>
-        <!-- Step 2: Outlook -->
-        <div id="__step2" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;opacity:0.55;transition:opacity 0.3s;">
-          <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
-            <span id="__s2icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">2</span>
-            Connect Outlook
-          </div>
-          <button id="__outlookBtn" onclick="__connectOutlook()" style="width:100%;padding:0.5rem 0.75rem;background:#06B6D4;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;">
-            📧 Connect Outlook Account
-          </button>
-          <div id="__outlookStatus" style="font-size:0.7rem;color:#94A3B8;margin-top:0.4rem;min-height:1rem;"></div>
-        </div>
-        <!-- Or: Demo -->
-        <div style="display:flex;align-items:center;justify-content:center;padding:0 0.5rem;">
-          <div style="text-align:center;">
-            <div style="font-size:0.65rem;color:#94A3B8;margin-bottom:0.35rem;">or skip setup</div>
-            <button onclick="__runPageDemo()" style="padding:0.5rem 1rem;background:transparent;border:1px solid #1E293B;border-radius:6px;color:#94A3B8;cursor:pointer;font-size:0.75rem;white-space:nowrap;">▶ Try Demo</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div id="__setupSpacer" style="display:none;height:170px;"></div>
-
-  <script>
-  (function(){
-    // ── Universal setup helper ──
-    function __showToast(msg,dur=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#0F1829;border:1px solid #1E293B;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F1F5F9;transition:opacity 0.3s;';document.body.appendChild(t);}t.textContent=msg;t.style.display='block';t.style.opacity='1';clearTimeout(t._tmr);t._tmr=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none';},300);},dur);}
-    window.__showToast = __showToast;
-
-    function __checkSetup(){
-      const hasKey=!!localStorage.getItem('gemini_key');
-      const hasAccount=typeof msalInstance!=='undefined'&&msalInstance&&msalInstance.getAllAccounts&&msalInstance.getAllAccounts().length>0;
-      // Mark step 1
-      const s1=document.getElementById('__step1');
-      const s1icon=document.getElementById('__s1icon');
-      if(hasKey){s1.style.borderColor='#10B981';s1icon.style.background='#10B981';s1icon.style.color='#fff';s1icon.textContent='✓';document.getElementById('__step2').style.opacity='1';}
-      // Mark step 2
-      const s2=document.getElementById('__step2');
-      const s2icon=document.getElementById('__s2icon');
-      if(hasAccount){s2.style.borderColor='#10B981';s2icon.style.background='#10B981';s2icon.style.color='#fff';s2icon.textContent='✓';const acc=msalInstance.getAllAccounts()[0];document.getElementById('__outlookStatus').innerHTML='<span style="color:#10B981">✓ '+acc.username+'</span>';document.getElementById('__outlookBtn').style.display='none';}
-      // Hide banner if both done
-      if(hasKey&&hasAccount){setTimeout(()=>{document.getElementById('__setupBanner').style.display='none';document.getElementById('__setupSpacer').style.display='none';},600);}
-    }
-    window.__checkSetup=__checkSetup;
-
-    function __saveGeminiKey(){
-      const v=document.getElementById('__geminiInput').value.trim();
-      if(!v){__showToast('⚠️ Paste your Gemini API key first');return;}
-      localStorage.setItem('gemini_key',v);
-      // Also set in any existing key input on the page
-      ['geminiKey','gemini-key','apiKey','api-key','geminiApiKey'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=v;});
-      __showToast('✅ Key saved — good across all 20 tools!');
-      __checkSetup();
-    }
-    window.__saveGeminiKey=__saveGeminiKey;
-
-    async function __connectOutlook(){
-      const btn=document.getElementById('__outlookBtn');
-      const status=document.getElementById('__outlookStatus');
-      btn.textContent='⏳ Connecting...';
-      btn.disabled=true;
-      status.textContent='Opening Microsoft login...';
-      try{
-        // Try the page's own login/connect function first
-        const fns=['login','connectMicrosoft','connectOutlook','handleConnect','handleSignIn','loginOutlook'];
-        for(const fn of fns){if(typeof window[fn]==='function'){await window[fn]();break;}}
-        setTimeout(__checkSetup,1000);
-      }catch(e){
-        btn.textContent='📧 Connect Outlook Account';
-        btn.disabled=false;
-        status.textContent='';
-        __showToast('❌ Connection failed — try again');
-      }
-    }
-    window.__connectOutlook=__connectOutlook;
-
-    function __runPageDemo(){
-      document.getElementById('__setupBanner').style.display='none';
-      document.getElementById('__setupSpacer').style.display='none';
-      const fns=['runDemo','loadDemo','loadDemoData','loadDemoContent','showDemo'];
-      for(const fn of fns){if(typeof window[fn]==='function'){window[fn]();return;}}
-      __showToast('ℹ️ No demo available — set up your keys above to get started');
-      document.getElementById('__setupBanner').style.display='block';
-      document.getElementById('__setupSpacer').style.display='block';
-    }
-    window.__runPageDemo=__runPageDemo;
-
-    // Pre-fill key if already saved
-    const savedKey=localStorage.getItem('gemini_key');
-    if(savedKey){document.getElementById('__geminiInput').value=savedKey;}
-
-    // Show banner if setup incomplete — wait for MSAL to init
-    function __maybeShowBanner(){
-      const hasKey=!!localStorage.getItem('gemini_key');
-      const hasAccount=typeof msalInstance!=='undefined'&&msalInstance&&msalInstance.getAllAccounts&&msalInstance.getAllAccounts().length>0;
-      if(!hasKey||!hasAccount){
-        document.getElementById('__setupBanner').style.display='block';
-        document.getElementById('__setupSpacer').style.display='block';
-        __checkSetup();
-      }
-    }
-    // Run after page + MSAL are ready
-    if(document.readyState==='complete'){setTimeout(__maybeShowBanner,800);}
-    else{window.addEventListener('load',function(){setTimeout(__maybeShowBanner,800);});}
-  })();
-  </script>
-  <!-- ═══ END SETUP BANNER ═══ -->
-
 
 <header>
   <a href="https://aimersion.github.io/ai-automations/index.html" class="logo">⚡ Aimersion · Day 01</a>
@@ -452,7 +356,7 @@ twq("config","tw-r848k-r848k");
 <div class="hero">
   <div class="day-label">Automation #1 of 20</div>
   <h1>📬 Inbox <span>Intelligence</span></h1>
-  <p class="tagline">Connect Gmail or Outlook. AI triages your emails by priority — then draft and send replies without leaving the page.</p>
+  <p class="tagline">Connect Outlook. AI triages your emails by priority — then draft and send replies without leaving the page.</p>
 </div>
 
 <div class="main">
@@ -470,7 +374,7 @@ twq("config","tw-r848k-r848k");
       <div class="step-num-circle" style="background:var(--teal)">2</div>
       <div>
         <div class="step-title">Connect your email</div>
-        <div class="step-desc">Gmail or Outlook — one click via secure OAuth. We never see your password.</div>
+        <div class="step-desc">Outlook — one click via secure OAuth. We never see your password.</div>
       </div>
     </div>
     <div class="step-card">
@@ -508,19 +412,8 @@ twq("config","tw-r848k-r848k");
       <button class="card-toggle" aria-label="Toggle">▾</button>
     </div>
     <div class="card-body">
-      <div class="oauth-grid">
-        <div class="oauth-box">
-          <div class="oauth-provider">
-            <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.08 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-3.59-13.46-8.97l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
-            Gmail
-            <span class="status-dot dot-off" id="googleDot"></span>
-          </div>
-          <div class="oauth-status" id="googleStatus">Not connected</div>
-          <div class="row">
-            <button class="btn btn-teal" id="googleBtn" onclick="connectGoogle()">Connect Gmail</button>
-            <button class="btn btn-ghost" id="googleDisBtn" onclick="disconnectGoogle()" style="display:none">Disconnect</button>
-          </div>
-        </div>
+      <!-- Gmail hidden — OAuth app not yet verified by Google; re-enable after verification -->
+      <div class="oauth-grid" style="grid-template-columns:1fr;">
         <div class="oauth-box">
           <div class="oauth-provider">
             <svg width="18" height="18" viewBox="0 0 21 21"><rect x="1" y="1" width="9" height="9" fill="#f25022"/><rect x="11" y="1" width="9" height="9" fill="#7fba00"/><rect x="1" y="11" width="9" height="9" fill="#00a4ef"/><rect x="11" y="11" width="9" height="9" fill="#ffb900"/></svg>
@@ -575,9 +468,7 @@ Always acknowledge the person's ask before responding."></textarea>
         <option value="7d">Last week</option>
       </select>
       <select id="emailSource">
-        <option value="both">Gmail + Outlook</option>
-        <option value="google">Gmail only</option>
-        <option value="microsoft">Outlook only</option>
+        <option value="microsoft" selected>Outlook</option>
       </select>
       <button class="btn btn-amber" id="runBtn" onclick="runTriage()">🧠 Analyze Inbox</button>
     </div>
@@ -610,6 +501,12 @@ Always acknowledge the person's ask before responding."></textarea>
       <button class="modal-close" onclick="closeDraftModal()">×</button>
     </div>
     <div id="modalContext" class="modal-context"></div>
+    <button class="original-email-toggle" onclick="toggleOriginalEmail()" id="originalEmailToggle">
+      <span id="originalEmailArrow">▶</span> Show original email
+    </button>
+    <div id="originalEmailBody" class="original-email-body">
+      <iframe id="originalEmailFrame" sandbox="allow-same-origin" title="Original email"></iframe>
+    </div>
     <div id="modalLoading" class="loading" style="padding:20px">
       <div id="modalLoaderContainer"></div>
     </div>
@@ -632,10 +529,9 @@ Always acknowledge the person's ask before responding."></textarea>
 </div>
 
 <script>
-const GOOGLE_CLIENT_ID = '613753349118-g5t6tli0ghlt3ca8h3ijdjp9jnks5dee.apps.googleusercontent.com';
 const AZURE_CLIENT_ID  = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
 
-const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
+const GEMINI_MODEL = 'gemini-3-flash-preview';
 function getSelectedModel() { return GEMINI_MODEL; }
 
 // Fun loading messages
@@ -687,7 +583,6 @@ function stopFunLoader() {
   if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
 }
 
-let googleToken = null, googleTokenClient;
 let msalInstance = null, msAccount = null;
 let currentEmails = [];   // full email objects for draft reference
 let draftEmail = null;    // current email being drafted
@@ -708,11 +603,8 @@ function updateCardStatuses() {
   // Connect status
   const connectStatus = document.getElementById('card-connect-status');
   if (connectStatus) {
-    const gOn = document.getElementById('googleDot')?.classList.contains('dot-on');
     const mOn = document.getElementById('msDot')?.classList.contains('dot-on');
-    if (gOn && mOn) connectStatus.textContent = 'Gmail + Outlook ✓';
-    else if (gOn) connectStatus.textContent = 'Gmail ✓';
-    else if (mOn) connectStatus.textContent = 'Outlook ✓';
+    if (mOn) connectStatus.textContent = 'Outlook ✓';
     else connectStatus.textContent = '';
   }
   // Reply style status
@@ -775,46 +667,6 @@ function showToast(msg, color) {
   t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 3000);
 }
 
-// ─── Google Auth (gmail.readonly + gmail.compose) ──────
-function connectGoogle() {
-  if (!window.google) { showToast('Google library not loaded yet — please wait a moment', '#EF4444'); return; }
-  if (!googleTokenClient) {
-    googleTokenClient = google.accounts.oauth2.initTokenClient({
-      client_id: GOOGLE_CLIENT_ID,
-      scope: [
-        'https://www.googleapis.com/auth/gmail.readonly',
-        'https://www.googleapis.com/auth/gmail.compose',
-        'https://www.googleapis.com/auth/userinfo.email'
-      ].join(' '),
-      callback: async (resp) => {
-        if (resp.error) { showToast('Google auth error: ' + resp.error, '#EF4444'); return; }
-        googleToken = resp.access_token;
-        sessionStorage.setItem('google_token', googleToken);
-        try {
-          const info = await fetch('https://www.googleapis.com/oauth2/v2/userinfo', {
-            headers: { Authorization: 'Bearer ' + googleToken }
-          }).then(r => r.json());
-          document.getElementById('googleStatus').textContent = '✓ ' + (info.email || 'Connected');
-        } catch { document.getElementById('googleStatus').textContent = '✓ Connected'; }
-        document.getElementById('googleDot').className = 'status-dot dot-on';
-        document.getElementById('googleBtn').style.display = 'none';
-        document.getElementById('googleDisBtn').style.display = '';
-        updateCardStatuses();
-      }
-    });
-  }
-  googleTokenClient.requestAccessToken({ prompt: '' });
-}
-function disconnectGoogle() {
-  if (googleToken) google.accounts.oauth2.revoke(googleToken);
-  googleToken = null; sessionStorage.removeItem('google_token');
-  document.getElementById('googleStatus').textContent = 'Not connected';
-  document.getElementById('googleDot').className = 'status-dot dot-off';
-  document.getElementById('googleBtn').style.display = '';
-  document.getElementById('googleDisBtn').style.display = 'none';
-  updateCardStatuses();
-}
-
 // ─── Microsoft Auth (Mail.Read + Mail.ReadWrite + Mail.Send) ──
 async function initMsal() {
   // Wait up to 5s for MSAL to load (handles slow CDN)
@@ -829,7 +681,7 @@ async function initMsal() {
   }
   msalInstance = new msal.PublicClientApplication({
     auth: { clientId: AZURE_CLIENT_ID, authority: 'https://login.microsoftonline.com/common',
-            redirectUri: 'https://aimersion.github.io/ai-automations/auth.html' },
+            redirectUri: window.location.href.split('?')[0].split('#')[0] },
     cache: { cacheLocation: 'sessionStorage' }
   });
   await msalInstance.initialize();
@@ -857,10 +709,12 @@ async function connectMicrosoft() {
     document.getElementById('msBtn').style.display = 'none';
     document.getElementById('msDisBtn').style.display = '';
     updateCardStatuses();
+    if (typeof gtag !== 'undefined') gtag('event', 'email_connected', { provider: 'outlook' });
+    if (typeof fbq !== 'undefined') fbq('trackCustom', 'EmailConnected', { provider: 'outlook' });
   } catch (e) {
     if (e.errorCode === 'user_cancelled') return; // user closed popup — no alert needed
     console.error('Microsoft login error:', e);
-    showToast('Microsoft login error: ' + (e.message || e), '#EF4444');
+    alert('Microsoft login error: ' + (e.message || e));
   }
 }
 async function getMsToken(scopes) {
@@ -894,81 +748,9 @@ function stripHtml(html) {
              .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
              .replace(/\s+/g, ' ').trim();
 }
-function extractGmailBody(payload) {
-  if (!payload) return '';
-  // Simple single-part message
-  if (payload.body?.data) return decodeBase64Url(payload.body.data);
-  // Multipart — prefer text/plain, fall back to text/html
-  if (payload.parts) {
-    const plain = payload.parts.find(p => p.mimeType === 'text/plain');
-    if (plain?.body?.data) return decodeBase64Url(plain.body.data);
-    const html = payload.parts.find(p => p.mimeType === 'text/html');
-    if (html?.body?.data) return stripHtml(decodeBase64Url(html.body.data));
-    // Recurse into nested multipart (e.g. multipart/alternative inside multipart/mixed)
-    for (const part of payload.parts) {
-      const nested = extractGmailBody(part);
-      if (nested) return nested;
-    }
-  }
-  return '';
-}
 const BODY_CAP = 10000; // chars per email — full body for quality triage
 
 // ─── Fetch Emails ──────────────────────────────────────
-async function fetchGmailEmails(since) {
-  if (!googleToken) return [];
-  try {
-    // Get user's own email address for reply detection
-    const profileResp = await fetch(
-      'https://gmail.googleapis.com/gmail/v1/users/me/profile',
-      { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json());
-    const myEmail = (profileResp.emailAddress || '').toLowerCase();
-
-    // Use threads API so we get full conversation context
-    const afterTs = Math.floor(since.getTime() / 1000);
-    const listResp = await fetch(
-      `https://gmail.googleapis.com/gmail/v1/users/me/threads?maxResults=50&labelIds=INBOX&q=after:${afterTs}`,
-      { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json());
-    if (!listResp.threads) return [];
-
-    const threadIds = listResp.threads.slice(0, 30);
-    const threads = await Promise.all(threadIds.map(t =>
-      fetch(`https://gmail.googleapis.com/gmail/v1/users/me/threads/${t.id}?format=full`,
-        { headers: { Authorization: 'Bearer ' + googleToken } }).then(r => r.json())
-    ));
-
-    return threads.map(thread => {
-      const messages = thread.messages || [];
-      const firstMsg = messages[0] || {};
-      const lastMsg  = messages[messages.length - 1] || firstMsg;
-
-      const headers = firstMsg.payload?.headers || [];
-      const get = n => headers.find(h => h.name === n)?.value || '';
-
-      // Full body from latest message (most recent reply in thread)
-      const body = extractGmailBody(lastMsg.payload).slice(0, BODY_CAP)
-                   || lastMsg.snippet || firstMsg.snippet || '';
-
-      // Reply detection: did the last message come from us?
-      const lastHeaders = lastMsg.payload?.headers || [];
-      const lastFrom = (lastHeaders.find(h => h.name === 'From')?.value || '').toLowerCase();
-      const alreadyReplied = myEmail.length > 0 && lastFrom.includes(myEmail);
-
-      return {
-        source: 'Gmail',
-        id: firstMsg.id,
-        threadId: thread.id,
-        messageCount: messages.length,
-        from: get('From'),
-        replyTo: get('Reply-To') || get('From'),
-        subject: get('Subject'),
-        date: get('Date'),
-        snippet: body,
-        alreadyReplied
-      };
-    });
-  } catch (e) { console.error('Gmail fetch error:', e); return []; }
-}
 async function fetchOutlookEmails(since) {
   const token = await getMsToken();
   if (!token) return [];
@@ -990,14 +772,16 @@ async function fetchOutlookEmails(since) {
 
     return (inboxResp.value || []).map(msg => {
       const raw = msg.body?.content || '';
-      const body = (msg.body?.contentType === 'html' ? stripHtml(raw) : raw).slice(0, BODY_CAP);
+      const isHtml = msg.body?.contentType === 'html';
+      const body = (isHtml ? stripHtml(raw) : raw).slice(0, BODY_CAP);
       return {
         source: 'Outlook', id: msg.id,
         conversationId: msg.conversationId || '',
         from: msg.from?.emailAddress?.address || '',
         replyTo: (msg.replyTo?.[0]?.emailAddress?.address) || msg.from?.emailAddress?.address || '',
         subject: msg.subject || '(no subject)',
-        date: msg.receivedDateTime || '', snippet: body,
+        date: msg.receivedDateTime || '', snippet: body, body: body,
+        bodyHtml: isHtml ? raw : null,
         webLink: msg.webLink || '',
         alreadyReplied: repliedConvos.has(msg.conversationId)
       };
@@ -1025,8 +809,7 @@ async function runTriage() {
   const output = document.getElementById('output');
   const key    = localStorage.getItem('gemini_key') || document.getElementById('geminiKey').value.trim();
 
-  if (source !== 'microsoft' && !googleToken && source === 'google') { output.innerHTML = '<div class="error-msg">Please connect Gmail first.</div>'; return; }
-  if (source !== 'google' && !msAccount && source === 'microsoft')   { output.innerHTML = '<div class="error-msg">Please connect Outlook first.</div>'; return; }
+  if (!msAccount) { output.innerHTML = '<div class="error-msg">Please connect Outlook first.</div>'; return; }
   if (!key) { output.innerHTML = '<div class="error-msg">Please enter and save your Gemini API key above.</div>'; return; }
 
   const btn = document.getElementById('runBtn');
@@ -1036,7 +819,7 @@ async function runTriage() {
 
   try {
     let emails = [];
-    if (source === 'both' || source === 'google')    emails = emails.concat(await fetchGmailEmails(since));
+
     if (source === 'both' || source === 'microsoft') emails = emails.concat(await fetchOutlookEmails(since));
 
     if (emails.length === 0) {
@@ -1065,7 +848,7 @@ Return a JSON object with this exact structure:
   "digest": "2-3 sentence narrative overview of the inbox. Mention the most important things needing attention by name, note any patterns (e.g. several scheduling requests, a few follow-ups), and give the user a clear sense of what today's inbox actually demands. Be specific and human — not generic.",
   "summary": { "total": number, "action_required": number, "can_wait": number, "low_priority": number },
   "emails": [
-    { "index": number (1-based), "priority": 1|2|3, "subject": "...", "from": "...", "summary": "one sentence", "action": "specific next step", "source": "Gmail|Outlook", "needs_reply": true|false, "already_replied": true|false }
+    { "index": number (1-based), "priority": 1|2|3, "subject": "...", "from": "...", "summary": "one sentence", "action": "specific next step", "source": "Outlook", "needs_reply": true|false, "already_replied": true|false }
   ]
 }
 
@@ -1094,6 +877,8 @@ Sort by priority (1s first), with already-replied emails ranked lower. Include t
     // Save timestamp so "Since last check" works next time
     localStorage.setItem('last_triage', Date.now());
     updateLastCheckOption();
+    if (typeof gtag !== 'undefined') gtag('event', 'inbox_analyzed', { email_count: emails.length });
+    if (typeof fbq !== 'undefined') fbq('trackCustom', 'InboxAnalyzed', { email_count: emails.length });
   } catch (e) { output.innerHTML = `<div class="error-msg">${e.message}</div>`; }
 
   btn.disabled = false; btn.textContent = '🧠 Analyze Inbox';
@@ -1131,7 +916,7 @@ function renderTriage(data) {
     const raw = currentEmails[e.index - 1];
     let openUrl = '';
     if (raw) {
-      if (raw.source === 'Gmail' && raw.id) openUrl = `https://mail.google.com/mail/u/0/#all/${raw.id}`;
+
       else if (raw.source === 'Outlook' && raw.webLink) openUrl = raw.webLink;
       else if (raw.source === 'Outlook') openUrl = 'https://outlook.office.com/mail/inbox';
     }
@@ -1164,26 +949,6 @@ function renderTriage(data) {
   document.getElementById('output').innerHTML = html;
 }
 
-// ─── Demo Mode ─────────────────────────────────────────
-function runDemo() {
-  currentEmails = []; // no real emails; open links will be hidden
-  renderTriage({
-    digest: "**3 items need your attention today.** You have a time-sensitive proposal approval from Apex Ventures due by EOD, a stalled contract with Meridian that has 4 unanswered follow-ups, and a high-value partnership inquiry from Relay Capital worth a reply today.",
-    summary: { total: 8, action_required: 3, can_wait: 3, low_priority: 2 },
-    emails: [
-      { priority: 1, index: 1, from: "Sarah Chen — Apex Ventures", source: "Outlook", subject: "Re: Q2 Proposal — Need decision by EOD", summary: "Sarah confirmed budget is approved. They need your sign-off on the engagement scope before their internal deadline at 5pm today. Delay risks the deal moving to a competitor.", action: "Reply with approval or counter-proposal before 5pm today", already_replied: false, needs_reply: true },
-      { priority: 1, index: 2, from: "David Park — Meridian Analytics", source: "Gmail", subject: "Contract Review — 4th Follow-up", summary: "David has followed up 4 times on MSA redlines over 9 days. Legal has signed off on their version. Ball is in your court to countersign.", action: "Forward to legal or countersign the MSA today", already_replied: false, needs_reply: true },
-      { priority: 1, index: 3, from: "Michelle Torres — Relay Capital", source: "Outlook", subject: "Partnership Opportunity — Quick Call?", summary: "Michelle is Head of BD at Relay Capital ($2B AUM). She's interested in a strategic co-sell partnership and asked for a 20-minute intro call this week.", action: "Reply to schedule a call — high upside, low time cost", already_replied: false, needs_reply: true },
-      { priority: 2, index: 4, from: "Alex Kim — Product Team", source: "Gmail", subject: "Q3 Roadmap Slides — Review Request", summary: "Alex sent the draft Q3 roadmap deck for review. The all-hands is Thursday — your input shapes what gets prioritized for the next quarter.", action: "Review and send feedback before Thursday morning", already_replied: false, needs_reply: true },
-      { priority: 2, index: 5, from: "Jake Morrison — HubSpot", source: "Outlook", subject: "Your Trial Ends Friday — 20% Off If You Upgrade Now", summary: "HubSpot trial expires in 3 days. Jake is your account rep and offered a 20% discount on annual subscription if you commit before Friday EOD.", action: "Decide on HubSpot — forward to ops or decline", already_replied: false, needs_reply: false },
-      { priority: 2, index: 6, from: "Nora Lee — TeamSpace", source: "Gmail", subject: "New: AI Meeting Notes & Auto-Summary", summary: "TeamSpace launched AI meeting transcription in beta. Could replace your current manual notetaking workflow — worth a 10-minute look.", action: "Try the beta or forward to your ops lead", already_replied: false, needs_reply: false },
-      { priority: 3, index: 7, from: "LinkedIn Notifications", source: "Outlook", subject: "5 people viewed your profile this week", summary: "Weekly LinkedIn summary. No action needed unless you're actively hiring or prospecting.", action: "No action required", already_replied: false, needs_reply: false },
-      { priority: 3, index: 8, from: "Google Workspace", source: "Gmail", subject: "Your Google storage is 78% full", summary: "Storage warning at 78%. Not urgent but worth addressing within the next few weeks.", action: "Clean up Drive/Gmail storage when convenient", already_replied: false, needs_reply: false }
-    ]
-  });
-  document.getElementById('output').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
 // ─── Draft Reply Modal ─────────────────────────────────
 function openDraftModal(emailIdx) {
   const email = currentEmails[emailIdx];
@@ -1195,7 +960,66 @@ function openDraftModal(emailIdx) {
   document.getElementById('modalTo').value = fromEmail;
   document.getElementById('modalSubject').value = email.subject.startsWith('Re:') ? email.subject : 'Re: ' + email.subject;
   document.getElementById('modalContext').innerHTML =
-    `<strong>From:</strong> ${email.from}<br><strong>Subject:</strong> ${email.subject}<br><strong>Preview:</strong> ${email.snippet.slice(0,200)}`;
+    `<strong>From:</strong> ${email.from}<br><strong>Subject:</strong> ${email.subject}`;
+  // Populate full original email body
+  const bodyEl  = document.getElementById('originalEmailBody');
+  const frameEl = document.getElementById('originalEmailFrame');
+  const toggleEl = document.getElementById('originalEmailToggle');
+  const hasContent = email.bodyHtml || email.body;
+  if (hasContent) {
+    const htmlContent = email.bodyHtml ||
+      `<pre style="font-family:inherit;font-size:13px;white-space:pre-wrap;word-break:break-word;margin:0;">${email.body.replace(/</g,'&lt;')}</pre>`;
+    // Wrap in minimal page so fonts/colours render cleanly
+    const srcdoc = `<!DOCTYPE html><html><head><meta charset="UTF-8">
+      <style>
+        body { margin:12px 14px; font-family: -apple-system, 'Segoe UI', sans-serif;
+               font-size:13px; line-height:1.65; color:#1e293b; background:#fff; }
+        img  { max-width:100%; height:auto; }
+        a    { color:#0891b2; }
+        blockquote { border-left:3px solid #cbd5e1; margin:8px 0 8px 0; padding-left:12px; color:#64748b; }
+        p    { margin:0 0 10px; }
+      </style></head><body>${htmlContent}<!-- ═══ COOKIE CONSENT BANNER ═══ -->
+<div id="cookie-banner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;background:#0F1F3D;border-top:1px solid #2A4A70;padding:14px 24px;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+  <p style="color:#8AAFD0;font-size:13px;margin:0;line-height:1.5;flex:1;min-width:220px;">
+    We use cookies for analytics and retargeting on Meta, LinkedIn, and X.
+    <a href="/ai-automations/privacy.html" style="color:#22D3EE;text-decoration:underline;">Privacy Policy</a>
+  </p>
+  <div style="display:flex;gap:10px;flex-shrink:0;">
+    <button onclick="declineCookies()" style="background:transparent;color:#8AAFD0;border:1px solid #2A4A70;border-radius:6px;padding:7px 16px;font-size:13px;cursor:pointer;">Decline</button>
+    <button onclick="acceptCookies()" style="background:#0891B2;color:#fff;border:none;border-radius:6px;padding:8px 20px;font-size:13px;font-weight:600;cursor:pointer;">Accept</button>
+  </div>
+</div>
+<script>
+(function(){
+  var consent = localStorage.getItem("cookieConsent");
+  if (!consent) { document.getElementById("cookie-banner").style.display = "flex"; }
+})();
+function acceptCookies() {
+  localStorage.setItem("cookieConsent", "accepted");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+function declineCookies() {
+  localStorage.setItem("cookieConsent", "declined");
+  document.getElementById("cookie-banner").style.display = "none";
+}
+</scr"+"ipt>
+<!-- ═══ END COOKIE BANNER ═══ -->
+</body></html>`;
+    frameEl.srcdoc = srcdoc;
+    // Auto-size iframe to content after load
+    frameEl.onload = () => {
+      try {
+        const h = frameEl.contentDocument?.body?.scrollHeight;
+        if (h) frameEl.style.height = Math.min(Math.max(h + 24, 80), 260) + 'px';
+      } catch {}
+    };
+    bodyEl.style.display = 'none';
+    document.getElementById('originalEmailArrow').textContent = '▶';
+    toggleEl.style.display = 'flex';
+  } else {
+    toggleEl.style.display = 'none';
+    bodyEl.style.display = 'none';
+  }
   document.getElementById('modalLoading').style.display = 'block';
   document.getElementById('modalBody').style.display = 'none';
   document.getElementById('draftModal').style.display = 'flex';
@@ -1206,17 +1030,32 @@ function openDraftModal(emailIdx) {
   generateDraftReply(email);
 }
 
+function toggleOriginalEmail() {
+  const bodyEl = document.getElementById('originalEmailBody');
+  const arrowEl = document.getElementById('originalEmailArrow');
+  const toggleEl = document.getElementById('originalEmailToggle');
+  const isHidden = bodyEl.style.display === 'none';
+  bodyEl.style.display = isHidden ? 'block' : 'none';
+  arrowEl.textContent = isHidden ? '▼' : '▶';
+  toggleEl.querySelector('span:last-child') && (toggleEl.lastChild.textContent = isHidden ? ' Hide original email' : ' Show original email');
+  // Update button text
+  const textNode = [...toggleEl.childNodes].find(n => n.nodeType === 3);
+  if (textNode) textNode.textContent = isHidden ? ' Hide original email' : ' Show original email';
+}
+
 async function generateDraftReply(email) {
   try {
     const userStyle = localStorage.getItem('reply_instructions') || '';
     const styleBlock = userStyle
       ? `\n\nPERSONAL REPLY STYLE — follow these instructions exactly:\n${userStyle}\n`
       : '';
+    const emailContent = email.body && email.body.trim() ? email.body.trim().slice(0, 8000) : email.snippet;
     const prompt = `You are a professional email assistant. Write a reply to this email.${styleBlock}
 EMAIL TO REPLY TO:
 From: ${email.from}
 Subject: ${email.subject}
-Preview: ${email.snippet}
+Body:
+${emailContent}
 
 Write a reply that follows the personal style instructions above (if provided). Do not include a subject line — just the body text starting with a greeting. End with an appropriate sign-off.`;
 
@@ -1225,20 +1064,19 @@ Write a reply that follows the personal style instructions above (if provided). 
     stopFunLoader();
     document.getElementById('modalLoading').style.display = 'none';
     document.getElementById('modalBody').style.display = 'block';
+    if (typeof gtag !== 'undefined') gtag('event', 'draft_generated', { source: email.source || 'unknown' });
+    if (typeof fbq !== 'undefined') fbq('trackCustom', 'DraftGenerated');
 
     // Build action buttons based on which accounts are connected
     const actions = document.getElementById('modalActions');
     actions.innerHTML = '';
 
-    if (email.source === 'Gmail' && googleToken) {
-      actions.innerHTML += `<button class="btn btn-green" onclick="saveDraftGmail()">💌 Save Gmail Draft</button>
-        <button class="btn btn-teal" onclick="sendGmail()">🚀 Send via Gmail</button>`;
-    } else if (email.source === 'Outlook' && msAccount) {
+    if (email.source === 'Outlook' && msAccount) {
       actions.innerHTML += `<button class="btn btn-green" onclick="saveDraftOutlook()">💌 Save Outlook Draft</button>
         <button class="btn btn-teal" onclick="sendOutlook()">🚀 Send via Outlook</button>`;
     } else {
       // Cross-account: offer both if connected
-      if (googleToken) actions.innerHTML += `<button class="btn btn-green" onclick="saveDraftGmail()">💌 Gmail Draft</button><button class="btn btn-teal" onclick="sendGmail()">🚀 Send Gmail</button>`;
+
       if (msAccount)   actions.innerHTML += `<button class="btn btn-green" onclick="saveDraftOutlook()">💌 Outlook Draft</button><button class="btn btn-teal" onclick="sendOutlook()">🚀 Send Outlook</button>`;
     }
     actions.innerHTML += `<button class="btn btn-ghost" onclick="regenerateDraft()">↻ Regenerate</button>
@@ -1277,52 +1115,14 @@ function encodeRFC2822(to, subject, body) {
   return btoa(unescape(encodeURIComponent(msg))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 }
 
-// ─── Gmail Draft & Send ────────────────────────────────
-async function saveDraftGmail() {
-  if (!googleToken) { showToast('Connect Gmail first', '#EF4444'); return; }
-  const to = document.getElementById('modalTo').value.trim();
-  const subject = document.getElementById('modalSubject').value.trim();
-  const body = document.getElementById('modalText').value.trim();
-  if (!to) { showToast('Enter a recipient email address', '#EF4444'); return; }
-  try {
-    const resp = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/drafts', {
-      method: 'POST',
-      headers: { Authorization: 'Bearer ' + googleToken, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: { raw: encodeRFC2822(to, subject, body) } })
-    }).then(r => r.json());
-    if (resp.error) throw new Error(resp.error.message);
-    showToast('✓ Draft saved to Gmail!', '#059669');
-    closeDraftModal();
-  } catch (e) { showToast('Error saving Gmail draft: ' + e.message, '#EF4444'); }
-}
-
-async function sendGmail() {
-  if (!googleToken) { showToast('Connect Gmail first', '#EF4444'); return; }
-  const to = document.getElementById('modalTo').value.trim();
-  const subject = document.getElementById('modalSubject').value.trim();
-  const body = document.getElementById('modalText').value.trim();
-  if (!to) { showToast('Enter a recipient email address', '#EF4444'); return; }
-  if (!confirm(`Send this email to ${to}?`)) return;
-  try {
-    const resp = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
-      method: 'POST',
-      headers: { Authorization: 'Bearer ' + googleToken, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ raw: encodeRFC2822(to, subject, body) })
-    }).then(r => r.json());
-    if (resp.error) throw new Error(resp.error.message);
-    showToast('✓ Email sent via Gmail!', '#059669');
-    closeDraftModal();
-  } catch (e) { showToast('Error sending Gmail: ' + e.message, '#EF4444'); }
-}
-
 // ─── Outlook Draft & Send ──────────────────────────────
 async function saveDraftOutlook() {
   const to = document.getElementById('modalTo').value.trim();
   const subject = document.getElementById('modalSubject').value.trim();
   const body = document.getElementById('modalText').value.trim();
-  if (!to) { showToast('Enter a recipient email address', '#EF4444'); return; }
+  if (!to) { alert('Please enter a recipient email address.'); return; }
   const token = await getMsToken(['https://graph.microsoft.com/Mail.ReadWrite']);
-  if (!token) { showToast('Connect Outlook first', '#EF4444'); return; }
+  if (!token) { alert('Please connect Outlook first.'); return; }
   try {
     const resp = await fetch('https://graph.microsoft.com/v1.0/me/messages', {
       method: 'POST',
@@ -1333,17 +1133,17 @@ async function saveDraftOutlook() {
     if (resp.error) throw new Error(resp.error.message);
     showToast('✓ Draft saved to Outlook!', '#059669');
     closeDraftModal();
-  } catch (e) { showToast('Error saving Outlook draft: ' + e.message, '#EF4444'); }
+  } catch (e) { alert('Error saving Outlook draft: ' + e.message); }
 }
 
 async function sendOutlook() {
   const to = document.getElementById('modalTo').value.trim();
   const subject = document.getElementById('modalSubject').value.trim();
   const body = document.getElementById('modalText').value.trim();
-  if (!to) { showToast('Enter a recipient email address', '#EF4444'); return; }
+  if (!to) { alert('Please enter a recipient email address.'); return; }
   if (!confirm(`Send this email to ${to}?`)) return;
   const token = await getMsToken(['https://graph.microsoft.com/Mail.Send']);
-  if (!token) { showToast('Connect Outlook first', '#EF4444'); return; }
+  if (!token) { alert('Please connect Outlook first.'); return; }
   try {
     const resp = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
       method: 'POST',
@@ -1354,7 +1154,7 @@ async function sendOutlook() {
     if (!resp.ok) { const e = await resp.json(); throw new Error(e.error?.message || 'Send failed'); }
     showToast('✓ Email sent via Outlook!', '#059669');
     closeDraftModal();
-  } catch (e) { showToast('Error sending Outlook: ' + e.message, '#EF4444'); }
+  } catch (e) { alert('Error sending Outlook: ' + e.message); }
 }
 
 // ─── Sample Output Demo ────────────────────────────────
@@ -1363,14 +1163,14 @@ function showSampleOutput() {
     digest: "Your morning looks busy — Marcus Webb at Venture Bridge is waiting on the signed term sheet (flagged urgent), and the Meridian contract needs your review before Thursday's call. Three teammates have follow-up questions on the Q3 roadmap that need quick answers. The rest is newsletters and automated alerts you can safely ignore for now.",
     summary: { total: 20, action_required: 4, can_wait: 5, low_priority: 11 },
     emails: [
-      { index:1, priority:1, subject:"Re: Term Sheet — please sign by EOD", from:"Marcus Webb <m.webb@venturebridge.io>", summary:"Investor is waiting on your signed term sheet before end of day to close the round.", action:"Sign and return the term sheet document today.", source:"Gmail", needs_reply:true },
-      { index:2, priority:1, subject:"Meridian contract — final review needed", from:"Priya Nair <pnair@meridiangroup.com>", summary:"Legal has finished edits; they need your sign-off before the Thursday call at 2pm.", action:"Review redlines in Google Drive and reply with approval or comments.", source:"Gmail", needs_reply:true },
+      { index:1, priority:1, subject:"Re: Term Sheet — please sign by EOD", from:"Marcus Webb <m.webb@venturebridge.io>", summary:"Investor is waiting on your signed term sheet before end of day to close the round.", action:"Sign and return the term sheet document today.", source:"Outlook", needs_reply:true },
+      { index:2, priority:1, subject:"Meridian contract — final review needed", from:"Priya Nair <pnair@meridiangroup.com>", summary:"Legal has finished edits; they need your sign-off before the Thursday call at 2pm.", action:"Review redlines in Google Drive and reply with approval or comments.", source:"Outlook", needs_reply:true },
       { index:3, priority:1, subject:"Quick question on Q3 product roadmap", from:"Jordan Lee <j.lee@yourcompany.com>", summary:"Engineering lead needs clarity on which features are in scope for Q3 before sprint planning tomorrow.", action:"Reply with Q3 scope decision — yes/no on the API integration feature.", source:"Outlook", needs_reply:true },
-      { index:4, priority:2, subject:"Follow up: partnership call last week", from:"Dana Torres <dana@blueridgepartners.com>", summary:"Partnership contact following up on the intro call — interested in a pilot program proposal.", action:"Reply with interest level and proposed next step or pilot scope.", source:"Gmail", needs_reply:true },
+      { index:4, priority:2, subject:"Follow up: partnership call last week", from:"Dana Torres <dana@blueridgepartners.com>", summary:"Partnership contact following up on the intro call — interested in a pilot program proposal.", action:"Reply with interest level and proposed next step or pilot scope.", source:"Outlook", needs_reply:true },
       { index:5, priority:2, subject:"Team offsite — dates poll", from:"Riley Kim <r.kim@yourcompany.com>", summary:"HR is collecting availability for the Q4 offsite — poll closes Friday.", action:"Fill out the Doodle poll linked in the email.", source:"Outlook", needs_reply:false },
-      { index:6, priority:2, subject:"Invoice #2047 — due in 5 days", from:"billing@cloudserviceco.com", summary:"Monthly cloud infrastructure invoice for $1,240 is due in 5 days.", action:"Approve payment or forward to accounting.", source:"Gmail", needs_reply:false },
-      { index:7, priority:3, subject:"Your weekly GitHub activity summary", from:"noreply@github.com", summary:"Automated weekly digest of commits, PRs, and issues across your repos.", action:"No action needed — review if interested.", source:"Gmail", needs_reply:false },
-      { index:8, priority:3, subject:"SaaStr Annual 2025 — early bird ends soon", from:"events@saastr.com", summary:"Marketing email promoting early bird tickets for the SaaStr conference.", action:"No action needed.", source:"Gmail", needs_reply:false }
+      { index:6, priority:2, subject:"Invoice #2047 — due in 5 days", from:"billing@cloudserviceco.com", summary:"Monthly cloud infrastructure invoice for $1,240 is due in 5 days.", action:"Approve payment or forward to accounting.", source:"Outlook", needs_reply:false },
+      { index:7, priority:3, subject:"Your weekly GitHub activity summary", from:"noreply@github.com", summary:"Automated weekly digest of commits, PRs, and issues across your repos.", action:"No action needed — review if interested.", source:"Outlook", needs_reply:false },
+      { index:8, priority:3, subject:"SaaStr Annual 2025 — early bird ends soon", from:"events@saastr.com", summary:"Marketing email promoting early bird tickets for the SaaStr conference.", action:"No action needed.", source:"Outlook", needs_reply:false }
     ]
   };
   // Inject as if it's real — with sample banner
@@ -1400,7 +1200,7 @@ function showSampleOutput() {
         <div class="email-action">→ ${renderMd(e.action)}</div>
         <div style="display:flex;gap:6px;align-items:center">
           ${e.needs_reply
-            ? `<button class="btn btn-ghost reply-btn-needed" onclick="showToast('Connect Gmail or Outlook above to draft real replies','#0891B2')" title="AI thinks this needs a reply">✍️ Draft Reply</button>`
+            ? `<button class="btn btn-ghost reply-btn-needed" onclick="alert('Connect your email to draft real replies!')" title="AI thinks this needs a reply">✍️ Draft Reply</button>`
             : `<button class="btn btn-ghost reply-btn-skip" style="opacity:0.4" title="No reply likely needed">✍️ Draft anyway</button>`
           }
         </div>
@@ -1593,108 +1393,12 @@ function saveKeyFromModal() {
 })();
 </script>
 
-<!-- NAV FOOTER -->
-<footer style="border-top:1px solid var(--border);padding:24px 32px;margin-top:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px">
-  <span></span>
-  <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">
-    <a href="index.html" style="color:var(--muted);text-decoration:none">All 20 Tools</a>
-    <a href="privacy.html" style="color:var(--muted);text-decoration:none">Privacy</a>
-  </div>
-  <a href="day-02-proposal-generator.html" style="color:var(--muted);text-decoration:none">Day 2: Proposal Generator →</a>
+<footer style="border-top:1px solid var(--border);padding:20px 32px;text-align:center;font-size:12px;color:var(--muted);margin-top:40px">
+  <a href="index.html" style="color:var(--muted);text-decoration:none;margin:0 12px">← All 20 Tools</a>
+  <a href="privacy.html" style="color:var(--muted);text-decoration:none;margin:0 12px">Privacy Policy</a>
+  <a href="mailto:jlynch@aimersion.ai" style="color:var(--muted);text-decoration:none;margin:0 12px">Contact</a>
+  <br><br>© 2026 Aimersion · Free AI tools for real work
 </footer>
-<!-- AIMERSION PROFILE WIDGET -->
-<div id="ap-widget"><button id="ap-chip" onclick="apOpenModal()">👤 Set Profile</button></div>
-<div id="ap-modal"><div id="ap-modal-box">
-  <div id="ap-modal-header"><span>Your Profile</span><button onclick="apCloseModal()">✕</button></div>
-  <p id="ap-modal-sub">Saved once — auto-fills name, company &amp; role across all 20 tools.</p>
-  <input id="ap-name" type="text" placeholder="Your full name" autocomplete="name">
-  <input id="ap-company" type="text" placeholder="Company name" autocomplete="organization">
-  <input id="ap-role" type="text" placeholder="Your role (e.g. VP of Sales)" autocomplete="organization-title">
-  <div id="ap-modal-btns">
-    <button id="ap-save-btn" onclick="apSave()">💾 Save Profile</button>
-    <button id="ap-cancel-btn" onclick="apCloseModal()">Cancel</button>
-  </div>
-</div></div>
-<style>
-#ap-widget{position:fixed;top:70px;right:16px;z-index:8888;pointer-events:auto;}
-#ap-chip{background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.28);color:#22D3EE;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;letter-spacing:.02em;}
-#ap-chip:hover{background:rgba(8,145,178,0.24);border-color:rgba(8,145,178,0.55);transform:translateY(-1px);}
-#ap-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);align-items:center;justify-content:center;}
-#ap-modal.open{display:flex;}
-#ap-modal-box{background:#162840;border:1px solid #2A4A70;border-radius:14px;padding:32px 32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
-#ap-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-#ap-modal-header span{color:#F0F7FF;font-size:18px;font-weight:700;font-family:inherit;}
-#ap-modal-header button{background:none;border:none;color:#8AAFD0;font-size:20px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
-#ap-modal-header button:hover{color:#F0F7FF;}
-#ap-modal-sub{color:#8AAFD0;font-size:13px;margin:0 0 20px;font-family:inherit;line-height:1.5;}
-#ap-name,#ap-company,#ap-role{display:block;width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .15s;}
-#ap-name:focus,#ap-company:focus,#ap-role:focus{border-color:#0891B2;box-shadow:0 0 0 3px rgba(8,145,178,0.15);}
-#ap-name::placeholder,#ap-company::placeholder,#ap-role::placeholder{color:#8AAFD0;}
-#ap-modal-btns{display:flex;gap:10px;margin-top:8px;}
-#ap-save-btn{flex:1;background:#0891B2;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
-#ap-save-btn:hover{background:#0EA5C9;}
-#ap-cancel-btn{background:#1A2F52;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
-#ap-cancel-btn:hover{border-color:#0891B2;color:#F0F7FF;}
-</style>
-<script>
-(function(){
-  var KEY='aimersion_profile';
-  function gp(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
-  function updateChip(){
-    var p=gp(),chip=document.getElementById('ap-chip');
-    if(chip)chip.textContent=p.name?'\u{1F464} '+p.name.split(' ')[0]:'\u{1F464} Set Profile';
-  }
-  function applyProfile(){
-    var p=gp();
-    if(!p.name&&!p.company&&!p.role)return;
-    var fills={
-      yourName:p.name,managerName:p.name,fullName:p.name,senderName:p.name,authorName:p.name,
-      repName:p.name,yourFirstName:p.name.split(' ')[0],
-      companyName:p.company,businessName:p.company,yourCompany:p.company,senderCompany:p.company,
-      userRole:p.role,yourRole:p.role,senderTitle:p.role,roleTitle:p.role
-    };
-    Object.keys(fills).forEach(function(id){
-      var el=document.getElementById(id);
-      if(el&&fills[id]&&!el.value)el.value=fills[id];
-    });
-  }
-  window.apOpenModal=function(){
-    var p=gp();
-    document.getElementById('ap-name').value=p.name||'';
-    document.getElementById('ap-company').value=p.company||'';
-    document.getElementById('ap-role').value=p.role||'';
-    document.getElementById('ap-modal').classList.add('open');
-    setTimeout(function(){document.getElementById('ap-name').focus();},50);
-  };
-  window.apCloseModal=function(){document.getElementById('ap-modal').classList.remove('open');};
-  window.apSave=function(){
-    var p={
-      name:document.getElementById('ap-name').value.trim(),
-      company:document.getElementById('ap-company').value.trim(),
-      role:document.getElementById('ap-role').value.trim()
-    };
-    if(!p.name&&!p.company){return;}
-    localStorage.setItem(KEY,JSON.stringify(p));
-    apCloseModal();updateChip();applyProfile();
-    if(typeof showToast==='function')showToast('Profile saved ✓','success');
-  };
-  document.getElementById('ap-modal').addEventListener('click',function(e){if(e.target===this)apCloseModal();});
-  document.getElementById('ap-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-company').focus();});
-  document.getElementById('ap-company').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-role').focus();});
-  document.getElementById('ap-role').addEventListener('keydown',function(e){if(e.key==='Enter')apSave();});
-  updateChip();
-  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyProfile);}
-  else{setTimeout(applyProfile,100);}
-  var p=gp();
-  if(!p.name&&!sessionStorage.getItem('ap_nudged')){
-    sessionStorage.setItem('ap_nudged','1');
-    setTimeout(function(){
-      if(typeof showToast==='function')showToast('\u{1F464} Set your profile — auto-fills all 20 tools','info');
-    },2800);
-  }
-})();
-</script>
-<!-- END AIMERSION PROFILE WIDGET -->
 
 </body>
 </html>
