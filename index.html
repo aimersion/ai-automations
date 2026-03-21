@@ -790,35 +790,40 @@
 
     .past-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
     }
 
     .past-card {
       display: flex;
-      align-items: center;
-      gap: 14px;
+      flex-direction: column;
+      gap: 0;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px 18px;
+      border-radius: 14px;
+      padding: 20px;
       text-decoration: none;
       color: inherit;
-      transition: border-color 0.2s, transform 0.15s;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      position: relative;
     }
 
     .past-card:hover {
       border-color: var(--teal);
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+
+    .past-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
     }
 
     .past-card-icon {
-      font-size: 26px;
-      flex-shrink: 0;
-    }
-
-    .past-card-body {
-      min-width: 0;
+      font-size: 28px;
+      line-height: 1;
     }
 
     .past-card-day {
@@ -826,27 +831,54 @@
       font-weight: 700;
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 2px;
+      color: var(--teal);
+      background: rgba(20,184,166,0.1);
+      border: 1px solid rgba(20,184,166,0.2);
+      border-radius: 20px;
+      padding: 3px 10px;
     }
 
     .past-card-name {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      color: var(--white);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .past-card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      flex: 1;
+      margin-bottom: 14px;
+    }
+
+    .past-card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: auto;
+    }
+
+    .past-card-tag {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .past-card:hover .past-card-tag {
+      border-color: rgba(20,184,166,0.3);
     }
 
     .past-card-arrow {
-      margin-left: auto;
-      font-size: 16px;
-      color: var(--muted);
-      flex-shrink: 0;
-    }
-
-    .past-card:hover .past-card-arrow {
-      color: var(--teal);
+      display: none;
     }
 
     /* ── Responsive ── */
@@ -1043,13 +1075,188 @@
   <!-- ── All Tools ── -->
   <div class="past-section">
     <div class="past-section-label">All 20 Tools</div>
-    <div class="past-grid">
+        <div class="past-grid">
       <a href="day-20-command-center.html" class="past-card">
-        <div class="past-card-icon">🎛️</div>
-        <div class="past-card-body">
+        <div class="past-card-top">
+          <div class="past-card-icon">🎛️</div>
           <div class="past-card-day">Day 20</div>
-          <div class="past-card-name">AI Command Center</div>
         </div>
+        <div class="past-card-name">AI Command Center</div>
+        <div class="past-card-desc">All 20 automations in one dashboard. Email, proposals, standups, deals — everything, one click.</div>
+        <div class="past-card-tags"><span class="past-card-tag">All Tools</span><span class="past-card-tag">Outlook</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-19-chief-of-staff.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📋</div>
+          <div class="past-card-day">Day 19</div>
+        </div>
+        <div class="past-card-name">Chief of Staff</div>
+        <div class="past-card-desc">Your AI chief of staff — summarizes your week, flags what needs attention, and drafts your action plan.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Productivity</span><span class="past-card-tag">Outlook</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-18-deal-room.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">🤝</div>
+          <div class="past-card-day">Day 18</div>
+        </div>
+        <div class="past-card-name">Deal Room</div>
+        <div class="past-card-desc">Build a shared deal brief with all the context, docs, stakeholders, and next steps for any opportunity.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Sales</span><span class="past-card-tag">Deals</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-17-email-sequence.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📧</div>
+          <div class="past-card-day">Day 17</div>
+        </div>
+        <div class="past-card-name">Email Sequence Builder</div>
+        <div class="past-card-desc">Describe your goal and get a multi-step email sequence with subject lines, bodies, and timing.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Email</span><span class="past-card-tag">Outlook</span><span class="past-card-tag">Sales</span></div>
+      </a>
+      <a href="day-16-standup-generator.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">☀️</div>
+          <div class="past-card-day">Day 16</div>
+        </div>
+        <div class="past-card-name">Standup Generator</div>
+        <div class="past-card-desc">Connect Outlook and generate your daily standup from real email and calendar activity — 10 seconds.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Email</span><span class="past-card-tag">Outlook</span><span class="past-card-tag">Productivity</span></div>
+      </a>
+      <a href="day-15-contract-summarizer.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📜</div>
+          <div class="past-card-day">Day 15</div>
+        </div>
+        <div class="past-card-name">Contract Summarizer</div>
+        <div class="past-card-desc">Paste any contract and get a plain-English summary with key terms, obligations, and red flags.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Legal</span><span class="past-card-tag">Documents</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-14-performance-review.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">⭐</div>
+          <div class="past-card-day">Day 14</div>
+        </div>
+        <div class="past-card-name">Performance Review</div>
+        <div class="past-card-desc">Generate structured, fair, and detailed performance reviews for any team member — in seconds.</div>
+        <div class="past-card-tags"><span class="past-card-tag">HR</span><span class="past-card-tag">Management</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-13-job-description.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">💼</div>
+          <div class="past-card-day">Day 13</div>
+        </div>
+        <div class="past-card-name">Job Description Writer</div>
+        <div class="past-card-desc">Enter a role title and company context and get a compelling, ready-to-post job description.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Hiring</span><span class="past-card-tag">HR</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-12-invoice-generator.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">🧾</div>
+          <div class="past-card-day">Day 12</div>
+        </div>
+        <div class="past-card-name">Invoice Generator</div>
+        <div class="past-card-desc">Fill in the details and get a formatted, professional invoice ready to download or email in seconds.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Finance</span><span class="past-card-tag">Clients</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-11-scope-of-work.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📐</div>
+          <div class="past-card-day">Day 11</div>
+        </div>
+        <div class="past-card-name">Scope of Work Builder</div>
+        <div class="past-card-desc">Describe a project and get a full, professional scope of work document ready to send or sign.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Clients</span><span class="past-card-tag">Documents</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-10-cold-outreach.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📨</div>
+          <div class="past-card-day">Day 10</div>
+        </div>
+        <div class="past-card-name">Cold Outreach Personalizer</div>
+        <div class="past-card-desc">Research any prospect and generate hyper-personalized cold outreach that doesn't read like AI.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Sales</span><span class="past-card-tag">Outreach</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-09-weekly-status.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📊</div>
+          <div class="past-card-day">Day 09</div>
+        </div>
+        <div class="past-card-name">Weekly Status Report</div>
+        <div class="past-card-desc">Pulls your Outlook activity for the week and generates a polished, shareable status report.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Email</span><span class="past-card-tag">Outlook</span><span class="past-card-tag">Reports</span></div>
+      </a>
+      <a href="day-08-followup-machine.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">🔔</div>
+          <div class="past-card-day">Day 08</div>
+        </div>
+        <div class="past-card-name">Follow-up Machine</div>
+        <div class="past-card-desc">Pulls your Outlook sent mail, finds who hasn't replied, and writes perfectly-timed follow-ups.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Email</span><span class="past-card-tag">Outlook</span><span class="past-card-tag">Sales</span></div>
+      </a>
+      <a href="day-07-client-onboarding.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">🤝</div>
+          <div class="past-card-day">Day 07</div>
+        </div>
+        <div class="past-card-name">Client Onboarding Kit</div>
+        <div class="past-card-desc">Generate a complete onboarding checklist and professional welcome package for any new client.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Clients</span><span class="past-card-tag">Operations</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-06-meeting-prep.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📅</div>
+          <div class="past-card-day">Day 06</div>
+        </div>
+        <div class="past-card-name">Meeting Prep Assistant</div>
+        <div class="past-card-desc">Enter meeting details and get a full brief — attendee research, agenda, and sharp talking points.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Meetings</span><span class="past-card-tag">Research</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-05-pipeline-prioritizer.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📈</div>
+          <div class="past-card-day">Day 05</div>
+        </div>
+        <div class="past-card-name">Pipeline Prioritizer</div>
+        <div class="past-card-desc">Paste your pipeline in any format. AI ranks every deal by close probability and generates your daily call list.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Sales</span><span class="past-card-tag">Pipeline</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-04-social-creator.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📱</div>
+          <div class="past-card-day">Day 04</div>
+        </div>
+        <div class="past-card-name">Social Content Machine</div>
+        <div class="past-card-desc">Turn one idea into a week of posts for LinkedIn, X, and Instagram — with hooks that actually convert.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Social</span><span class="past-card-tag">Content</span><span class="past-card-tag">AI</span></div>
+      </a>
+      <a href="day-03-competitor-intel.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">🎯</div>
+          <div class="past-card-day">Day 03</div>
+        </div>
+        <div class="past-card-name">Competitor Intel Brief</div>
+        <div class="past-card-desc">Research any competitor and get a full brief — positioning, messaging, weaknesses, and your counter.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Research</span><span class="past-card-tag">AI</span><span class="past-card-tag">Strategy</span></div>
+      </a>
+      <a href="day-02-proposal-generator.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📝</div>
+          <div class="past-card-day">Day 02</div>
+        </div>
+        <div class="past-card-name">Proposal Generator</div>
+        <div class="past-card-desc">Scrapes your site and your prospect's, then writes a fully customized proposal in 30 seconds.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Sales</span><span class="past-card-tag">AI</span><span class="past-card-tag">Proposals</span></div>
+      </a>
+      <a href="day-01-inbox-intelligence.html" class="past-card">
+        <div class="past-card-top">
+          <div class="past-card-icon">📬</div>
+          <div class="past-card-day">Day 01</div>
+        </div>
+        <div class="past-card-name">Inbox Intelligence</div>
+        <div class="past-card-desc">AI ranks every email by urgency, gives you a daily digest, and drafts replies in your writing style.</div>
+        <div class="past-card-tags"><span class="past-card-tag">Email</span><span class="past-card-tag">Outlook</span><span class="past-card-tag">AI</span></div>
+      </a>
+    </div>
         <div class="past-card-arrow">→</div>
       </a>
       <a href="day-19-chief-of-staff.html" class="past-card">
