@@ -407,14 +407,6 @@ twq("config","tw-r848k-r848k");
       <button class="card-toggle">▾</button>
     </div>
     <div class="card-body">
-      <div style="margin-bottom: 16px;">
-        <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px;">Gemini API Key:</label>
-        <div style="display: flex; gap: 8px;">
-          <input type="password" id="geminiKeyInput" placeholder="AIza..." style="flex: 1;">
-          <button class="btn btn-teal" onclick="saveGeminiKeyManual()">Save</button>
-        </div>
-        <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size: 12px; color: var(--teal-light); display: inline-block; margin-top: 6px;">Get free key →</a>
-      </div>
       <div style="margin-bottom: 12px;">
         <button class="btn btn-teal" onclick="connectMicrosoft()" id="connectBtn">📧 Connect Outlook</button>
         <div id="connectStatus" style="font-size: 12px; color: var(--muted); margin-top: 6px;"></div>
@@ -1360,17 +1352,6 @@ function renderEngagementMetrics() {
   document.getElementById('metricsContent').innerHTML = html;
 }
 
-function saveGeminiKeyManual() {
-  const val = document.getElementById('geminiKeyInput').value.trim();
-  if (!val) {
-    showToast('❌ Paste your API key first');
-    return;
-  }
-  localStorage.setItem('gemini_key', val);
-  document.getElementById('geminiKeyInput').value = '';
-  showToast('✅ Key saved');
-  __checkSetup();
-}
 
 (function(){
   function __showToast(msg,dur=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#0F1829;border:1px solid #1E293B;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F1F5F9;transition:opacity 0.3s;';document.body.appendChild(t);}t.textContent=msg;t.style.display='block';t.style.opacity='1';clearTimeout(t._tmr);t._tmr=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none';},300);},dur);}
