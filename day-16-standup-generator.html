@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- SEO -->
+  <title>Free AI Daily Standup Generator — 10 Seconds from Outlook | Aimersion</title>
+  <meta name="description" content="Connect Outlook and generate your daily standup from real email and calendar activity in 10 seconds. Free AI standup tool.">
+  <meta name="keywords" content="AI standup generator, daily standup tool, automated standup, Outlook standup, free standup generator, scrum standup AI">
+  <link rel="canonical" href="https://aimersion.github.io/ai-automations/day-16-standup-generator.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimersion.github.io/ai-automations/day-16-standup-generator.html">
+  <meta property="og:title" content="Standup Generator — 10-Second Daily Standup from Outlook">
+  <meta property="og:description" content="Connect Outlook and generate your daily standup from real email and calendar activity in 10 seconds. Free AI standup tool.">
+  <meta property="og:image" content="https://aimersion.github.io/ai-automations/apple-touch-icon.png">
+  <meta property="og:site_name" content="Aimersion AI Automations">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@jimlynchAI">
+  <meta name="twitter:title" content="Standup Generator — 10-Second Daily Standup from Outlook">
+  <meta name="twitter:description" content="Connect Outlook and generate your daily standup from real email and calendar activity in 10 seconds. Free AI standup tool.">
+  <meta name="twitter:image" content="https://aimersion.github.io/ai-automations/apple-touch-icon.png">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Standup Generator — 10-Second Daily Standup from Outlook",
+    "description": "AI standup generator that connects to Outlook and generates daily standup updates from real email and calendar activity.",
+    "url": "https://aimersion.github.io/ai-automations/day-16-standup-generator.html",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+    "author": {"@type": "Organization", "name": "Aimersion", "url": "https://aimersion.ai"}
+  }
+  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-69LQQBX0C1');
+</script>
+
+<script>
+  !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+  n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+  document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '876506382017154');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
+
+<script type="text/javascript">
+  _linkedin_partner_id = "514319631";
+  window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+  window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+</script>
+<script type="text/javascript">
+  (function(l) {
+    if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+    window.lintrk.q=[]}
+    var s = document.getElementsByTagName("script")[0];
+    var b = document.createElement("script");
+    b.type = "text/javascript";b.async = true;
+    b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+    s.parentNode.insertBefore(b, s);})(window.lintrk);
+</script>
+<noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif" /></noscript>
+
+<script>
+!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);
+},s.version="1.1",s.queue=[],u=t.createElement(n),u.async=!0,u.src="https://static.ads-twitter.com/uwt.js",
+a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,"script");
+twq("config","tw-r848k-r848k");
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';document.head.appendChild(s);})()"></script>
+
+<style>
+  :root {
+    --navy: #0F1F3D; --navy2: #1A2F52; --teal: #0891B2; --teal-light: #22D3EE;
+    --amber: #F59E0B; --green: #059669; --red: #DC2626; --white: #F0F7FF;
+    --muted: #8AAFD0; --card: #162840; --border: #2A4A70;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--navy); color: var(--white); font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; }
+  header { border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .logo { font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--teal); text-transform: uppercase; }
+  .nav-links { display: flex; gap: 16px; }
+  .nav-links a { color: var(--muted); font-size: 13px; text-decoration: none; }
+  .nav-links a:hover { color: var(--teal-light); }
+  .hero { text-align: center; padding: 40px 32px 32px; }
+  .day-label { font-size: 11px; color: var(--amber); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 700; }
+  h1 { font-size: 38px; font-weight: 900; margin-bottom: 10px; }
+  h1 span { color: var(--teal); }
+  .tagline { font-size: 16px; color: var(--muted); max-width: 520px; margin: 0 auto; line-height: 1.6; }
+  .main { max-width: 880px; margin: 0 auto; padding: 0 24px 80px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; margin-bottom: 20px; }
+  .card-title { font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--teal); text-transform: uppercase; margin-bottom: 14px; }
+  .card.collapsible { padding-bottom: 20px; }
+  .card-header { display:flex; justify-content:space-between; align-items:center; cursor:pointer; user-select:none; margin-bottom: 14px; }
+  .card-header .card-title { margin-bottom: 0; }
+  .card-toggle { background:none; border:none; color:var(--muted); font-size:20px; cursor:pointer; padding:0; line-height:1; transition:transform 0.22s, color 0.15s; flex-shrink:0; }
+  .card-header:hover .card-toggle { color:var(--teal-light); }
+  .card.collapsed .card-toggle { transform: rotate(-90deg); }
+  .card.collapsed .card-body { display: none; }
+  input[type="password"], input[type="text"], textarea, select {
+    background: var(--navy); border: 1px solid var(--border); color: var(--white);
+    padding: 9px 14px; border-radius: 8px; font-size: 13px; font-family: inherit;
+    outline: none; transition: border 0.2s;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--teal); }
+  textarea { width: 100%; min-height: 100px; resize: vertical; line-height: 1.6; }
+  .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; border: none; transition: all 0.2s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-teal { background: var(--teal); color: #fff; }
+  .btn-amber { background: var(--amber); color: #000; }
+  .btn-ghost { background: transparent; color: var(--teal-light); border: 1px solid var(--border); }
+  .btn-green { background: var(--green); color: #fff; }
+  .btn:hover { opacity: 0.85; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+  .step-card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; }
+  .step-num-circle { width:26px; height:26px; border-radius:50%; color:#fff; font-size:12px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; background: var(--teal); }
+  .step-title { font-size:14px; font-weight:700; margin-bottom:3px; color:var(--white); }
+  .step-desc { font-size:13px; color:var(--muted); line-height:1.5; }
+  .fun-loader { display:flex; flex-direction:column; align-items:center; gap:18px; }
+  .loader-emoji { font-size: 3rem; animation: bounce 0.7s ease-in-out infinite alternate; }
+  .loader-msg { font-size: 1rem; color: var(--teal-light); font-weight: 500; min-height: 1.4em; transition: opacity 0.4s; }
+  .loader-sub { font-size: 0.8rem; color: var(--muted); }
+  @keyframes bounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-10px) scale(1.1); } }
+  .output-area { min-height: 120px; }
+  .error-msg { background: rgba(220,38,38,0.1); border: 1px solid rgba(220,38,38,0.3); color: #FCA5A5; padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 14px; }
+  .info-msg { background: rgba(8,145,178,0.1); border: 1px solid rgba(8,145,178,0.3); color: var(--teal-light); padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
+  .key-hint { font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .key-hint a { color: var(--teal-light); }
+
+  .oauth-box { background: var(--navy2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
+  .oauth-status { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; font-size: 13px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-on { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .dot-off { background: var(--border); }
+
+  .tab-buttons { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .tab-btn { background: none; border: none; color: var(--muted); padding: 10px 16px; cursor: pointer; font-weight: 600; font-size: 13px; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .tab-btn.active { color: var(--teal-light); border-bottom-color: var(--teal); }
+  .tab-btn:hover { color: var(--teal-light); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .standup-format { background: var(--navy2); border: 1px solid var(--border); border-radius: 8px; padding: 14px; font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.6; color: var(--white); margin-bottom: 14px; white-space: pre-wrap; word-wrap: break-word; max-height: 400px; overflow-y: auto; }
+  .copy-button { width: 100%; padding: 10px; margin-bottom: 8px; }
+
+  .standup-section { margin-bottom: 16px; }
+  .section-heading { font-weight: 700; color: var(--teal-light); margin-bottom: 8px; }
+  .standup-list { list-style: none; }
+  .standup-list li { margin-bottom: 6px; padding-left: 20px; position: relative; }
+  .standup-list li:before { content: '•'; position: absolute; left: 0; color: var(--teal); }
+
+  .mood-badge { display: inline-block; padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 13px; margin-top: 8px; }
+  .mood-on-track { background: rgba(5,150,105,0.2); color: #6EE7B7; }
+  .mood-uncertain { background: rgba(245,158,11,0.2); color: #FCD34D; }
+  .mood-blocked { background: rgba(220,38,38,0.2); color: #FCA5A5; }
+
+  .settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .settings-group { }
+  .settings-label { font-size: 11px; font-weight: 700; letter-spacing: 1px; color: var(--teal); text-transform: uppercase; margin-bottom: 6px; display: block; }
+
+  @media (max-width: 640px) {
+    header { padding: 11px 16px; }
+    .logo { font-size: 11px; letter-spacing: 2px; }
+    .hero { padding: 20px 16px 16px; }
+    h1 { font-size: 28px; }
+    .tagline { font-size: 13px; }
+    .main { padding: 0 12px 96px; }
+    .card { padding: 14px 14px; margin-bottom: 14px; }
+    .steps-grid { grid-template-columns: 1fr; gap: 0; margin-bottom: 16px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+    .step-card { border-radius: 0; border: none; border-bottom: 1px solid var(--border); padding: 12px 14px; }
+    .step-card:last-child { border-bottom: none; }
+    .step-title { font-size: 13px; }
+    .step-desc { font-size: 12px; }
+    input[type="password"], input[type="text"], textarea, select { font-size: 15px; padding: 11px 14px; }
+    #generateBtn { width: 100%; padding: 17px; font-size: 18px; font-weight: 900; border-radius: 14px; }
+    .settings-grid { grid-template-columns: 1fr; }
+    .tab-buttons { flex-wrap: wrap; }
+    .tab-btn { padding: 8px 12px; font-size: 12px; }
+  }
+
+  .sticky-cta { display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; padding: 12px 16px 28px; background: linear-gradient(to top, var(--navy) 65%, transparent); pointer-events: none; }
+  .sticky-cta button { pointer-events: all; width: 100%; padding: 17px; font-size: 18px; font-weight: 900; background: var(--amber); color: #000; border: none; border-radius: 14px; cursor: pointer; font-family: inherit; letter-spacing: 0.3px; box-shadow: 0 4px 24px rgba(245,158,11,0.35); transition: opacity 0.2s, transform 0.15s; }
+  .sticky-cta button:active { opacity: 0.85; transform: scale(0.98); }
+  .sticky-cta button:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+  @media (max-width: 640px) {
+    .sticky-cta { display: flex; }
+  }
+
+    /* ── Standardized input styling ── */
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="url"], input[type="number"], input[type="search"],
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+    textarea, select {
+      background: #0D1B2E !important;
+      border: 1px solid #1E3A5F !important;
+      border-radius: 8px !important;
+      color: #E2E8F0 !important;
+      font-family: inherit !important;
+      font-size: 14px !important;
+      padding: 10px 14px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: border-color 0.2s !important;
+      outline: none !important;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+    input[type="url"]:focus, input[type="number"]:focus, input[type="search"]:focus,
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]):focus,
+    textarea:focus, select:focus {
+      border-color: #0EA5E9 !important;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15) !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #64748B !important;
+    }
+    select option {
+      background: #0D1B2E;
+      color: #E2E8F0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <a href="https://aimersion.github.io/ai-automations/index.html" class="logo">⚙️ Aimersion</a>
+  <div class="nav-links">
+    <a href="index.html">← All Tools</a>
+    <a href="https://github.com/aimersion/ai-automations" target="_blank">GitHub</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="day-label">Day 16 of 20</div>
+  <h1>Standup <span>Generator</span></h1>
+  <p class="tagline">Connect Outlook to pull your last 48 hours of emails and calendar. AI generates your perfect standup in Slack, Teams, email, or plain text.</p>
+</div>
+
+<div class="main">
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num-circle" style="background: var(--teal);">1</div>
+      <div>
+        <div class="step-title">Connect Outlook</div>
+        <div class="step-desc">OAuth to pull your emails & calendar</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num-circle" style="background: var(--amber);">2</div>
+      <div>
+        <div class="step-title">AI Analyzes</div>
+        <div class="step-desc">Gemini reads activity to understand context</div>
+      </div>
+    </div>
+    <div class="step-card">
+      <div class="step-num-circle" style="background: var(--green);">3</div>
+      <div>
+        <div class="step-title">Copy & Paste</div>
+        <div class="step-desc">Get standup in your favorite format</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card collapsible" id="apiCard">
+    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
+      <div class="card-title">🔑 Gemini API Key</div>
+      <button class="card-toggle">▶</button>
+    </div>
+    <div class="card-body">
+      <div style="margin-bottom: 12px;">
+        <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Your API Key:</label>
+        <input type="password" id="geminiKey" placeholder="Enter your Gemini API key..." style="width: 100%; margin-bottom: 8px;">
+        <button class="btn btn-teal" onclick="saveGeminiKey()" style="width: 100%;">💾 Save Key</button>
+      </div>
+      <div class="key-hint">Get a free key at <a href="https://aistudio.google.com/apikey" target="_blank">Google AI Studio</a>. Your key is stored locally only.</div>
+    </div>
+  </div>
+
+  <div class="card collapsible" id="settingsCard">
+    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
+      <div class="card-title">⚙️ Settings & Context</div>
+      <button class="card-toggle">▶</button>
+    </div>
+    <div class="card-body">
+      <div class="settings-grid">
+        <div class="settings-group">
+          <label class="settings-label">Your Name</label>
+          <input type="text" id="userName" placeholder="e.g., Sarah Chen" style="width: 100%;">
+        </div>
+        <div class="settings-group">
+          <label class="settings-label">Time Range</label>
+          <select id="timeRange" style="width: 100%;">
+            <option value="24">Last 24 hours</option>
+            <option value="48" selected>Last 48 hours</option>
+            <option value="72">Last 72 hours</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-top: 14px;">
+        <label style="display: block; font-size: 12px; color: var(--teal); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;">Additional Context</label>
+        <textarea id="customContext" placeholder="Add any context the AI should know about your current projects or priorities..." style="width: 100%;"></textarea>
+      </div>
+      <button class="btn btn-ghost" onclick="saveSettings()" style="width: 100%; margin-top: 10px;">💾 Save Settings</button>
+    </div>
+  </div>
+
+  <div class="card collapsible" id="outlookCard16">
+    <div class="card-header" onclick="toggleCard(this.closest('.card'))">
+      <div class="card-title">📧 Connect Outlook <span style="color:var(--muted);font-weight:400;font-size:11px;margin-left:8px;">— pulls real emails &amp; calendar</span></div>
+      <button class="card-toggle">▶</button>
+    </div>
+    <div class="card-body">
+      <div class="oauth-box">
+        <div class="oauth-status">
+          <div class="status-dot dot-off" id="outlookDot16"></div>
+          <span id="outlookStatus16" style="font-size:13px;">Not connected</span>
+        </div>
+        <button class="btn btn-teal" id="outlookBtn16" onclick="connectOutlook16()" style="width:100%;justify-content:center;">🔗 Connect Outlook</button>
+      </div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.6;margin-top:10px;">When connected, AI reads your actual sent emails, inbox, and calendar events to write a standup based on what you really did — not guesswork.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <button id="generateBtn" class="btn btn-amber" onclick="generateStandup()" style="width: 100%; padding: 14px; font-size: 16px; justify-content: center;">✍️ Generate Standup</button>
+    <button class="btn btn-ghost" onclick="runDemo()" style="width: 100%; padding: 12px; font-size: 14px; justify-content: center; margin-top: 10px;">▶ Try Demo (No API Key Needed)</button>
+  </div>
+
+  <div class="card">
+    <div id="outputArea" class="output-area"></div>
+  </div>
+</div>
+
+<div class="sticky-cta">
+  <button id="stickyBtn" class="btn btn-amber" onclick="generateStandup()">✍️ Generate Standup</button>
+</div>
+
+<script>
+  const GEMINI_MODEL = 'gemini-3.1-flash-lite-preview';
+  const AZURE_CLIENT_ID_16 = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+  let msalInstance16 = null, msAccount16 = null;
+
+  const LOADER_FRAMES = [
+    { emoji: '📬', msg: 'Reading your inbox...' },
+    { emoji: '📤', msg: 'Scanning sent items...' },
+    { emoji: '📅', msg: 'Checking your calendar...' },
+    { emoji: '🧠', msg: 'Figuring out what you actually did...' },
+    { emoji: '✍️', msg: 'Writing your standup...' },
+    { emoji: '🎯', msg: 'Making it sound productive...' },
+    { emoji: '✨', msg: 'Polishing for Slack...' },
+    { emoji: '🚀', msg: 'Almost ready to paste...' },
+  ];
+
+  let _loaderInterval = null;
+
+  function toggleCard(el) { el.classList.toggle('collapsed'); }
+
+  function startFunLoader(containerId, subMsg) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    stopFunLoader();
+    const pool = LOADER_FRAMES;
+    let i = Math.floor(Math.random() * pool.length);
+    const frame = pool[i];
+    el.innerHTML = `<div class="fun-loader">
+      <div class="loader-emoji" id="loaderEmoji">${frame.emoji}</div>
+      <div class="loader-msg" id="loaderMsg">${frame.msg}</div>
+      <div class="loader-sub">${subMsg || ''}</div>
+    </div>`;
+    _loaderInterval = setInterval(() => {
+      i = (i + 1) % pool.length;
+      const emojiEl = document.getElementById('loaderEmoji');
+      const msgEl = document.getElementById('loaderMsg');
+      if (emojiEl) emojiEl.textContent = pool[i].emoji;
+      if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = pool[i].msg; msgEl.style.opacity = 1; }, 200); }
+    }, 2200);
+  }
+
+  function stopFunLoader() {
+    if (_loaderInterval) { clearInterval(_loaderInterval); _loaderInterval = null; }
+  }
+
+  function showToast(msg, type = 'success') {
+    const colors = { success: '#064e3b', error: '#7f1d1d', info: '#0F1F3D' };
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:${colors[type]||colors.success};color:#fff;padding:10px 22px;border-radius:8px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 4px 18px rgba(0,0,0,.4);opacity:0;transition:opacity .25s,transform .25s`;
+    document.body.appendChild(t);
+    requestAnimationFrame(() => { t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+    setTimeout(() => { t.style.opacity='0'; setTimeout(() => t.remove(), 300); }, 2800);
+  }
+
+  // ── MSAL / Outlook ──────────────────────────────────────────────
+  async function initMsal16() {
+    if (msalInstance16) return;
+    if (typeof msal === 'undefined') return;
+    msalInstance16 = new msal.PublicClientApplication({
+      auth: { clientId: AZURE_CLIENT_ID_16, authority: 'https://login.microsoftonline.com/common',
+              redirectUri: 'https://aimersion.github.io/ai-automations/auth.html' },
+      cache: { cacheLocation: 'sessionStorage' }
+    });
+    await msalInstance16.initialize();
+    const accounts = msalInstance16.getAllAccounts();
+    if (accounts.length > 0) { msAccount16 = accounts[0]; updateOutlookUI16(); }
+  }
+
+  async function connectOutlook16() {
+    try {
+      if (!msalInstance16) await initMsal16();
+      const resp = await msalInstance16.loginPopup({
+        scopes: ['https://graph.microsoft.com/Mail.Read', 'https://graph.microsoft.com/Calendars.Read', 'https://graph.microsoft.com/User.Read'],
+        prompt: 'select_account'
+      });
+      msAccount16 = resp.account;
+      updateOutlookUI16();
+      showToast('✓ Outlook connected — ' + msAccount16.username);
+    } catch(e) {
+      if (e.errorCode === 'user_cancelled') return;
+      showToast('Connection failed: ' + e.message, 'error');
+    }
+  }
+
+  function updateOutlookUI16() {
+    const connected = !!msAccount16;
+    const btn = document.getElementById('outlookBtn16');
+    const dot = document.getElementById('outlookDot16');
+    const status = document.getElementById('outlookStatus16');
+    if (btn) btn.style.display = connected ? 'none' : '';
+    if (dot) dot.className = 'status-dot ' + (connected ? 'dot-on' : 'dot-off');
+    if (status) status.textContent = connected ? '✓ ' + msAccount16.username : 'Not connected';
+    if (connected) document.getElementById('outlookCard16')?.classList.add('collapsed');
+    const genBtn = document.getElementById('generateBtn');
+    if (genBtn) genBtn.textContent = connected ? '✍️ Generate from My Inbox' : '✍️ Generate Standup';
+  }
+
+  async function getMsToken16() {
+    if (!msalInstance16 || !msAccount16) return null;
+    const scopes = ['https://graph.microsoft.com/Mail.Read', 'https://graph.microsoft.com/Calendars.Read'];
+    try {
+      const r = await msalInstance16.acquireTokenSilent({ scopes, account: msAccount16 });
+      return r.accessToken;
+    } catch {
+      try {
+        const r = await msalInstance16.acquireTokenPopup({ scopes, account: msAccount16 });
+        return r.accessToken;
+      } catch { return null; }
+    }
+  }
+
+  async function fetchOutlookActivity(hours) {
+    const token = await getMsToken16();
+    if (!token) return null;
+    const since = new Date(Date.now() - hours * 3600000).toISOString();
+    const calStart = new Date(Date.now() - 30 * 3600000).toISOString(); // yesterday
+    const calEnd   = new Date(Date.now() + 20 * 3600000).toISOString(); // few hours ahead
+    const h = { Authorization: 'Bearer ' + token };
+    try {
+      const [sentR, recvR, calR] = await Promise.all([
+        fetch(`https://graph.microsoft.com/v1.0/me/mailFolders/SentItems/messages?$top=20&$filter=sentDateTime ge ${since}&$select=subject,toRecipients,sentDateTime,bodyPreview&$orderby=sentDateTime desc`, { headers: h }),
+        fetch(`https://graph.microsoft.com/v1.0/me/messages?$top=20&$filter=receivedDateTime ge ${since}&$select=subject,from,receivedDateTime,bodyPreview,isRead,importance&$orderby=receivedDateTime desc`, { headers: h }),
+        fetch(`https://graph.microsoft.com/v1.0/me/calendarView?startDateTime=${calStart}&endDateTime=${calEnd}&$select=subject,start,end,attendees&$top=10&$orderby=start/dateTime`, { headers: h })
+      ]);
+      const [sent, recv, cal] = await Promise.all([sentR.json(), recvR.json(), calR.json()]);
+      return { sent: sent.value || [], received: recv.value || [], events: cal.value || [] };
+    } catch(e) { console.warn('Graph fetch error:', e); return null; }
+  }
+
+  // ── Settings ────────────────────────────────────────────────────
+  function saveGeminiKey() {
+    const key = document.getElementById('geminiKey').value.trim();
+    if (!key) { showToast('Enter your Gemini API key first', 'error'); return; }
+    localStorage.setItem('gemini_key', key);
+    showToast('API key saved ✓');
+    document.getElementById('apiCard')?.classList.add('collapsed');
+  }
+
+  function saveSettings() {
+    const name = document.getElementById('userName').value.trim();
+    const context = document.getElementById('customContext').value.trim();
+    const range = document.getElementById('timeRange').value;
+    localStorage.setItem('standup_name', name);
+    localStorage.setItem('standup_context', context);
+    localStorage.setItem('standup_range', range);
+    showToast('Settings saved ✓');
+  }
+
+  async function callGemini(prompt) {
+    const key = localStorage.getItem('gemini_key') || document.getElementById('geminiKey')?.value?.trim();
+    if (!key) throw new Error('No Gemini API key. Please enter and save your key.');
+    const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${key}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }], generationConfig: { temperature: 0.4, maxOutputTokens: 8192 } })
+    }).then(r => r.json());
+    if (resp.error) throw new Error(resp.error.message);
+    return resp.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  }
+
+  // ── Generate ────────────────────────────────────────────────────
+  async function generateStandup() {
+    const name    = document.getElementById('userName').value.trim() || localStorage.getItem('standup_name') || 'you';
+    const context = document.getElementById('customContext').value.trim() || localStorage.getItem('standup_context') || '';
+    const hours   = parseInt(document.getElementById('timeRange').value || localStorage.getItem('standup_range') || '48');
+    const outputArea = document.getElementById('outputArea');
+
+    startFunLoader('outputArea', msAccount16 ? 'Pulling your Outlook activity...' : 'Generating your standup...');
+
+    let sentContext = '', receivedContext = '', calContext = '', dataNote = '';
+
+    if (msAccount16) {
+      const data = await fetchOutlookActivity(hours);
+      if (data) {
+        const { sent, received, events } = data;
+        dataNote = `📬 ${sent.length} sent • ${received.length} received • 📅 ${events.length} meeting${events.length !== 1 ? 's' : ''} pulled from Outlook`;
+
+        if (sent.length > 0) {
+          sentContext = `EMAILS YOU SENT (last ${hours}h — ${sent.length} total):\n` +
+            sent.slice(0, 15).map(e => {
+              const to = e.toRecipients?.[0]?.emailAddress?.name || e.toRecipients?.[0]?.emailAddress?.address || 'recipient';
+              return `• To ${to}: "${e.subject}" — ${(e.bodyPreview || '').substring(0, 120)}`;
+            }).join('\n');
+        }
+
+        if (received.length > 0) {
+          const notable = received.filter(e => !e.isRead || e.importance === 'high').slice(0, 10);
+          if (notable.length > 0) {
+            receivedContext = `KEY INCOMING EMAILS (unread/important, last ${hours}h):\n` +
+              notable.map(e => {
+                const from = e.from?.emailAddress?.name || e.from?.emailAddress?.address || 'sender';
+                return `• From ${from}: "${e.subject}" — ${(e.bodyPreview || '').substring(0, 120)}`;
+              }).join('\n');
+          }
+        }
+
+        if (events.length > 0) {
+          calContext = `CALENDAR EVENTS (yesterday + today):\n` +
+            events.map(e => {
+              const t = new Date(e.start?.dateTime || e.start?.date);
+              const timeStr = isNaN(t) ? '' : t.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+              const count = e.attendees?.length || 0;
+              return `• ${e.subject}${timeStr ? ' at ' + timeStr : ''}${count > 1 ? ` (${count} attendees)` : ''}`;
+            }).join('\n');
+        }
+      }
+    }
+
+    if (!sentContext && !receivedContext) {
+      sentContext = `No Outlook data connected — infer activity from context or generate a realistic standup for ${name}.`;
+    }
+
+    startFunLoader('outputArea', 'Writing your standup...');
+    if (dataNote) {
+      outputArea.innerHTML = `<div class="info-msg">✓ ${dataNote} — writing your standup...</div>`;
+    }
+
+    try {
+      const prompt = `You are writing a daily standup update for ${name}. Analyze their actual work activity.
+
+${sentContext}
+
+${receivedContext ? receivedContext + '\n' : ''}
+${calContext ? calContext + '\n' : ''}
+Additional context: ${context || 'none provided'}
+
+Based on this REAL activity data, write a specific standup update. Reference actual email subjects and meeting names — not generic placeholders. Infer accomplishments from what they sent and meetings they attended. Make it sound like a real person, not a template.
+
+Return JSON only:
+{
+  "yesterday": ["specific accomplishment 1 referencing real activity", "accomplishment 2", "accomplishment 3"],
+  "today": ["planned task 1", "planned task 2", "planned task 3"],
+  "blockers": [],
+  "highlights": "One sentence about the most important thing",
+  "mood": "🟢 On track",
+  "slackFormat": "Full Slack-formatted standup ready to paste",
+  "teamsFormat": "Full Teams-formatted standup",
+  "emailFormat": "Full email standup with Subject: line",
+  "bulletFormat": "Plain bullet-point standup"
+}`;
+
+      const result = await callGemini(prompt);
+      stopFunLoader();
+      const jsonMatch = result.match(/\{[\s\S]*\}/);
+      const standup = JSON.parse(jsonMatch ? jsonMatch[0] : result);
+      renderStandup(standup, name, outputArea);
+    } catch(e) {
+      stopFunLoader();
+      outputArea.innerHTML = `<div class="error-msg">❌ Error: ${e.message}</div>`;
+    }
+  }
+
+  // ── Render ───────────────────────────────────────────────────────
+  function renderStandup(standup, name, container) {
+    let html = `<div class="tab-buttons">
+      <button class="tab-btn active" onclick="switchTab(event, 'slack')">💬 Slack</button>
+      <button class="tab-btn" onclick="switchTab(event, 'teams')">🔷 Teams</button>
+      <button class="tab-btn" onclick="switchTab(event, 'email')">✉️ Email</button>
+      <button class="tab-btn" onclick="switchTab(event, 'plain')">📝 Plain Text</button>
+    </div>`;
+
+    html += `<div id="slack" class="tab-content active">
+      <button class="btn btn-teal copy-button" onclick="copyFormat('slack')">📋 Copy Slack Format</button>
+      <div class="standup-format">${escapeHtml(standup.slackFormat)}</div>
+    </div>`;
+
+    html += `<div id="teams" class="tab-content">
+      <button class="btn btn-teal copy-button" onclick="copyFormat('teams')">📋 Copy Teams Format</button>
+      <div class="standup-format">${escapeHtml(standup.teamsFormat)}</div>
+    </div>`;
+
+    html += `<div id="email" class="tab-content">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+        <button class="btn btn-teal copy-button" onclick="copyFormat('email')" style="flex:1;justify-content:center;">📋 Copy Email Format</button>
+        <button class="btn btn-ghost" onclick="openMailto16()" style="flex:1;justify-content:center;">✉️ Open in Email App</button>
+      </div>
+      <div class="standup-format">${escapeHtml(standup.emailFormat)}</div>
+    </div>`;
+
+    html += `<div id="plain" class="tab-content">
+      <button class="btn btn-teal copy-button" onclick="copyFormat('plain')">📋 Copy Plain Text</button>
+      <div class="standup-format">${escapeHtml(standup.bulletFormat)}</div>
+    </div>`;
+
+    html += `<div style="margin-top: 16px;">
+      <button class="btn btn-ghost" onclick="downloadStandup()">📥 Download All Formats</button>
+      <button class="btn btn-amber" onclick="generateStandup();" style="margin-left: 8px;">🔄 Regenerate</button>
+    </div>`;
+
+    container.innerHTML = html;
+    window._lastStandup = standup;
+  }
+
+  function switchTab(e, tabName) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabName).classList.add('active');
+    e.target.classList.add('active');
+  }
+
+  function escapeHtml(text) {
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return (text || '').replace(/[&<>"']/g, m => map[m]);
+  }
+
+  function openMailto16() {
+    if (!window._lastStandup) return;
+    const subject = encodeURIComponent('Standup Update');
+    const body = encodeURIComponent(window._lastStandup.emailFormat || '');
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  }
+
+  function copyFormat(format) {
+    if (!window._lastStandup) return;
+    const formats = { slack: 'slackFormat', teams: 'teamsFormat', email: 'emailFormat', plain: 'bulletFormat' };
+    const text = window._lastStandup[formats[format]] || '';
+    navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard ✓'));
+  }
+
+  function downloadStandup() {
+    if (!window._lastStandup) return;
+    const s = window._lastStandup;
+    const text = `SLACK\n====\n${s.slackFormat}\n\n\nTEAMS\n====\n${s.teamsFormat}\n\n\nEMAIL\n====\n${s.emailFormat}\n\n\nPLAIN TEXT\n====\n${s.bulletFormat}`;
+    const blob = new Blob([text], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'standup-formats.txt';
+    link.click();
+  }
+
+  function runDemo() {
+    const name = document.getElementById('userName').value.trim() || 'Alex';
+    const demoStandup = {
+      yesterday: [
+        "Shipped the new API rate-limiting middleware to staging — all tests passing, zero regressions",
+        "Completed code review on 3 PRs for the Q2 data pipeline refactor",
+        "Synced with the design team on the updated dashboard filters — spec is finalized"
+      ],
+      today: [
+        "Promote rate-limiting middleware to production after morning monitoring window",
+        "Start implementation of the new webhook retry logic (ticket #1847)",
+        "1:1 with manager at 2pm — bringing notes on Q2 capacity"
+      ],
+      blockers: ["Waiting on DevOps to provision the new staging environment for the EU region — needed before end of week"],
+      highlights: "Rate-limiting middleware ships to production today — this closes 4 weeks of work and unblocks the enterprise client onboarding.",
+      mood: "🟢 On track",
+      slackFormat: `*Daily Standup — ${name}* | ${new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})}\n\n*✅ Yesterday*\n• Shipped new API rate-limiting middleware to staging — all tests passing\n• Completed code review on 3 PRs for the Q2 data pipeline refactor\n• Finalized dashboard filter spec with design team\n\n*🎯 Today*\n• Promote rate-limiting middleware to production after morning monitoring\n• Start webhook retry logic implementation (ticket #1847)\n• 1:1 with manager at 2pm\n\n*🚧 Blockers*\n• Waiting on DevOps to provision EU staging environment — needed by EOW\n\n*⚡ Highlight*\nRate-limiting middleware ships today — closes 4 weeks of work, unblocks enterprise onboarding.\nMood: 🟢 On track`,
+      teamsFormat: `**Daily Standup — ${name}**\n📅 ${new Date().toLocaleDateString('en-US', {weekday:'long', month:'long', day:'numeric'})}\n\n**Yesterday**\n✓ Shipped API rate-limiting middleware to staging (all tests pass)\n✓ Reviewed 3 PRs for Q2 data pipeline refactor\n✓ Dashboard filter spec finalized with design\n\n**Today**\n→ Promote rate-limiting to production post-monitoring\n→ Begin webhook retry logic (ticket #1847)\n→ 1:1 with manager at 2pm\n\n**Blockers**\n⚠ Waiting on EU staging environment from DevOps\n\n**Status:** 🟢 On track`,
+      emailFormat: `Subject: Standup — ${name} — ${new Date().toLocaleDateString('en-US', {month:'short', day:'numeric'})}\n\nHi team,\n\nYesterday:\n- Shipped API rate-limiting middleware to staging with zero regressions\n- Code reviewed 3 PRs for the Q2 data pipeline refactor\n- Finalized dashboard filter spec with the design team\n\nToday:\n- Promoting rate-limiting middleware to production after morning monitoring\n- Starting webhook retry logic implementation (ticket #1847)\n- 1:1 with manager at 2pm\n\nBlockers:\n- Waiting on DevOps for EU staging environment provisioning — needed by end of week\n\n${name}`,
+      bulletFormat: `STANDUP — ${name.toUpperCase()} — ${new Date().toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'})}\n\nYESTERDAY\n• Shipped API rate-limiting middleware to staging (all tests passing)\n• Reviewed 3 PRs — Q2 data pipeline refactor\n• Finalized dashboard filter spec with design team\n\nTODAY\n• Promote rate-limiting to production post-monitoring window\n• Start webhook retry logic (ticket #1847)\n• 1:1 with manager @ 2pm\n\nBLOCKERS\n• Waiting on DevOps: EU staging environment provisioning needed by EOW\n\nSTATUS: 🟢 On track`
+    };
+    const outputArea = document.getElementById('outputArea');
+    renderStandup(demoStandup, name, outputArea);
+    outputArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  window.addEventListener('load', () => {
+    initMsal16();
+    const saved = localStorage.getItem('gemini_key');
+    if (saved) {
+      document.getElementById('geminiKey').value = saved;
+      document.getElementById('apiCard').classList.add('collapsed');
+    }
+    const name = localStorage.getItem('standup_name');
+    const context = localStorage.getItem('standup_context');
+    const range = localStorage.getItem('standup_range');
+    if (name) document.getElementById('userName').value = name;
+    if (context) document.getElementById('customContext').value = context;
+    if (range) document.getElementById('timeRange').value = range;
+  });
+</script>
+
+
+
+<!-- NAV FOOTER -->
+<footer style="border-top:1px solid var(--border);padding:24px 32px;margin-top:40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:13px">
+  <a href="day-15-contract-summarizer.html" style="color:var(--muted);text-decoration:none">← Day 15: Contract Summarizer</a>
+  <a href="index.html" style="color:var(--muted);text-decoration:none">All 20 Tools</a>
+  <a href="day-17-email-sequence.html" style="color:var(--muted);text-decoration:none">Day 17: Email Sequence →</a>
+</footer>
+<!-- AIMERSION PROFILE WIDGET -->
+<div id="ap-widget"><button id="ap-chip" onclick="apOpenModal()">👤 Set Profile</button></div>
+<div id="ap-modal"><div id="ap-modal-box">
+  <div id="ap-modal-header"><span>Your Profile</span><button onclick="apCloseModal()">✕</button></div>
+  <p id="ap-modal-sub">Saved once — auto-fills name, company &amp; role across all 20 tools.</p>
+  <input id="ap-name" type="text" placeholder="Your full name" autocomplete="name">
+  <input id="ap-company" type="text" placeholder="Company name" autocomplete="organization">
+  <input id="ap-role" type="text" placeholder="Your role (e.g. VP of Sales)" autocomplete="organization-title">
+  <div id="ap-modal-btns">
+    <button id="ap-save-btn" onclick="apSave()">💾 Save Profile</button>
+    <button id="ap-cancel-btn" onclick="apCloseModal()">Cancel</button>
+  </div>
+</div></div>
+<style>
+#ap-widget{position:fixed;top:70px;right:16px;z-index:8888;pointer-events:auto;}
+#ap-chip{background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.28);color:#22D3EE;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;letter-spacing:.02em;}
+#ap-chip:hover{background:rgba(8,145,178,0.24);border-color:rgba(8,145,178,0.55);transform:translateY(-1px);}
+#ap-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);align-items:center;justify-content:center;}
+#ap-modal.open{display:flex;}
+#ap-modal-box{background:#162840;border:1px solid #2A4A70;border-radius:14px;padding:32px 32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
+#ap-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+#ap-modal-header span{color:#F0F7FF;font-size:18px;font-weight:700;font-family:inherit;}
+#ap-modal-header button{background:none;border:none;color:#8AAFD0;font-size:20px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
+#ap-modal-header button:hover{color:#F0F7FF;}
+#ap-modal-sub{color:#8AAFD0;font-size:13px;margin:0 0 20px;font-family:inherit;line-height:1.5;}
+#ap-name,#ap-company,#ap-role{display:block;width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .15s;}
+#ap-name:focus,#ap-company:focus,#ap-role:focus{border-color:#0891B2;box-shadow:0 0 0 3px rgba(8,145,178,0.15);}
+#ap-name::placeholder,#ap-company::placeholder,#ap-role::placeholder{color:#8AAFD0;}
+#ap-modal-btns{display:flex;gap:10px;margin-top:8px;}
+#ap-save-btn{flex:1;background:#0891B2;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
+#ap-save-btn:hover{background:#0EA5C9;}
+#ap-cancel-btn{background:#1A2F52;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
+#ap-cancel-btn:hover{border-color:#0891B2;color:#F0F7FF;}
+</style>
+<script>
+(function(){
+  var KEY='aimersion_profile';
+  function gp(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+  function updateChip(){
+    var p=gp(),chip=document.getElementById('ap-chip');
+    if(chip)chip.textContent=p.name?'\u{1F464} '+p.name.split(' ')[0]:'\u{1F464} Set Profile';
+  }
+  function applyProfile(){
+    var p=gp();
+    if(!p.name&&!p.company&&!p.role)return;
+    var fills={
+      yourName:p.name,managerName:p.name,fullName:p.name,senderName:p.name,authorName:p.name,
+      repName:p.name,yourFirstName:p.name.split(' ')[0],
+      companyName:p.company,businessName:p.company,yourCompany:p.company,senderCompany:p.company,
+      userRole:p.role,yourRole:p.role,senderTitle:p.role,roleTitle:p.role
+    };
+    Object.keys(fills).forEach(function(id){
+      var el=document.getElementById(id);
+      if(el&&fills[id]&&!el.value)el.value=fills[id];
+    });
+  }
+  window.apOpenModal=function(){
+    var p=gp();
+    document.getElementById('ap-name').value=p.name||'';
+    document.getElementById('ap-company').value=p.company||'';
+    document.getElementById('ap-role').value=p.role||'';
+    document.getElementById('ap-modal').classList.add('open');
+    setTimeout(function(){document.getElementById('ap-name').focus();},50);
+  };
+  window.apCloseModal=function(){document.getElementById('ap-modal').classList.remove('open');};
+  window.apSave=function(){
+    var p={
+      name:document.getElementById('ap-name').value.trim(),
+      company:document.getElementById('ap-company').value.trim(),
+      role:document.getElementById('ap-role').value.trim()
+    };
+    if(!p.name&&!p.company){return;}
+    localStorage.setItem(KEY,JSON.stringify(p));
+    apCloseModal();updateChip();applyProfile();
+    if(typeof showToast==='function')showToast('Profile saved ✓','success');
+  };
+  document.getElementById('ap-modal').addEventListener('click',function(e){if(e.target===this)apCloseModal();});
+  document.getElementById('ap-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-company').focus();});
+  document.getElementById('ap-company').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-role').focus();});
+  document.getElementById('ap-role').addEventListener('keydown',function(e){if(e.key==='Enter')apSave();});
+  updateChip();
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyProfile);}
+  else{setTimeout(applyProfile,100);}
+  var p=gp();
+  if(!p.name&&!sessionStorage.getItem('ap_nudged')){
+    sessionStorage.setItem('ap_nudged','1');
+    setTimeout(function(){
+      if(typeof showToast==='function')showToast('\u{1F464} Set your profile — auto-fills all 20 tools','info');
+    },2800);
+  }
+})();
+</script>
+<!-- END AIMERSION PROFILE WIDGET -->
+
+</body>
+</html>

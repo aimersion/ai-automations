@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- SEO -->
+  <title>Free AI Weekly Status Report Generator — Outlook-Powered | Aimersion</title>
+  <meta name="description" content="Pulls your Outlook email and calendar activity for the week and generates a polished, shareable status report. Free. No login.">
+  <meta name="keywords" content="AI status report generator, weekly status report tool, Outlook status report, automated weekly report, AI report generator">
+  <link rel="canonical" href="https://aimersion.github.io/ai-automations/day-09-weekly-status.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://aimersion.github.io/ai-automations/day-09-weekly-status.html">
+  <meta property="og:title" content="Weekly Status Report — AI-Generated from Your Outlook Activity">
+  <meta property="og:description" content="Pulls your Outlook email and calendar activity for the week and generates a polished, shareable status report. Free. No login.">
+  <meta property="og:image" content="https://aimersion.github.io/ai-automations/apple-touch-icon.png">
+  <meta property="og:site_name" content="Aimersion AI Automations">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@jimlynchAI">
+  <meta name="twitter:title" content="Weekly Status Report — AI-Generated from Your Outlook Activity">
+  <meta name="twitter:description" content="Pulls your Outlook email and calendar activity for the week and generates a polished, shareable status report. Free. No login.">
+  <meta name="twitter:image" content="https://aimersion.github.io/ai-automations/apple-touch-icon.png">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Weekly Status Report — AI-Generated from Your Outlook Activity",
+    "description": "AI tool that pulls Outlook activity and generates polished weekly status reports automatically.",
+    "url": "https://aimersion.github.io/ai-automations/day-09-weekly-status.html",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web Browser",
+    "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+    "author": {"@type": "Organization", "name": "Aimersion", "url": "https://aimersion.ai"}
+  }
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080E1A">
+
+  <!-- Open Graph -->
+
+  <!-- Twitter Card -->
+
+  <!-- Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-69LQQBX0C1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-69LQQBX0C1');
+  </script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init','876506382017154');
+    fbq('track','PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=876506382017154&ev=PageView&noscript=1"/></noscript>
+
+  <!-- LinkedIn Insight Tag -->
+  <script type="text/javascript">
+    _linkedin_partner_id="514319631";
+    window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];
+    window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+  </script>
+  <script type="text/javascript">
+    (function(l){if(!l){window.lintrk=function(a,b){window.lintrk.q.push([a,b])};window.lintrk.q=[]}var s=document.getElementsByTagName("script")[0];var b=document.createElement("script");b.type="text/javascript";b.async=true;b.src="https://snap.licdn.com/li.lms-analytics/insight.min.js";s.parentNode.insertBefore(b,s);})(window.lintrk);
+  </script>
+  <noscript><img height="1" width="1" style="display:none;" alt="" src="https://px.ads.linkedin.com/collect/?pid=514319631&fmt=gif"/></noscript>
+
+  <!-- X Pixel -->
+  <script>
+    !function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');
+    twq('config','tw-r848k-r848k');
+  </script>
+
+  <!-- MSAL.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js" onerror="(function(){var s=document.createElement('script');s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';document.head.appendChild(s);})()"></script>
+
+  <!-- Inter Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #080E1A;
+      --surface: #0F1829;
+      --surface2: #152035;
+      --border: #1E3050;
+      --border-bright: #2A4A70;
+      --orange: #EA580C;
+      --orange-dim: rgba(234, 88, 12, 0.12);
+      --orange-glow: rgba(234, 88, 12, 0.3);
+      --teal: #06B6D4;
+      --teal-dim: rgba(6, 182, 212, 0.12);
+      --amber: #F59E0B;
+      --amber-dim: rgba(245, 158, 11, 0.12);
+      --green: #10B981;
+      --green-dim: rgba(16, 185, 129, 0.12);
+      --red: #EF4444;
+      --red-dim: rgba(239, 68, 68, 0.12);
+      --white: #F1F5F9;
+      --muted: #64748B;
+      --muted2: #94A3B8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Sticky Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: linear-gradient(to bottom, var(--surface), rgba(15, 24, 41, 0.8));
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .header-left a {
+      color: var(--muted2);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .header-left a:hover {
+      color: var(--orange);
+    }
+
+    .header-center {
+      background: var(--orange-dim);
+      border: 1px solid var(--border-bright);
+      padding: 0.375rem 0.875rem;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--orange);
+    }
+
+    .header-right {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    /* Hero Section */
+    .hero {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .day-label {
+      color: var(--muted2);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      background: linear-gradient(to bottom, var(--white), var(--muted2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    h1 span {
+      color: var(--orange);
+      -webkit-text-fill-color: var(--orange);
+    }
+
+    .tagline {
+      font-size: 1.125rem;
+      color: var(--muted2);
+      margin-bottom: 2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.8;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* Card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--border-bright);
+      background: var(--surface2);
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .card h2 .toggle-icon {
+      font-size: 1rem;
+      transition: transform 0.2s;
+    }
+
+    .card h2.collapsed .toggle-icon {
+      transform: rotate(-90deg);
+    }
+
+    .card.collapsed .card-content {
+      display: none;
+    }
+
+    .card-content {
+      display: block;
+    }
+
+    /* Form Elements */
+    input[type="text"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: inherit;
+      font-size: 14px;
+      margin-bottom: 1rem;
+      transition: all 0.2s;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--orange);
+      background: var(--surface2);
+      box-shadow: 0 0 0 3px var(--orange-dim);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    /* Buttons */
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, var(--orange), #FF6B35);
+      color: white;
+      width: 100%;
+      justify-content: center;
+      font-size: 16px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px var(--orange-glow);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: var(--surface2);
+      border: 1px solid var(--border-bright);
+      color: var(--teal);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface);
+      border-color: var(--teal);
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      font-size: 13px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    /* Connection Status */
+    .connection-status {
+      background: var(--orange-dim);
+      border: 1px solid var(--orange);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .connection-status.success {
+      background: var(--green-dim);
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .connection-status.error {
+      background: var(--red-dim);
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* Week Summary */
+    .week-summary {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 14px;
+      color: var(--muted2);
+    }
+
+    /* Data Lists */
+    .meetings-list,
+    .emails-list {
+      margin-bottom: 1.5rem;
+    }
+
+    .meetings-list h3,
+    .emails-list h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+
+    .meeting-item,
+    .email-item {
+      background: var(--surface2);
+      border-left: 3px solid var(--border-bright);
+      padding: 0.75rem 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 4px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .meeting-item {
+      border-left-color: var(--teal);
+    }
+
+    .email-item {
+      border-left-color: var(--amber);
+    }
+
+    .item-title {
+      font-weight: 500;
+      color: var(--white);
+      flex: 1;
+    }
+
+    .item-date {
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: 1rem;
+      white-space: nowrap;
+    }
+
+    /* Output Section */
+    .output-section {
+      background: var(--surface2);
+      border: 1px solid var(--border-bright);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      display: none;
+    }
+
+    .output-section.active {
+      display: block;
+    }
+
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .output-header h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    .output-body {
+      color: var(--muted2);
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      font-size: 15px;
+      white-space: pre-wrap;
+    }
+
+    /* Toast Notifications */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--surface);
+      border: 1px solid var(--border-bright);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      color: var(--white);
+      z-index: 2000;
+      animation: slideIn 0.3s ease-out;
+      max-width: 400px;
+    }
+
+    .toast.success {
+      border-left: 4px solid var(--green);
+    }
+
+    .toast.error {
+      border-left: 4px solid var(--red);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Loading State */
+    .loading-dots {
+      display: inline-block;
+    }
+
+    .loading-dots::after {
+      content: '.';
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+
+    @keyframes dots {
+      0%, 20% { content: ''; }
+      40% { content: '.'; }
+      60% { content: '..'; }
+      80%, 100% { content: '...'; }
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      margin-top: 4rem;
+      text-align: center;
+    }
+
+    .nav-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--teal);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--orange);
+    }
+
+    .share-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+    }
+
+    .share-btn:hover {
+      background: var(--surface);
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    .footer-text {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .header-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .stats {
+        gap: 1rem;
+      }
+
+      .stat-value {
+        font-size: 1.25rem;
+      }
+
+      .container {
+        padding: 1.5rem 1rem;
+      }
+
+      .toast {
+        right: 1rem;
+        left: 1rem;
+        max-width: none;
+      }
+
+      .meeting-item,
+      .email-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .item-date {
+        margin-left: 0;
+        margin-top: 0.5rem;
+      }
+    }
+  
+    /* ── Standardized input styling ── */
+    input[type="text"], input[type="password"], input[type="email"],
+    input[type="url"], input[type="number"], input[type="search"],
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+    textarea, select {
+      background: #0D1B2E !important;
+      border: 1px solid #1E3A5F !important;
+      border-radius: 8px !important;
+      color: #E2E8F0 !important;
+      font-family: inherit !important;
+      font-size: 14px !important;
+      padding: 10px 14px !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      transition: border-color 0.2s !important;
+      outline: none !important;
+    }
+    input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus,
+    input[type="url"]:focus, input[type="number"]:focus, input[type="search"]:focus,
+    input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="submit"]):not([type="button"]):not([type="reset"]):focus,
+    textarea:focus, select:focus {
+      border-color: #0EA5E9 !important;
+      box-shadow: 0 0 0 3px rgba(14,165,233,0.15) !important;
+    }
+    input::placeholder, textarea::placeholder {
+      color: #64748B !important;
+    }
+    select option {
+      background: #0D1B2E;
+      color: #E2E8F0;
+    }
+  </style>
+</head>
+<body>
+  <!-- ═══ UNIVERSAL SETUP BANNER ═══ -->
+  <div id="__setupBanner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;background:linear-gradient(135deg,#0F1829 0%,#080E1A 100%);border-bottom:1px solid #1E293B;box-shadow:0 4px 32px rgba(0,0,0,0.5);padding:0;overflow:hidden;">
+    <div style="max-width:700px;margin:0 auto;padding:1.5rem 1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+        <div>
+          <div style="font-size:0.7rem;font-weight:700;letter-spacing:2px;color:#EA580C;text-transform:uppercase;margin-bottom:0.25rem;">Quick Setup</div>
+          <div style="font-weight:800;font-size:1rem;color:#F1F5F9;">Two steps to get started</div>
+        </div>
+        <button onclick="document.getElementById('__setupBanner').style.display='none'" style="background:transparent;border:1px solid #1E293B;color:#94A3B8;padding:0.4rem 0.75rem;border-radius:6px;cursor:pointer;font-size:0.75rem;">✕ dismiss</button>
+      </div>
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <!-- Step 1: Gemini key -->
+        <div id="__step1" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;">
+          <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+            <span id="__s1icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">1</span>
+            Free Gemini API Key
+          </div>
+          <div style="display:flex;gap:0.5rem;">
+            <input id="__geminiInput" type="password" placeholder="Paste key (AIza...)" style="flex:1;padding:0.5rem 0.75rem;background:#0F1829;border:1px solid #1E293B;border-radius:6px;color:#F1F5F9;font-size:0.8rem;min-width:0;" oninput="__checkSetup()">
+            <button onclick="__saveGeminiKey()" style="padding:0.5rem 0.75rem;background:#EA580C;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Save</button>
+          </div>
+          <a href="https://aistudio.google.com/apikey" target="_blank" style="font-size:0.7rem;color:#06B6D4;display:inline-block;margin-top:0.4rem;">→ Get free key at aistudio.google.com</a>
+        </div>
+        <!-- Step 2: Outlook -->
+        <div id="__step2" style="flex:1;min-width:220px;background:#162035;border:1px solid #1E293B;border-radius:10px;padding:1rem;opacity:0.55;transition:opacity 0.3s;">
+          <div style="font-size:0.75rem;font-weight:700;color:#94A3B8;margin-bottom:0.6rem;display:flex;align-items:center;gap:0.4rem;">
+            <span id="__s2icon" style="width:20px;height:20px;border-radius:50%;background:#1E293B;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;color:#94A3B8;">2</span>
+            Connect Outlook
+          </div>
+          <button id="__outlookBtn" onclick="__connectOutlook()" style="width:100%;padding:0.5rem 0.75rem;background:#06B6D4;border:none;border-radius:6px;color:#fff;font-weight:700;cursor:pointer;font-size:0.8rem;">
+            📧 Connect Outlook Account
+          </button>
+          <div id="__outlookStatus" style="font-size:0.7rem;color:#94A3B8;margin-top:0.4rem;min-height:1rem;"></div>
+        </div>
+        <!-- Or: Demo -->
+        <div style="display:flex;align-items:center;justify-content:center;padding:0 0.5rem;">
+          <div style="text-align:center;">
+            <div style="font-size:0.65rem;color:#94A3B8;margin-bottom:0.35rem;">or skip setup</div>
+            <button onclick="__runPageDemo()" style="padding:0.5rem 1rem;background:transparent;border:1px solid #1E293B;border-radius:6px;color:#94A3B8;cursor:pointer;font-size:0.75rem;white-space:nowrap;">▶ Try Demo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="__setupSpacer" style="display:none;height:170px;"></div>
+
+  <script>
+  (function(){
+    // ── Universal setup helper ──
+    function __showToast(msg,dur=3000){let t=document.getElementById('_toast');if(!t){t=document.createElement('div');t.id='_toast';t.style.cssText='display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#0F1829;border:1px solid #1E293B;border-radius:10px;padding:0.85rem 1.5rem;font-size:0.875rem;font-weight:600;z-index:99999;box-shadow:0 8px 32px rgba(0,0,0,0.4);color:#F1F5F9;transition:opacity 0.3s;';document.body.appendChild(t);}t.textContent=msg;t.style.display='block';t.style.opacity='1';clearTimeout(t._tmr);t._tmr=setTimeout(()=>{t.style.opacity='0';setTimeout(()=>{t.style.display='none';},300);},dur);}
+    window.__showToast = __showToast;
+
+    function __checkSetup(){
+      const hasKey=!!localStorage.getItem('gemini_key');
+      const hasAccount=typeof msalInstance!=='undefined'&&msalInstance&&msalInstance.getAllAccounts&&msalInstance.getAllAccounts().length>0;
+      // Mark step 1
+      const s1=document.getElementById('__step1');
+      const s1icon=document.getElementById('__s1icon');
+      if(hasKey){s1.style.borderColor='#10B981';s1icon.style.background='#10B981';s1icon.style.color='#fff';s1icon.textContent='✓';document.getElementById('__step2').style.opacity='1';}
+      // Mark step 2
+      const s2=document.getElementById('__step2');
+      const s2icon=document.getElementById('__s2icon');
+      if(hasAccount){s2.style.borderColor='#10B981';s2icon.style.background='#10B981';s2icon.style.color='#fff';s2icon.textContent='✓';const acc=msalInstance.getAllAccounts()[0];document.getElementById('__outlookStatus').innerHTML='<span style="color:#10B981">✓ '+acc.username+'</span>';document.getElementById('__outlookBtn').style.display='none';}
+      // Hide banner if both done
+      if(hasKey&&hasAccount){setTimeout(()=>{document.getElementById('__setupBanner').style.display='none';document.getElementById('__setupSpacer').style.display='none';},600);}
+    }
+    window.__checkSetup=__checkSetup;
+
+    function __saveGeminiKey(){
+      const v=document.getElementById('__geminiInput').value.trim();
+      if(!v){__showToast('⚠️ Paste your Gemini API key first');return;}
+      localStorage.setItem('gemini_key',v);
+      // Also set in any existing key input on the page
+      ['geminiKey','gemini-key','apiKey','api-key','geminiApiKey'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=v;});
+      __showToast('✅ Key saved — good across all 20 tools!');
+      __checkSetup();
+    }
+    window.__saveGeminiKey=__saveGeminiKey;
+
+    async function __connectOutlook(){
+      const btn=document.getElementById('__outlookBtn');
+      const status=document.getElementById('__outlookStatus');
+      btn.textContent='⏳ Connecting...';
+      btn.disabled=true;
+      status.textContent='Opening Microsoft login...';
+      try{
+        // Try the page's own login/connect function first
+        const fns=['login','connectMicrosoft','connectOutlook','handleConnect','handleSignIn','loginOutlook'];
+        for(const fn of fns){if(typeof window[fn]==='function'){await window[fn]();break;}}
+        setTimeout(__checkSetup,1000);
+      }catch(e){
+        btn.textContent='📧 Connect Outlook Account';
+        btn.disabled=false;
+        status.textContent='';
+        __showToast('❌ Connection failed — try again');
+      }
+    }
+    window.__connectOutlook=__connectOutlook;
+
+    function __runPageDemo(){
+      document.getElementById('__setupBanner').style.display='none';
+      document.getElementById('__setupSpacer').style.display='none';
+      const fns=['runDemo','loadDemo','loadDemoData','loadDemoContent','showDemo'];
+      for(const fn of fns){if(typeof window[fn]==='function'){window[fn]();return;}}
+      __showToast('ℹ️ No demo available — set up your keys above to get started');
+      document.getElementById('__setupBanner').style.display='block';
+      document.getElementById('__setupSpacer').style.display='block';
+    }
+    window.__runPageDemo=__runPageDemo;
+
+    // Pre-fill key if already saved
+    const savedKey=localStorage.getItem('gemini_key');
+    if(savedKey){document.getElementById('__geminiInput').value=savedKey;}
+
+    // Show banner if setup incomplete — wait for MSAL to init
+    function __maybeShowBanner(){
+      const hasKey=!!localStorage.getItem('gemini_key');
+      const hasAccount=typeof msalInstance!=='undefined'&&msalInstance&&msalInstance.getAllAccounts&&msalInstance.getAllAccounts().length>0;
+      if(!hasKey||!hasAccount){
+        document.getElementById('__setupBanner').style.display='block';
+        document.getElementById('__setupSpacer').style.display='block';
+        __checkSetup();
+      }
+    }
+    // Run after page + MSAL are ready
+    if(document.readyState==='complete'){setTimeout(__maybeShowBanner,800);}
+    else{window.addEventListener('load',function(){setTimeout(__maybeShowBanner,800);});}
+  })();
+  </script>
+  <!-- ═══ END SETUP BANNER ═══ -->
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="header-container">
+      <div class="header-left">
+        <a href="index.html">← All Tools</a>
+      </div>
+      <div class="header-center">DAY 9 OF 20</div>
+      <div class="header-right"></div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="day-label">DAY 9 OF 20</div>
+      <h1>Weekly Status <span>Report Writer</span></h1>
+      <p class="tagline">Stop writing your weekly update from memory. Connect Outlook and your calendar — AI reads your week and writes the report for you.</p>
+
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-value">5 min → 30 sec</div>
+          <div class="stat-label">Time saved</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">✓</div>
+          <div class="stat-label">Reads your real week</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">✓</div>
+          <div class="stat-label">Sends via Outlook</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gemini API Key Card -->
+    <div class="card">
+      <h2>
+        <span>🔑 Gemini API Key</span>
+        <span class="toggle-icon">▼</span>
+      </h2>
+      <div class="card-content">
+        <p style="font-size: 14px; color: var(--muted2); margin-bottom: 1rem;">
+          Needed for AI to synthesize your report. Free tier available at <a href="https://ai.google.dev" target="_blank" style="color: var(--teal);">ai.google.dev</a>
+        </p>
+        <input type="text" id="geminiKey" placeholder="Enter your Gemini API key (kept locally, never sent anywhere else)" style="margin-bottom: 0;">
+        <div style="font-size: 12px; color: var(--muted); margin-top: 0.5rem;">
+          💡 Keys are stored in your browser. Not sent to any server except Google.
+        </div>
+      </div>
+    </div>
+
+    <!-- Connect Outlook + Calendar Card -->
+    <div class="card">
+      <h2>
+        <span>📧 Connect Outlook + Calendar</span>
+      </h2>
+      <div class="card-content">
+        <div id="connectionStatus"></div>
+        <button class="btn-primary" id="connectBtn" onclick="handleConnect()">
+          🔗 Connect Microsoft Account
+        </button>
+        <div id="scopesDisplay" style="display: none; margin-top: 1rem;">
+          <div style="font-size: 14px; color: var(--muted2); margin-bottom: 0.75rem;">Access granted:</div>
+          <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span id="mailStatus">○</span>
+              <span style="font-size: 14px;">📧 Mail access</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span id="calStatus">○</span>
+              <span style="font-size: 14px;">📅 Calendar access</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your Week at a Glance Card -->
+    <div class="card">
+      <h2>
+        <span>📊 Your Week at a Glance</span>
+        <button class="btn-small btn-secondary" id="refreshBtn" onclick="pullWeekData()" style="display: none;">Refresh</button>
+      </h2>
+      <div class="card-content">
+        <p style="font-size: 14px; color: var(--muted2); margin-bottom: 1rem;">
+          Once connected, pull your sent emails and calendar from the past 7 days to see what you actually accomplished.
+        </p>
+        <button class="btn-primary" id="pullBtn" onclick="pullWeekData()" disabled>
+          📅 Pull My Week
+        </button>
+
+        <div id="weekData" style="display: none;">
+          <div class="week-summary" id="weekSummary"></div>
+
+          <div class="meetings-list" id="meetingsList"></div>
+          <div class="emails-list" id="emailsList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Context Card -->
+    <div class="card">
+      <h2>
+        <span>💭 Add Context</span>
+      </h2>
+      <div class="card-content">
+        <p style="font-size: 14px; color: var(--muted2); margin-bottom: 1rem;">
+          Anything to add that's not in your email or calendar? Key wins, blockers, decisions made, things to flag...
+        </p>
+        <textarea id="contextArea" placeholder="Share any additional context here..."></textarea>
+      </div>
+    </div>
+
+    <!-- Report Settings Card -->
+    <div class="card">
+      <h2>
+        <span>⚙️ Report Settings</span>
+      </h2>
+      <div class="card-content">
+        <label style="display: block; margin-bottom: 0.5rem; font-size: 14px; font-weight: 500; color: var(--muted2);">Audience</label>
+        <select id="audience" style="margin-bottom: 1.5rem;">
+          <option value="manager">For my manager</option>
+          <option value="team">For my team</option>
+          <option value="client">For a client update</option>
+          <option value="notes">For myself (notes)</option>
+        </select>
+
+        <label style="display: block; margin-bottom: 0.5rem; font-size: 14px; font-weight: 500; color: var(--muted2);">Tone</label>
+        <select id="tone" style="margin-bottom: 1.5rem;">
+          <option value="professional">Professional</option>
+          <option value="casual">Casual and direct</option>
+          <option value="executive">Executive summary</option>
+        </select>
+
+        <label style="display: block; margin-bottom: 0.5rem; font-size: 14px; font-weight: 500; color: var(--muted2);">Send to (optional)</label>
+        <input type="email" id="sendTo" placeholder="email@example.com" style="margin-bottom: 0;">
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="btn-group" style="margin: 2rem 0;">
+      <button class="btn-primary" onclick="generateReport()" style="width: 70%;">
+        ⚡ Generate My Weekly Report
+      </button>
+      <button class="btn-secondary" onclick="runDemo()" style="width: 30%; justify-content: center;">
+        ▶ Run Demo
+      </button>
+    </div>
+
+    <!-- Output Section -->
+    <div class="output-section" id="output">
+      <div class="output-header">
+        <h3>Your Weekly Report</h3>
+        <div class="btn-group">
+          <button class="btn-secondary btn-small" onclick="copyReport()">📋 Copy</button>
+          <button class="btn-secondary btn-small" id="sendBtn" onclick="sendReport()">✉️ Send via Outlook</button>
+        </div>
+      </div>
+      <div class="output-body" id="reportBody"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="nav-links">
+      <a href="day-08-followup-machine.html">← Day 8: Follow-Up Machine</a>
+      <span style="color: var(--border);">|</span>
+      <a href="day-10-cold-outreach.html">Day 10: Cold Outreach Personalizer →</a>
+    </div>
+    <div class="share-buttons">
+      <button class="share-btn" title="Share on X" onclick="share('x')">𝕏</button>
+      <button class="share-btn" title="Share on LinkedIn" onclick="share('linkedin')">in</button>
+      <button class="share-btn" title="Share on Facebook" onclick="share('facebook')">f</button>
+      <button class="share-btn" title="Copy link" onclick="share('copy')">🔗</button>
+    </div>
+    <p class="footer-text">
+      Part of the 20 AI Tools in 20 Days series by <a href="https://aimersion.ai" style="color: var(--teal); text-decoration: none;">Aimersion</a>
+    </p>
+  </footer>
+
+  <script>
+    // ========== CONFIG ==========
+    const AZURE_CLIENT_ID = '0bd4af4c-6b02-481f-8c36-b2899333f44d';
+    const MS_SCOPES = [
+      'https://graph.microsoft.com/Mail.Read',
+      'https://graph.microsoft.com/Mail.Send',
+      'https://graph.microsoft.com/Calendars.Read',
+      'https://graph.microsoft.com/User.Read'
+    ];
+
+    // ========== STATE ==========
+    let msalInstance = null;
+    let msAccount = null;
+    let weekData = { emails: [], events: [], emailCount: 0, eventCount: 0 };
+    let currentToken = null;
+
+    const LOADER_FRAMES_D9 = [
+      { emoji: '📊', msg: 'Reviewing your week...' },
+      { emoji: '🏆', msg: 'Counting your wins...' },
+      { emoji: '📝', msg: 'Summarizing what got done...' },
+      { emoji: '🎯', msg: 'Identifying next week\'s focus...' },
+      { emoji: '✨', msg: 'Making you look great in front of leadership...' },
+      { emoji: '🚀', msg: 'Your status report is almost ready...' }
+    ];
+
+    let loaderInterval = null;
+    let loaderIdx = 0;
+
+    function startLoader() {
+      const out = document.getElementById('reportOutput');
+      if (!out) return;
+      loaderIdx = 0;
+      out.innerHTML = `<div style="text-align: center; padding: 40px; color: var(--muted2);">
+        <div style="font-size: 3rem; margin-bottom: 1rem; animation: bounce 0.7s ease-in-out infinite alternate;" id="loaderEmoji">📊</div>
+        <div style="font-size: 1rem; color: var(--teal-light); font-weight: 500; transition: opacity 0.4s;" id="loaderMsg">Reviewing your week...</div>
+      </div>
+      <style>
+        @keyframes bounce { from { transform: translateY(0) scale(1); } to { transform: translateY(-10px) scale(1.1); } }
+      </style>`;
+      loaderInterval = setInterval(() => {
+        const frame = LOADER_FRAMES_D9[loaderIdx % LOADER_FRAMES_D9.length];
+        const emEl = document.getElementById('loaderEmoji');
+        const msgEl = document.getElementById('loaderMsg');
+        if (emEl) emEl.textContent = frame.emoji;
+        if (msgEl) { msgEl.style.opacity = 0; setTimeout(() => { msgEl.textContent = frame.msg; msgEl.style.opacity = 1; }, 200); }
+        loaderIdx++;
+      }, 2200);
+    }
+
+    function stopLoader() {
+      if (loaderInterval) clearInterval(loaderInterval);
+    }
+
+    // ========== INIT ==========
+    async function init() {
+      await initMsal();
+      updateConnectButton();
+      // Pre-fill page-level API key input from localStorage
+      const savedKey = localStorage.getItem('gemini_key');
+      if (savedKey) {
+        const el = document.getElementById('geminiKey');
+        if (el && !el.value) el.value = savedKey;
+      }
+    }
+
+    async function initMsal() {
+      if (msalInstance) return;
+      msalInstance = new msal.PublicClientApplication({
+        auth: {
+          clientId: AZURE_CLIENT_ID,
+          authority: 'https://login.microsoftonline.com/common',
+          redirectUri: 'https://aimersion.github.io/ai-automations/auth.html'
+        },
+        cache: { cacheLocation: 'sessionStorage' }
+      });
+      await msalInstance.initialize();
+      const accounts = msalInstance.getAllAccounts();
+      if (accounts.length > 0) {
+        msAccount = accounts[0];
+        updateConnectButton();
+      }
+    }
+
+    // ========== MICROSOFT AUTH ==========
+    async function handleConnect() {
+      try {
+        if (msAccount) {
+          msAccount = null;
+          updateConnectButton();
+          showToast('Disconnected from Outlook', 'success');
+          return;
+        }
+
+        const result = await msalInstance.acquireTokenPopup({
+          scopes: MS_SCOPES
+        });
+
+        const accounts = msalInstance.getAllAccounts();
+        if (accounts.length > 0) {
+          msAccount = accounts[0];
+          currentToken = result.accessToken;
+          updateConnectButton();
+          showToast('Connected! Pull your week to get started.', 'success');
+        }
+      } catch (error) {
+        showToast('Connection failed: ' + error.message, 'error');
+      }
+    }
+
+    async function getMsToken() {
+      if (!msAccount) return null;
+      try {
+        const r = await msalInstance.acquireTokenSilent({
+          scopes: MS_SCOPES,
+          account: msAccount
+        });
+        return r.accessToken;
+      } catch {
+        const r = await msalInstance.acquireTokenPopup({
+          scopes: MS_SCOPES,
+          account: msAccount
+        });
+        return r.accessToken;
+      }
+    }
+
+    function updateConnectButton() {
+      const btn = document.getElementById('connectBtn');
+      const status = document.getElementById('connectionStatus');
+      const scopes = document.getElementById('scopesDisplay');
+
+      if (msAccount) {
+        btn.textContent = `✓ Connected as ${msAccount.username}`;
+        btn.style.background = 'linear-gradient(to right, #10B981, #059669)';
+        status.innerHTML = `<div class="connection-status success">✓ Connected to Outlook</div>`;
+        scopes.style.display = 'block';
+        document.getElementById('pullBtn').disabled = false;
+        document.getElementById('mailStatus').textContent = '✓';
+        document.getElementById('mailStatus').style.color = 'var(--green)';
+        document.getElementById('calStatus').textContent = '✓';
+        document.getElementById('calStatus').style.color = 'var(--green)';
+      } else {
+        btn.textContent = '🔗 Connect Microsoft Account';
+        btn.style.background = 'linear-gradient(to right, var(--orange), #FF6B35)';
+        status.innerHTML = '';
+        scopes.style.display = 'none';
+        document.getElementById('pullBtn').disabled = true;
+      }
+    }
+
+    // ========== MICROSOFT GRAPH CALLS ==========
+    async function getSentEmails(token) {
+      const since = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const url = `https://graph.microsoft.com/v1.0/me/mailFolders/SentItems/messages?$filter=sentDateTime ge ${since}&$top=20&$select=subject,toRecipients,sentDateTime,bodyPreview&$orderby=sentDateTime desc`;
+      try {
+        const resp = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        return data.value || [];
+      } catch (err) {
+        console.error('Failed to fetch emails:', err);
+        return [];
+      }
+    }
+
+    async function getCalendarEvents(token) {
+      const start = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+      const end = new Date().toISOString();
+      const url = `https://graph.microsoft.com/v1.0/me/calendarView?startDateTime=${start}&endDateTime=${end}&$select=subject,start,end,attendees,organizer&$top=50&$orderby=start/dateTime asc`;
+      try {
+        const resp = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        return data.value || [];
+      } catch (err) {
+        console.error('Failed to fetch events:', err);
+        return [];
+      }
+    }
+
+    async function sendViaOutlook(to, subject, body, token) {
+      try {
+        const resp = await fetch('https://graph.microsoft.com/v1.0/me/sendMail', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: {
+              subject,
+              body: { contentType: 'Text', content: body },
+              toRecipients: [{ emailAddress: { address: to } }]
+            }
+          })
+        });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        return true;
+      } catch (err) {
+        console.error('Failed to send email:', err);
+        return false;
+      }
+    }
+
+    // ========== PULL WEEK DATA ==========
+    async function pullWeekData() {
+      if (!msAccount) {
+        showToast('Please connect Outlook first', 'error');
+        return;
+      }
+
+      const pullBtn = document.getElementById('pullBtn');
+      const refreshBtn = document.getElementById('refreshBtn');
+      pullBtn.disabled = true;
+      pullBtn.textContent = 'Reading your calendar' + document.querySelector('.loading-dots')?.outerHTML || '...';
+
+      try {
+        const token = await getMsToken();
+        if (!token) throw new Error('No token');
+
+        const emails = await getSentEmails(token);
+        const events = await getCalendarEvents(token);
+
+        weekData.emails = emails;
+        weekData.events = events;
+        weekData.emailCount = emails.length;
+        weekData.eventCount = events.length;
+
+        renderWeekData();
+        document.getElementById('weekData').style.display = 'block';
+        refreshBtn.style.display = 'inline-block';
+        pullBtn.textContent = '📅 Pull My Week';
+        pullBtn.disabled = false;
+        showToast('Week data loaded! Ready to generate your report.', 'success');
+      } catch (err) {
+        pullBtn.textContent = '📅 Pull My Week';
+        pullBtn.disabled = false;
+        showToast('Failed to load week data: ' + err.message, 'error');
+      }
+    }
+
+    function renderWeekData() {
+      const now = new Date();
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const dateRange = `${weekAgo.toLocaleDateString()} – ${now.toLocaleDateString()}`;
+
+      document.getElementById('weekSummary').innerHTML = `
+        <strong>${weekData.emailCount}</strong> emails sent ·
+        <strong>${weekData.eventCount}</strong> meetings attended ·
+        Week of <strong>${dateRange}</strong>
+      `;
+
+      const meetingHtml = weekData.events.slice(0, 8).map(e => {
+        const start = new Date(e.start.dateTime);
+        const dateStr = start.toLocaleDateString('en', { month: 'short', day: 'numeric' });
+        return `<div class="meeting-item"><span class="item-title">${e.subject}</span><span class="item-date">${dateStr}</span></div>`;
+      }).join('');
+      document.getElementById('meetingsList').innerHTML = `<h3>📅 Meetings</h3>${meetingHtml || '<p style="color: var(--muted);">No meetings</p>'}`;
+
+      const emailHtml = weekData.emails.slice(0, 10).map(e => {
+        const sent = new Date(e.sentDateTime);
+        const dateStr = sent.toLocaleDateString('en', { month: 'short', day: 'numeric' });
+        return `<div class="email-item"><span class="item-title">${e.subject}</span><span class="item-date">${dateStr}</span></div>`;
+      }).join('');
+      document.getElementById('emailsList').innerHTML = `<h3>📧 Sent Emails</h3>${emailHtml || '<p style="color: var(--muted);">No emails</p>'}`;
+    }
+
+    // ========== GENERATE REPORT ==========
+    async function generateReport() {
+      const geminiKey = document.getElementById('geminiKey').value.trim();
+      if (!geminiKey) {
+        showToast('Please enter your Gemini API key first', 'error');
+        return;
+      }
+
+      if (weekData.emailCount === 0 && weekData.eventCount === 0) {
+        showToast('Please pull your week first, or run the demo', 'error');
+        return;
+      }
+
+      const audience = document.getElementById('audience').value;
+      const tone = document.getElementById('tone').value;
+      const context = document.getElementById('contextArea').value;
+
+      const prompt = buildPrompt(audience, tone, context);
+
+      startLoader();
+
+      try {
+        const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=' + geminiKey, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: prompt
+              }]
+            }],
+            generationConfig: {
+              temperature: 0.7,
+              maxOutputTokens: 1500
+            }
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error('Gemini API error: ' + response.status);
+        }
+
+        const data = await response.json();
+        const content = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+        if (!content) {
+          throw new Error('No content from Gemini');
+        }
+
+        stopLoader();
+
+        // Strip markdown code fences (```json ... ```) before parsing
+        const cleanContent = content.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/i, '').trim();
+        try {
+          const parsed = JSON.parse(cleanContent);
+          displayReport(parsed.report, parsed.subject || 'Weekly Update');
+        } catch {
+          displayReport(cleanContent, 'Weekly Update');
+        }
+
+        showToast('Report generated! Ready to review and send.', 'success');
+      } catch (err) {
+        stopLoader();
+        showToast('Failed to generate report: ' + err.message, 'error');
+      }
+    }
+
+    function buildPrompt(audience, tone, context) {
+      const emailTexts = weekData.emails.map(e => `- "${e.subject}" (sent to ${e.toRecipients?.map(r => r.emailAddress.name).join(', ') || 'unknown'})`).join('\n');
+      const eventTexts = weekData.events.map(e => `- "${e.subject}" on ${new Date(e.start.dateTime).toLocaleDateString()}`).join('\n');
+
+      let audienceDesc = {
+        manager: 'my manager, focusing on business impact and progress',
+        team: 'my team, emphasizing collaboration and shared wins',
+        client: 'a client, highlighting deliverables and value delivered',
+        notes: 'myself as personal notes for my own records'
+      }[audience] || 'my manager';
+
+      let toneDesc = {
+        professional: 'professional and formal',
+        casual: 'casual and direct',
+        executive: 'an executive summary style'
+      }[tone] || 'professional';
+
+      return `You are a professional business writer. Generate a weekly status report based on the following data:
+
+SENT EMAILS (last 7 days):
+${emailTexts || '(none)'}
+
+CALENDAR EVENTS (last 7 days):
+${eventTexts || '(none)'}
+
+ADDITIONAL CONTEXT:
+${context || '(none provided)'}
+
+Create a polished weekly status report for ${audienceDesc}, written in a ${toneDesc} tone.
+
+Format the response as JSON with these fields:
+{
+  "subject": "Weekly Update — Week of [date range]",
+  "report": "The full report text, formatted with sections like THIS WEEK, KEY ACCOMPLISHMENTS, IN PROGRESS, BLOCKERS, and NEXT WEEK. Make it feel like a real professional update.",
+  "headline": "A one-sentence summary of the week's highlights"
+}
+
+The report should:
+- Be concise but substantial (3-5 paragraphs)
+- Highlight real accomplishments from the emails and meetings
+- Show progress on ongoing work
+- Be honest about blockers or challenges
+- Include a clear sense of what's next
+- Feel professional and polished`;
+    }
+
+    function formatReportToHTML(text) {
+      if (!text) return '<p style="color:var(--muted)">No report content.</p>';
+      const SECTIONS = ['THIS WEEK','KEY ACCOMPLISHMENTS','IN PROGRESS','BLOCKERS','NEXT WEEK','HIGHLIGHTS','LOOKING AHEAD','CHALLENGES','SUMMARY'];
+      const COLORS   = {'THIS WEEK':'#0891B2','KEY ACCOMPLISHMENTS':'#10B981','IN PROGRESS':'#6366F1','BLOCKERS':'#EF4444','NEXT WEEK':'#F59E0B','HIGHLIGHTS':'#10B981','LOOKING AHEAD':'#F59E0B','CHALLENGES':'#EF4444','SUMMARY':'#0891B2'};
+      const lines = text.split('\n');
+      let html = '', buffer = [];
+      function flushBuffer() {
+        const joined = buffer.join('\n').trim();
+        buffer = [];
+        if (!joined) return;
+        // Detect bullet lists vs paragraphs
+        const parts = joined.split(/\n{2,}/);
+        parts.forEach(part => {
+          part = part.trim();
+          if (!part) return;
+          const bulletLines = part.split('\n').map(l => l.trim()).filter(Boolean);
+          const isList = bulletLines.length > 1 && bulletLines.every(l => /^[-•*]/.test(l));
+          if (isList) {
+            html += '<ul style="margin:6px 0 14px 20px;padding:0">';
+            bulletLines.forEach(l => { html += `<li style="margin:4px 0;color:var(--text);line-height:1.6">${l.replace(/^[-•*]\s*/,'')}</li>`; });
+            html += '</ul>';
+          } else {
+            // Split by newlines within the paragraph and render as one block
+            html += `<p style="margin:0 0 14px;color:var(--text);line-height:1.7">${part.replace(/\n/g,' ')}</p>`;
+          }
+        });
+      }
+      lines.forEach(line => {
+        const key = line.trim().toUpperCase().replace(/[:\s]+$/,'');
+        if (SECTIONS.includes(key)) {
+          flushBuffer();
+          const c = COLORS[key] || '#0891B2';
+          html += `<div style="margin:20px 0 10px;padding:6px 12px;background:${c}22;border-left:3px solid ${c};border-radius:4px"><span style="font-weight:700;font-size:.75rem;letter-spacing:.08em;color:${c};text-transform:uppercase">${line.trim().replace(/:$/,'')}</span></div>`;
+        } else {
+          buffer.push(line);
+        }
+      });
+      flushBuffer();
+      // Fallback: if nothing was recognized as a section, just wrap in paras
+      if (!html) {
+        text.split(/\n{2,}/).forEach(p => {
+          const t = p.trim();
+          if (t) html += `<p style="margin:0 0 14px;color:var(--text);line-height:1.7">${t.replace(/\n/g,' ')}</p>`;
+        });
+      }
+      return html || '<p style="color:var(--muted)">Report generated.</p>';
+    }
+
+    function displayReport(text, subject) {
+      document.getElementById('reportBody').innerHTML = formatReportToHTML(text);
+      // Store plain text for copy/send
+      document.getElementById('reportBody').dataset.plainText = text;
+      document.getElementById('output').classList.add('active');
+      document.getElementById('sendBtn').style.display = 'inline-block';
+    }
+
+    function copyReport() {
+      const el = document.getElementById('reportBody');
+      const text = el.dataset.plainText || el.textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Report copied to clipboard!', 'success');
+      });
+    }
+
+    async function sendReport() {
+      const to = document.getElementById('sendTo').value.trim();
+      if (!to) {
+        showToast('Please enter a recipient email', 'error');
+        return;
+      }
+
+      const token = await getMsToken();
+      if (!token) {
+        showToast('Please reconnect to Outlook', 'error');
+        return;
+      }
+
+      const subject = 'Weekly Update — ' + new Date().toLocaleDateString('en', { month: 'short', day: 'numeric', year: 'numeric' });
+      const el09 = document.getElementById('reportBody');
+      const body = el09.dataset.plainText || el09.textContent;
+
+      const sendBtn = document.getElementById('sendBtn');
+      sendBtn.disabled = true;
+      sendBtn.textContent = '✉️ Sending...';
+
+      const success = await sendViaOutlook(to, subject, body, token);
+
+      if (success) {
+        showToast('Report sent successfully! 🎉', 'success');
+        sendBtn.textContent = '✉️ Sent!';
+        setTimeout(() => {
+          sendBtn.disabled = false;
+          sendBtn.textContent = '✉️ Send via Outlook';
+        }, 3000);
+      } else {
+        showToast('Failed to send report', 'error');
+        sendBtn.disabled = false;
+        sendBtn.textContent = '✉️ Send via Outlook';
+      }
+    }
+
+    // ========== DEMO MODE ==========
+    function runDemo() {
+      const demoEmails = [
+        { subject: 'Re: Q2 roadmap review', sentDateTime: new Date(Date.now() - 3*24*60*60*1000).toISOString(), toRecipients: [{ emailAddress: { name: 'Leadership' }}] },
+        { subject: 'Proposal for Meridian Group', sentDateTime: new Date(Date.now() - 2*24*60*60*1000).toISOString(), toRecipients: [{ emailAddress: { name: 'Sales Team' }}] },
+        { subject: 'Follow-up from Thursday\'s call', sentDateTime: new Date(Date.now() - 1*24*60*60*1000).toISOString(), toRecipients: [{ emailAddress: { name: 'Partner' }}] },
+        { subject: 'Contract signed — kicking off next week', sentDateTime: new Date(Date.now() - 1*24*60*60*1000).toISOString(), toRecipients: [{ emailAddress: { name: 'Team' }}] },
+        { subject: 'Budget approval for new initiative', sentDateTime: new Date().toISOString(), toRecipients: [{ emailAddress: { name: 'Finance' }}] },
+        { subject: 'Team performance feedback', sentDateTime: new Date(Date.now() - 4*24*60*60*1000).toISOString(), toRecipients: [{ emailAddress: { name: 'HR' }}] },
+        { subject: 'Quarterly planning notes', sentDateTime: new Date(Date.now() - 5*24*60*60*1000).toISOString(), toRecipients: [{ emailAddress: { name: 'Exec' }}] },
+        { subject: 'Updated project timeline', sentDateTime: new Date(Date.now() - 6*24*60*60*1000).toISOString(), toRecipients: [{ emailAddress: { name: 'Project Leads' }}] }
+      ];
+
+      const demoEvents = [
+        { subject: 'Leadership sync', start: { dateTime: new Date(Date.now() - 5*24*60*60*1000).toISOString() }, end: { dateTime: new Date(Date.now() - 5*24*60*60*1000).toISOString() } },
+        { subject: 'Client call — Meridian Group', start: { dateTime: new Date(Date.now() - 4*24*60*60*1000).toISOString() }, end: { dateTime: new Date(Date.now() - 4*24*60*60*1000).toISOString() } },
+        { subject: 'Product roadmap review', start: { dateTime: new Date(Date.now() - 3*24*60*60*1000).toISOString() }, end: { dateTime: new Date(Date.now() - 3*24*60*60*1000).toISOString() } },
+        { subject: '1:1 with Jordan', start: { dateTime: new Date(Date.now() - 2*24*60*60*1000).toISOString() }, end: { dateTime: new Date(Date.now() - 2*24*60*60*1000).toISOString() } },
+        { subject: 'Vendor evaluation meeting', start: { dateTime: new Date(Date.now() - 1*24*60*60*1000).toISOString() }, end: { dateTime: new Date(Date.now() - 1*24*60*60*1000).toISOString() } },
+        { subject: 'Team standup', start: { dateTime: new Date().toISOString() }, end: { dateTime: new Date().toISOString() } }
+      ];
+
+      weekData.emails = demoEmails;
+      weekData.events = demoEvents;
+      weekData.emailCount = demoEmails.length;
+      weekData.eventCount = demoEvents.length;
+
+      renderWeekData();
+      document.getElementById('weekData').style.display = 'block';
+      document.getElementById('refreshBtn').style.display = 'inline-block';
+
+      // Auto-generate report with demo data
+      setTimeout(() => {
+        const demoReport = `THIS WEEK
+
+This week has been highly productive with significant progress on multiple fronts. We successfully closed discussions with Meridian Group and have moved them into the implementation phase, representing a major win for Q2. The updated roadmap was reviewed and approved by leadership, setting clear direction for the next quarter.
+
+KEY ACCOMPLISHMENTS
+
+- Successfully pitched and secured Meridian Group partnership
+- Completed Q2 roadmap review with executive team (approved)
+- Budget allocation for new strategic initiative approved by Finance
+- Contract signed with key vendor; kickoff scheduled for next week
+- Provided performance feedback to all direct reports
+
+IN PROGRESS
+
+- Project implementation planning with Meridian Group (starts next week)
+- Quarterly planning finalization with department leads
+- Recruitment process for two open positions on the team
+
+BLOCKERS
+
+- Waiting on legal review of secondary contract (expected by Friday)
+- Resource capacity for new initiative contingent on current project completion
+
+NEXT WEEK
+
+Next week will focus on kicking off the Meridian Group implementation while continuing quarterly planning activities. We'll have the team standup to align on priorities and resource allocation for Q2.`;
+
+        displayReport(demoReport, 'Weekly Update — Demo');
+        showToast('Demo report loaded! This is what a real weekly update looks like.', 'success');
+      }, 500);
+    }
+
+    // ========== TOAST NOTIFICATIONS ==========
+    function showToast(msg, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.textContent = msg;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 4000);
+    }
+
+    // ========== SHARING ==========
+    function share(platform) {
+      const url = window.location.href;
+      const title = 'Weekly Status Report Writer';
+      const text = 'Stop writing status reports from memory — AI generates them from your real week.';
+
+      const links = {
+        x: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text + ' #Day9of20 #AI')}`,
+        linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
+        facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+        copy: () => {
+          navigator.clipboard.writeText(url);
+          showToast('Link copied!', 'success');
+          return false;
+        }
+      };
+
+      if (platform === 'copy') {
+        links.copy();
+      } else if (links[platform]) {
+        window.open(links[platform], '_blank', 'width=600,height=400');
+      }
+    }
+
+    // ========== INIT ==========
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+
+<!-- AIMERSION PROFILE WIDGET -->
+<div id="ap-widget"><button id="ap-chip" onclick="apOpenModal()">👤 Set Profile</button></div>
+<div id="ap-modal"><div id="ap-modal-box">
+  <div id="ap-modal-header"><span>Your Profile</span><button onclick="apCloseModal()">✕</button></div>
+  <p id="ap-modal-sub">Saved once — auto-fills name, company &amp; role across all 20 tools.</p>
+  <input id="ap-name" type="text" placeholder="Your full name" autocomplete="name">
+  <input id="ap-company" type="text" placeholder="Company name" autocomplete="organization">
+  <input id="ap-role" type="text" placeholder="Your role (e.g. VP of Sales)" autocomplete="organization-title">
+  <div id="ap-modal-btns">
+    <button id="ap-save-btn" onclick="apSave()">💾 Save Profile</button>
+    <button id="ap-cancel-btn" onclick="apCloseModal()">Cancel</button>
+  </div>
+</div></div>
+<style>
+#ap-widget{position:fixed;top:70px;right:16px;z-index:8888;pointer-events:auto;}
+#ap-chip{background:rgba(8,145,178,0.12);border:1px solid rgba(8,145,178,0.28);color:#22D3EE;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;letter-spacing:.02em;}
+#ap-chip:hover{background:rgba(8,145,178,0.24);border-color:rgba(8,145,178,0.55);transform:translateY(-1px);}
+#ap-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.78);align-items:center;justify-content:center;}
+#ap-modal.open{display:flex;}
+#ap-modal-box{background:#162840;border:1px solid #2A4A70;border-radius:14px;padding:32px 32px 28px;width:100%;max-width:400px;margin:16px;box-shadow:0 24px 80px rgba(0,0,0,0.6);}
+#ap-modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+#ap-modal-header span{color:#F0F7FF;font-size:18px;font-weight:700;font-family:inherit;}
+#ap-modal-header button{background:none;border:none;color:#8AAFD0;font-size:20px;cursor:pointer;padding:0;line-height:1;transition:color .15s;}
+#ap-modal-header button:hover{color:#F0F7FF;}
+#ap-modal-sub{color:#8AAFD0;font-size:13px;margin:0 0 20px;font-family:inherit;line-height:1.5;}
+#ap-name,#ap-company,#ap-role{display:block;width:100%;box-sizing:border-box;background:#0F1F3D;border:1px solid #2A4A70;color:#F0F7FF;padding:10px 14px;border-radius:8px;font-size:14px;font-family:inherit;margin-bottom:12px;outline:none;transition:border-color .15s;}
+#ap-name:focus,#ap-company:focus,#ap-role:focus{border-color:#0891B2;box-shadow:0 0 0 3px rgba(8,145,178,0.15);}
+#ap-name::placeholder,#ap-company::placeholder,#ap-role::placeholder{color:#8AAFD0;}
+#ap-modal-btns{display:flex;gap:10px;margin-top:8px;}
+#ap-save-btn{flex:1;background:#0891B2;color:#fff;border:none;padding:12px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;}
+#ap-save-btn:hover{background:#0EA5C9;}
+#ap-cancel-btn{background:#1A2F52;border:1px solid #2A4A70;color:#8AAFD0;padding:12px 20px;border-radius:8px;font-size:14px;cursor:pointer;font-family:inherit;transition:all .15s;}
+#ap-cancel-btn:hover{border-color:#0891B2;color:#F0F7FF;}
+</style>
+<script>
+(function(){
+  var KEY='aimersion_profile';
+  function gp(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return {};}}
+  function updateChip(){
+    var p=gp(),chip=document.getElementById('ap-chip');
+    if(chip)chip.textContent=p.name?'\u{1F464} '+p.name.split(' ')[0]:'\u{1F464} Set Profile';
+  }
+  function applyProfile(){
+    var p=gp();
+    if(!p.name&&!p.company&&!p.role)return;
+    var fills={
+      yourName:p.name,managerName:p.name,fullName:p.name,senderName:p.name,authorName:p.name,
+      repName:p.name,yourFirstName:p.name.split(' ')[0],
+      companyName:p.company,businessName:p.company,yourCompany:p.company,senderCompany:p.company,
+      userRole:p.role,yourRole:p.role,senderTitle:p.role,roleTitle:p.role
+    };
+    Object.keys(fills).forEach(function(id){
+      var el=document.getElementById(id);
+      if(el&&fills[id]&&!el.value)el.value=fills[id];
+    });
+  }
+  window.apOpenModal=function(){
+    var p=gp();
+    document.getElementById('ap-name').value=p.name||'';
+    document.getElementById('ap-company').value=p.company||'';
+    document.getElementById('ap-role').value=p.role||'';
+    document.getElementById('ap-modal').classList.add('open');
+    setTimeout(function(){document.getElementById('ap-name').focus();},50);
+  };
+  window.apCloseModal=function(){document.getElementById('ap-modal').classList.remove('open');};
+  window.apSave=function(){
+    var p={
+      name:document.getElementById('ap-name').value.trim(),
+      company:document.getElementById('ap-company').value.trim(),
+      role:document.getElementById('ap-role').value.trim()
+    };
+    if(!p.name&&!p.company){return;}
+    localStorage.setItem(KEY,JSON.stringify(p));
+    apCloseModal();updateChip();applyProfile();
+    if(typeof showToast==='function')showToast('Profile saved ✓','success');
+  };
+  document.getElementById('ap-modal').addEventListener('click',function(e){if(e.target===this)apCloseModal();});
+  document.getElementById('ap-name').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-company').focus();});
+  document.getElementById('ap-company').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('ap-role').focus();});
+  document.getElementById('ap-role').addEventListener('keydown',function(e){if(e.key==='Enter')apSave();});
+  updateChip();
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',applyProfile);}
+  else{setTimeout(applyProfile,100);}
+  var p=gp();
+  if(!p.name&&!sessionStorage.getItem('ap_nudged')){
+    sessionStorage.setItem('ap_nudged','1');
+    setTimeout(function(){
+      if(typeof showToast==='function')showToast('\u{1F464} Set your profile — auto-fills all 20 tools','info');
+    },2800);
+  }
+})();
+</script>
+<!-- END AIMERSION PROFILE WIDGET -->
+
+
+  <!-- NAV FOOTER -->
+  <footer style="text-align:center;padding:28px 20px 40px;color:var(--muted,#64748b);font-size:13px;border-top:1px solid var(--border,#1e3a5f);margin-top:32px">
+    <div style="display:flex;justify-content:space-between;align-items:center;max-width:600px;margin:0 auto 14px">
+      <a href="day-08-followup-machine.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">← Day 08</a>
+      <a href="https://aimersion.github.io/ai-automations/index.html" style="color:var(--muted,#64748b);text-decoration:none;font-size:12px">☰ All 20 Tools</a>
+      <a href="day-10-cold-outreach.html" style="color:var(--teal-light);text-decoration:none;font-size:13px;font-weight:600">Day 10 →</a>
+    </div>
+    <div style="font-size:11px;color:var(--muted,#64748b)">
+      <a href="privacy.html" style="color:var(--muted,#64748b);text-decoration:none">Privacy</a>
+    </div>
+  </footer>
+</body>
+</html>
