@@ -1091,7 +1091,7 @@ function renderBriefing(data, allEmails) {
   // Render additional insight sections
   renderInsights(data);
   renderQuickActions(data);
-  renderEngagementMetrics(data, emails);
+  renderEngagementMetrics(data, allEmails);
 
   // Show all sections
   document.querySelectorAll('.section').forEach(s => s.classList.add('active'));
